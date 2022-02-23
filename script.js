@@ -83,7 +83,7 @@ class Pointer {
       y: ball.position.y - ball.radius,
     };
 
-    this.pointTo = {
+    this.mouseCoords = {
       x: x,
       y: y,
     };
@@ -92,10 +92,28 @@ class Pointer {
     this.height = innerWidth;
   }
 
+  get calcEndPoint() {
+    this.pointA = [ball.position.x, ball.position.y];
+    this.pointB = [this.mouseCoords.x, this.mouseCoords.y];
+    this.slope =
+      (this.pointA[1] - this.pointB[1]) / (this.pointA[0] - this.pointB[0]);
+    this.b = this.mouseCoords.y - this.slope * this.mouseCoords.x;
+    this.x = (topBorder.position.y + topBorder.height - this.b) / this.slope;
+    this.y = innerWidth * this.slope + this.b;
+    if (this.slope === Infinity)
+      return [ball.position.x, topBorder.position.y + topBorder.height];
+    if (this.x > 0 && this.x < innerWidth)
+      return [this.x, topBorder.position.y + topBorder.height];
+    if (this.x < 0 && this.b < 440) return [0, this.b];
+    if (this.x < 0 && this.b > 440) return [0, 440];
+    if (this.x > innerWidth && this.y < 440) return [innerWidth, this.y];
+    if (this.x > innerWidth && this.y > 440) return [innerWidth, 440];
+  }
+
   draw() {
     c.beginPath();
     c.moveTo(ball.position.x, ball.position.y);
-    c.lineTo(this.pointTo.x, this.pointTo.y);
+    c.lineTo(...this.calcEndPoint);
     c.closePath();
     c.fill();
     c.strokeStyle = colors.pointer;
@@ -126,7 +144,7 @@ addEventListener('mousemove', e => {
   const pointer = new Pointer(e.x, e.y);
   if (
     e.y > topBorder.position.y + topBorder.height &&
-    e.y < bottomBorder.position.y + bottomBorder.height
+    e.y < bottomBorder.position.y - bottomBorder.height - ball.radius
     /* && the ball is not moving */
   ) {
     pointer.clear();
