@@ -10,6 +10,7 @@ const colors = {
   pointer: '#4ea0ed',
 };
 
+let out = true;
 let round = 1;
 
 class Ball {
@@ -142,16 +143,19 @@ paintGame();
 
 addEventListener('mousemove', e => {
   const pointer = new Pointer(e.x, e.y);
+
   if (
     e.y > topBorder.position.y + topBorder.height &&
     e.y < bottomBorder.position.y - bottomBorder.height - ball.radius
     /* && the ball is not moving */
   ) {
+    if (out) out = false;
     pointer.clear();
     paintGame();
     pointer.draw();
     canvas.style.cursor = 'pointer';
-  } else {
+  } else if (!out) {
+    out = true;
     pointer.clear();
     paintGame();
     canvas.style.cursor = 'auto';
