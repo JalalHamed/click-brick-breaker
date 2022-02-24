@@ -5,9 +5,9 @@ canvas.height = innerHeight;
 canvas.width = innerWidth;
 
 const colors = {
-  ball: '#1f73f2',
-  brick: '#ef4921',
-  pointer: '#4ea0ed',
+  ball: 'rgb(31, 115, 242)',
+  brick: 'rgb(239, 73, 33)',
+  pointer: 'rgb(31, 115, 242, 0.5)',
 };
 
 let out = true;
@@ -28,6 +28,7 @@ class Ball {
     c.fillStyle = colors.ball;
     c.fill();
     c.strokeStyle = colors.ball;
+    c.lineWidth = 1;
     c.stroke();
   }
 }
@@ -78,15 +79,10 @@ class Brick {
 }
 
 class Pointer {
-  constructor(x, y) {
-    this.position = {
-      x: ball.position.x,
-      y: ball.position.y - ball.radius,
-    };
-
+  constructor(mouseX, mouseY) {
     this.mouseCoords = {
-      x: x,
-      y: y,
+      x: mouseX,
+      y: mouseY,
     };
 
     this.width = 5;
@@ -127,16 +123,36 @@ class Pointer {
   }
 }
 
+class Coefficient {
+  constructor() {
+    this.coefficient = 1;
+
+    this.position = {
+      x: ball.position.x,
+      y: ball.position.y + bottomBorder.height + ball.radius * 3,
+    };
+  }
+
+  draw() {
+    c.font = '30px play';
+    c.fillStyle = colors.ball;
+    c.textAlign = 'center';
+    c.fillText(`x${this.coefficient}`, this.position.x, this.position.y);
+  }
+}
+
 const topBorder = new Border(200);
 const bottomBorder = new Border(innerHeight - 200);
 const brick = new Brick();
 const ball = new Ball();
+const coefficient = new Coefficient();
 
 function paintGame() {
   topBorder.draw();
   bottomBorder.draw();
   brick.draw();
   ball.draw();
+  coefficient.draw();
 }
 
 paintGame();
@@ -149,15 +165,15 @@ addEventListener('mousemove', e => {
     e.y < bottomBorder.position.y - bottomBorder.height - ball.radius
     /* && the ball is not moving */
   ) {
-    if (out) out = false;
     pointer.clear();
     paintGame();
     pointer.draw();
     canvas.style.cursor = 'pointer';
-  } else if (!out) {
-    out = true;
+    if (out) out = false;
+  } else {
     pointer.clear();
     paintGame();
     canvas.style.cursor = 'auto';
+    if (!out) out = true;
   }
 });
