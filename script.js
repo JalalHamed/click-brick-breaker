@@ -13,11 +13,12 @@ const colors = {
 let out = true;
 let round = 1;
 
+// Classes (function constructors with syntax sugar)
 class Ball {
   constructor() {
     this.r = 12;
     this.pos = {
-      x: innerWidth / 2,
+      x: canvas.width / 2,
       y: bottomBorder.pos.y - this.r,
     };
   }
@@ -32,18 +33,25 @@ class Ball {
     c.lineWidth = 1;
     c.stroke();
   }
+
+  updatePos() {
+    this.pos = {
+      x: canvas.width / 2,
+      y: bottomBorder.pos.y - this.r,
+    };
+  }
 }
 
 class Border {
-  constructor(ypos) {
-    this.ypos = ypos;
+  constructor(yPos) {
+    this.yPos = yPos;
 
     this.pos = {
       x: 0,
-      y: this.ypos,
+      y: this.yPos,
     };
 
-    this.width = innerWidth;
+    this.width = canvas.width;
     this.height = 5;
   }
 
@@ -51,13 +59,23 @@ class Border {
     c.fillStyle = '#000';
     c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
   }
+
+  updatePos() {
+    this.pos = {
+      x: 0,
+      y: this.yPos,
+    };
+
+    this.width = canvas.width;
+    this.height = 5;
+  }
 }
 
 class Brick {
   constructor() {
     this.pos = {
       x: 100,
-      y: 300, // must be greater than the topBorder and less than the bottomBorder's y pos + the borders' heights
+      y: topBorder.pos.y + topBorder.height + 50, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
 
     this.width = 100;
@@ -77,6 +95,13 @@ class Brick {
       this.pos.y + this.height / 2
     );
   }
+
+  updatePos() {
+    this.pos = {
+      x: 100,
+      y: topBorder.pos.y + topBorder.height + 50,
+    };
+  }
 }
 
 class Pointer {
@@ -85,9 +110,6 @@ class Pointer {
       x: mouseX,
       y: mouseY,
     };
-
-    this.width = 5;
-    this.height = innerWidth;
   }
 
   get calcEndPoint() {
@@ -98,18 +120,18 @@ class Pointer {
       (this.pointA[1] - this.pointB[1]) / (this.pointA[0] - this.pointB[0]);
     this.b = this.mouseCoords.y - this.slope * this.mouseCoords.x;
     this.x = (topBorder.pos.y + topBorder.height - this.b) / this.slope;
-    this.y = innerWidth * this.slope + this.b;
+    this.y = canvas.width * this.slope + this.b;
 
     if (this.slope === Infinity)
       this.result = [ball.pos.x, topBorder.pos.y + topBorder.height];
-    if (this.x > 0 && this.x < innerWidth)
+    if (this.x > ball.r && this.x < canvas.width)
       this.result = [this.x, topBorder.pos.y + topBorder.height];
     if (this.x < ball.r && this.b < 440) this.result = [ball.r, this.b];
     if (this.x < ball.r && this.b > 440) this.result = [ball.r, 440];
-    if (this.x > innerWidth - ball.r && this.y < 440)
-      this.result = [innerWidth - ball.r, this.y];
-    if (this.x > innerWidth - ball.r && this.y > 440)
-      this.result = [innerWidth - ball.r, 440];
+    if (this.x > canvas.width - ball.r && this.y < 440)
+      this.result = [canvas.width - ball.r, this.y];
+    if (this.x > canvas.width - ball.r && this.y > 440)
+      this.result = [canvas.width - ball.r, 440];
 
     return [this.result[0], this.result[1] + ball.r];
   }
@@ -138,7 +160,7 @@ class Pointer {
   }
 
   clear() {
-    c.clearRect(0, 0, innerWidth, innerHeight);
+    c.clearRect(0, 0, canvas.width, canvas.height);
   }
 }
 
@@ -158,25 +180,39 @@ class Coefficient {
     c.textAlign = 'center';
     c.fillText(`x${this.coefficient}`, this.pos.x, this.pos.y);
   }
+
+  updatePos() {
+    this.pos = {
+      x: ball.pos.x,
+      y: ball.pos.y + bottomBorder.height + ball.r * 3,
+    };
+  }
 }
 
+// Objects
 const topBorder = new Border(200);
-const bottomBorder = new Border(innerHeight - 200);
+const bottomBorder = new Border(canvas.height - 200);
 const brick = new Brick();
 const ball = new Ball();
 const coefficient = new Coefficient();
 
-function paintGame() {
+// Functions
+const drawGame = () => {
   topBorder.draw();
   bottomBorder.draw();
   brick.draw();
   ball.draw();
   coefficient.draw();
-}
+};
 
-paintGame();
+const updatePos = () => {
+  ball.updatePos();
+  topBorder.updatePos();
+  bottomBorder.updatePos();
+  brick.updatePos();
+  coefficient.updatePos();
+};
 
-// Functions
 const handlePointer = e => {
   const pointer = new Pointer(e.x, e.y);
 
@@ -186,18 +222,26 @@ const handlePointer = e => {
     /* && the ball is not moving */
   ) {
     pointer.clear();
-    paintGame();
+    drawGame();
     pointer.draw();
     canvas.style.cursor = 'pointer';
     if (out) out = false;
-  } else {
+  } else if (!out) {
     pointer.clear();
-    paintGame();
+    drawGame();
     canvas.style.cursor = 'auto';
     if (!out) out = true;
   }
 };
 
+const handleResize = () => {
+  canvas.height = innerHeight;
+  canvas.width = innerWidth;
+  updatePos();
+  drawGame();
+};
+
 // Event Listeners
+addEventListener('load', drawGame);
 addEventListener('mousemove', handlePointer);
-addEventListener('resize', paintGame);
+addEventListener('resize', handleResize);
