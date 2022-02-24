@@ -11,7 +11,6 @@ const colors = {
 };
 
 let out = true;
-let round = 1;
 
 // Classes (function constructors with syntax sugar)
 class Ball {
@@ -80,6 +79,8 @@ class Brick {
 
     this.width = 100;
     this.height = 50;
+
+    this.weight = score.count;
   }
 
   draw() {
@@ -90,7 +91,7 @@ class Brick {
     c.textAlign = 'center';
     c.textBaseline = 'middle';
     c.fillText(
-      round,
+      this.weight,
       this.pos.x + this.width / 2,
       this.pos.y + this.height / 2
     );
@@ -110,10 +111,15 @@ class Pointer {
       x: mouseX,
       y: mouseY,
     };
+
+    this.maxY = 440;
   }
 
   get calcEndPoint() {
     this.result = [];
+
+    this.bricks = [];
+
     this.pointA = [ball.pos.x, ball.pos.y];
     this.pointB = [this.mouseCoords.x, this.mouseCoords.y];
     this.slope =
@@ -126,12 +132,13 @@ class Pointer {
       this.result = [ball.pos.x, topBorder.pos.y + topBorder.height];
     if (this.x > ball.r && this.x < canvas.width)
       this.result = [this.x, topBorder.pos.y + topBorder.height];
-    if (this.x < ball.r && this.b < 440) this.result = [ball.r, this.b];
-    if (this.x < ball.r && this.b > 440) this.result = [ball.r, 440];
-    if (this.x > canvas.width - ball.r && this.y < 440)
+    if (this.x < ball.r && this.b < this.maxY) this.result = [ball.r, this.b];
+    if (this.x < ball.r && this.b > this.maxY)
+      this.result = [ball.r, this.maxY];
+    if (this.x > canvas.width - ball.r && this.y < this.maxY)
       this.result = [canvas.width - ball.r, this.y];
-    if (this.x > canvas.width - ball.r && this.y > 440)
-      this.result = [canvas.width - ball.r, 440];
+    if (this.x > canvas.width - ball.r && this.y > this.maxY)
+      this.result = [canvas.width - ball.r, this.maxY];
 
     return [this.result[0], this.result[1] + ball.r];
   }
@@ -189,7 +196,59 @@ class Coefficient {
   }
 }
 
+class Record {
+  constructor() {
+    this.pos = {
+      x: canvas.width / 2,
+      y: 50,
+    };
+
+    this.count = 1; // set and get from localStorage
+  }
+
+  draw() {
+    c.font = '30px play';
+    c.fillStyle = '#000';
+    c.textAlign = 'center';
+    c.fillText(`RECORD: ${this.count}`, this.pos.x, this.pos.y);
+  }
+
+  updatePos() {
+    this.pos = {
+      x: canvas.width / 2,
+      y: 50,
+    };
+  }
+}
+
+class Score {
+  constructor() {
+    this.pos = {
+      x: canvas.width / 2,
+      y: 90,
+    };
+
+    this.count = 1; // set and get from localStorage
+  }
+
+  draw() {
+    c.font = '30px play';
+    c.fillStyle = '#000';
+    c.textAlign = 'center';
+    c.fillText(`SCORE: ${this.count}`, this.pos.x, this.pos.y);
+  }
+
+  updatePos() {
+    this.pos = {
+      x: canvas.width / 2,
+      y: 90,
+    };
+  }
+}
+
 // Objects
+const score = new Score();
+const record = new Record();
 const topBorder = new Border(200);
 const bottomBorder = new Border(canvas.height - 200);
 const brick = new Brick();
@@ -198,6 +257,8 @@ const coefficient = new Coefficient();
 
 // Functions
 const drawGame = () => {
+  score.draw();
+  record.draw();
   topBorder.draw();
   bottomBorder.draw();
   brick.draw();
@@ -206,6 +267,8 @@ const drawGame = () => {
 };
 
 const updatePos = () => {
+  score.updatePos();
+  record.updatePos();
   ball.updatePos();
   topBorder.updatePos();
   bottomBorder.updatePos();
