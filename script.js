@@ -22,15 +22,12 @@ class Ball {
     };
   }
 
-  draw() {
+  draw(color) {
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    c.fillStyle = colors.ball;
+    c.fillStyle = color;
     c.fill();
-    c.strokeStyle = colors.ball;
-    c.lineWidth = 1;
-    c.stroke();
   }
 
   updatePos() {
@@ -60,13 +57,7 @@ class Border {
   }
 
   updatePos() {
-    this.pos = {
-      x: 0,
-      y: this.yPos,
-    };
-
     this.width = canvas.width;
-    this.height = 5;
   }
 }
 
@@ -96,13 +87,6 @@ class Brick {
       this.pos.y + this.height / 2
     );
   }
-
-  updatePos() {
-    this.pos = {
-      x: 100,
-      y: topBorder.pos.y + topBorder.height + 50,
-    };
-  }
 }
 
 class Pointer {
@@ -117,26 +101,36 @@ class Pointer {
 
   get calcEndPoint() {
     this.result = [];
+    this.topBorder = topBorder.pos.y + topBorder.height;
 
-    this.bricks = [];
-
+    // Calculate slope and y intercept (b)
     this.pointA = [ball.pos.x, ball.pos.y];
     this.pointB = [this.mouseCoords.x, this.mouseCoords.y];
     this.slope =
       (this.pointA[1] - this.pointB[1]) / (this.pointA[0] - this.pointB[0]);
     this.b = this.mouseCoords.y - this.slope * this.mouseCoords.x;
-    this.x = (topBorder.pos.y + topBorder.height - this.b) / this.slope;
+    // Calculate x given the top border as y
+    this.x = (this.topBorder - this.b) / this.slope;
+    // Calculate y given the canvas width as x
     this.y = canvas.width * this.slope + this.b;
 
-    if (this.slope === Infinity)
-      this.result = [ball.pos.x, topBorder.pos.y + topBorder.height];
+    // At 90 degree, slope is Infinite
+    if (this.slope === Infinity) this.result = [ball.pos.x, this.topBorder];
+
+    // Pointer touches top border
     if (this.x > ball.r && this.x < canvas.width)
-      this.result = [this.x, topBorder.pos.y + topBorder.height];
+      this.result = [this.x, this.topBorder];
+
+    // Pointer touches left side of canvas
     if (this.x < ball.r && this.b < this.maxY) this.result = [ball.r, this.b];
+    // Threshold is surpassed
     if (this.x < ball.r && this.b > this.maxY)
       this.result = [ball.r, this.maxY];
+
+    // Pointer touches right side of canvas
     if (this.x > canvas.width - ball.r && this.y < this.maxY)
       this.result = [canvas.width - ball.r, this.y];
+    // Threshold is surpassed
     if (this.x > canvas.width - ball.r && this.y > this.maxY)
       this.result = [canvas.width - ball.r, this.maxY];
 
@@ -146,11 +140,9 @@ class Pointer {
   draw() {
     // Dashed path
     c.beginPath();
-    c.setLineDash([10, 10]);
+    c.setLineDash([15, 10]);
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint);
-    c.closePath();
-    c.fill();
     c.strokeStyle = colors.pointer;
     c.lineWidth = 5;
     c.stroke();
@@ -161,13 +153,6 @@ class Pointer {
     c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
     c.fillStyle = colors.pointer;
     c.fill();
-    c.strokeStyle = colors.pointer;
-    c.lineWidth = 1;
-    c.stroke();
-  }
-
-  clear() {
-    c.clearRect(0, 0, canvas.width, canvas.height);
   }
 }
 
@@ -215,8 +200,8 @@ class Record {
 
   updatePos() {
     this.pos = {
+      ...this.pos,
       x: canvas.width / 2,
-      y: 50,
     };
   }
 }
@@ -240,8 +225,8 @@ class Score {
 
   updatePos() {
     this.pos = {
+      ...this.pos,
       x: canvas.width / 2,
-      y: 90,
     };
   }
 }
@@ -256,14 +241,19 @@ const ball = new Ball();
 const coefficient = new Coefficient();
 
 // Functions
-const drawGame = () => {
+const init = () => {
+  clearScreen();
   score.draw();
   record.draw();
   topBorder.draw();
   bottomBorder.draw();
   brick.draw();
-  ball.draw();
+  ball.draw(colors.ball);
   coefficient.draw();
+};
+
+const clearScreen = () => {
+  c.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 const updatePos = () => {
@@ -272,7 +262,6 @@ const updatePos = () => {
   ball.updatePos();
   topBorder.updatePos();
   bottomBorder.updatePos();
-  brick.updatePos();
   coefficient.updatePos();
 };
 
@@ -284,14 +273,14 @@ const handlePointer = e => {
     e.y < bottomBorder.pos.y - bottomBorder.height - ball.r
     /* && the ball is not moving */
   ) {
-    pointer.clear();
-    drawGame();
+    clearScreen();
+    init();
     pointer.draw();
     canvas.style.cursor = 'pointer';
     if (out) out = false;
   } else if (!out) {
-    pointer.clear();
-    drawGame();
+    clearScreen();
+    init();
     canvas.style.cursor = 'auto';
     if (!out) out = true;
   }
@@ -301,10 +290,18 @@ const handleResize = () => {
   canvas.height = innerHeight;
   canvas.width = innerWidth;
   updatePos();
-  drawGame();
+  init();
+};
+
+const getDistance = (x1, y1, x2, y2) => {
+  const xDistance = x2 - x1;
+  const yDistance = y2 - y1;
+
+  return Math.sqrt(xDistance ** 2 + yDistance ** 2);
 };
 
 // Event Listeners
-addEventListener('load', drawGame);
+addEventListener('load', init);
+document.fonts.ready.then(init);
 addEventListener('mousemove', handlePointer);
 addEventListener('resize', handleResize);
