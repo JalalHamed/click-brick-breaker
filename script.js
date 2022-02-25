@@ -10,7 +10,7 @@ const colors = {
   pointer: 'rgb(31, 115, 242, 0.5)',
 };
 
-let out = true;
+let outOfBorder = true;
 
 // Classes (function constructors with syntax sugar)
 class Ball {
@@ -28,13 +28,6 @@ class Ball {
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
     c.fillStyle = color;
     c.fill();
-  }
-
-  updatePos() {
-    this.pos = {
-      x: canvas.width / 2,
-      y: bottomBorder.pos.y - this.r,
-    };
   }
 }
 
@@ -54,10 +47,6 @@ class Border {
   draw() {
     c.fillStyle = '#000';
     c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-  }
-
-  updatePos() {
-    this.width = canvas.width;
   }
 }
 
@@ -96,11 +85,16 @@ class Pointer {
       y: mouseY,
     };
 
+    this.endpoint = [];
     this.maxY = 440;
+    this.bricks = [brick];
+  }
+
+  isColliding() {
+    console.log(this.endpoint);
   }
 
   get calcEndPoint() {
-    this.result = [];
     this.topBorder = topBorder.pos.y + topBorder.height;
 
     // Calculate slope and y intercept (b)
@@ -115,26 +109,25 @@ class Pointer {
     this.y = canvas.width * this.slope + this.b;
 
     // At 90 degree, slope is Infinite
-    if (this.slope === Infinity) this.result = [ball.pos.x, this.topBorder];
-
+    if (this.slope === Infinity) this.endpoint = [ball.pos.x, this.topBorder];
     // Pointer touches top border
     if (this.x > ball.r && this.x < canvas.width)
-      this.result = [this.x, this.topBorder];
-
+      this.endpoint = [this.x, this.topBorder];
     // Pointer touches left side of canvas
-    if (this.x < ball.r && this.b < this.maxY) this.result = [ball.r, this.b];
-    // Threshold is surpassed
-    if (this.x < ball.r && this.b > this.maxY)
-      this.result = [ball.r, this.maxY];
-
+    if (this.x < ball.r && this.b < this.maxY) this.endpoint = [ball.r, this.b];
     // Pointer touches right side of canvas
     if (this.x > canvas.width - ball.r && this.y < this.maxY)
-      this.result = [canvas.width - ball.r, this.y];
-    // Threshold is surpassed
+      this.endpoint = [canvas.width - ball.r, this.y];
+    // Surpassing y threshold
+    if (this.x < ball.r && this.b > this.maxY)
+      this.endpoint = [ball.r, this.maxY];
     if (this.x > canvas.width - ball.r && this.y > this.maxY)
-      this.result = [canvas.width - ball.r, this.maxY];
+      this.endpoint = [canvas.width - ball.r, this.maxY];
 
-    return [this.result[0], this.result[1] + ball.r];
+    // Change end point on bricks
+    this.isColliding();
+
+    return [this.endpoint[0], this.endpoint[1] + ball.r];
   }
 
   draw() {
@@ -172,13 +165,6 @@ class Coefficient {
     c.textAlign = 'center';
     c.fillText(`x${this.coefficient}`, this.pos.x, this.pos.y);
   }
-
-  updatePos() {
-    this.pos = {
-      x: ball.pos.x,
-      y: ball.pos.y + bottomBorder.height + ball.r * 3,
-    };
-  }
 }
 
 class Record {
@@ -197,13 +183,6 @@ class Record {
     c.textAlign = 'center';
     c.fillText(`RECORD: ${this.count}`, this.pos.x, this.pos.y);
   }
-
-  updatePos() {
-    this.pos = {
-      ...this.pos,
-      x: canvas.width / 2,
-    };
-  }
 }
 
 class Score {
@@ -221,13 +200,6 @@ class Score {
     c.fillStyle = '#000';
     c.textAlign = 'center';
     c.fillText(`SCORE: ${this.count}`, this.pos.x, this.pos.y);
-  }
-
-  updatePos() {
-    this.pos = {
-      ...this.pos,
-      x: canvas.width / 2,
-    };
   }
 }
 
@@ -256,15 +228,6 @@ const clearScreen = () => {
   c.clearRect(0, 0, canvas.width, canvas.height);
 };
 
-const updatePos = () => {
-  score.updatePos();
-  record.updatePos();
-  ball.updatePos();
-  topBorder.updatePos();
-  bottomBorder.updatePos();
-  coefficient.updatePos();
-};
-
 const handlePointer = e => {
   const pointer = new Pointer(e.x, e.y);
 
@@ -277,20 +240,13 @@ const handlePointer = e => {
     init();
     pointer.draw();
     canvas.style.cursor = 'pointer';
-    if (out) out = false;
-  } else if (!out) {
+    if (outOfBorder) outOfBorder = false;
+  } else if (!outOfBorder) {
     clearScreen();
     init();
     canvas.style.cursor = 'auto';
-    if (!out) out = true;
+    if (!outOfBorder) outOfBorder = true;
   }
-};
-
-const handleResize = () => {
-  canvas.height = innerHeight;
-  canvas.width = innerWidth;
-  updatePos();
-  init();
 };
 
 const getDistance = (x1, y1, x2, y2) => {
@@ -304,4 +260,3 @@ const getDistance = (x1, y1, x2, y2) => {
 addEventListener('load', init);
 document.fonts.ready.then(init);
 addEventListener('mousemove', handlePointer);
-addEventListener('resize', handleResize);
