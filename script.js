@@ -1,3 +1,5 @@
+'use strict';
+
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
@@ -211,10 +213,76 @@ class Score {
     c.fillStyle = '#000';
     c.textAlign = 'right';
     c.fillText(`SCORE: ${this.count}`, this.pos.x, this.pos.y);
+    this.addOne();
   }
 
   addOne() {
     this.count++;
+  }
+}
+
+class Game {
+  constructor() {
+    this.draw = this.draw.bind(this);
+    this.handlePointer = this.handlePointer.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  draw() {
+    this.clear();
+    score.draw();
+    record.draw();
+    topBorder.draw();
+    bottomBorder.draw();
+    brick.draw();
+    ball.draw(colors.ball);
+    coefficient.draw();
+  }
+
+  clear() {
+    c.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  isInBorder(y) {
+    return (
+      y > topBorder.pos.y + topBorder.height &&
+      y < bottomBorder.pos.y - bottomBorder.height - ball.r
+      // && the ball is not moving
+    );
+  }
+
+  handlePointer(e) {
+    const pointer = new Pointer(e.x, e.y);
+
+    if (this.isInBorder(e.y)) {
+      this.draw();
+      pointer.draw();
+      canvas.style.cursor = 'pointer';
+      if (outOfBorder) outOfBorder = false;
+    } else if (!outOfBorder) {
+      this.draw();
+      canvas.style.cursor = 'auto';
+      if (!outOfBorder) outOfBorder = true;
+    }
+  }
+
+  animate() {
+    // start refreshing page with 60fps rate
+    const rAF = requestAnimationFrame(animate);
+    // shoot the ball(s), change bricks weights and everything
+    // bring all the bricks 1 row down and add new ones on top
+    // if no bricks hit the bottom border, add to score
+    score.addOne();
+    // if score > record, add to record
+    // stop refreshing page
+    cancelAnimationFrame(rAF);
+    console.log('animate');
+  }
+
+  handleClick(e) {
+    if (this.isInBorder(e.y)) {
+      // animate();
+    }
   }
 }
 
@@ -226,67 +294,9 @@ const bottomBorder = new Border(canvas.height - 200);
 const brick = new Brick();
 const ball = new Ball();
 const coefficient = new Coefficient();
-
-// Functions
-const clearScreen = () => {
-  c.clearRect(0, 0, canvas.width, canvas.height);
-};
-
-const isInBorder = y => {
-  return (
-    y > topBorder.pos.y + topBorder.height &&
-    y < bottomBorder.pos.y - bottomBorder.height - ball.r
-    // && the ball is not moving
-  );
-};
-
-const handlePointer = e => {
-  const pointer = new Pointer(e.x, e.y);
-
-  if (isInBorder(e.y)) {
-    drawGame();
-    pointer.draw();
-    canvas.style.cursor = 'pointer';
-    if (outOfBorder) outOfBorder = false;
-  } else if (!outOfBorder) {
-    drawGame();
-    canvas.style.cursor = 'auto';
-    if (!outOfBorder) outOfBorder = true;
-  }
-};
-
-const animate = () => {
-  // start refreshing page with 60fps rate
-  const rAF = requestAnimationFrame(animate);
-  // shoot the ball(s), change bricks weights and everything
-  // bring all the bricks 1 row down and add new ones on top
-  // if no bricks hit the bottom border, add to score
-  score.addOne();
-  // if score > record, add to record
-  // stop refreshing page
-  cancelAnimationFrame(rAF);
-  console.log('animate');
-};
-
-const handleClick = e => {
-  if (isInBorder(e.y)) {
-    // animate();
-  }
-};
-
-const drawGame = () => {
-  clearScreen();
-  score.draw();
-  record.draw();
-  topBorder.draw();
-  bottomBorder.draw();
-  brick.draw();
-  ball.draw(colors.ball);
-  coefficient.draw();
-};
+const game = new Game();
 
 // Event Listeners
-addEventListener('load', drawGame);
-document.fonts.ready.then(drawGame);
-addEventListener('mousemove', handlePointer);
-addEventListener('click', handleClick);
+addEventListener('load', game.draw);
+addEventListener('mousemove', game.handlePointer);
+addEventListener('click', game.handleClick);
