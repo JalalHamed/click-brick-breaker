@@ -22,8 +22,6 @@ Information to maintain in localStorage
 - green balls positions
 */
 
-let outOfBorder = true;
-
 // Classes (function constructors with syntax sugar)
 class Ball {
   constructor() {
@@ -64,17 +62,20 @@ class Border {
 }
 
 class Brick {
-  constructor() {
-    this.pos = {
-      // set and get from localStorage
-      x: 100,
-      y: topBorder.pos.y + topBorder.height + 50, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
-    };
+  constructor(xPos) {
+    this.topBorderHeight = topBorder.pos.y + topBorder.height;
 
     this.width = 100;
     this.height = 50;
 
+    this.pos = {
+      x: xPos,
+      y: this.topBorderHeight + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
+    };
+
     this.weight = score.count;
+
+    this.endpoint = [];
   }
 
   draw() {
@@ -98,9 +99,6 @@ class Pointer {
       x: mouseX,
       y: mouseY,
     };
-
-    this.endpoint = [];
-    this.maxY = 440;
   }
 
   isColliding() {
@@ -108,34 +106,32 @@ class Pointer {
   }
 
   get calcEndPoint() {
-    this.topBorder = topBorder.pos.y + topBorder.height;
+    const topBorderHeight = topBorder.pos.y + topBorder.height;
+    const maxY = 440;
 
     // Calculate slope and y intercept (b)
-    this.pointA = [ball.pos.x, ball.pos.y];
-    this.pointB = [this.mouseCoords.x, this.mouseCoords.y];
-    this.slope =
-      (this.pointA[1] - this.pointB[1]) / (this.pointA[0] - this.pointB[0]);
-    this.b = this.mouseCoords.y - this.slope * this.mouseCoords.x;
+    const pointA = [ball.pos.x, ball.pos.y];
+    const pointB = [this.mouseCoords.x, this.mouseCoords.y];
+    const slope = (pointA[1] - pointB[1]) / (pointA[0] - pointB[0]);
+    const b = this.mouseCoords.y - slope * this.mouseCoords.x;
     // Calculate x given the top border as y
-    this.x = (this.topBorder - this.b) / this.slope;
+    const x = (topBorderHeight - b) / slope;
     // Calculate y given the canvas width as x
-    this.y = canvas.width * this.slope + this.b;
+    const y = canvas.width * slope + b;
 
     // At 90 degree, slope is Infinite
-    if (this.slope === Infinity) this.endpoint = [ball.pos.x, this.topBorder];
+    if (slope === Infinity) this.endpoint = [ball.pos.x, topBorderHeight];
     // Pointer touches top border
-    if (this.x > ball.r && this.x < canvas.width)
-      this.endpoint = [this.x, this.topBorder];
+    if (x > ball.r && x < canvas.width) this.endpoint = [x, topBorderHeight];
     // Pointer touches left side of canvas
-    if (this.x < ball.r && this.b < this.maxY) this.endpoint = [ball.r, this.b];
+    if (x < ball.r && b < maxY) this.endpoint = [ball.r, b];
     // Pointer touches right side of canvas
-    if (this.x > canvas.width - ball.r && this.y < this.maxY)
-      this.endpoint = [canvas.width - ball.r, this.y];
+    if (x > canvas.width - ball.r && y < maxY)
+      this.endpoint = [canvas.width - ball.r, y];
     // Surpassing y threshold
-    if (this.x < ball.r && this.b > this.maxY)
-      this.endpoint = [ball.r, this.maxY];
-    if (this.x > canvas.width - ball.r && this.y > this.maxY)
-      this.endpoint = [canvas.width - ball.r, this.maxY];
+    if (x < ball.r && b > maxY) this.endpoint = [ball.r, maxY];
+    if (x > canvas.width - ball.r && y > maxY)
+      this.endpoint = [canvas.width - ball.r, maxY];
 
     // Change end point on bricks
     this.isColliding();
@@ -196,6 +192,10 @@ class Record {
     c.textAlign = 'right';
     c.fillText(`RECORD: ${this.count}`, this.pos.x, this.pos.y);
   }
+
+  addOne() {
+    this.count++;
+  }
 }
 
 class Score {
@@ -213,7 +213,6 @@ class Score {
     c.fillStyle = '#000';
     c.textAlign = 'right';
     c.fillText(`SCORE: ${this.count}`, this.pos.x, this.pos.y);
-    this.addOne();
   }
 
   addOne() {
@@ -223,6 +222,8 @@ class Score {
 
 class Game {
   constructor() {
+    this.outOfBorder = true;
+
     this.draw = this.draw.bind(this);
     this.handlePointer = this.handlePointer.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -234,13 +235,26 @@ class Game {
     record.draw();
     topBorder.draw();
     bottomBorder.draw();
-    brick.draw();
     ball.draw(colors.ball);
     coefficient.draw();
   }
 
   clear() {
     c.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  drawInBorder() {
+    this.clearInBorder();
+    ball.draw(colors.ball);
+  }
+
+  clearInBorder() {
+    c.clearRect(
+      0,
+      topBorder.pos.y + topBorder.height,
+      canvas.width,
+      bottomBorder.pos.y - bottomBorder.height - topBorder.pos.y
+    );
   }
 
   isInBorder(y) {
@@ -251,19 +265,16 @@ class Game {
     );
   }
 
-  handlePointer(e) {
-    const pointer = new Pointer(e.x, e.y);
-
-    if (this.isInBorder(e.y)) {
-      this.draw();
-      pointer.draw();
-      canvas.style.cursor = 'pointer';
-      if (outOfBorder) outOfBorder = false;
-    } else if (!outOfBorder) {
-      this.draw();
-      canvas.style.cursor = 'auto';
-      if (!outOfBorder) outOfBorder = true;
+  newRound() {
+    const randomInt = Math.trunc(Math.random() * 5) + 1;
+    const bricks = [];
+    for (let i = 0; i < randomInt; i++) {
+      bricks.push(new Brick(Math.random() * canvas.width));
     }
+    bricks.forEach(brick => {
+      brick.draw();
+    });
+    console.log(bricks);
   }
 
   animate() {
@@ -271,12 +282,27 @@ class Game {
     const rAF = requestAnimationFrame(animate);
     // shoot the ball(s), change bricks weights and everything
     // bring all the bricks 1 row down and add new ones on top
+    this.newRound();
     // if no bricks hit the bottom border, add to score
     score.addOne();
     // if score > record, add to record
     // stop refreshing page
     cancelAnimationFrame(rAF);
-    console.log('animate');
+  }
+
+  handlePointer(e) {
+    const pointer = new Pointer(e.x, e.y);
+
+    if (this.isInBorder(e.y)) {
+      this.drawInBorder();
+      pointer.draw();
+      canvas.style.cursor = 'pointer';
+      if (this.outOfBorder) this.outOfBorder = false;
+    } else if (!this.outOfBorder) {
+      this.drawInBorder();
+      canvas.style.cursor = 'auto';
+      if (!this.outOfBorder) this.outOfBorder = true;
+    }
   }
 
   handleClick(e) {
@@ -291,12 +317,12 @@ const score = new Score();
 const record = new Record();
 const topBorder = new Border(200);
 const bottomBorder = new Border(canvas.height - 200);
-const brick = new Brick();
 const ball = new Ball();
 const coefficient = new Coefficient();
 const game = new Game();
 
 // Event Listeners
 addEventListener('load', game.draw);
+game.draw();
 addEventListener('mousemove', game.handlePointer);
 addEventListener('click', game.handleClick);
