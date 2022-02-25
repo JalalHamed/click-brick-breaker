@@ -12,6 +12,8 @@ const colors = {
   pointer: 'rgb(31, 115, 242, 0.5)',
 };
 
+// LocalStorage
+let state = JSON.parse(localStorage.getItem('cbb-state'));
 /*
 Information to maintain in localStorage
 - score
@@ -28,7 +30,7 @@ class Ball {
     this.r = 12;
 
     this.pos = {
-      x: canvas.width / 2,
+      x: state?.ball || canvas.width / 2,
       y: bottomBorder.pos.y - this.r,
     };
   }
@@ -122,12 +124,17 @@ class Pointer {
     // At 90 degree, slope is Infinite
     if (slope === Infinity) this.endpoint = [ball.pos.x, topBorderHeight];
     // Pointer touches top border
-    if (x > ball.r && x < canvas.width) this.endpoint = [x, topBorderHeight];
+    if (x > 0 && x < canvas.width) this.endpoint = [x, topBorderHeight];
     // Pointer touches left side of canvas
     if (x < ball.r && b < maxY) this.endpoint = [ball.r, b];
     // Pointer touches right side of canvas
     if (x > canvas.width - ball.r && y < maxY)
       this.endpoint = [canvas.width - ball.r, y];
+    // Pointer touches top left corner of the border
+    if (x > 0 && x < ball.r) this.endpoint = [ball.r, topBorderHeight];
+    // Pointer touches top right corner of the border
+    if (x > canvas.width - ball.r && x < canvas.width)
+      this.endpoint = [canvas.width - ball.r, topBorderHeight];
     // Surpassing y threshold
     if (x < ball.r && b > maxY) this.endpoint = [ball.r, maxY];
     if (x > canvas.width - ball.r && y > maxY)
@@ -160,11 +167,11 @@ class Pointer {
 
 class Coefficient {
   constructor() {
-    this.coefficient = 1;
+    this.coefficient = state?.coefficient || 1;
 
     this.pos = {
       x: ball.pos.x,
-      y: ball.pos.y + bottomBorder.height + ball.r * 3,
+      y: ball.pos.y + bottomBorder.height + ball.r * 3.5,
     };
   }
 
@@ -183,7 +190,7 @@ class Record {
       y: 50,
     };
 
-    this.count = 1; // set and get from localStorage
+    this.count = state?.record || 1;
   }
 
   draw() {
@@ -205,7 +212,7 @@ class Score {
       y: 90,
     };
 
-    this.count = 1; // set and get from localStorage
+    this.count = state?.score || 1;
   }
 
   draw() {
@@ -274,7 +281,6 @@ class Game {
     bricks.forEach(brick => {
       brick.draw();
     });
-    console.log(bricks);
   }
 
   animate() {
@@ -288,6 +294,11 @@ class Game {
     // if score > record, add to record
     // stop refreshing page
     cancelAnimationFrame(rAF);
+  }
+
+  reset() {
+    localStorage.clear();
+    this.draw();
   }
 
   handlePointer(e) {
