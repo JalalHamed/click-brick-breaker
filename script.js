@@ -10,12 +10,23 @@ const colors = {
   pointer: 'rgb(31, 115, 242, 0.5)',
 };
 
+/*
+Information to maintain in localStorage
+- score
+- record
+- coefficient
+- ball position
+- bricks positions and wights
+- green balls positions
+*/
+
 let outOfBorder = true;
 
 // Classes (function constructors with syntax sugar)
 class Ball {
   constructor() {
     this.r = 12;
+
     this.pos = {
       x: canvas.width / 2,
       y: bottomBorder.pos.y - this.r,
@@ -53,6 +64,7 @@ class Border {
 class Brick {
   constructor() {
     this.pos = {
+      // set and get from localStorage
       x: 100,
       y: topBorder.pos.y + topBorder.height + 50, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
@@ -87,11 +99,10 @@ class Pointer {
 
     this.endpoint = [];
     this.maxY = 440;
-    this.bricks = [brick];
   }
 
   isColliding() {
-    console.log(this.endpoint);
+    // console.log(this.endpoint);
   }
 
   get calcEndPoint() {
@@ -170,7 +181,7 @@ class Coefficient {
 class Record {
   constructor() {
     this.pos = {
-      x: canvas.width / 2,
+      x: canvas.width / 2 + 75,
       y: 50,
     };
 
@@ -180,7 +191,7 @@ class Record {
   draw() {
     c.font = '30px play';
     c.fillStyle = '#000';
-    c.textAlign = 'center';
+    c.textAlign = 'right';
     c.fillText(`RECORD: ${this.count}`, this.pos.x, this.pos.y);
   }
 }
@@ -188,7 +199,7 @@ class Record {
 class Score {
   constructor() {
     this.pos = {
-      x: canvas.width / 2,
+      x: canvas.width / 2 + 75,
       y: 90,
     };
 
@@ -198,8 +209,12 @@ class Score {
   draw() {
     c.font = '30px play';
     c.fillStyle = '#000';
-    c.textAlign = 'center';
+    c.textAlign = 'right';
     c.fillText(`SCORE: ${this.count}`, this.pos.x, this.pos.y);
+  }
+
+  addOne() {
+    this.count++;
   }
 }
 
@@ -213,7 +228,53 @@ const ball = new Ball();
 const coefficient = new Coefficient();
 
 // Functions
-const init = () => {
+const clearScreen = () => {
+  c.clearRect(0, 0, canvas.width, canvas.height);
+};
+
+const isInBorder = y => {
+  return (
+    y > topBorder.pos.y + topBorder.height &&
+    y < bottomBorder.pos.y - bottomBorder.height - ball.r
+    // && the ball is not moving
+  );
+};
+
+const handlePointer = e => {
+  const pointer = new Pointer(e.x, e.y);
+
+  if (isInBorder(e.y)) {
+    drawGame();
+    pointer.draw();
+    canvas.style.cursor = 'pointer';
+    if (outOfBorder) outOfBorder = false;
+  } else if (!outOfBorder) {
+    drawGame();
+    canvas.style.cursor = 'auto';
+    if (!outOfBorder) outOfBorder = true;
+  }
+};
+
+const animate = () => {
+  // start refreshing page with 60fps rate
+  const rAF = requestAnimationFrame(animate);
+  // shoot the ball(s), change bricks weights and everything
+  // bring all the bricks 1 row down and add new ones on top
+  // if no bricks hit the bottom border, add to score
+  score.addOne();
+  // if score > record, add to record
+  // stop refreshing page
+  cancelAnimationFrame(rAF);
+  console.log('animate');
+};
+
+const handleClick = e => {
+  if (isInBorder(e.y)) {
+    // animate();
+  }
+};
+
+const drawGame = () => {
   clearScreen();
   score.draw();
   record.draw();
@@ -224,39 +285,8 @@ const init = () => {
   coefficient.draw();
 };
 
-const clearScreen = () => {
-  c.clearRect(0, 0, canvas.width, canvas.height);
-};
-
-const handlePointer = e => {
-  const pointer = new Pointer(e.x, e.y);
-
-  if (
-    e.y > topBorder.pos.y + topBorder.height &&
-    e.y < bottomBorder.pos.y - bottomBorder.height - ball.r
-    /* && the ball is not moving */
-  ) {
-    clearScreen();
-    init();
-    pointer.draw();
-    canvas.style.cursor = 'pointer';
-    if (outOfBorder) outOfBorder = false;
-  } else if (!outOfBorder) {
-    clearScreen();
-    init();
-    canvas.style.cursor = 'auto';
-    if (!outOfBorder) outOfBorder = true;
-  }
-};
-
-const getDistance = (x1, y1, x2, y2) => {
-  const xDistance = x2 - x1;
-  const yDistance = y2 - y1;
-
-  return Math.sqrt(xDistance ** 2 + yDistance ** 2);
-};
-
 // Event Listeners
-addEventListener('load', init);
-document.fonts.ready.then(init);
+addEventListener('load', drawGame);
+document.fonts.ready.then(drawGame);
 addEventListener('mousemove', handlePointer);
+addEventListener('click', handleClick);
