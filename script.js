@@ -14,15 +14,6 @@ const colors = {
 
 // LocalStorage
 let state = JSON.parse(localStorage.getItem('cbb-state'));
-/*
-Information to maintain in localStorage
-- score
-- record
-- coefficient
-- ball position
-- bricks positions and wights
-- green balls positions
-*/
 
 // Classes (function constructors with syntax sugar)
 class Ball {
@@ -244,6 +235,7 @@ class Game {
     bottomBorder.draw();
     ball.draw(colors.ball);
     coefficient.draw();
+    this.newRound();
   }
 
   clear() {
@@ -273,10 +265,10 @@ class Game {
   }
 
   newRound() {
-    const randomInt = Math.trunc(Math.random() * 5) + 1;
-    const bricks = [];
+    const randomInt = Math.trunc(Math.random() * 2) + 1;
+    const bricks = state?.bricks || [];
     for (let i = 0; i < randomInt; i++) {
-      bricks.push(new Brick(Math.random() * canvas.width));
+      bricks.push(new Brick(Math.trunc(Math.random() * canvas.width) - 100));
     }
     bricks.forEach(brick => {
       brick.draw();
@@ -332,8 +324,19 @@ const ball = new Ball();
 const coefficient = new Coefficient();
 const game = new Game();
 
+// Functions
+const fontLoad = callback => {
+  WebFont.load({
+    google: {
+      families: ['Play:700'],
+    },
+    active() {
+      callback();
+    },
+  });
+};
+
 // Event Listeners
-addEventListener('load', game.draw);
-game.draw();
+addEventListener('load', () => fontLoad(game.draw));
 addEventListener('mousemove', game.handlePointer);
 addEventListener('click', game.handleClick);
