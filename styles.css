@@ -5,3 +5,71 @@ body {
   -moz-user-select: none;
   -webkit-user-select: none;
 }
+
+.pre-load {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pre-load div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgb(31, 115, 242);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.pre-load div:nth-child(1) {
+  left: 8px;
+  animation: pre-load1 0.6s infinite;
+}
+
+.pre-load div:nth-child(2) {
+  left: 8px;
+  animation: pre-load2 0.6s infinite;
+}
+
+.pre-load div:nth-child(3) {
+  left: 32px;
+  animation: pre-load2 0.6s infinite;
+}
+
+.pre-load div:nth-child(4) {
+  left: 56px;
+  animation: pre-load3 0.6s infinite;
+}
+
+@keyframes pre-load1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pre-load2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+@keyframes pre-load3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}

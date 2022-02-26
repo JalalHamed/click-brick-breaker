@@ -257,6 +257,7 @@
       this.handleMouseMove = this.handleMouseMove.bind(this);
       this.handleClick = this.handleClick.bind(this);
       this.handleResize = this.handleResize.bind(this);
+      this.init = this.init.bind(this);
     }
 
     draw() {
@@ -362,19 +363,30 @@
       this.repoSize();
     }
 
-    handleFontLoad() {
+    init() {
       WebFont.load({
         google: {
           families: ['Play:700'],
         },
         active() {
+          document.querySelector('.pre-load').style.display = 'none';
           game.draw();
+          addEventListener('mousemove', game.handleMouseMove);
+          addEventListener('resize', game.handleResize);
+          addEventListener('click', game.handleClick);
+          if (!state?.bricks?.length) {
+            game.newRound();
+          }
+        },
+        inactive() {
+          alert(
+            "Couldn't load game's fonts. Please make sure you are using a modern web browser and also you have a sustainable internet connection and then try again."
+          );
         },
       });
     }
   }
 
-  // Objects
   const score = new Score();
   const record = new Record();
   const topBorder = new Border(200);
@@ -383,9 +395,5 @@
   const coefficient = new Coefficient();
   const game = new Game();
 
-  // Event Listeners
-  addEventListener('load', game.handleFontLoad);
-  addEventListener('mousemove', game.handleMouseMove);
-  addEventListener('resize', game.handleResize);
-  addEventListener('click', game.handleClick);
+  addEventListener('load', game.init);
 })();
