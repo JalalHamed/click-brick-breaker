@@ -1,20 +1,30 @@
 'use strict';
 
+// repoSize: re-position and re-size
+
 (function ClickBrickBreakerGame() {
-  const canvas = document.querySelector('canvas');
-  const c = canvas.getContext('2d');
-
-  canvas.height = innerHeight;
-  canvas.width = innerWidth;
-
   const colors = {
     ball: 'rgb(31, 115, 242)',
     brick: 'rgb(239, 73, 33)',
     pointer: 'rgb(31, 115, 242, 0.5)',
   };
 
+  const canvas = document.querySelector('canvas');
+  const c = canvas.getContext('2d');
+
+  canvas.height = innerHeight;
+  canvas.width = innerWidth;
+
+  let borderMargin = 200;
+  let borderHeight = canvas.width / 125;
+  let brickMargin = canvas.width / 120;
+  let brickWidth = (canvas.width - brickMargin * 6) / 7;
+  let brickHeight =
+    (canvas.height - (borderMargin * 2 + borderHeight * 2) - brickMargin * 8) /
+    9;
+
   // LocalStorage
-  let state = JSON.parse(localStorage.getItem('cbb-state'));
+  const state = JSON.parse(localStorage.getItem('cbb-state'));
 
   // Classes (function constructors with syntax sugar)
   class Ball {
@@ -35,7 +45,6 @@
       c.fill();
     }
 
-    // repoSize: re-position and re-size
     repoSize() {
       this.pos = {
         x: state?.ball || canvas.width / 2,
@@ -52,7 +61,7 @@
       };
 
       this.width = canvas.width;
-      this.height = 5;
+      this.height = borderHeight;
     }
 
     draw() {
@@ -63,6 +72,7 @@
 
     repoSize() {
       this.width = canvas.width;
+      this.height = borderHeight;
     }
   }
 
@@ -70,8 +80,8 @@
     constructor(xPos) {
       this.topBorderHeight = topBorder.pos.y + topBorder.height;
 
-      this.width = 100;
-      this.height = 50;
+      this.width = brickWidth;
+      this.height = brickHeight;
 
       this.pos = {
         x: xPos,
@@ -84,7 +94,7 @@
     draw() {
       c.fillStyle = colors.brick;
       c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-      c.font = `30px play`;
+      c.font = `${this.height / 2}px play`;
       c.fillStyle = '#fff';
       c.textAlign = 'center';
       c.textBaseline = 'middle';
@@ -93,6 +103,11 @@
         this.pos.x + this.width / 2,
         this.pos.y + this.height / 2
       );
+    }
+
+    repoSize() {
+      this.width = canvas.width / 7;
+      this.height = (canvas.height - (borderMargin * 2 + borderHeight * 2)) / 9;
     }
   }
 
@@ -252,7 +267,10 @@
   class Game {
     constructor() {
       this.outOfBorder = true;
+      this.bricks = state?.bricks || [];
+      this.xPositions = [];
 
+      // Bindings
       this.draw = this.draw.bind(this);
       this.handleMouseMove = this.handleMouseMove.bind(this);
       this.handleClick = this.handleClick.bind(this);
@@ -261,7 +279,6 @@
     }
 
     draw() {
-      this.clear();
       score.draw();
       record.draw();
       topBorder.draw();
@@ -271,22 +288,35 @@
       // this.newRound();
     }
 
-    clear() {
-      c.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks() {
+      this.bricks.forEach(brick => {
+        brick.draw();
+      });
     }
 
     drawInBorder() {
       this.clearInBorder();
+      this.drawBricks();
       ball.draw(colors.ball);
     }
 
-    clearInBorder() {
-      c.clearRect(
-        0,
-        topBorder.pos.y + topBorder.height,
-        canvas.width,
-        bottomBorder.pos.y - bottomBorder.height - topBorder.pos.y
-      );
+    repoSize() {
+      borderHeight = canvas.width / 125;
+      brickMargin = canvas.width / 120;
+      brickWidth = (canvas.width - brickMargin * 6) / 7;
+      brickHeight =
+        (canvas.height -
+          (borderMargin * 2 + borderHeight * 2) -
+          brickMargin * 8) /
+        9;
+      ball.repoSize();
+      bottomBorder.repoSize();
+      topBorder.repoSize();
+      record.repoSize();
+      score.repoSize();
+      coefficient.repoSize();
+      this.draw();
+      this.drawBricks();
     }
 
     isInBorder(y) {
@@ -297,25 +327,26 @@
       );
     }
 
-    newRound() {
-      const randomInt = Math.trunc(Math.random() * 2) + 1;
-      const bricks = state?.bricks || [];
-      for (let i = 0; i < randomInt; i++) {
-        bricks.push(new Brick(Math.trunc(Math.random() * canvas.width) - 100));
+    calcBricksPositions() {
+      for (let i = 0; i < 7; i++) {
+        this.xPositions.push(i * brickWidth + i * brickMargin);
       }
-      bricks.forEach(brick => {
-        brick.draw();
-      });
     }
 
-    repoSize() {
-      ball.repoSize();
-      bottomBorder.repoSize();
-      topBorder.repoSize();
-      record.repoSize();
-      score.repoSize();
-      coefficient.repoSize();
-      this.draw();
+    generateBricks() {
+      let xPositions = this.xPositions;
+      let maxBricks = score.count < 49 ? Math.floor(Math.sqrt(score.count)) : 7;
+
+      for (let i = 0; i < maxBricks; i++) {
+        let randomInt = Math.trunc(Math.random() * 7);
+        this.bricks.push(new Brick(this.xPositions[randomInt]));
+        xPositions = xPositions.filter(x => x !== xPositions[i]);
+      }
+      this.drawBricks();
+    }
+
+    newRound() {
+      // foreach brick, add a certain number to it's y pos
     }
 
     animate() {
@@ -324,9 +355,11 @@
       // shoot the ball(s), change bricks weights and everything
       // bring all the bricks 1 row down and add new ones on top
       this.newRound();
-      // if no bricks hit the bottom border, add to score
+      // if no brick hit the bottom border, add to score and generate new bricks
       score.addOne();
+      this.generateBricks();
       // if score > record, add to record
+      if (score.count > record.count) record.addOne();
       // stop refreshing page
       cancelAnimationFrame(rAF);
     }
@@ -334,6 +367,15 @@
     reset() {
       localStorage.clear();
       this.draw();
+    }
+
+    clearInBorder() {
+      c.clearRect(
+        0,
+        borderMargin + topBorder.height,
+        canvas.width,
+        bottomBorder.pos.y - bottomBorder.height - borderMargin
+      );
     }
 
     handleMouseMove(e) {
@@ -364,36 +406,39 @@
     }
 
     init() {
-      WebFont.load({
-        google: {
-          families: ['Play:700'],
-        },
-        active() {
-          document.querySelector('.pre-load').style.display = 'none';
-          game.draw();
-          addEventListener('mousemove', game.handleMouseMove);
-          addEventListener('resize', game.handleResize);
-          addEventListener('click', game.handleClick);
-          if (!state?.bricks?.length) {
-            game.newRound();
-          }
-        },
-        inactive() {
-          alert(
-            "Couldn't load game's fonts. Please make sure you are using a modern web browser and also you have a sustainable internet connection and then try again."
-          );
-        },
-      });
+      this.draw();
+      this.calcBricksPositions();
+      this.generateBricks();
+      canvas.addEventListener('mousemove', game.handleMouseMove);
+      canvas.addEventListener('click', game.handleClick);
     }
   }
 
   const score = new Score();
   const record = new Record();
-  const topBorder = new Border(200);
-  const bottomBorder = new Border(canvas.height - 200);
+  const topBorder = new Border(borderMargin);
+  const bottomBorder = new Border(canvas.height - borderMargin);
   const ball = new Ball();
   const coefficient = new Coefficient();
   const game = new Game();
 
-  addEventListener('load', game.init);
+  const handleGameFont = () => {
+    WebFont.load({
+      google: {
+        families: ['Play:700'],
+      },
+      active() {
+        document.querySelector('.pre-load').style.display = 'none';
+        game.init();
+      },
+      inactive() {
+        alert(
+          "Couldn't load game's fonts. Please make sure you are using a modern web browser and also you have a sustainable internet connection and then try again."
+        );
+      },
+    });
+  };
+
+  addEventListener('load', handleGameFont);
+  addEventListener('resize', game.handleResize);
 })();
