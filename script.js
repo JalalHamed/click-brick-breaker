@@ -328,19 +328,22 @@
     }
 
     calcBricksPositions() {
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 7; i++)
         this.xPositions.push(i * brickWidth + i * brickMargin);
-      }
     }
 
     generateBricks() {
-      let xPositions = this.xPositions;
-      let maxBricks = score.count < 49 ? Math.floor(Math.sqrt(score.count)) : 7;
+      let maxBricks = score.count < 49 ? Math.floor(Math.sqrt(score.count)) : 7; // Gradually increase the maximum number of bricks that can be generated (up to 7)
+      let bricksCount = Math.floor(Math.random() * maxBricks) + 1;
+      let rndInts = [];
 
-      for (let i = 0; i < maxBricks; i++) {
-        let randomInt = Math.trunc(Math.random() * 7);
-        this.bricks.push(new Brick(this.xPositions[randomInt]));
-        xPositions = xPositions.filter(x => x !== xPositions[i]);
+      for (let i = 0; i < bricksCount; i++) {
+        let rndInt = Math.floor(Math.random() * 7);
+        while (rndInts.includes(rndInt)) {
+          rndInt = Math.floor(Math.random() * 7);
+        }
+        rndInts.push(rndInt);
+        this.bricks.push(new Brick(this.xPositions[rndInt]));
       }
       this.drawBricks();
     }
