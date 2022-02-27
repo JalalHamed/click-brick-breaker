@@ -15,7 +15,8 @@
   canvas.height = innerHeight;
   canvas.width = innerWidth;
 
-  let borderMargin = 200;
+  let borderMargin = canvas.height / 5;
+  console.log(borderMargin);
   let borderHeight = canvas.width / 125;
   let brickMargin = canvas.width / 120;
   let brickWidth = (canvas.width - brickMargin * 6) / 7;
@@ -54,10 +55,10 @@
   }
 
   class Border {
-    constructor(yPos) {
+    constructor(status) {
       this.pos = {
         x: 0,
-        y: yPos,
+        y: status === 'top' ? borderMargin : canvas.height - borderMargin,
       };
 
       this.width = canvas.width;
@@ -94,7 +95,7 @@
     draw() {
       c.fillStyle = colors.brick;
       c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-      c.font = `${this.height / 2}px play`;
+      c.font = `${brickHeight / 2}px play`;
       c.fillStyle = '#fff';
       c.textAlign = 'center';
       c.textBaseline = 'middle';
@@ -125,7 +126,7 @@
 
     get calcEndPoint() {
       const topBorderHeight = topBorder.pos.y + topBorder.height;
-      const maxY = 440; // Must be relevant to the canvas height and not static
+      const maxY = bottomBorder.pos.y - 75;
 
       // Calculate slope and y intercept (b)
       const pointA = [ball.pos.x, ball.pos.y];
@@ -192,7 +193,7 @@
     }
 
     draw() {
-      c.font = '30px play';
+      c.font = `${brickHeight / 2}px play`;
       c.fillStyle = colors.ball;
       c.textAlign = 'center';
       c.fillText(`x${this.coefficient}`, this.pos.x, this.pos.y);
@@ -210,14 +211,14 @@
     constructor() {
       this.pos = {
         x: canvas.width / 2 + 75,
-        y: 50,
+        y: 50, // must convert to responsive
       };
 
       this.count = state?.record || 1;
     }
 
     draw() {
-      c.font = '30px play';
+      c.font = `${brickHeight / 2}px play`;
       c.fillStyle = '#000';
       c.textAlign = 'right';
       c.fillText(`RECORD: ${this.count}`, this.pos.x, this.pos.y);
@@ -229,8 +230,8 @@
 
     repoSize() {
       this.pos = {
-        ...this.pos,
         x: canvas.width / 2 + 75,
+        y: brickHeight * 1.5,
       };
     }
   }
@@ -239,14 +240,14 @@
     constructor() {
       this.pos = {
         x: canvas.width / 2 + 75,
-        y: 90,
+        y: 90, // must convert to responsive
       };
 
       this.count = state?.score || 1;
     }
 
     draw() {
-      c.font = '30px play';
+      c.font = `${brickHeight / 2}px play`;
       c.fillStyle = '#000';
       c.textAlign = 'right';
       c.fillText(`SCORE: ${this.count}`, this.pos.x, this.pos.y);
@@ -258,8 +259,8 @@
 
     repoSize() {
       this.pos = {
-        ...this.pos,
         x: canvas.width / 2 + 75,
+        y: record.pos.y + brickHeight,
       };
     }
   }
@@ -301,6 +302,7 @@
     }
 
     repoSize() {
+      borderMargin = canvas.height / 5;
       borderHeight = canvas.width / 125;
       brickMargin = canvas.width / 120;
       brickWidth = (canvas.width - brickMargin * 6) / 7;
@@ -417,10 +419,10 @@
     }
   }
 
-  const score = new Score();
   const record = new Record();
-  const topBorder = new Border(borderMargin);
-  const bottomBorder = new Border(canvas.height - borderMargin);
+  const score = new Score();
+  const topBorder = new Border('top');
+  const bottomBorder = new Border('bottom');
   const ball = new Ball();
   const coefficient = new Coefficient();
   const game = new Game();
@@ -435,6 +437,7 @@
         game.init();
       },
       inactive() {
+        document.querySelector('.pre-load').style.display = 'none';
         alert(
           "Couldn't load game's fonts. Please make sure you are using a modern web browser and also you have a sustainable internet connection and then try again."
         );
