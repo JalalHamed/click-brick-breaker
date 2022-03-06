@@ -61,7 +61,6 @@ class Game {
   }
 
   drawInBorder() {
-    this.clearInBorder();
     this.drawBricks();
     ball.draw(colors.ball, c);
   }
@@ -94,25 +93,26 @@ class Game {
     );
   }
 
-  calcBricksPositions() {
-    for (let i = 0; i < 7; i++)
-      this.xPositions.push(i * brickWidth + i * brickMargin);
-  }
-
   generateBricks() {
-    let maxBricks = score.count < 49 ? Math.floor(Math.sqrt(score.count)) : 7; // Gradually increase the maximum number of bricks that can be generated (up to 7)
+    let xPositions = [];
+    let maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the green ball)
     let bricksCount = Math.floor(Math.random() * maxBricks) + 1;
     let rndInts = [];
 
+    // Calculate bricks x positions
+    for (let i = 0; i < 7; i++)
+      xPositions.push(i * brickWidth + i * brickMargin);
+
+    // Generate bricks
     for (let i = 0; i < bricksCount; i++) {
-      let rndInt = Math.floor(Math.random() * 7);
-      while (rndInts.includes(rndInt)) {
+      let rndInt;
+      do {
         rndInt = Math.floor(Math.random() * 7);
-      }
-      rndInts.push(rndInt);
+      } while (rndInts.includes(rndInt));
+
       this.bricks.push(
         new Brick({
-          xPos: this.xPositions[rndInt],
+          xPos: xPositions[rndInt],
           topBorder,
           brickWidth,
           brickHeight,
@@ -123,7 +123,9 @@ class Game {
           borderHeight,
         })
       );
+      rndInts.push(rndInt);
     }
+
     this.drawBricks();
   }
 
@@ -173,11 +175,13 @@ class Game {
     });
 
     if (this.isInBorder(e.y)) {
+      this.clearInBorder();
       this.drawInBorder();
       pointer.draw();
       canvas.style.cursor = 'pointer';
       if (this.outOfBorder) this.outOfBorder = false;
     } else if (!this.outOfBorder) {
+      this.clearInBorder();
       this.drawInBorder();
       canvas.style.cursor = 'auto';
       if (!this.outOfBorder) this.outOfBorder = true;
@@ -198,7 +202,6 @@ class Game {
 
   init() {
     this.draw();
-    this.calcBricksPositions();
     this.generateBricks();
     canvas.addEventListener('mousemove', game.handleMouseMove);
     canvas.addEventListener('click', game.handleClick);
