@@ -1,10 +1,11 @@
-import Ball from './modules/ball.js';
-import Border from './modules/border.js';
-import Brick from './modules/brick.js';
-import Pointer from './modules/pointer.js';
-import Coefficient from './modules/coefficient.js';
-import Record from './modules/record.js';
-import Score from './modules/score.js';
+import Ball from './modules/classes/ball.js';
+import Border from './modules/classes/border.js';
+import Brick from './modules/classes/brick.js';
+import Pointer from './modules/classes/pointer.js';
+import Coefficient from './modules/classes/coefficient.js';
+import Record from './modules/classes/record.js';
+import Score from './modules/classes/score.js';
+import animate from './modules/animate.js';
 
 const colors = {
   ball: 'rgb(31, 115, 242)',
@@ -83,21 +84,6 @@ class Game {
 
   newRound() {
     // foreach brick, add a certain number to it's y pos
-  }
-
-  animate() {
-    // start refreshing page with 60fps rate
-    const rAF = requestAnimationFrame(animate);
-    // shoot the ball(s), change bricks weights and everything
-    // bring all the bricks 1 row down and add new ones on top
-    this.newRound();
-    // if no brick hit the bottom border, add to score and generate new bricks
-    score.addOne();
-    this.generateBricks();
-    // if score > record, add to record
-    if (score.count > record.count) record.addOne();
-    // stop refreshing page
-    cancelAnimationFrame(rAF);
   }
 
   isInBorder(y) {
@@ -203,8 +189,11 @@ class Game {
   }
 
   handleClick(e) {
-    if (this.isInBorder(e.y)) {
-      // animate();
+    if (
+      this.isInBorder(e.y)
+      // && ball is not moving already
+    ) {
+      animate();
     }
   }
 
