@@ -14,7 +14,7 @@ export default class Coefficient {
   draw() {
     const { c, brickHeight, colors } = this.props;
 
-    c.font = `${brickHeight / 2}px play`;
+    c.font = `1.5rem play`;
     c.fillStyle = colors.ball;
     c.textAlign = 'center';
     c.fillText(`x${this.coefficient}`, this.pos.x, this.pos.y);

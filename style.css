@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  overflow: hidden;
+  height: 100vh;
+  /* overflow: hidden; */
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;

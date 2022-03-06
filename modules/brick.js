@@ -21,7 +21,7 @@ export default class Brick {
 
     c.fillStyle = colors.brick;
     c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-    c.font = `${this.height / 2}px play`;
+    c.font = `1.5rem play`;
     c.fillStyle = '#fff';
     c.textAlign = 'center';
     c.textBaseline = 'middle';

@@ -14,7 +14,7 @@ export default class Record {
   draw() {
     const { c, brickHeight } = this.props;
 
-    c.font = `${brickHeight / 2}px play`;
+    c.font = `2rem play`;
     c.fillStyle = '#000';
     c.textAlign = 'right';
     c.fillText(`RECORD: ${this.count}`, this.pos.x, this.pos.y);
