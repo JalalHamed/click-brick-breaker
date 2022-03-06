@@ -20,9 +20,7 @@ export default class Border {
     c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
   }
 
-  repoSize() {
-    const { canvas, borderHeight } = this.props;
-
+  repoSize({ canvas, borderHeight }) {
     this.width = canvas.width;
     this.height = borderHeight;
   }

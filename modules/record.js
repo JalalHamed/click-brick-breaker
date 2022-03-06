@@ -1,11 +1,11 @@
 export default class Record {
   constructor(props) {
     this.props = props;
-    const { canvas, state } = props;
+    const { canvas, state, brickHeight } = props;
 
     this.pos = {
       x: canvas.width / 2 + 75,
-      y: 50, // must convert to responsive
+      y: brickHeight * 1.5,
     };
 
     this.count = state?.record || 1;

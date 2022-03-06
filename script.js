@@ -6,8 +6,6 @@ import Coefficient from './modules/coefficient.js';
 import Record from './modules/record.js';
 import Score from './modules/score.js';
 
-// repoSize: re-position and re-size
-
 const colors = {
   ball: 'rgb(31, 115, 242)',
   brick: 'rgb(239, 73, 33)',
@@ -20,6 +18,13 @@ const c = canvas.getContext('2d');
 canvas.height = innerHeight;
 canvas.width = innerWidth;
 
+// LocalStorage
+const state = JSON.parse(localStorage.getItem('cbb-state'));
+
+let outOfBorder = true;
+let bricks = state?.bricks || [];
+let xPositions = [];
+
 let borderMargin = canvas.height / 5;
 let borderHeight = canvas.width / 125;
 let brickMargin = canvas.width / 120;
@@ -27,15 +32,8 @@ let brickWidth = (canvas.width - brickMargin * 6) / 7;
 let brickHeight =
   (canvas.height - (borderMargin * 2 + borderHeight * 2) - brickMargin * 8) / 9;
 
-// LocalStorage
-const state = JSON.parse(localStorage.getItem('cbb-state'));
-
 class Game {
   constructor() {
-    this.outOfBorder = true;
-    this.bricks = state?.bricks || [];
-    this.xPositions = [];
-
     // Bindings
     this.draw = this.draw.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -44,75 +42,29 @@ class Game {
     this.init = this.init.bind(this);
   }
 
-  draw() {
-    score.draw();
-    record.draw();
-    topBorder.draw();
-    bottomBorder.draw();
-    ball.draw(colors.ball, c);
-    coefficient.draw();
-    // this.newRound();
-  }
-
-  drawBricks() {
-    this.bricks.forEach(brick => {
-      brick.draw();
-    });
-  }
-
-  drawInBorder() {
-    this.drawBricks();
-    ball.draw(colors.ball, c);
-  }
-
-  repoSize() {
-    borderMargin = canvas.height / 5;
-    borderHeight = canvas.width / 125;
-    brickMargin = canvas.width / 120;
-    brickWidth = (canvas.width - brickMargin * 6) / 7;
-    brickHeight =
-      (canvas.height -
-        (borderMargin * 2 + borderHeight * 2) -
-        brickMargin * 8) /
-      9;
-    ball.repoSize();
-    bottomBorder.repoSize();
-    topBorder.repoSize();
-    record.repoSize();
-    score.repoSize();
-    coefficient.repoSize();
-    this.draw();
-    this.drawBricks();
-  }
-
-  isInBorder(y) {
-    return (
-      y > topBorder.pos.y + topBorder.height &&
-      y < bottomBorder.pos.y - bottomBorder.height - ball.r
-      // && the ball is not moving
-    );
+  calcBricksPositions() {
+    for (let i = 0; i < 7; i++)
+      xPositions[i] = i * brickWidth + i * brickMargin;
   }
 
   generateBricks() {
-    let xPositions = [];
     let maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the green ball)
     let bricksCount = Math.floor(Math.random() * maxBricks) + 1;
-    let rndInts = [];
+    let indexes = [];
 
-    // Calculate bricks x positions
-    for (let i = 0; i < 7; i++)
-      xPositions.push(i * brickWidth + i * brickMargin);
+    this.calcBricksPositions();
 
     // Generate bricks
     for (let i = 0; i < bricksCount; i++) {
-      let rndInt;
+      let index;
       do {
-        rndInt = Math.floor(Math.random() * 7);
-      } while (rndInts.includes(rndInt));
+        index = Math.floor(Math.random() * 7);
+      } while (indexes.includes(index));
 
-      this.bricks.push(
+      bricks.push(
         new Brick({
-          xPos: xPositions[rndInt],
+          xPositions,
+          index,
           topBorder,
           brickWidth,
           brickHeight,
@@ -123,7 +75,7 @@ class Game {
           borderHeight,
         })
       );
-      rndInts.push(rndInt);
+      indexes.push(index);
     }
 
     this.drawBricks();
@@ -148,9 +100,12 @@ class Game {
     cancelAnimationFrame(rAF);
   }
 
-  reset() {
-    localStorage.clear();
-    this.draw();
+  isInBorder(y) {
+    return (
+      y > topBorder.pos.y + topBorder.height &&
+      y < bottomBorder.pos.y - bottomBorder.height - ball.r
+      // && the ball is not moving
+    );
   }
 
   clearInBorder() {
@@ -160,6 +115,65 @@ class Game {
       canvas.width,
       bottomBorder.pos.y - bottomBorder.height - borderMargin
     );
+  }
+
+  reset() {
+    localStorage.clear();
+    this.draw();
+  }
+
+  draw() {
+    score.draw();
+    record.draw();
+    topBorder.draw();
+    bottomBorder.draw();
+    ball.draw(colors.ball, c);
+    coefficient.draw();
+    // this.newRound();
+  }
+
+  drawBricks() {
+    bricks.forEach(brick => {
+      brick.draw();
+    });
+  }
+
+  drawInBorder() {
+    this.drawBricks();
+    ball.draw(colors.ball, c);
+  }
+
+  repoSize() /* re-position and re-size */ {
+    borderMargin = canvas.height / 5;
+    borderHeight = canvas.width / 125;
+    brickMargin = canvas.width / 120;
+    brickWidth = (canvas.width - brickMargin * 6) / 7;
+    brickHeight =
+      (canvas.height -
+        (borderMargin * 2 + borderHeight * 2) -
+        brickMargin * 8) /
+      9;
+    this.calcBricksPositions();
+
+    const bricksRepoSize = () => {
+      bricks.forEach(brick => {
+        brick.repoSize({
+          brickWidth,
+          brickHeight,
+          xPositions,
+        });
+      });
+    };
+
+    ball.repoSize();
+    bottomBorder.repoSize({ canvas, borderHeight });
+    topBorder.repoSize({ canvas, borderHeight });
+    record.repoSize();
+    score.repoSize();
+    coefficient.repoSize();
+    bricksRepoSize();
+    this.draw();
+    this.drawBricks();
   }
 
   handleMouseMove(e) {
@@ -179,12 +193,12 @@ class Game {
       this.drawInBorder();
       pointer.draw();
       canvas.style.cursor = 'pointer';
-      if (this.outOfBorder) this.outOfBorder = false;
-    } else if (!this.outOfBorder) {
+      if (outOfBorder) outOfBorder = false;
+    } else if (!outOfBorder) {
       this.clearInBorder();
       this.drawInBorder();
       canvas.style.cursor = 'auto';
-      if (!this.outOfBorder) this.outOfBorder = true;
+      if (!outOfBorder) outOfBorder = true;
     }
   }
 

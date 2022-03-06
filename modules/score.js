@@ -1,11 +1,11 @@
 export default class Score {
   constructor(props) {
     this.props = props;
-    const { canvas, state } = props;
+    const { canvas, state, brickHeight, record } = props;
 
     this.pos = {
       x: canvas.width / 2 + 75,
-      y: 90, // must convert to responsive
+      y: record.pos.y + brickHeight,
     };
 
     this.count = state?.score || 1;
