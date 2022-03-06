@@ -1,8 +1,9 @@
 export default class Ball {
   constructor(props) {
-    const { state, bottomBorder, canvas, c } = props;
+    this.props = props;
+    const { state, bottomBorder, canvas } = props;
+
     this.r = 12;
-    this.c = c;
 
     this.pos = {
       x: state?.ball || canvas.width / 2,
@@ -11,14 +12,18 @@ export default class Ball {
   }
 
   draw(color) {
-    this.c.beginPath();
-    this.c.setLineDash([]);
-    this.c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    this.c.fillStyle = color;
-    this.c.fill();
+    const c = this.props.c;
+
+    c.beginPath();
+    c.setLineDash([]);
+    c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
+    c.fillStyle = color;
+    c.fill();
   }
 
   repoSize() {
+    const { state, canvas, bottomBorder } = this.props;
+
     this.pos = {
       x: state?.ball || canvas.width / 2,
       y: bottomBorder.pos.y - this.r,

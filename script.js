@@ -1,4 +1,10 @@
 import Ball from './modules/ball.js';
+import Border from './modules/border.js';
+import Brick from './modules/brick.js';
+import Pointer from './modules/pointer.js';
+import Coefficient from './modules/coefficient.js';
+import Record from './modules/record.js';
+import Score from './modules/score.js';
 
 // repoSize: re-position and re-size
 
@@ -23,219 +29,6 @@ let brickHeight =
 
 // LocalStorage
 const state = JSON.parse(localStorage.getItem('cbb-state'));
-
-// Classes (function constructors with syntax sugar)
-
-class Border {
-  constructor(status) {
-    this.pos = {
-      x: 0,
-      y: status === 'top' ? borderMargin : canvas.height - borderMargin,
-    };
-
-    this.width = canvas.width;
-    this.height = borderHeight;
-  }
-
-  draw() {
-    this.width = canvas.width;
-    c.fillStyle = '#000';
-    c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-  }
-
-  repoSize() {
-    this.width = canvas.width;
-    this.height = borderHeight;
-  }
-}
-
-class Brick {
-  constructor(xPos) {
-    this.topBorderHeight = topBorder.pos.y + topBorder.height;
-
-    this.width = brickWidth;
-    this.height = brickHeight;
-
-    this.pos = {
-      x: xPos,
-      y: this.topBorderHeight + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
-    };
-
-    this.weight = score.count;
-  }
-
-  draw() {
-    c.fillStyle = colors.brick;
-    c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-    c.font = `${brickHeight / 2}px play`;
-    c.fillStyle = '#fff';
-    c.textAlign = 'center';
-    c.textBaseline = 'middle';
-    c.fillText(
-      this.weight,
-      this.pos.x + this.width / 2,
-      this.pos.y + this.height / 2
-    );
-  }
-
-  repoSize() {
-    this.width = canvas.width / 7;
-    this.height = (canvas.height - (borderMargin * 2 + borderHeight * 2)) / 9;
-  }
-}
-
-class Pointer {
-  constructor(mouseX, mouseY) {
-    this.mouseCoords = {
-      x: mouseX,
-      y: mouseY,
-    };
-  }
-
-  isColliding() {
-    // console.log(this.endpoint);
-  }
-
-  get calcEndPoint() {
-    const topBorderHeight = topBorder.pos.y + topBorder.height;
-    const maxY = bottomBorder.pos.y - 75;
-
-    // Calculate slope and y intercept (b)
-    const pointA = [ball.pos.x, ball.pos.y];
-    const pointB = [this.mouseCoords.x, this.mouseCoords.y];
-    const slope = (pointA[1] - pointB[1]) / (pointA[0] - pointB[0]);
-    const b = this.mouseCoords.y - slope * this.mouseCoords.x;
-    // Calculate x given the top border as y
-    const x = (topBorderHeight - b) / slope;
-    // Calculate y given the canvas width as x
-    const y = canvas.width * slope + b;
-
-    // At 90 degree, slope is Infinite
-    if (slope === Infinity) this.endpoint = [ball.pos.x, topBorderHeight];
-    // Pointer touches top border
-    if (x > 0 && x < canvas.width) this.endpoint = [x, topBorderHeight];
-    // Pointer touches left side of canvas
-    if (x < ball.r && b < maxY) this.endpoint = [ball.r, b];
-    // Pointer touches right side of canvas
-    if (x > canvas.width - ball.r && y < maxY)
-      this.endpoint = [canvas.width - ball.r, y];
-    // Pointer touches top left corner of the border
-    if (x > 0 && x < ball.r) this.endpoint = [ball.r, topBorderHeight];
-    // Pointer touches top right corner of the border
-    if (x > canvas.width - ball.r && x < canvas.width)
-      this.endpoint = [canvas.width - ball.r, topBorderHeight];
-    // Surpassing y threshold
-    if (x < ball.r && b > maxY) this.endpoint = [ball.r, maxY];
-    if (x > canvas.width - ball.r && y > maxY)
-      this.endpoint = [canvas.width - ball.r, maxY];
-
-    // Change end point on bricks
-    this.isColliding();
-
-    return [this.endpoint[0], this.endpoint[1] + ball.r];
-  }
-
-  draw() {
-    // Dashed path
-    c.beginPath();
-    c.setLineDash([15, 10]);
-    c.moveTo(ball.pos.x, ball.pos.y);
-    c.lineTo(...this.calcEndPoint);
-    c.strokeStyle = colors.pointer;
-    c.lineWidth = 5;
-    c.stroke();
-
-    // Pointer ball
-    c.beginPath();
-    c.setLineDash([]);
-    c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
-    c.fillStyle = colors.pointer;
-    c.fill();
-  }
-}
-
-class Coefficient {
-  constructor() {
-    this.coefficient = state?.coefficient || 1;
-
-    this.pos = {
-      x: ball.pos.x,
-      y: ball.pos.y + bottomBorder.height + ball.r * 3.5,
-    };
-  }
-
-  draw() {
-    c.font = `${brickHeight / 2}px play`;
-    c.fillStyle = colors.ball;
-    c.textAlign = 'center';
-    c.fillText(`x${this.coefficient}`, this.pos.x, this.pos.y);
-  }
-
-  repoSize() {
-    this.pos = {
-      x: ball.pos.x,
-      y: ball.pos.y + bottomBorder.height + ball.r * 3.5,
-    };
-  }
-}
-
-class Record {
-  constructor() {
-    this.pos = {
-      x: canvas.width / 2 + 75,
-      y: 50, // must convert to responsive
-    };
-
-    this.count = state?.record || 1;
-  }
-
-  draw() {
-    c.font = `${brickHeight / 2}px play`;
-    c.fillStyle = '#000';
-    c.textAlign = 'right';
-    c.fillText(`RECORD: ${this.count}`, this.pos.x, this.pos.y);
-  }
-
-  addOne() {
-    this.count++;
-  }
-
-  repoSize() {
-    this.pos = {
-      x: canvas.width / 2 + 75,
-      y: brickHeight * 1.5,
-    };
-  }
-}
-
-class Score {
-  constructor() {
-    this.pos = {
-      x: canvas.width / 2 + 75,
-      y: 90, // must convert to responsive
-    };
-
-    this.count = state?.score || 1;
-  }
-
-  draw() {
-    c.font = `${brickHeight / 2}px play`;
-    c.fillStyle = '#000';
-    c.textAlign = 'right';
-    c.fillText(`SCORE: ${this.count}`, this.pos.x, this.pos.y);
-  }
-
-  addOne() {
-    this.count++;
-  }
-
-  repoSize() {
-    this.pos = {
-      x: canvas.width / 2 + 75,
-      y: record.pos.y + brickHeight,
-    };
-  }
-}
 
 class Game {
   constructor() {
@@ -317,7 +110,19 @@ class Game {
         rndInt = Math.floor(Math.random() * 7);
       }
       rndInts.push(rndInt);
-      this.bricks.push(new Brick(this.xPositions[rndInt]));
+      this.bricks.push(
+        new Brick({
+          xPos: this.xPositions[rndInt],
+          topBorder,
+          brickWidth,
+          brickHeight,
+          score,
+          c,
+          colors,
+          borderMargin,
+          borderHeight,
+        })
+      );
     }
     this.drawBricks();
   }
@@ -356,7 +161,16 @@ class Game {
   }
 
   handleMouseMove(e) {
-    const pointer = new Pointer(e.x, e.y);
+    const pointer = new Pointer({
+      mouseX: e.x,
+      mouseY: e.y,
+      c,
+      ball,
+      topBorder,
+      canvas,
+      bottomBorder,
+      colors,
+    });
 
     if (this.isInBorder(e.y)) {
       this.drawInBorder();
@@ -391,12 +205,31 @@ class Game {
   }
 }
 
-const record = new Record();
-const score = new Score();
-const topBorder = new Border('top');
-const bottomBorder = new Border('bottom');
+const record = new Record({ canvas, state, c, brickHeight });
+const score = new Score({ canvas, state, c, brickHeight, record });
+const topBorder = new Border({
+  status: 'top',
+  borderMargin,
+  borderHeight,
+  canvas,
+  c,
+});
+const bottomBorder = new Border({
+  status: 'bottom',
+  borderMargin,
+  borderHeight,
+  canvas,
+  c,
+});
 const ball = new Ball({ state, bottomBorder, canvas, c });
-const coefficient = new Coefficient();
+const coefficient = new Coefficient({
+  state,
+  ball,
+  bottomBorder,
+  c,
+  brickHeight,
+  colors,
+});
 const game = new Game();
 
 const handleGameFont = () => {
