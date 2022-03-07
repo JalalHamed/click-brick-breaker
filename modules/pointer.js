@@ -1,11 +1,11 @@
 export default class Pointer {
   constructor(props) {
     this.props = props;
-    const { mouseX, mouseY } = props;
+    const { e } = props;
 
     this.mouseCoords = {
-      x: mouseX,
-      y: mouseY,
+      x: e.x,
+      y: e.y,
     };
   }
 

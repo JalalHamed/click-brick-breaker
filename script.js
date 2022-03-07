@@ -27,12 +27,21 @@ let bricksXPositions = [];
 let balls = [];
 let counter = 0;
 
-let borderMargin = canvas.height / 5;
-let borderHeight = canvas.width / 125;
-let brickMargin = canvas.width / 120;
-let brickWidth = (canvas.width - brickMargin * 6) / 7;
-let brickHeight =
-  (canvas.height - (borderMargin * 2 + borderHeight * 2) - brickMargin * 8) / 9;
+const sizes = {
+  border: {
+    margin: canvas.height / 5,
+    height: canvas.width / 125,
+  },
+  brick: {
+    margin: canvas.width / 120,
+    width: (canvas.width - (canvas.width / 120) * 6) / 7,
+    height:
+      (canvas.height -
+        ((canvas.height / 5) * 2 + (canvas.width / 125) * 2) -
+        (canvas.width / 120) * 8) /
+      9,
+  },
+};
 
 class Game {
   constructor() {
@@ -46,7 +55,7 @@ class Game {
 
   animate() {
     const rAF = requestAnimationFrame(this.animate);
-    this.clearAndRedraw();
+    this.draw();
     balls.forEach(ball => {
       const delay = ball.delay * ball.r * 2;
       ball.draw(colors.ball);
@@ -62,13 +71,13 @@ class Game {
 
   calcBricksPositions() {
     for (let i = 0; i < 7; i++)
-      bricksXPositions[i] = i * brickWidth + i * brickMargin;
+      bricksXPositions[i] = i * sizes.brick.width + i * sizes.brick.margin;
   }
 
   generateBricks() {
-    let maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the green ball)
-    let bricksCount = Math.floor(Math.random() * maxBricks) + 1;
-    let indexes = [];
+    const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the green ball)
+    const bricksCount = Math.floor(Math.random() * maxBricks) + 1;
+    const indexes = [];
 
     this.calcBricksPositions();
 
@@ -80,7 +89,7 @@ class Game {
 
       // prettier-ignore
       bricks.push(
-        new Brick({ bricksXPositions, index, topBorder, brickWidth, brickHeight, score, c, colors, borderMargin, borderHeight })
+        new Brick({ bricksXPositions, index, topBorder, sizes, score, c, colors })
       );
       indexes.push(index);
     }
@@ -97,12 +106,8 @@ class Game {
     );
   }
 
-  clearAndRedraw() {
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    this.draw();
-  }
-
   draw() {
+    c.clearRect(0, 0, canvas.width, canvas.height);
     score.draw();
     record.draw();
     topBorder.draw();
@@ -115,27 +120,27 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    borderMargin = canvas.height / 5;
-    borderHeight = canvas.width / 125;
-    brickMargin = canvas.width / 120;
-    brickWidth = (canvas.width - brickMargin * 6) / 7;
-    brickHeight =
+    const { border, brick } = sizes;
+    border.margin = canvas.height / 5;
+    border.height = canvas.width / 125;
+    brick.margin = canvas.width / 120;
+    brick.width = (canvas.width - brickMargin * 6) / 7;
+    brick.height =
       (canvas.height -
-        (borderMargin * 2 + borderHeight * 2) -
-        brickMargin * 8) /
+        (border.margin * 2 + border.height * 2) -
+        brick.margin * 8) /
       9;
     this.calcBricksPositions();
 
     ball.repoSize();
-    bottomBorder.repoSize({ canvas, borderHeight });
-    topBorder.repoSize({ canvas, borderHeight });
+    bottomBorder.repoSize({ canvas, border });
+    topBorder.repoSize({ canvas, border });
     record.repoSize();
     score.repoSize();
     coefficient.repoSize();
     bricks.forEach(brick => {
       brick.repoSize({
-        brickWidth,
-        brickHeight,
+        brick,
         bricksXPositions,
       });
     });
@@ -145,14 +150,15 @@ class Game {
 
   handleMouseMove(e) {
     // prettier-ignore
-    const pointer = new Pointer({ mouseX: e.x, mouseY: e.y, c, ball, topBorder, canvas, bottomBorder, colors });
+    const pointer = new Pointer({ e, c, ball, topBorder, canvas, bottomBorder, colors });
 
     if (this.isInBorder(e.y)) {
-      this.clearAndRedraw();
+      this.draw();
       pointer.draw();
       canvas.style.cursor = 'pointer';
       if (outOfBorder) outOfBorder = false;
     } else if (!outOfBorder) {
+      this.draw();
       canvas.style.cursor = 'auto';
       if (!outOfBorder) outOfBorder = true;
     }
@@ -161,10 +167,11 @@ class Game {
   handleClick(e) {
     if (this.isInBorder(e.y) && !clicked) {
       clicked = true;
-      this.clearAndRedraw();
+      this.draw();
       canvas.style.cursor = 'auto';
       ball.velocity = { x: 1, y: -1 };
       balls.push(ball);
+      const angle = Math.atan2();
       for (let i = 1; i < coefficient.count; i++) {
         balls.push(
           new Ball({
@@ -189,17 +196,13 @@ class Game {
   }
 }
 
-// prettier-ignore
-const record = new Detail({ canvas, c, brickHeight, status: 'RECORD', count: state?.record });
-// prettier-ignore
-const score = new Detail({ canvas, c, brickHeight, record, status: 'SCORE',  count: state?.score });
-// prettier-ignore
-const topBorder = new Border({ status: 'top', borderMargin, borderHeight, canvas, c });
-// prettier-ignore
-const bottomBorder = new Border({ status: 'bottom', borderMargin, borderHeight, canvas, c });
+const record = new Detail({ canvas, c, sizes, state, status: 'RECORD' });
+const score = new Detail({ canvas, c, sizes, state, status: 'SCORE' });
+const topBorder = new Border({ status: 'top', sizes, canvas, c });
+const bottomBorder = new Border({ status: 'bottom', sizes, canvas, c });
 const ball = new Ball({ state, bottomBorder, canvas, c });
 // prettier-ignore
-const coefficient = new Coefficient({ state, ball, bottomBorder, c, brickHeight, colors });
+const coefficient = new Coefficient({ state, ball, bottomBorder, c, colors });
 const game = new Game();
 
 const handleGameFont = () => {

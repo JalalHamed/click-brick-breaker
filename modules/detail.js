@@ -1,21 +1,22 @@
 export default class Detail {
   constructor(props) {
     this.props = props;
-    const { canvas, count, brickHeight, status } = props;
+    const { canvas, state, sizes, status } = props;
+    const { height } = sizes.brick;
 
     this.pos = {
-      x: canvas.width / 2 + 75,
-      y:
-        status === 'RECORD'
-          ? brickHeight * 1.5
-          : brickHeight * 1.5 + brickHeight,
+      x: canvas.width / 2 + 80,
+      y: status === 'RECORD' ? height * 1.5 : height * 1.5 + height,
     };
 
+    const count = status === 'RECORD' ? state?.record : state?.score;
     this.count = count || 1;
+
+    this.height = height;
   }
 
   draw() {
-    const { c, brickHeight, status } = this.props;
+    const { c, status } = this.props;
 
     c.font = `2rem play`;
     c.fillStyle = '#000';
@@ -28,14 +29,14 @@ export default class Detail {
   }
 
   repoSize() {
-    const { canvas, brickHeight } = this.props;
+    const { canvas } = this.props;
 
     this.pos = {
       x: canvas.width / 2 + 75,
       y:
         status === 'RECORD'
-          ? brickHeight * 1.5
-          : brickHeight * 1.5 + brickHeight,
+          ? this.height * 1.5
+          : this.height * 1.5 + this.height,
     };
   }
 }
