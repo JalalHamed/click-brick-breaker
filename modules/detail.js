@@ -1,8 +1,8 @@
 export default class Detail {
   constructor(props) {
     this.props = props;
-    const { canvas, state, sizes, status } = props;
-    const { height } = sizes.brick;
+    // prettier-ignore
+    const { canvas, state, sizes: {brick: {height}}, status } = props;
 
     this.pos = {
       x: canvas.width / 2 + 80,
@@ -11,8 +11,6 @@ export default class Detail {
 
     const count = status === 'RECORD' ? state?.record : state?.score;
     this.count = count || 1;
-
-    this.height = height;
   }
 
   draw() {
@@ -28,13 +26,13 @@ export default class Detail {
     this.count++;
   }
 
-  repoSize({ canvas, status }) {
+  // prettier-ignore
+  repoSize({ sizes: {brick: {height}}, status }) {
+    const { canvas } = this.props;
+    
     this.pos = {
       x: canvas.width / 2 + 75,
-      y:
-        status === 'record'
-          ? this.height * 1.5
-          : this.height * 1.5 + this.height,
+      y: status === 'record' ? height * 1.5 : height * 1.5 + height,
     };
   }
 }

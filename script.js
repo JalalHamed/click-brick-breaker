@@ -133,17 +133,12 @@ class Game {
     this.calcBricksPositions();
 
     ball.repoSize();
-    bottomBorder.repoSize({ canvas, border });
-    topBorder.repoSize({ canvas, border });
-    record.repoSize({ canvas, status: 'record' });
-    score.repoSize({ canvas, status: 'score' });
+    bottomBorder.repoSize({ border });
+    topBorder.repoSize({ border });
+    record.repoSize({ sizes, status: 'record' });
+    score.repoSize({ sizes, status: 'score' });
     coefficient.repoSize();
-    bricks.forEach(brick => {
-      brick.repoSize({
-        brick: sizes.brick,
-        bricksXPositions,
-      });
-    });
+    bricks.forEach(brick => brick.repoSize({ sizes, bricksXPositions }));
 
     this.draw();
   }
@@ -173,15 +168,9 @@ class Game {
       balls.push(ball);
       const angle = Math.atan2();
       for (let i = 1; i < coefficient.count; i++) {
+        // prettier-ignore
         balls.push(
-          new Ball({
-            state,
-            bottomBorder,
-            canvas,
-            c,
-            velocity: { x: 1, y: -1 },
-            delay: i,
-          })
+          new Ball({ state, bottomBorder, canvas, c, velocity: { x: 1, y: -1 }, delay: i })
         );
       }
       this.animate();

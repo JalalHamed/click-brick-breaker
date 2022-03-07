@@ -33,7 +33,7 @@ export default class Brick {
     );
   }
 
-  repoSize({ brick, bricksXPositions }) {
+  repoSize({ sizes: { brick }, bricksXPositions }) {
     this.width = brick.width;
     this.height = brick.height;
 
