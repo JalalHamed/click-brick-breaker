@@ -14,6 +14,7 @@ export default class Pointer {
 
     const topBorderHeight = topBorder.pos.y + topBorder.height;
     const maxY = bottomBorder.pos.y - 75;
+    let endpoint = [];
 
     // Calculate slope and y intercept (b)
     const pointA = [ball.pos.x, ball.pos.y];
@@ -26,27 +27,27 @@ export default class Pointer {
     const y = canvas.width * slope + b;
 
     // At 90 degree, slope is Infinite
-    if (slope === Infinity) this.endpoint = [ball.pos.x, topBorderHeight];
+    if (slope === Infinity) endpoint = [ball.pos.x, topBorderHeight];
     // Pointer touches top border
-    if (x > 0 && x < canvas.width) this.endpoint = [x, topBorderHeight];
+    if (x > 0 && x < canvas.width) endpoint = [x, topBorderHeight];
     // Pointer touches left side of canvas
-    if (x < ball.r && b < maxY) this.endpoint = [ball.r, b];
+    if (x < ball.r && b < maxY) endpoint = [ball.r, b];
     // Pointer touches right side of canvas
     if (x > canvas.width - ball.r && y < maxY)
-      this.endpoint = [canvas.width - ball.r, y];
+      endpoint = [canvas.width - ball.r, y];
     // Pointer touches top left corner of the border
-    if (x > 0 && x < ball.r) this.endpoint = [ball.r, topBorderHeight];
+    if (x > 0 && x < ball.r) endpoint = [ball.r, topBorderHeight];
     // Pointer touches top right corner of the border
     if (x > canvas.width - ball.r && x < canvas.width)
-      this.endpoint = [canvas.width - ball.r, topBorderHeight];
+      endpoint = [canvas.width - ball.r, topBorderHeight];
     // Surpassing y threshold
-    if (x < ball.r && b > maxY) this.endpoint = [ball.r, maxY];
+    if (x < ball.r && b > maxY) endpoint = [ball.r, maxY];
     if (x > canvas.width - ball.r && y > maxY)
-      this.endpoint = [canvas.width - ball.r, maxY];
+      endpoint = [canvas.width - ball.r, maxY];
 
     // TODO: Change end point on colliding with bricks
 
-    return [this.endpoint[0], this.endpoint[1] + ball.r];
+    return [endpoint[0], endpoint[1] + ball.r];
   }
 
   draw() {

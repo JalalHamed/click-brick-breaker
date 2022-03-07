@@ -49,7 +49,7 @@ class Game {
     this.clearAndRedraw();
     balls.forEach(ball => {
       const delay = ball.delay * ball.r * 2;
-      ball.draw();
+      ball.draw(colors.ball);
       if (counter > delay) ball.update();
       if (counter === delay) coefficient.count--;
       if (ball.pos.y < topBorder.pos.y + topBorder.height + ball.r) {
@@ -190,9 +190,9 @@ class Game {
 }
 
 // prettier-ignore
-const record = new Detail({ c, canvas, y: brickHeight * 1.5, title: 'RECORD', count: state?.record, repoY: brickHeight * 1.5 });
+const record = new Detail({ canvas, c, brickHeight, status: 'RECORD', count: state?.record });
 // prettier-ignore
-const score = new Detail({ c, canvas, y: record.pos.y + brickHeight, title: 'SCORE', count: state?.record, repoY: record.pos.y + brickHeight });
+const score = new Detail({ canvas, c, brickHeight, record, status: 'SCORE',  count: state?.score });
 // prettier-ignore
 const topBorder = new Border({ status: 'top', borderMargin, borderHeight, canvas, c });
 // prettier-ignore
