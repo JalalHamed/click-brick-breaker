@@ -1,25 +1,31 @@
 export default class Coefficient {
   constructor(props) {
     this.props = props;
-    const { count, x, y } = props;
+    const { state, ball, bottomBorder } = props;
 
-    this.count = count || 5;
+    this.count = state?.coefficient || 5;
 
-    this.pos = { x, y };
+    this.pos = {
+      x: ball.pos.x,
+      y: ball.pos.y + bottomBorder.height + ball.r * 3.5,
+    };
   }
 
   draw() {
-    const { c, color } = this.props;
+    const { c, colors } = this.props;
 
     c.font = `1.5rem play`;
-    c.fillStyle = color;
+    c.fillStyle = colors.ball;
     c.textAlign = 'center';
     c.fillText(`x${this.count}`, this.pos.x, this.pos.y);
   }
 
   repoSize() {
-    const { x, y } = this.props;
+    const { ball, bottomBorder } = this.props;
 
-    this.pos = { x, y };
+    this.pos = {
+      x: ball.pos.x,
+      y: ball.pos.y + bottomBorder.height + ball.r * 3.5,
+    };
   }
 }
