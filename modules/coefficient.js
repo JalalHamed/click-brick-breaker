@@ -7,7 +7,7 @@ export default class Coefficient {
 
     this.pos = {
       x: ball.pos.x,
-      y: ball.pos.y + bottomBorder.height + ball.r * 3.5,
+      y: ball.pos.y + bottomBorder.height + ball.r * 2.5,
     };
   }
 
@@ -17,6 +17,7 @@ export default class Coefficient {
     c.font = `1.5rem play`;
     c.fillStyle = colors.ball;
     c.textAlign = 'center';
+    c.textBaseline = 'middle';
     c.fillText(`x${this.count}`, this.pos.x, this.pos.y);
   }
 

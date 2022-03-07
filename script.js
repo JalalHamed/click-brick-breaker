@@ -93,10 +93,6 @@ class Game {
       );
       indexes.push(index);
     }
-
-    bricks.forEach(brick => {
-      brick.draw();
-    });
   }
 
   isInBorder(y) {
@@ -178,8 +174,8 @@ class Game {
   }
 
   init() {
-    this.draw();
     this.generateBricks();
+    this.draw();
     canvas.addEventListener('mousemove', game.handleMouseMove);
     canvas.addEventListener('click', game.handleClick);
   }

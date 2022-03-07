@@ -6,7 +6,7 @@ export default class Detail {
 
     this.pos = {
       x: canvas.width / 2 + 80,
-      y: status === 'RECORD' ? height * 1.5 : height * 1.5 + height,
+      y: status === 'RECORD' ? height * 1.3 : height * 1.3 + height,
     };
 
     const count = status === 'RECORD' ? state?.record : state?.score;
@@ -19,6 +19,7 @@ export default class Detail {
     c.font = `2rem play`;
     c.fillStyle = '#000';
     c.textAlign = 'right';
+    c.textBaseline = 'middle';
     c.fillText(`${status}: ${this.count}`, this.pos.x, this.pos.y);
   }
 
@@ -32,7 +33,7 @@ export default class Detail {
     
     this.pos = {
       x: canvas.width / 2 + 75,
-      y: status === 'record' ? height * 1.5 : height * 1.5 + height,
+      y: status === 'record' ? height * 1.3 : height * 1.3 + height,
     };
   }
 }
