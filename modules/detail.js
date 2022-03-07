@@ -28,13 +28,11 @@ export default class Detail {
     this.count++;
   }
 
-  repoSize() {
-    const { canvas } = this.props;
-
+  repoSize({ canvas, status }) {
     this.pos = {
       x: canvas.width / 2 + 75,
       y:
-        status === 'RECORD'
+        status === 'record'
           ? this.height * 1.5
           : this.height * 1.5 + this.height,
     };

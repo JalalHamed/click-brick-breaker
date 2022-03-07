@@ -124,7 +124,7 @@ class Game {
     border.margin = canvas.height / 5;
     border.height = canvas.width / 125;
     brick.margin = canvas.width / 120;
-    brick.width = (canvas.width - brickMargin * 6) / 7;
+    brick.width = (canvas.width - brick.margin * 6) / 7;
     brick.height =
       (canvas.height -
         (border.margin * 2 + border.height * 2) -
@@ -135,12 +135,12 @@ class Game {
     ball.repoSize();
     bottomBorder.repoSize({ canvas, border });
     topBorder.repoSize({ canvas, border });
-    record.repoSize();
-    score.repoSize();
+    record.repoSize({ canvas, status: 'record' });
+    score.repoSize({ canvas, status: 'score' });
     coefficient.repoSize();
     bricks.forEach(brick => {
       brick.repoSize({
-        brick,
+        brick: sizes.brick,
         bricksXPositions,
       });
     });
