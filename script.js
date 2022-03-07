@@ -1,16 +1,14 @@
-import Ball from './modules/classes/ball.js';
-import Border from './modules/classes/border.js';
-import Brick from './modules/classes/brick.js';
-import Pointer from './modules/classes/pointer.js';
-import Coefficient from './modules/classes/coefficient.js';
-import Record from './modules/classes/record.js';
-import Score from './modules/classes/score.js';
-import animate from './modules/animate.js';
+import Ball from './modules/ball.js';
+import Border from './modules/border.js';
+import Brick from './modules/brick.js';
+import Pointer from './modules/pointer.js';
+import Coefficient from './modules/coefficient.js';
+import Detail from './modules/detail.js';
 
 const colors = {
   ball: 'rgb(31, 115, 242)',
   brick: 'rgb(239, 73, 33)',
-  pointer: 'rgb(31, 115, 242, 0.5)',
+  pointer: { line: 'rgb(31, 115, 242, 0.5)', ball: 'rgb(143, 185, 248)' },
 };
 
 const canvas = document.querySelector('canvas');
@@ -23,8 +21,11 @@ canvas.width = innerWidth;
 const state = JSON.parse(localStorage.getItem('cbb-state'));
 
 let outOfBorder = true;
+let clicked = false;
 let bricks = state?.bricks || [];
-let xPositions = [];
+let bricksXPositions = [];
+let balls = [];
+let counter = 0;
 
 let borderMargin = canvas.height / 5;
 let borderHeight = canvas.width / 125;
@@ -39,13 +40,29 @@ class Game {
     this.draw = this.draw.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleResize = this.handleResize.bind(this);
+    this.animate = this.animate.bind(this);
     this.init = this.init.bind(this);
+  }
+
+  animate() {
+    const rAF = requestAnimationFrame(this.animate);
+    this.clearAndRedraw();
+    balls.forEach(ball => {
+      const delay = ball.delay * ball.r * 2;
+      ball.draw();
+      if (counter > delay) ball.update();
+      if (counter === delay) coefficient.count--;
+      if (ball.pos.y < topBorder.pos.y + topBorder.height + ball.r) {
+        cancelAnimationFrame(rAF);
+        clicked = false;
+      }
+    });
+    counter++;
   }
 
   calcBricksPositions() {
     for (let i = 0; i < 7; i++)
-      xPositions[i] = i * brickWidth + i * brickMargin;
+      bricksXPositions[i] = i * brickWidth + i * brickMargin;
   }
 
   generateBricks() {
@@ -55,56 +72,33 @@ class Game {
 
     this.calcBricksPositions();
 
-    // Generate bricks
     for (let i = 0; i < bricksCount; i++) {
       let index;
       do {
         index = Math.floor(Math.random() * 7);
       } while (indexes.includes(index));
 
+      // prettier-ignore
       bricks.push(
-        new Brick({
-          xPositions,
-          index,
-          topBorder,
-          brickWidth,
-          brickHeight,
-          score,
-          c,
-          colors,
-          borderMargin,
-          borderHeight,
-        })
+        new Brick({ bricksXPositions, index, topBorder, brickWidth, brickHeight, score, c, colors, borderMargin, borderHeight })
       );
       indexes.push(index);
     }
 
-    this.drawBricks();
-  }
-
-  newRound() {
-    // foreach brick, add a certain number to it's y pos
+    bricks.forEach(brick => {
+      brick.draw();
+    });
   }
 
   isInBorder(y) {
     return (
       y > topBorder.pos.y + topBorder.height &&
       y < bottomBorder.pos.y - bottomBorder.height - ball.r
-      // && the ball is not moving
     );
   }
 
-  clearInBorder() {
-    c.clearRect(
-      0,
-      borderMargin + topBorder.height,
-      canvas.width,
-      bottomBorder.pos.y - bottomBorder.height - borderMargin
-    );
-  }
-
-  reset() {
-    localStorage.clear();
+  clearAndRedraw() {
+    c.clearRect(0, 0, canvas.width, canvas.height);
     this.draw();
   }
 
@@ -115,18 +109,9 @@ class Game {
     bottomBorder.draw();
     ball.draw(colors.ball, c);
     coefficient.draw();
-    // this.newRound();
-  }
-
-  drawBricks() {
     bricks.forEach(brick => {
       brick.draw();
     });
-  }
-
-  drawInBorder() {
-    this.drawBricks();
-    ball.draw(colors.ball, c);
   }
 
   repoSize() /* re-position and re-size */ {
@@ -141,66 +126,59 @@ class Game {
       9;
     this.calcBricksPositions();
 
-    const bricksRepoSize = () => {
-      bricks.forEach(brick => {
-        brick.repoSize({
-          brickWidth,
-          brickHeight,
-          xPositions,
-        });
-      });
-    };
-
     ball.repoSize();
     bottomBorder.repoSize({ canvas, borderHeight });
     topBorder.repoSize({ canvas, borderHeight });
     record.repoSize();
     score.repoSize();
     coefficient.repoSize();
-    bricksRepoSize();
+    bricks.forEach(brick => {
+      brick.repoSize({
+        brickWidth,
+        brickHeight,
+        bricksXPositions,
+      });
+    });
+
     this.draw();
-    this.drawBricks();
   }
 
   handleMouseMove(e) {
-    const pointer = new Pointer({
-      mouseX: e.x,
-      mouseY: e.y,
-      c,
-      ball,
-      topBorder,
-      canvas,
-      bottomBorder,
-      colors,
-    });
+    // prettier-ignore
+    const pointer = new Pointer({ mouseX: e.x, mouseY: e.y, c, ball, topBorder, canvas, bottomBorder, colors });
 
     if (this.isInBorder(e.y)) {
-      this.clearInBorder();
-      this.drawInBorder();
+      this.clearAndRedraw();
       pointer.draw();
       canvas.style.cursor = 'pointer';
       if (outOfBorder) outOfBorder = false;
     } else if (!outOfBorder) {
-      this.clearInBorder();
-      this.drawInBorder();
       canvas.style.cursor = 'auto';
       if (!outOfBorder) outOfBorder = true;
     }
   }
 
   handleClick(e) {
-    if (
-      this.isInBorder(e.y)
-      // && ball is not moving already
-    ) {
-      animate();
+    if (this.isInBorder(e.y) && !clicked) {
+      clicked = true;
+      this.clearAndRedraw();
+      canvas.style.cursor = 'auto';
+      ball.velocity = { x: 1, y: -1 };
+      balls.push(ball);
+      for (let i = 1; i < coefficient.count; i++) {
+        balls.push(
+          new Ball({
+            state,
+            bottomBorder,
+            canvas,
+            c,
+            velocity: { x: 1, y: -1 },
+            delay: i,
+          })
+        );
+      }
+      this.animate();
     }
-  }
-
-  handleResize() {
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-    this.repoSize();
   }
 
   init() {
@@ -211,31 +189,17 @@ class Game {
   }
 }
 
-const record = new Record({ canvas, state, c, brickHeight });
-const score = new Score({ canvas, state, c, brickHeight, record });
-const topBorder = new Border({
-  status: 'top',
-  borderMargin,
-  borderHeight,
-  canvas,
-  c,
-});
-const bottomBorder = new Border({
-  status: 'bottom',
-  borderMargin,
-  borderHeight,
-  canvas,
-  c,
-});
+// prettier-ignore
+const record = new Detail({ c, canvas, y: brickHeight * 1.5, title: 'RECORD', count: state?.record, repoY: brickHeight * 1.5 });
+// prettier-ignore
+const score = new Detail({ c, canvas, y: record.pos.y + brickHeight, title: 'SCORE', count: state?.record, repoY: record.pos.y + brickHeight });
+// prettier-ignore
+const topBorder = new Border({ status: 'top', borderMargin, borderHeight, canvas, c });
+// prettier-ignore
+const bottomBorder = new Border({ status: 'bottom', borderMargin, borderHeight, canvas, c });
 const ball = new Ball({ state, bottomBorder, canvas, c });
-const coefficient = new Coefficient({
-  state,
-  ball,
-  bottomBorder,
-  c,
-  brickHeight,
-  colors,
-});
+// prettier-ignore
+const coefficient = new Coefficient({ state, ball, bottomBorder, c, brickHeight, colors });
 const game = new Game();
 
 const handleGameFont = () => {
@@ -250,11 +214,18 @@ const handleGameFont = () => {
     inactive() {
       document.querySelector('.pre-load').style.display = 'none';
       alert(
-        "Couldn't load game's fonts. Please make sure you are using a modern web browser and also you have a sustainable internet connection and then try again."
+        "Couldn't load game's fonts. Please make sure you have a sustainable internet connection and try again."
       );
+      location.reload();
     },
   });
 };
 
+const handleResize = () => {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  game.repoSize();
+};
+
 addEventListener('load', handleGameFont);
-addEventListener('resize', game.handleResize);
+addEventListener('resize', handleResize);

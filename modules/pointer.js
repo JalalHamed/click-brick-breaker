@@ -1,24 +1,19 @@
 export default class Pointer {
   constructor(props) {
     this.props = props;
+    const { mouseX, mouseY } = props;
 
     this.mouseCoords = {
-      x: props.mouseX,
-      y: props.mouseY,
+      x: mouseX,
+      y: mouseY,
     };
   }
 
-  isColliding() {
-    // console.log(this.endpoint);
-  }
-
   get calcEndPoint() {
-    const props = this.props;
-    const canvas = props.canvas;
-    const ball = props.ball;
+    const { canvas, ball, topBorder, bottomBorder } = this.props;
 
-    const topBorderHeight = props.topBorder.pos.y + props.topBorder.height;
-    const maxY = props.bottomBorder.pos.y - 75;
+    const topBorderHeight = topBorder.pos.y + topBorder.height;
+    const maxY = bottomBorder.pos.y - 75;
 
     // Calculate slope and y intercept (b)
     const pointA = [ball.pos.x, ball.pos.y];
@@ -49,23 +44,20 @@ export default class Pointer {
     if (x > canvas.width - ball.r && y > maxY)
       this.endpoint = [canvas.width - ball.r, maxY];
 
-    // Change end point on bricks
-    this.isColliding();
+    // TODO: Change end point on colliding with bricks
 
     return [this.endpoint[0], this.endpoint[1] + ball.r];
   }
 
   draw() {
-    const c = this.props.c;
-    const colors = this.props.colors;
-    const ball = this.props.ball;
+    const { c, colors, ball } = this.props;
 
-    // Dashed path
+    // Dashed line
     c.beginPath();
     c.setLineDash([15, 10]);
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint);
-    c.strokeStyle = colors.pointer;
+    c.strokeStyle = colors.pointer.line;
     c.lineWidth = 5;
     c.stroke();
 
@@ -73,7 +65,7 @@ export default class Pointer {
     c.beginPath();
     c.setLineDash([]);
     c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
-    c.fillStyle = colors.pointer;
+    c.fillStyle = colors.pointer.ball;
     c.fill();
   }
 }

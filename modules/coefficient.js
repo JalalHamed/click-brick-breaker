@@ -3,7 +3,7 @@ export default class Coefficient {
     this.props = props;
     const { state, ball, bottomBorder } = props;
 
-    this.coefficient = state?.coefficient || 1;
+    this.count = state?.coefficient || 5;
 
     this.pos = {
       x: ball.pos.x,
@@ -17,7 +17,7 @@ export default class Coefficient {
     c.font = `1.5rem play`;
     c.fillStyle = colors.ball;
     c.textAlign = 'center';
-    c.fillText(`x${this.coefficient}`, this.pos.x, this.pos.y);
+    c.fillText(`x${this.count}`, this.pos.x, this.pos.y);
   }
 
   repoSize() {

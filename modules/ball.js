@@ -1,7 +1,7 @@
 export default class Ball {
   constructor(props) {
     this.props = props;
-    const { state, bottomBorder, canvas } = props;
+    const { state, bottomBorder, canvas, velocity, delay } = props;
 
     this.r = 12;
 
@@ -9,6 +9,13 @@ export default class Ball {
       x: state?.ball || canvas.width / 2,
       y: bottomBorder.pos.y - this.r,
     };
+
+    this.velocity = {
+      x: velocity?.x || 0,
+      y: velocity?.y || 0,
+    };
+
+    this.delay = delay || 0;
   }
 
   draw(color) {
@@ -19,6 +26,11 @@ export default class Ball {
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
     c.fillStyle = color;
     c.fill();
+  }
+
+  update() {
+    this.pos.x += this.velocity.x;
+    this.pos.y += this.velocity.y;
   }
 
   repoSize() {
