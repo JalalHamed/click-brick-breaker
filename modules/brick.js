@@ -1,7 +1,7 @@
 export default class Brick {
   constructor(props) {
     this.props = props;
-    const { bricksXPositions, index, topBorder, sizes, score } = props;
+    const { grid, index, topBorder, sizes, score } = props;
 
     const topBorderHeight = topBorder.pos.y + topBorder.height;
 
@@ -10,7 +10,7 @@ export default class Brick {
     this.height = height;
 
     this.pos = {
-      x: bricksXPositions[index],
+      x: grid[index],
       y: topBorderHeight + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
 
@@ -33,13 +33,13 @@ export default class Brick {
     );
   }
 
-  repoSize({ sizes: { _brick }, bricksXPositions }) {
+  repoSize({ sizes: { _brick }, grid }) {
     this.width = _brick.width;
     this.height = _brick.height;
 
     this.pos = {
       ...this.pos,
-      x: bricksXPositions[this.props.index],
+      x: grid[this.props.index],
     };
   }
 }

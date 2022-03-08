@@ -59,7 +59,7 @@ export default class Pointer {
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint);
     c.strokeStyle = colors.pointer.line;
-    c.lineWidth = sizes._ball.radius / 2;
+    c.lineWidth = ball.r / 2.5;
     c.stroke();
 
     // Pointer ball

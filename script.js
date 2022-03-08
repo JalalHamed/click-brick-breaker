@@ -9,6 +9,7 @@ const colors = {
   ball: 'rgb(31, 115, 242)',
   brick: 'rgb(239, 73, 33)',
   pointer: { line: 'rgb(31, 115, 242, 0.5)', ball: 'rgb(143, 185, 248)' },
+  bonus: 'rgb(79, 234, 115)',
 };
 
 const canvas = document.querySelector('canvas');
@@ -31,10 +32,11 @@ const setState = async data => {
 let outOfBorder = true;
 let isBallMoving = false;
 let bricks = state?.bricks || [];
-let bricksXPositions = [];
+let grid = [];
 let balls = [];
 let counter = 0;
 let landedBallXPos;
+let indexes = [];
 
 const sizes = {
   _ball: {
@@ -56,6 +58,14 @@ const sizes = {
 };
 
 const maxY = canvas.height - sizes._border.margin - 75;
+
+const findIndex = () => {
+  let index;
+  do {
+    index = Math.floor(Math.random() * 7);
+  } while (indexes.includes(index));
+  return index;
+};
 
 class Game {
   constructor() {
@@ -108,30 +118,26 @@ class Game {
     counter++;
   }
 
-  calcBricksPositions() {
+  calcGrid() {
     for (let i = 0; i < 7; i++)
-      bricksXPositions[i] = i * sizes._brick.width + i * sizes._brick.margin;
+      grid[i] = i * sizes._brick.width + i * sizes._brick.margin;
   }
 
-  generateBricks() {
-    const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the green ball)
+  setRound() {
+    // Generate bricks
+    const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
     const bricksCount = Math.floor(Math.random() * maxBricks) + 1;
-    const indexes = [];
-
-    this.calcBricksPositions();
 
     for (let i = 0; i < bricksCount; i++) {
-      let index;
-      do {
-        index = Math.floor(Math.random() * 7);
-      } while (indexes.includes(index));
-
+      let index = findIndex();
+      indexes.push(index);
       // prettier-ignore
       bricks.push(
-        new Brick({ bricksXPositions, index, topBorder, sizes, score, c, colors })
+        new Brick({ grid, index, topBorder, sizes, score, c, colors })
       );
-      indexes.push(index);
     }
+
+    // Generate bonus ball
   }
 
   isInBorder(y) {
@@ -166,7 +172,7 @@ class Game {
         (_border.margin * 2 + _border.height * 2) -
         _brick.margin * 8) /
       9;
-    this.calcBricksPositions();
+    this.calcGrid();
 
     ball.repoSize();
     bottomBorder.repoSize({ _border });
@@ -174,7 +180,7 @@ class Game {
     record.repoSize({ sizes, status: 'record' });
     score.repoSize({ sizes, status: 'score' });
     coefficient.repoSize();
-    bricks.forEach(brick => brick.repoSize({ sizes, bricksXPositions }));
+    bricks.forEach(brick => brick.repoSize({ sizes, grid }));
 
     this.draw();
   }
@@ -215,7 +221,8 @@ class Game {
   }
 
   init() {
-    this.generateBricks();
+    this.calcGrid();
+    this.setRound();
     this.draw();
     canvas.addEventListener('mousemove', game.handleMouseMove);
     canvas.addEventListener('click', game.handleClick);
