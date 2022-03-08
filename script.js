@@ -18,9 +18,15 @@ canvas.height = innerHeight;
 canvas.width = innerWidth;
 
 // LocalStorage
-const state = JSON.parse(localStorage.getItem('cbb-state'));
-const setState = data =>
-  localStorage.setItem('cbb-state', JSON.stringify(data));
+let state = JSON.parse(localStorage.getItem('cbb-state'));
+const setState = async data => {
+  try {
+    await localStorage.setItem('cbb-state', JSON.stringify(data));
+    state = JSON.parse(localStorage.getItem('cbb-state'));
+  } catch (err) {
+    alert(err.message);
+  }
+};
 
 let outOfBorder = true;
 let isBallMoving = false;
@@ -62,7 +68,6 @@ class Game {
   animate() {
     const rAF = requestAnimationFrame(this.animate);
     this.draw();
-    console.log('animation started');
 
     balls.forEach(ball => {
       const delay = ball.delay * ball.r;
@@ -80,19 +85,20 @@ class Game {
         ball.velocity.x = 0;
         ball.velocity.y = 0;
         landedBallXPos = ball.pos.x;
+        ball.pos.y = bottomBorder.pos.y - ball.r;
       }
     });
 
     if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
-      setState({ ...state, ball: landedBallXPos });
-      ball.pos.x = landedBallXPos;
-      ball.pos.y = bottomBorder.pos.y - ball.r;
-      balls = [];
-      coefficient.regainCount();
-      coefficient.repoSize();
-      this.draw();
+      setState({ ...state, ball: landedBallXPos }).then(() => {
+        ball.pos.x = landedBallXPos;
+        balls = [];
+        counter = 0;
+        coefficient.regainCount();
+        coefficient.repoSize();
+        this.draw();
+      });
 
-      console.log('animation stopped', ball);
       isBallMoving = false;
       cancelAnimationFrame(rAF);
     }
@@ -208,7 +214,6 @@ class Game {
   init() {
     this.generateBricks();
     this.draw();
-    console.log(ball);
     canvas.addEventListener('mousemove', game.handleMouseMove);
     canvas.addEventListener('click', game.handleClick);
   }
