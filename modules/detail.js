@@ -2,7 +2,7 @@ export default class Detail {
   constructor(props) {
     this.props = props;
     // prettier-ignore
-    const { canvas, state, sizes: {brick: {height}}, status } = props;
+    const { canvas, state, sizes: { _brick: { height } }, status } = props;
 
     this.pos = {
       x: canvas.width / 2 + 80,
@@ -28,7 +28,7 @@ export default class Detail {
   }
 
   // prettier-ignore
-  repoSize({ sizes: {brick: {height}}, status }) {
+  repoSize({ sizes: { _brick: { height } }, status }) {
     const { canvas } = this.props;
     
     this.pos = {

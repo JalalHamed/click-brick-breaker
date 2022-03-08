@@ -1,13 +1,14 @@
 export default class Coefficient {
   constructor(props) {
     this.props = props;
-    const { state, ball, bottomBorder } = props;
+    // prettier-ignore
+    const { state, ball, sizes: { _border } } = props;
 
     this.count = state?.coefficient || 5;
 
     this.pos = {
       x: ball.pos.x,
-      y: ball.pos.y + bottomBorder.height + ball.r * 2.5,
+      y: ball.pos.y + _border.height + ball.r * 2.5,
     };
   }
 
@@ -22,11 +23,12 @@ export default class Coefficient {
   }
 
   repoSize() {
-    const { ball, bottomBorder } = this.props;
+    // prettier-ignore
+    const { ball, sizes: { _border } } = this.props;
 
     this.pos = {
       x: ball.pos.x,
-      y: ball.pos.y + bottomBorder.height + ball.r * 3.5,
+      y: ball.pos.y + _border.height + ball.r * 3.5,
     };
   }
 }

@@ -5,7 +5,7 @@ export default class Brick {
 
     const topBorderHeight = topBorder.pos.y + topBorder.height;
 
-    const { width, height } = sizes.brick;
+    const { width, height } = sizes._brick;
     this.width = width;
     this.height = height;
 
@@ -33,9 +33,9 @@ export default class Brick {
     );
   }
 
-  repoSize({ sizes: { brick }, bricksXPositions }) {
-    this.width = brick.width;
-    this.height = brick.height;
+  repoSize({ sizes: { _brick }, bricksXPositions }) {
+    this.width = _brick.width;
+    this.height = _brick.height;
 
     this.pos = {
       ...this.pos,

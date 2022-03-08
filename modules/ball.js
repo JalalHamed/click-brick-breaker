@@ -1,13 +1,14 @@
 export default class Ball {
   constructor(props) {
     this.props = props;
-    const { state, bottomBorder, canvas, velocity, delay } = props;
+    // prettier-ignore
+    const { state, sizes: {_border, _ball}, canvas, velocity, delay } = props;
 
-    this.r = 12;
+    this.r = _ball.radius;
 
     this.pos = {
       x: state?.ball || canvas.width / 2,
-      y: bottomBorder.pos.y - this.r,
+      y: canvas.height - _border.margin - this.r,
     };
 
     this.velocity = {
@@ -34,11 +35,12 @@ export default class Ball {
   }
 
   repoSize() {
-    const { state, canvas, bottomBorder } = this.props;
+    // prettier-ignore
+    const { state, canvas, sizes: { _border } } = this.props;
 
     this.pos = {
       x: state?.ball || canvas.width / 2,
-      y: bottomBorder.pos.y - this.r,
+      y: canvas.height - _border.margin - this.r,
     };
   }
 }

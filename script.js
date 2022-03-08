@@ -28,11 +28,14 @@ let balls = [];
 let counter = 0;
 
 const sizes = {
-  border: {
+  _ball: {
+    radius: canvas.width / 100,
+  },
+  _border: {
     margin: canvas.height / 5,
     height: canvas.width / 125,
   },
-  brick: {
+  _brick: {
     margin: canvas.width / 120,
     width: (canvas.width - (canvas.width / 120) * 6) / 7,
     height:
@@ -71,7 +74,7 @@ class Game {
 
   calcBricksPositions() {
     for (let i = 0; i < 7; i++)
-      bricksXPositions[i] = i * sizes.brick.width + i * sizes.brick.margin;
+      bricksXPositions[i] = i * sizes._brick.width + i * sizes._brick.margin;
   }
 
   generateBricks() {
@@ -116,21 +119,21 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    const { border, brick } = sizes;
-    border.margin = canvas.height / 5;
-    border.height = canvas.width / 125;
-    brick.margin = canvas.width / 120;
-    brick.width = (canvas.width - brick.margin * 6) / 7;
-    brick.height =
+    const { _border, _brick } = sizes;
+    _border.margin = canvas.height / 5;
+    _border.height = canvas.width / 125;
+    _brick.margin = canvas.width / 120;
+    _brick.width = (canvas.width - _brick.margin * 6) / 7;
+    _brick.height =
       (canvas.height -
-        (border.margin * 2 + border.height * 2) -
-        brick.margin * 8) /
+        (_border.margin * 2 + _border.height * 2) -
+        _brick.margin * 8) /
       9;
     this.calcBricksPositions();
 
     ball.repoSize();
-    bottomBorder.repoSize({ border });
-    topBorder.repoSize({ border });
+    bottomBorder.repoSize({ _border });
+    topBorder.repoSize({ _border });
     record.repoSize({ sizes, status: 'record' });
     score.repoSize({ sizes, status: 'score' });
     coefficient.repoSize();
@@ -167,7 +170,7 @@ class Game {
       for (let i = 1; i < coefficient.count; i++) {
         // prettier-ignore
         balls.push(
-          new Ball({ state, bottomBorder, canvas, c, velocity, delay: i })
+          new Ball({ state, sizes, canvas, c, velocity, delay: i })
         );
       }
       this.animate();
@@ -186,9 +189,8 @@ const record = new Detail({ canvas, c, sizes, state, status: 'RECORD' });
 const score = new Detail({ canvas, c, sizes, state, status: 'SCORE' });
 const topBorder = new Border({ status: 'top', sizes, canvas, c });
 const bottomBorder = new Border({ status: 'bottom', sizes, canvas, c });
-const ball = new Ball({ state, bottomBorder, canvas, c });
-// prettier-ignore
-const coefficient = new Coefficient({ state, ball, bottomBorder, c, colors });
+const ball = new Ball({ state, canvas, c, sizes });
+const coefficient = new Coefficient({ state, ball, sizes, c, colors });
 const game = new Game();
 
 const handleGameFont = () => {
