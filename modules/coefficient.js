@@ -15,7 +15,7 @@ export default class Coefficient {
     const { c, colors } = this.props;
 
     c.font = `1.5rem play`;
-    c.fillStyle = colors.ball;
+    c.fillStyle = this.count > 0 ? colors.ball : '#fff';
     c.textAlign = 'center';
     c.textBaseline = 'middle';
     c.fillText(`x${this.count}`, this.pos.x, this.pos.y);

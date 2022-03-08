@@ -57,7 +57,7 @@ class Game {
     const rAF = requestAnimationFrame(this.animate);
     this.draw();
     balls.forEach(ball => {
-      const delay = ball.delay * ball.r * 2;
+      const delay = ball.delay * ball.r * 2.5;
       ball.draw(colors.ball);
       if (counter > delay) ball.update();
       if (counter === delay) coefficient.count--;
