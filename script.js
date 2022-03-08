@@ -21,11 +21,12 @@ canvas.width = innerWidth;
 const state = JSON.parse(localStorage.getItem('cbb-state'));
 
 let outOfBorder = true;
-let clicked = false;
+let isBallMoving = false;
 let bricks = state?.bricks || [];
 let bricksXPositions = [];
 let balls = [];
 let counter = 0;
+let landedBallXPos;
 
 const sizes = {
   _ball: {
@@ -58,8 +59,9 @@ class Game {
 
   animate() {
     const rAF = requestAnimationFrame(this.animate);
-    console.log('animation started');
     this.draw();
+    console.log('animation started');
+
     balls.forEach(ball => {
       const delay = ball.delay * Math.round(ball.r);
       ball.draw(colors.ball);
@@ -75,15 +77,21 @@ class Game {
       if (ball.pos.y > bottomBorder.pos.y - ball.r) {
         ball.velocity.x = 0;
         ball.velocity.y = 0;
+        landedBallXPos = ball.pos.x;
       }
     });
 
     if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
-      console.log('animation stopped');
+      ball.pos.x = landedBallXPos;
+      coefficient.regainCount();
+      coefficient.repoSize();
       this.draw();
-      clicked = false;
+
+      console.log('animation stopped');
+      isBallMoving = false;
       cancelAnimationFrame(rAF);
     }
+
     counter++;
   }
 
@@ -161,12 +169,12 @@ class Game {
   handleMouseMove(e) {
     const pointer = new Pointer({ e, c, ball, canvas, sizes, colors });
 
-    if (this.isInBorder(e.y) && !clicked) {
+    if (this.isInBorder(e.y) && !isBallMoving) {
       this.draw();
       pointer.draw();
       canvas.style.cursor = 'pointer';
       if (outOfBorder) outOfBorder = false;
-    } else if (!outOfBorder && !clicked) {
+    } else if (!outOfBorder && !isBallMoving) {
       this.draw();
       canvas.style.cursor = 'auto';
       if (!outOfBorder) outOfBorder = true;
@@ -174,8 +182,8 @@ class Game {
   }
 
   handleClick(e) {
-    if (this.isInBorder(e.y) && !clicked) {
-      clicked = true;
+    if (this.isInBorder(e.y) && !isBallMoving) {
+      isBallMoving = true;
       this.draw();
       canvas.style.cursor = 'auto';
       const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);

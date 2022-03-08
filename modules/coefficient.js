@@ -26,6 +26,10 @@ export default class Coefficient {
     this.count--;
   }
 
+  regainCount() {
+    this.count = 2;
+  }
+
   repoSize() {
     // prettier-ignore
     const { ball, sizes: { _border } } = this.props;
