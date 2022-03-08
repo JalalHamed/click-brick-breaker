@@ -19,6 +19,8 @@ canvas.width = innerWidth;
 
 // LocalStorage
 const state = JSON.parse(localStorage.getItem('cbb-state'));
+const setState = data =>
+  localStorage.setItem('cbb-state', JSON.stringify(data));
 
 let outOfBorder = true;
 let isBallMoving = false;
@@ -30,7 +32,7 @@ let landedBallXPos;
 
 const sizes = {
   _ball: {
-    radius: (canvas.width / 100) * 1.3,
+    radius: Math.round((canvas.width / 100) * 1.3),
   },
   _border: {
     margin: canvas.height / 5,
@@ -63,7 +65,7 @@ class Game {
     console.log('animation started');
 
     balls.forEach(ball => {
-      const delay = ball.delay * Math.round(ball.r);
+      const delay = ball.delay * ball.r;
       ball.draw(colors.ball);
 
       if (counter > delay) ball.update();
@@ -82,12 +84,15 @@ class Game {
     });
 
     if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
+      setState({ ...state, ball: landedBallXPos });
       ball.pos.x = landedBallXPos;
+      ball.pos.y = bottomBorder.pos.y - ball.r;
+      balls = [];
       coefficient.regainCount();
       coefficient.repoSize();
       this.draw();
 
-      console.log('animation stopped');
+      console.log('animation stopped', ball);
       isBallMoving = false;
       cancelAnimationFrame(rAF);
     }
@@ -143,7 +148,7 @@ class Game {
 
   repoSize() /* re-position and re-size */ {
     const { _border, _brick, _ball } = sizes;
-    _ball.radius = (canvas.width / 100) * 1.3;
+    _ball.radius = Math.round((canvas.width / 100) * 1.3);
     _border.margin = canvas.height / 5;
     _border.height = canvas.width / 125;
     _brick.margin = canvas.width / 120;
@@ -203,6 +208,7 @@ class Game {
   init() {
     this.generateBricks();
     this.draw();
+    console.log(ball);
     canvas.addEventListener('mousemove', game.handleMouseMove);
     canvas.addEventListener('click', game.handleClick);
   }
@@ -238,7 +244,9 @@ const handleGameFont = () => {
 const handleResize = () => {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
-  game.repoSize();
+  if (!isBallMoving) {
+    game.repoSize();
+  }
 };
 
 addEventListener('load', handleGameFont);
