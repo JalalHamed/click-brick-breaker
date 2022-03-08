@@ -58,17 +58,32 @@ class Game {
 
   animate() {
     const rAF = requestAnimationFrame(this.animate);
+    console.log('animation started');
     this.draw();
     balls.forEach(ball => {
-      const delay = ball.delay * Math.round(ball.r * 2.5);
+      const delay = ball.delay * Math.round(ball.r);
       ball.draw(colors.ball);
+
       if (counter > delay) ball.update();
       if (counter === delay) coefficient.decreaseCount();
-      if (ball.pos.y < topBorder.pos.y + topBorder.height + ball.r) {
-        cancelAnimationFrame(rAF);
-        clicked = false;
+
+      if (ball.pos.x - ball.r <= 0 || ball.pos.x + ball.r >= canvas.width)
+        ball.velocity.x = -ball.velocity.x;
+      if (ball.pos.y <= topBorder.pos.y + topBorder.height + ball.r) {
+        ball.velocity.y = -ball.velocity.y;
+      }
+      if (ball.pos.y > bottomBorder.pos.y - ball.r) {
+        ball.velocity.x = 0;
+        ball.velocity.y = 0;
       }
     });
+
+    if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
+      console.log('animation stopped');
+      this.draw();
+      clicked = false;
+      cancelAnimationFrame(rAF);
+    }
     counter++;
   }
 
@@ -146,12 +161,12 @@ class Game {
   handleMouseMove(e) {
     const pointer = new Pointer({ e, c, ball, canvas, sizes, colors });
 
-    if (this.isInBorder(e.y)) {
+    if (this.isInBorder(e.y) && !clicked) {
       this.draw();
       pointer.draw();
       canvas.style.cursor = 'pointer';
       if (outOfBorder) outOfBorder = false;
-    } else if (!outOfBorder) {
+    } else if (!outOfBorder && !clicked) {
       this.draw();
       canvas.style.cursor = 'auto';
       if (!outOfBorder) outOfBorder = true;
@@ -160,11 +175,11 @@ class Game {
 
   handleClick(e) {
     if (this.isInBorder(e.y) && !clicked) {
-      // clicked = true;
+      clicked = true;
       this.draw();
       canvas.style.cursor = 'auto';
       const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
-      const velocity = { x: Math.cos(angle), y: Math.sin(angle) };
+      const velocity = { x: Math.cos(angle) * 3, y: Math.sin(angle) * 3 };
       ball.velocity = velocity;
       balls.push(ball);
       for (let i = 1; i < coefficient.count; i++) {
