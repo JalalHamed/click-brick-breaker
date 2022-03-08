@@ -157,16 +157,17 @@ class Game {
 
   handleClick(e) {
     if (this.isInBorder(e.y) && !clicked) {
-      clicked = true;
+      // clicked = true;
       this.draw();
       canvas.style.cursor = 'auto';
-      ball.velocity = { x: 1, y: -1 };
+      const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
+      const velocity = { x: Math.cos(angle), y: Math.sin(angle) };
+      ball.velocity = velocity;
       balls.push(ball);
-      const angle = Math.atan2();
       for (let i = 1; i < coefficient.count; i++) {
         // prettier-ignore
         balls.push(
-          new Ball({ state, bottomBorder, canvas, c, velocity: { x: 1, y: -1 }, delay: i })
+          new Ball({ state, bottomBorder, canvas, c, velocity, delay: i })
         );
       }
       this.animate();
