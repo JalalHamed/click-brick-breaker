@@ -60,10 +60,10 @@ class Game {
     const rAF = requestAnimationFrame(this.animate);
     this.draw();
     balls.forEach(ball => {
-      const delay = ball.delay * ball.r * 2.5;
+      const delay = ball.delay * Math.round(ball.r * 2.5);
       ball.draw(colors.ball);
       if (counter > delay) ball.update();
-      if (counter === delay) coefficient.count--;
+      if (counter === delay) coefficient.decreaseCount();
       if (ball.pos.y < topBorder.pos.y + topBorder.height + ball.r) {
         cancelAnimationFrame(rAF);
         clicked = false;

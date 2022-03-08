@@ -22,6 +22,10 @@ export default class Coefficient {
     c.fillText(`x${this.count}`, this.pos.x, this.pos.y);
   }
 
+  decreaseCount() {
+    this.count--;
+  }
+
   repoSize() {
     // prettier-ignore
     const { ball, sizes: { _border } } = this.props;
