@@ -55,6 +55,8 @@ const sizes = {
   },
 };
 
+const maxY = canvas.height - sizes._border.margin - 75;
+
 class Game {
   constructor() {
     // Bindings
@@ -91,7 +93,7 @@ class Game {
 
     if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
       setState({ ...state, ball: landedBallXPos }).then(() => {
-        ball.pos.x = landedBallXPos;
+        ball.pos.x = state.ball;
         balls = [];
         counter = 0;
         coefficient.regainCount();
@@ -178,7 +180,7 @@ class Game {
   }
 
   handleMouseMove(e) {
-    const pointer = new Pointer({ e, c, ball, canvas, sizes, colors });
+    const pointer = new Pointer({ e, c, ball, canvas, sizes, colors, maxY });
 
     if (this.isInBorder(e.y) && !isBallMoving) {
       this.draw();
@@ -194,10 +196,11 @@ class Game {
 
   handleClick(e) {
     if (this.isInBorder(e.y) && !isBallMoving) {
+      const y = e.y < maxY ? e.y : maxY;
       isBallMoving = true;
       this.draw();
       canvas.style.cursor = 'auto';
-      const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
+      const angle = Math.atan2(y - ball.pos.y, e.x - ball.pos.x);
       const velocity = { x: Math.cos(angle) * 3, y: Math.sin(angle) * 3 };
       ball.velocity = velocity;
       balls.push(ball);

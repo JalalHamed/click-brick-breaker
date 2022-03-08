@@ -11,10 +11,9 @@ export default class Pointer {
 
   get calcEndPoint() {
     // prettier-ignore
-    const { canvas, ball, sizes: {_border} } = this.props;
+    const { canvas, ball, sizes: {_border}, maxY } = this.props;
 
     const topBorderHeight = _border.margin + _border.height;
-    const maxY = canvas.height - _border.margin - 75;
     let endpoint = [];
 
     // Calculate slope and y intercept (b)
