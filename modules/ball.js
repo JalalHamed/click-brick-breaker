@@ -36,11 +36,13 @@ export default class Ball {
 
   repoSize() {
     // prettier-ignore
-    const { state, canvas, sizes: { _border } } = this.props;
+    const { state, canvas, sizes: { _border, _ball } } = this.props;
 
     this.pos = {
       x: state?.ball || canvas.width / 2,
       y: canvas.height - _border.margin - this.r,
     };
+
+    this.r = _ball.radius;
   }
 }

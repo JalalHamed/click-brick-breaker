@@ -29,7 +29,7 @@ let counter = 0;
 
 const sizes = {
   _ball: {
-    radius: canvas.width / 100,
+    radius: (canvas.width / 100) * 1.3,
   },
   _border: {
     margin: canvas.height / 5,
@@ -119,7 +119,8 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    const { _border, _brick } = sizes;
+    const { _border, _brick, _ball } = sizes;
+    _ball.radius = (canvas.width / 100) * 1.3;
     _border.margin = canvas.height / 5;
     _border.height = canvas.width / 125;
     _brick.margin = canvas.width / 120;
@@ -143,8 +144,7 @@ class Game {
   }
 
   handleMouseMove(e) {
-    // prettier-ignore
-    const pointer = new Pointer({ e, c, ball, topBorder, canvas, bottomBorder, colors });
+    const pointer = new Pointer({ e, c, ball, canvas, sizes, colors });
 
     if (this.isInBorder(e.y)) {
       this.draw();

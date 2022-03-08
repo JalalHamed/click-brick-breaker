@@ -10,10 +10,11 @@ export default class Pointer {
   }
 
   get calcEndPoint() {
-    const { canvas, ball, topBorder, bottomBorder } = this.props;
+    // prettier-ignore
+    const { canvas, ball, sizes: {_border} } = this.props;
 
-    const topBorderHeight = topBorder.pos.y + topBorder.height;
-    const maxY = bottomBorder.pos.y - 75;
+    const topBorderHeight = _border.margin + _border.height;
+    const maxY = canvas.height - _border.margin - 75;
     let endpoint = [];
 
     // Calculate slope and y intercept (b)
@@ -51,7 +52,7 @@ export default class Pointer {
   }
 
   draw() {
-    const { c, colors, ball } = this.props;
+    const { c, colors, ball, sizes } = this.props;
 
     // Dashed line
     c.beginPath();
@@ -59,7 +60,7 @@ export default class Pointer {
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint);
     c.strokeStyle = colors.pointer.line;
-    c.lineWidth = 5;
+    c.lineWidth = sizes._ball.radius / 2;
     c.stroke();
 
     // Pointer ball
