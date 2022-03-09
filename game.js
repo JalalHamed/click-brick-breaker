@@ -1,16 +1,13 @@
-import Ball from './modules/ball.js';
-import Border from './modules/border.js';
-import Brick from './modules/brick.js';
-import Pointer from './modules/pointer.js';
-import Coefficient from './modules/coefficient.js';
-import Detail from './modules/detail.js';
+// Classes
+import Ball from './modules/classes/ball.js';
+import Border from './modules/classes/border.js';
+import Brick from './modules/classes/brick.js';
+import Pointer from './modules/classes/pointer.js';
+import Coefficient from './modules/classes/coefficient.js';
+import Detail from './modules/classes/detail.js';
 
-const colors = {
-  ball: 'rgb(31, 115, 242)',
-  brick: 'rgb(239, 73, 33)',
-  pointer: { line: 'rgb(31, 115, 242, 0.5)', ball: 'rgb(143, 185, 248)' },
-  bonus: 'rgb(79, 234, 115)',
-};
+// Utils
+import { colors, getSizes, findIndex } from './modules/utils.js';
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -18,55 +15,22 @@ const c = canvas.getContext('2d');
 canvas.height = innerHeight;
 canvas.width = innerWidth;
 
-// LocalStorage
-let state = JSON.parse(localStorage.getItem('cbb-state'));
-const setState = async data => {
-  try {
-    await localStorage.setItem('cbb-state', JSON.stringify(data));
-    state = JSON.parse(localStorage.getItem('cbb-state'));
-  } catch (err) {
-    alert(err.message);
-  }
+const sizes = getSizes(canvas);
+const maxY = canvas.height - sizes._border.margin - 75;
+const setState = data => {
+  localStorage.setItem('cbb-state', JSON.stringify(data));
+  state = JSON.parse(localStorage.getItem('cbb-state'));
 };
 
+let state = JSON.parse(localStorage.getItem('cbb-state'));
 let isMouseInBorder = false;
 let isBallMoving = false;
 let bricks = state?.bricks || [];
 let grid = [];
 let balls = [];
-let counter = 0;
 let indexes = [];
+let counter = 0;
 let landedBallXPos, pointer;
-
-const sizes = {
-  _ball: {
-    radius: Math.round((canvas.width / 100) * 1.3),
-  },
-  _border: {
-    margin: canvas.height / 5,
-    height: canvas.width / 125,
-  },
-  _brick: {
-    margin: canvas.width / 120,
-    width: (canvas.width - (canvas.width / 120) * 6) / 7,
-    height:
-      (canvas.height -
-        ((canvas.height / 5) * 2 + (canvas.width / 125) * 2) -
-        (canvas.width / 120) * 8) /
-      9,
-  },
-};
-
-const maxY = canvas.height - sizes._border.margin - 75;
-
-// Functions
-const findIndex = () => {
-  let index;
-  do {
-    index = Math.floor(Math.random() * 7);
-  } while (indexes.includes(index));
-  return index;
-};
 
 const shootBalls = () => {
   balls.forEach(ball => {
@@ -89,30 +53,24 @@ const shootBalls = () => {
     }
   });
 
-  if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
-    setState({ ...state, ball: landedBallXPos }).then(() => {
-      ball.pos.x = state.ball;
-      balls = [];
-      counter = 0;
-      coefficient.regainCount();
-      coefficient.repoSize();
-    });
+  counter++;
 
+  if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
+    setState({ ...state, ball: landedBallXPos });
+    ball.pos.x = landedBallXPos;
+    coefficient.regainCount();
+    coefficient.repoSize();
+    balls = [];
+    counter = 0;
     isBallMoving = false;
   }
-
-  counter++;
 };
 
-// Classes
 class Game {
   constructor() {
-    // Bindings
-    this.draw = this.draw.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.animate = this.animate.bind(this);
-    this.init = this.init.bind(this);
   }
 
   animate() {
@@ -132,7 +90,7 @@ class Game {
     const bricksCount = Math.floor(Math.random() * maxBricks) + 1;
 
     for (let i = 0; i < bricksCount; i++) {
-      let index = findIndex();
+      let index = findIndex(indexes);
       indexes.push(index);
       // prettier-ignore
       bricks.push(
@@ -202,9 +160,9 @@ class Game {
 
   handleClick(e) {
     if (this.isInBorder(e.y) && !isBallMoving) {
-      const y = e.y < maxY ? e.y : maxY;
       isBallMoving = true;
       canvas.style.cursor = 'auto';
+      const y = e.y < maxY ? e.y : maxY;
       const angle = Math.atan2(y - ball.pos.y, e.x - ball.pos.x);
       const velocity = { x: Math.cos(angle) * 3, y: Math.sin(angle) * 3 };
       ball.velocity = velocity;
@@ -222,7 +180,6 @@ class Game {
     this.animate();
     this.calcGrid();
     this.setRound();
-    this.draw();
     canvas.addEventListener('mousemove', game.handleMouseMove);
     canvas.addEventListener('click', game.handleClick);
   }

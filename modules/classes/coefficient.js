@@ -4,7 +4,7 @@ export default class Coefficient {
     // prettier-ignore
     const { state, ball, sizes: { _border } } = props;
 
-    this.count = state?.coefficient || 1;
+    this.count = state?.coefficient || 3;
 
     this.pos = {
       x: ball.pos.x,
@@ -27,7 +27,7 @@ export default class Coefficient {
   }
 
   regainCount() {
-    this.count = 1;
+    this.count = 3;
   }
 
   repoSize() {
