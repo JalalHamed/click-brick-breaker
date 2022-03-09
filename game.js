@@ -36,7 +36,7 @@ let grid = [];
 let balls = [];
 let counter = 0;
 let indexes = [];
-let landedBallXPos, mouseCoords;
+let landedBallXPos, pointer;
 
 const sizes = {
   _ball: {
@@ -59,6 +59,7 @@ const sizes = {
 
 const maxY = canvas.height - sizes._border.margin - 75;
 
+// Functions
 const findIndex = () => {
   let index;
   do {
@@ -67,6 +68,43 @@ const findIndex = () => {
   return index;
 };
 
+const shootBalls = () => {
+  balls.forEach(ball => {
+    const delay = ball.delay * ball.r;
+    ball.draw(colors.ball);
+
+    if (counter > delay) ball.update();
+    if (counter === delay) coefficient.decreaseCount();
+
+    if (ball.pos.x - ball.r <= 0 || ball.pos.x + ball.r >= canvas.width)
+      ball.velocity.x = -ball.velocity.x;
+    if (ball.pos.y <= topBorder.pos.y + topBorder.height + ball.r) {
+      ball.velocity.y = -ball.velocity.y;
+    }
+    if (ball.pos.y > bottomBorder.pos.y - ball.r) {
+      ball.velocity.x = 0;
+      ball.velocity.y = 0;
+      landedBallXPos = ball.pos.x;
+      ball.pos.y = bottomBorder.pos.y - ball.r;
+    }
+  });
+
+  if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
+    setState({ ...state, ball: landedBallXPos }).then(() => {
+      ball.pos.x = state.ball;
+      balls = [];
+      counter = 0;
+      coefficient.regainCount();
+      coefficient.repoSize();
+    });
+
+    isBallMoving = false;
+  }
+
+  counter++;
+};
+
+// Classes
 class Game {
   constructor() {
     // Bindings
@@ -80,41 +118,7 @@ class Game {
   animate() {
     const rAF = requestAnimationFrame(this.animate);
     this.draw();
-
-    // balls.forEach(ball => {
-    //   const delay = ball.delay * ball.r;
-    //   ball.draw(colors.ball);
-
-    //   if (counter > delay) ball.update();
-    //   if (counter === delay) coefficient.decreaseCount();
-
-    //   if (ball.pos.x - ball.r <= 0 || ball.pos.x + ball.r >= canvas.width)
-    //     ball.velocity.x = -ball.velocity.x;
-    //   if (ball.pos.y <= topBorder.pos.y + topBorder.height + ball.r) {
-    //     ball.velocity.y = -ball.velocity.y;
-    //   }
-    //   if (ball.pos.y > bottomBorder.pos.y - ball.r) {
-    //     ball.velocity.x = 0;
-    //     ball.velocity.y = 0;
-    //     landedBallXPos = ball.pos.x;
-    //     ball.pos.y = bottomBorder.pos.y - ball.r;
-    //   }
-    // });
-
-    // if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
-    //   setState({ ...state, ball: landedBallXPos }).then(() => {
-    //     ball.pos.x = state.ball;
-    //     balls = [];
-    //     counter = 0;
-    //     coefficient.regainCount();
-    //     coefficient.repoSize();
-    //     this.draw();
-    //   });
-
-    //   isBallMoving = false;
-    // }
-
-    counter++;
+    if (isBallMoving) shootBalls();
   }
 
   calcGrid() {
@@ -155,8 +159,7 @@ class Game {
     ball.draw(colors.ball);
     coefficient.draw();
     bricks.forEach(brick => brick.draw());
-    if (isMouseInBorder && !isBallMoving)
-      new Pointer({ mouseCoords, c, ball, canvas, sizes, colors, maxY }).draw();
+    if (isMouseInBorder && !isBallMoving) pointer.draw();
   }
 
   repoSize() /* re-position and re-size */ {
@@ -187,7 +190,7 @@ class Game {
   handleMouseMove(e) {
     if (!isBallMoving) {
       if (this.isInBorder(e.y)) {
-        mouseCoords = e;
+        pointer = new Pointer({ e, c, ball, canvas, sizes, colors, maxY });
         canvas.style.cursor = 'pointer';
         if (!isMouseInBorder) isMouseInBorder = true;
       } else {
@@ -201,7 +204,6 @@ class Game {
     if (this.isInBorder(e.y) && !isBallMoving) {
       const y = e.y < maxY ? e.y : maxY;
       isBallMoving = true;
-      this.draw();
       canvas.style.cursor = 'auto';
       const angle = Math.atan2(y - ball.pos.y, e.x - ball.pos.x);
       const velocity = { x: Math.cos(angle) * 3, y: Math.sin(angle) * 3 };
@@ -213,7 +215,6 @@ class Game {
           new Ball({ state, sizes, canvas, c, velocity, delay: i })
         );
       }
-      this.animate();
     }
   }
 

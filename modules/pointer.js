@@ -2,7 +2,7 @@ export default class Pointer {
   constructor(props) {
     this.props = props;
     // prettier-ignore
-    const { mouseCoords: {x, y} } = props;
+    const { e: {x, y} } = props;
 
     this.mouseCoords = { x, y };
   }
