@@ -1,12 +1,10 @@
 export default class Pointer {
   constructor(props) {
     this.props = props;
-    const { e } = props;
+    // prettier-ignore
+    const { mouseCoords: {x, y} } = props;
 
-    this.mouseCoords = {
-      x: e.x,
-      y: e.y,
-    };
+    this.mouseCoords = { x, y };
   }
 
   get calcEndPoint() {
