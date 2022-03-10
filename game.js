@@ -166,6 +166,7 @@ class Game {
     score.repoSize({ sizes, status: 'score' });
     coefficient.repoSize();
     bricks.forEach(brick => brick.repoSize({ sizes, grid }));
+    bonuses.forEach(bonus => bonus.repoSize({ sizes, grid }));
 
     this.draw();
   }

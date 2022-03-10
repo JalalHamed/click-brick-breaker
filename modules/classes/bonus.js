@@ -15,26 +15,31 @@ export default class Bonus {
   }
 
   draw() {
-    const { c, colors } = this.props;
+    // prettier-ignore
+    const { c, colors, sizes: {_border} } = this.props;
 
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
     c.fillStyle = colors.bonus;
     c.fill();
+
+    c.beginPath();
+    c.setLineDash([]);
+    c.arc(this.pos.x, this.pos.y, this.r * 2, 0, 2 * Math.PI);
+    c.lineWidth = _border.height;
+    c.strokeStyle = colors.bonus;
+    c.stroke();
   }
 
   update() {
     this.pos.y += this.yVelocity;
   }
 
-  repoSize() {
-    // prettier-ignore
-    const { canvas, sizes: { _border, _ball } } = this.props;
-
+  repoSize({ sizes: { _border, _ball, _brick }, grid }) {
     this.pos = {
-      x: grid[index] + canvas.width / 14,
-      y: canvas.height - _border.margin - this.r,
+      x: grid[this.props.index] + _brick.width / 2,
+      y: _border.margin + _border.height + _brick.height + _brick.height / 2,
     };
 
     this.r = _ball.radius;
