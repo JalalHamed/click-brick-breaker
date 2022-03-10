@@ -38,7 +38,7 @@ let landedBallXPos, pointer;
 
 const runOffsetCounter = () => {
   offset--;
-  if (offset === -100) offset = 0;
+  if (offset === -25) offset = 0;
 };
 
 const shootBalls = () => {
@@ -127,7 +127,7 @@ class Game {
       canvas.style.cursor = 'auto';
       const y = e.y < maxY ? e.y : maxY;
       const angle = Math.atan2(y - ball.pos.y, e.x - ball.pos.x);
-      const velocity = { x: Math.cos(angle) * 3, y: Math.sin(angle) * 3 };
+      const velocity = { x: Math.cos(angle), y: Math.sin(angle) };
       ball.velocity = velocity;
       balls.push(ball);
       for (let i = 1; i < coefficient.count; i++) {
