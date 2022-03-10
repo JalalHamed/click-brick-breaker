@@ -166,16 +166,14 @@ class Game {
       9;
     this.calcGrid();
 
-    ball.repoSize();
     bottomBorder.repoSize({ _border });
     topBorder.repoSize({ _border });
+    ball.repoSize();
     record.repoSize({ sizes, status: 'record' });
     score.repoSize({ sizes, status: 'score' });
     coefficient.repoSize();
     bricks.forEach(brick => brick.repoSize({ sizes, grid }));
     bonuses.forEach(bonus => bonus.repoSize({ sizes, grid }));
-
-    this.draw();
   }
 
   isInBorder(y) {

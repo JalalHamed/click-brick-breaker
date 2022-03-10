@@ -29,23 +29,21 @@ export default class Pointer {
     // Pointer touches top border
     if (x > 0 && x < canvas.width) endpoint = [x, topBorderHeight];
     // Pointer touches left side of canvas
-    if (x < ball.r && b < maxY) endpoint = [ball.r, b];
+    if (x < 0 && b < maxY) endpoint = [0, b];
     // Pointer touches right side of canvas
-    if (x > canvas.width - ball.r && y < maxY)
-      endpoint = [canvas.width - ball.r, y];
+    if (x > canvas.width && y < maxY) endpoint = [canvas.width, y];
     // Pointer touches top left corner of the border
-    if (x > 0 && x < ball.r) endpoint = [ball.r, topBorderHeight];
+    // if (x > 0 && x < ball.r) endpoint = [0, topBorderHeight];
     // Pointer touches top right corner of the border
-    if (x > canvas.width - ball.r && x < canvas.width)
-      endpoint = [canvas.width - ball.r, topBorderHeight];
+    // if (x > canvas.width - ball.r && x < canvas.width)
+    //   endpoint = [canvas.width, topBorderHeight];
     // Surpassing y threshold
-    if (x < ball.r && b > maxY) endpoint = [ball.r, maxY];
-    if (x > canvas.width - ball.r && y > maxY)
-      endpoint = [canvas.width - ball.r, maxY];
+    if (x < ball.r && b > maxY) endpoint = [0, maxY];
+    if (x > canvas.width - ball.r && y > maxY) endpoint = [canvas.width, maxY];
 
     // TODO: Change end point on colliding with bricks
 
-    return [endpoint[0], endpoint[1] + ball.r];
+    return endpoint;
   }
 
   draw(offset) {
@@ -61,11 +59,20 @@ export default class Pointer {
     c.lineWidth = ball.r / 2.5;
     c.stroke();
 
-    // Pointer ball
+    // Pointer
     c.beginPath();
     c.setLineDash([]);
-    c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
-    c.fillStyle = colors.pointer.ball;
-    c.fill();
+    c.moveTo(ball.pos.x, ball.pos.y);
+    c.lineTo(this.mouseCoords.x, this.mouseCoords.y);
+    c.strokeStyle = colors.pointer.line;
+    c.lineWidth = ball.r;
+    c.stroke();
+
+    // Ball
+    // c.beginPath();
+    // c.setLineDash([]);
+    // c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
+    // c.fillStyle = colors.pointer.ball;
+    // c.fill();
   }
 }
