@@ -33,7 +33,13 @@ let grid = [];
 let balls = [];
 let indexes = [];
 let counter = 0;
+let offset = 0;
 let landedBallXPos, pointer;
+
+const runOffsetCounter = () => {
+  offset--;
+  if (offset === -100) offset = 0;
+};
 
 const shootBalls = () => {
   balls.forEach(ball => {
@@ -78,6 +84,7 @@ class Game {
 
   animate() {
     const rAF = requestAnimationFrame(this.animate);
+    runOffsetCounter();
     this.draw();
     if (isBallMoving) shootBalls();
   }
@@ -142,7 +149,7 @@ class Game {
     coefficient.draw();
     bricks.forEach(brick => brick.draw());
     bonuses.forEach(bonus => bonus.draw());
-    if (isMouseInBorder && !isBallMoving) pointer.draw();
+    if (isMouseInBorder && !isBallMoving) pointer.draw(offset);
   }
 
   repoSize() /* re-position and re-size */ {

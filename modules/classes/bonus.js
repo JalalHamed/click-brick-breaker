@@ -18,12 +18,14 @@ export default class Bonus {
     // prettier-ignore
     const { c, colors, sizes: {_border} } = this.props;
 
+    // bonus ball
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
     c.fillStyle = colors.bonus;
     c.fill();
 
+    // bonus ball's border wrapper
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.r * 2, 0, 2 * Math.PI);

@@ -48,7 +48,7 @@ export default class Pointer {
     return [endpoint[0], endpoint[1] + ball.r];
   }
 
-  draw() {
+  draw(offset) {
     const { c, colors, ball, sizes } = this.props;
 
     // Dashed line
@@ -56,6 +56,7 @@ export default class Pointer {
     c.setLineDash([15, 10]);
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint);
+    c.lineDashOffset = offset;
     c.strokeStyle = colors.pointer.line;
     c.lineWidth = ball.r / 2.5;
     c.stroke();
