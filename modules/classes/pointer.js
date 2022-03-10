@@ -19,24 +19,29 @@ export default class Pointer {
     const pointB = [this.mouseCoords.x, this.mouseCoords.y];
     const slope = (pointA[1] - pointB[1]) / (pointA[0] - pointB[0]);
     const b = this.mouseCoords.y - slope * this.mouseCoords.x;
-    // Calculate x given the top border as y
+    // Calculate x given the top border's height as y
     const x = (topBorderHeight - b) / slope;
-    // Calculate y given the canvas width as x
+    // Calculate y given the canvas' width as x
     const y = canvas.width * slope + b;
 
+    const getX = basedOn => {
+      return (basedOn - b) / slope;
+    };
+
+    const getY = basedOn => {
+      return basedOn * slope + b;
+    };
+
     // At 90 degree, slope is Infinite
-    if (slope === Infinity) endpoint = [ball.pos.x, topBorderHeight];
+    if (slope === Infinity) endpoint = [ball.pos.x, topBorderHeight + ball.r];
     // Pointer touches top border
-    if (x > 0 && x < canvas.width) endpoint = [x, topBorderHeight];
+    if (x > 0 && x < canvas.width)
+      endpoint = [getX(topBorderHeight + ball.r), topBorderHeight + ball.r];
     // Pointer touches left side of canvas
-    if (x < 0 && b < maxY) endpoint = [0, b];
+    if (x < 0 && b < maxY) endpoint = [ball.r, getY(ball.r)];
     // Pointer touches right side of canvas
-    if (x > canvas.width && y < maxY) endpoint = [canvas.width, y];
-    // Pointer touches top left corner of the border
-    // if (x > 0 && x < ball.r) endpoint = [0, topBorderHeight];
-    // Pointer touches top right corner of the border
-    // if (x > canvas.width - ball.r && x < canvas.width)
-    //   endpoint = [canvas.width, topBorderHeight];
+    if (x > canvas.width && y < maxY)
+      endpoint = [canvas.width - ball.r, getY(canvas.width - ball.r)];
     // Surpassing y threshold
     if (x < ball.r && b > maxY) endpoint = [0, maxY];
     if (x > canvas.width - ball.r && y > maxY) endpoint = [canvas.width, maxY];
@@ -60,19 +65,19 @@ export default class Pointer {
     c.stroke();
 
     // Pointer
-    c.beginPath();
-    c.setLineDash([]);
-    c.moveTo(ball.pos.x, ball.pos.y);
-    c.lineTo(this.mouseCoords.x, this.mouseCoords.y);
-    c.strokeStyle = colors.pointer.line;
-    c.lineWidth = ball.r;
-    c.stroke();
-
-    // Ball
     // c.beginPath();
     // c.setLineDash([]);
-    // c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
-    // c.fillStyle = colors.pointer.ball;
-    // c.fill();
+    // c.moveTo(ball.pos.x, ball.pos.y);
+    // c.lineTo(this.mouseCoords.x, this.mouseCoords.y);
+    // c.strokeStyle = colors.pointer.line;
+    // c.lineWidth = ball.r;
+    // c.stroke();
+
+    // Ball
+    c.beginPath();
+    c.setLineDash([]);
+    c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
+    c.fillStyle = colors.pointer.ball;
+    c.fill();
   }
 }
