@@ -1,10 +1,10 @@
 // Classes
-import Ball from './modules/classes/ball.js';
+import Detail from './modules/classes/detail.js';
 import Border from './modules/classes/border.js';
+import Ball from './modules/classes/ball.js';
 import Brick from './modules/classes/brick.js';
 import Pointer from './modules/classes/pointer.js';
 import Coefficient from './modules/classes/coefficient.js';
-import Detail from './modules/classes/detail.js';
 
 // Utils
 import { colors, getSizes, findIndex } from './modules/utils.js';
@@ -15,6 +15,8 @@ const c = canvas.getContext('2d');
 canvas.height = innerHeight;
 canvas.width = innerWidth;
 
+let state = JSON.parse(localStorage.getItem('cbb-state'));
+
 const sizes = getSizes(canvas);
 const maxY = canvas.height - sizes._border.margin - 75;
 const setState = data => {
@@ -22,7 +24,6 @@ const setState = data => {
   state = JSON.parse(localStorage.getItem('cbb-state'));
 };
 
-let state = JSON.parse(localStorage.getItem('cbb-state'));
 let isMouseInBorder = false;
 let isBallMoving = false;
 let bricks = state?.bricks || [];
@@ -215,9 +216,7 @@ const handleGameFont = () => {
 const handleResize = () => {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
-  if (!isBallMoving) {
-    game.repoSize();
-  }
+  if (!isBallMoving) game.repoSize();
 };
 
 addEventListener('load', handleGameFont);
