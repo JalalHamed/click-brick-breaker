@@ -1,17 +1,16 @@
 export default class Brick {
   constructor(props) {
     this.props = props;
-    const { grid, index, topBorder, sizes, score } = props;
+    // prettier-ignore
+    const { grid, index, topBorder, sizes: {_border, _brick}, score } = props;
+    const { width, height } = _brick;
 
-    const topBorderHeight = topBorder.pos.y + topBorder.height;
-
-    const { width, height } = sizes._brick;
     this.width = width;
     this.height = height;
 
     this.pos = {
       x: grid[index],
-      y: topBorderHeight + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
+      y: _border.margin + _border.height + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
 
     this.weight = score.count;

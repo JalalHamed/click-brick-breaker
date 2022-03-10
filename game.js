@@ -2,6 +2,7 @@
 import Detail from './modules/classes/detail.js';
 import Border from './modules/classes/border.js';
 import Ball from './modules/classes/ball.js';
+import Bonus from './modules/classes/bonus.js';
 import Brick from './modules/classes/brick.js';
 import Pointer from './modules/classes/pointer.js';
 import Coefficient from './modules/classes/coefficient.js';
@@ -27,6 +28,7 @@ const setState = data => {
 let isMouseInBorder = false;
 let isBallMoving = false;
 let bricks = state?.bricks || [];
+let bonuses = state?.bonuses || [];
 let grid = [];
 let balls = [];
 let indexes = [];
@@ -36,7 +38,7 @@ let landedBallXPos, pointer;
 const shootBalls = () => {
   balls.forEach(ball => {
     const delay = ball.delay * ball.r;
-    ball.draw(colors.ball);
+    ball.draw();
 
     if (counter > delay) ball.update();
     if (counter === delay) coefficient.decreaseCount();
@@ -80,11 +82,6 @@ class Game {
     if (isBallMoving) shootBalls();
   }
 
-  calcGrid() {
-    for (let i = 0; i < 7; i++)
-      grid[i] = i * sizes._brick.width + i * sizes._brick.margin;
-  }
-
   setRound() {
     // Generate bricks
     const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
@@ -100,50 +97,8 @@ class Game {
     }
 
     // Generate bonus ball
-  }
-
-  isInBorder(y) {
-    return (
-      y > topBorder.pos.y + topBorder.height &&
-      y < bottomBorder.pos.y - bottomBorder.height - ball.r
-    );
-  }
-
-  draw() {
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    score.draw();
-    record.draw();
-    topBorder.draw();
-    bottomBorder.draw();
-    ball.draw(colors.ball);
-    coefficient.draw();
-    bricks.forEach(brick => brick.draw());
-    if (isMouseInBorder && !isBallMoving) pointer.draw();
-  }
-
-  repoSize() /* re-position and re-size */ {
-    const { _border, _brick, _ball } = sizes;
-    _ball.radius = Math.round((canvas.width / 100) * 1.3);
-    _border.margin = canvas.height / 5;
-    _border.height = canvas.width / 125;
-    _brick.margin = canvas.width / 120;
-    _brick.width = (canvas.width - _brick.margin * 6) / 7;
-    _brick.height =
-      (canvas.height -
-        (_border.margin * 2 + _border.height * 2) -
-        _brick.margin * 8) /
-      9;
-    this.calcGrid();
-
-    ball.repoSize();
-    bottomBorder.repoSize({ _border });
-    topBorder.repoSize({ _border });
-    record.repoSize({ sizes, status: 'record' });
-    score.repoSize({ sizes, status: 'score' });
-    coefficient.repoSize();
-    bricks.forEach(brick => brick.repoSize({ sizes, grid }));
-
-    this.draw();
+    let index = findIndex(indexes);
+    bonuses.push(new Bonus({ state, canvas, c, sizes, colors, grid, index }));
   }
 
   handleMouseMove(e) {
@@ -177,6 +132,56 @@ class Game {
     }
   }
 
+  draw() {
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    score.draw();
+    record.draw();
+    topBorder.draw();
+    bottomBorder.draw();
+    ball.draw();
+    coefficient.draw();
+    bricks.forEach(brick => brick.draw());
+    bonuses.forEach(bonus => bonus.draw());
+    if (isMouseInBorder && !isBallMoving) pointer.draw();
+  }
+
+  repoSize() /* re-position and re-size */ {
+    const { _border, _brick, _ball } = sizes;
+    _ball.radius = Math.round((canvas.width / 100) * 1.3);
+    _border.margin = canvas.height / 5;
+    _border.height = canvas.width / 125;
+    _brick.margin = canvas.width / 120;
+    _brick.width = (canvas.width - _brick.margin * 6) / 7;
+    _brick.height =
+      (canvas.height -
+        (_border.margin * 2 + _border.height * 2) -
+        _brick.margin * 8) /
+      9;
+    this.calcGrid();
+
+    ball.repoSize();
+    bottomBorder.repoSize({ _border });
+    topBorder.repoSize({ _border });
+    record.repoSize({ sizes, status: 'record' });
+    score.repoSize({ sizes, status: 'score' });
+    coefficient.repoSize();
+    bricks.forEach(brick => brick.repoSize({ sizes, grid }));
+
+    this.draw();
+  }
+
+  isInBorder(y) {
+    return (
+      y > topBorder.pos.y + topBorder.height &&
+      y < bottomBorder.pos.y - bottomBorder.height - ball.r
+    );
+  }
+
+  calcGrid() {
+    for (let i = 0; i < 7; i++)
+      grid[i] = i * sizes._brick.width + i * sizes._brick.margin;
+  }
+
   init() {
     this.animate();
     this.calcGrid();
@@ -190,7 +195,7 @@ const record = new Detail({ canvas, c, sizes, state, status: 'RECORD' });
 const score = new Detail({ canvas, c, sizes, state, status: 'SCORE' });
 const topBorder = new Border({ status: 'top', sizes, canvas, c });
 const bottomBorder = new Border({ status: 'bottom', sizes, canvas, c });
-const ball = new Ball({ state, canvas, c, sizes });
+const ball = new Ball({ state, canvas, c, sizes, colors });
 const coefficient = new Coefficient({ state, ball, sizes, c, colors });
 const game = new Game();
 

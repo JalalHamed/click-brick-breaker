@@ -19,13 +19,13 @@ export default class Ball {
     this.delay = delay || 0;
   }
 
-  draw(color) {
-    const c = this.props.c;
+  draw() {
+    const { c, colors } = this.props;
 
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    c.fillStyle = color;
+    c.fillStyle = colors.ball;
     c.fill();
   }
 
