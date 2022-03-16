@@ -124,16 +124,17 @@ class Game {
   handleClick(e) {
     if (this.isInBorder(e.y) && !isBallMoving) {
       isBallMoving = true;
+      isMouseInBorder = false;
       canvas.style.cursor = 'auto';
       const y = e.y < maxY ? e.y : maxY;
       const angle = Math.atan2(y - ball.pos.y, e.x - ball.pos.x);
-      const velocity = { x: Math.cos(angle), y: Math.sin(angle) };
+      const velocity = { x: Math.cos(angle) * 5, y: Math.sin(angle) * 5 };
       ball.velocity = velocity;
       balls.push(ball);
       for (let i = 1; i < coefficient.count; i++) {
         // prettier-ignore
         balls.push(
-          new Ball({ state, sizes, canvas, c, velocity, delay: i })
+          new Ball({ state, colors, sizes, canvas, c, velocity, delay: i })
         );
       }
     }

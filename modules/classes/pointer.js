@@ -14,11 +14,12 @@ export default class Pointer {
     const topBorderHeight = _border.margin + _border.height;
     let endpoint = [];
 
-    // Calculate slope and y intercept (b)
+    // Calculate slope, y intercept (b) and the angle
     const pointA = [ball.pos.x, ball.pos.y];
     const pointB = [this.mouseCoords.x, this.mouseCoords.y];
     const slope = (pointA[1] - pointB[1]) / (pointA[0] - pointB[0]);
     const b = this.mouseCoords.y - slope * this.mouseCoords.x;
+    const angle = Math.atan2(pointA[1] - pointB[1], pointA[0] - pointB[0]);
     // Calculate x given the top border's height as y
     const x = (topBorderHeight - b) / slope;
     // Calculate y given the canvas' width as x
@@ -58,7 +59,14 @@ export default class Pointer {
 
     // TODO: Change end point on colliding with bricks
 
-    return endpoint;
+    return {
+      ball: endpoint,
+      dashedLine: [
+        endpoint[0] + Math.cos(angle) * ball.r * 2,
+        endpoint[1] + Math.sin(angle) * ball.r * 2,
+      ],
+      // pointer: pointer,
+    };
   }
 
   draw(offset) {
@@ -68,7 +76,7 @@ export default class Pointer {
     c.beginPath();
     c.setLineDash([15, 10]);
     c.moveTo(ball.pos.x, ball.pos.y);
-    c.lineTo(...this.calcEndPoint);
+    c.lineTo(...this.calcEndPoint.dashedLine);
     c.lineDashOffset = offset;
     c.strokeStyle = colors.pointer.line;
     c.lineWidth = ball.r / 2.5;
@@ -78,7 +86,7 @@ export default class Pointer {
     // c.beginPath();
     // c.setLineDash([]);
     // c.moveTo(ball.pos.x, ball.pos.y);
-    // c.lineTo(this.mouseCoords.x, this.mouseCoords.y);
+    // c.lineTo(...this.calcEndPoint.pointer);
     // c.strokeStyle = colors.pointer.line;
     // c.lineWidth = ball.r;
     // c.stroke();
@@ -86,7 +94,7 @@ export default class Pointer {
     // Ball
     c.beginPath();
     c.setLineDash([]);
-    c.arc(...this.calcEndPoint, ball.r, 0, 2 * Math.PI);
+    c.arc(...this.calcEndPoint.ball, ball.r, 0, 2 * Math.PI);
     c.fillStyle = colors.pointer.line;
     c.fill();
   }
