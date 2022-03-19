@@ -2,9 +2,12 @@ export default class Bonus {
   constructor(props) {
     this.props = props;
     // prettier-ignore
-    const { state, sizes: {_border, _ball, _brick}, canvas, yVelocity, index, grid } = props;
+    const { state, sizes: {_border, _ball, _brick}, canvas, yVelocity, index, grid, counter } = props;
 
     this.r = _ball.radius;
+    this.swingR = _ball.radius;
+    this.isGoingDown = true;
+    this.counter = 0;
 
     this.pos = {
       x: grid[index] + _brick.width / 2,
@@ -14,9 +17,18 @@ export default class Bonus {
     this.yVelocity = yVelocity || 0;
   }
 
+  swingRadius() {
+    if (this.swingR > this.r && this.isGoingDown) this.swingR--;
+    if (this.swingR === this.r) this.isGoingDown = false;
+    if (this.swingR < this.r * 2 && !this.isGoingDown) this.swingR++;
+    if (this.swingR === this.r * 2) this.isGoingDown = true;
+  }
+
   draw() {
     // prettier-ignore
     const { c, colors, sizes: {_border} } = this.props;
+    this.counter++;
+    if (this.counter % 5 === 0) this.swingRadius();
 
     // bonus ball
     c.beginPath();
@@ -28,7 +40,7 @@ export default class Bonus {
     // bonus ball's border wrapper
     c.beginPath();
     c.setLineDash([]);
-    c.arc(this.pos.x, this.pos.y, this.r * 2, 0, 2 * Math.PI);
+    c.arc(this.pos.x, this.pos.y, this.swingR, 0, 2 * Math.PI);
     c.lineWidth = _border.height;
     c.strokeStyle = colors.bonus;
     c.stroke();

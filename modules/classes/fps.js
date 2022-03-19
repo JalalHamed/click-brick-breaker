@@ -15,6 +15,6 @@ export default class FPS {
 
     c.fillStyle = 'Black';
     c.font = '1rem Arial';
-    c.fillText(Math.floor(this.calcFps) + ' fps', canvas.width - 30, 20);
+    c.fillText(Math.floor(this.calcFps) + ' fps', canvas.width - 35, 20);
   }
 }

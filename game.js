@@ -19,7 +19,7 @@ canvas.width = innerWidth;
 let state = JSON.parse(localStorage.getItem('cbb-state'));
 
 const sizes = getSizes(canvas);
-const maxY = canvas.height - sizes._border.margin - 75;
+const maxY = canvas.height - sizes._border.margin - 50;
 const setState = data => {
   localStorage.setItem('cbb-state', JSON.stringify(data));
   state = JSON.parse(localStorage.getItem('cbb-state'));
