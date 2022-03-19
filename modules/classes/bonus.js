@@ -27,8 +27,6 @@ export default class Bonus {
   draw() {
     // prettier-ignore
     const { c, colors, sizes: {_border} } = this.props;
-    this.counter++;
-    if (this.counter % 5 === 0) this.swingRadius();
 
     // bonus ball
     c.beginPath();
@@ -44,6 +42,11 @@ export default class Bonus {
     c.lineWidth = _border.height;
     c.strokeStyle = colors.bonus;
     c.stroke();
+  }
+
+  render() {
+    this.counter++;
+    if (this.counter % 5 === 0) this.swingRadius();
   }
 
   update() {

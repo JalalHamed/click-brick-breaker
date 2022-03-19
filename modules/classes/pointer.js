@@ -5,6 +5,8 @@ export default class Pointer {
     const { e: {x, y} } = props;
 
     this.mouseCoords = { x, y };
+
+    this.offset = 0;
   }
 
   get calcEndPoint() {
@@ -73,7 +75,7 @@ export default class Pointer {
     };
   }
 
-  draw(offset) {
+  draw() {
     const { c, colors, ball, sizes } = this.props;
 
     // Dashed line
@@ -81,7 +83,7 @@ export default class Pointer {
     c.setLineDash([15, 10]);
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint.dashedLine);
-    c.lineDashOffset = offset;
+    c.lineDashOffset = this.offset;
     c.strokeStyle = colors.pointer.line;
     c.lineWidth = ball.r / 2.5;
     c.stroke();
@@ -122,5 +124,10 @@ export default class Pointer {
     c.arc(...this.calcEndPoint.ball, ball.r, 0, 2 * Math.PI);
     c.fillStyle = colors.pointer.line;
     c.fill();
+  }
+
+  render() {
+    this.offset--;
+    if (this.offset === -25) this.offset = 0;
   }
 }
