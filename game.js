@@ -1,4 +1,5 @@
 // Classes
+import FPS from './modules/classes/fps.js';
 import Detail from './modules/classes/detail.js';
 import Border from './modules/classes/border.js';
 import Ball from './modules/classes/ball.js';
@@ -6,7 +7,6 @@ import Bonus from './modules/classes/bonus.js';
 import Brick from './modules/classes/brick.js';
 import Pointer from './modules/classes/pointer.js';
 import Coefficient from './modules/classes/coefficient.js';
-
 // Utils
 import { colors, getSizes, findIndex } from './modules/utils.js';
 
@@ -82,13 +82,6 @@ class Game {
     this.animate = this.animate.bind(this);
   }
 
-  animate() {
-    const rAF = requestAnimationFrame(this.animate);
-    runOffsetCounter();
-    this.draw();
-    if (isBallMoving) shootBalls();
-  }
-
   setRound() {
     // Generate bricks
     const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
@@ -142,6 +135,7 @@ class Game {
 
   draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
+    fps.draw();
     score.draw();
     record.draw();
     topBorder.draw();
@@ -189,6 +183,13 @@ class Game {
       grid[i] = i * sizes._brick.width + i * sizes._brick.margin;
   }
 
+  animate() {
+    const rAF = requestAnimationFrame(this.animate);
+    runOffsetCounter();
+    this.draw();
+    if (isBallMoving) shootBalls();
+  }
+
   init() {
     this.animate();
     this.calcGrid();
@@ -198,6 +199,7 @@ class Game {
   }
 }
 
+const fps = new FPS({ c, canvas });
 const record = new Detail({ canvas, c, sizes, state, status: 'RECORD' });
 const score = new Detail({ canvas, c, sizes, state, status: 'SCORE' });
 const topBorder = new Border({ status: 'top', sizes, canvas, c });
