@@ -7,6 +7,8 @@ import Bonus from './modules/classes/bonus.js';
 import Brick from './modules/classes/brick.js';
 import Pointer from './modules/classes/pointer.js';
 import Coefficient from './modules/classes/coefficient.js';
+// Functions
+import shoot from './modules/shoot.js';
 // Utils
 import { colors, getSizes, findIndex } from './modules/utils.js';
 
@@ -33,40 +35,19 @@ let grid = [];
 let balls = [];
 let indexes = [];
 let counter = 0;
-let landedBallXPos, pointer;
+let offset = 0;
+let pointer;
 
-const shootBalls = () => {
-  balls.forEach(ball => {
-    const delay = ball.delay * ball.r;
-    ball.draw();
+const setIsBallMoving = status => {
+  if (typeof status === 'boolean') isBallMoving = status;
+  else
+    throw Error(
+      "Wrong type, only boolean is acceptable. (here's why typescript exists)"
+    );
+};
 
-    if (counter > delay) ball.update();
-    if (counter === delay) coefficient.decreaseCount();
-
-    if (ball.pos.x - ball.r <= 0 || ball.pos.x + ball.r >= canvas.width)
-      ball.velocity.x = -ball.velocity.x;
-    if (ball.pos.y <= topBorder.pos.y + topBorder.height + ball.r) {
-      ball.velocity.y = -ball.velocity.y;
-    }
-    if (ball.pos.y > bottomBorder.pos.y - ball.r) {
-      ball.velocity.x = 0;
-      ball.velocity.y = 0;
-      landedBallXPos = ball.pos.x;
-      ball.pos.y = bottomBorder.pos.y - ball.r;
-    }
-  });
-
-  counter++;
-
-  if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
-    setState({ ...state, ball: landedBallXPos });
-    ball.pos.x = landedBallXPos;
-    coefficient.regainCount();
-    coefficient.repoSize();
-    balls = [];
-    counter = 0;
-    isBallMoving = false;
-  }
+const setBalls = array => {
+  balls = array;
 };
 
 class Game {
@@ -138,11 +119,10 @@ class Game {
     coefficient.draw();
     bricks.forEach(brick => brick.draw());
     bonuses.forEach(bonus => bonus.draw());
-    if (isMouseInBorder && !isBallMoving) pointer.draw();
+    if (isMouseInBorder && !isBallMoving) pointer.draw(offset);
   }
 
   render() {
-    if (pointer) pointer.render();
     bonuses.forEach(bonus => bonus.render());
   }
 
@@ -184,9 +164,11 @@ class Game {
 
   animate() {
     const rAF = requestAnimationFrame(this.animate);
+    offset--;
     this.draw();
     this.render();
-    if (isBallMoving) shootBalls();
+    // prettier-ignore
+    if (isBallMoving) shoot({ ball, balls, setBalls, canvas, sizes, state, setState, coefficient, setIsBallMoving });
   }
 
   init() {
