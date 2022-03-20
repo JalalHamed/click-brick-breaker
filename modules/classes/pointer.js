@@ -26,38 +26,19 @@ export default class Pointer {
     // Calculate y given the canvas' width as x
     const y = canvas.width * slope + b;
 
-    const getX = basedOn => {
-      const x = (basedOn - b) / slope;
-      if (x > ball.r && x < canvas.width - ball.r) return x;
-      // Make sure ball won't go over the canvas' width in the left corner
-      if (x < ball.r) return ball.r;
-      // Make sure ball won't go over the canvas' width in the right corner
-      if (x > canvas.width - ball.r) return canvas.width - ball.r;
-    };
-
-    const getY = basedOn => {
-      const y = basedOn * slope + b;
-      if (y > topBorderHeight + ball.r && y < maxY) return y;
-      // Make sure ball won't go over top border in the corners
-      if (y < topBorderHeight + ball.r) return topBorderHeight + ball.r;
-      // Make sure ball is lower than the determined maximum value for y
-      if (y > maxY) return maxY;
-    };
-
     const setEndPoint = (axis, value) => {
-      if (axis === 'x') endpoint = [value, getY(value)];
-      else if (axis === 'y') endpoint = [getX(value), value];
+      if (axis === 'x') endpoint = [value, value * slope + b];
+      else if (axis === 'y') endpoint = [(value - b) / slope, value];
     };
 
     // At 90 degree, slope is Infinite
     if (slope === Infinity) endpoint = [ball.pos.x, topBorderHeight + ball.r];
-    // Pointer touches top border
+    // Pointer ball touches top border
     if (x > 0 && x < canvas.width) setEndPoint('y', topBorderHeight + ball.r);
-    // Pointer touches left side of canvas
+    // Pointer ball touches left side of canvas
     if (x < 0) setEndPoint('x', ball.r);
-    // Pointer touches right side of canvas
+    // Pointer ball touches right side of canvas
     if (x > canvas.width) setEndPoint('x', canvas.width - ball.r);
-
     // TODO: Change end point on colliding with bricks
 
     return {

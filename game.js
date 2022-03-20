@@ -94,8 +94,8 @@ class Game {
       isBallMoving = true;
       isMouseInBorder = false;
       canvas.style.cursor = 'auto';
-      const y = e.y < maxY ? e.y : maxY;
-      const angle = Math.atan2(y - ball.pos.y, e.x - ball.pos.x);
+      // const y = e.y < maxY ? e.y : maxY;
+      const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
       const velocity = { x: Math.cos(angle) * 5, y: Math.sin(angle) * 5 };
       ball.velocity = velocity;
       balls.push(ball);
@@ -151,10 +151,7 @@ class Game {
   }
 
   isInBorder(y) {
-    return (
-      y > topBorder.pos.y + topBorder.height &&
-      y < bottomBorder.pos.y - bottomBorder.height - ball.r
-    );
+    return y > topBorder.pos.y + topBorder.height && y < bottomBorder.pos.y;
   }
 
   calcGrid() {
