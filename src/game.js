@@ -1,12 +1,12 @@
 // Classes
-import FPS from './modules/classes/fps.js';
-import Detail from './modules/classes/detail.js';
-import Border from './modules/classes/border.js';
-import Ball from './modules/classes/ball.js';
-import Bonus from './modules/classes/bonus.js';
-import Brick from './modules/classes/brick.js';
-import Pointer from './modules/classes/pointer.js';
-import Coefficient from './modules/classes/coefficient.js';
+import FPS from './classes/fps.js';
+import Detail from './classes/detail.js';
+import Border from './classes/border.js';
+import Ball from './classes/ball.js';
+import Bonus from './classes/bonus.js';
+import Brick from './classes/brick.js';
+import Pointer from './classes/pointer.js';
+import Coefficient from './classes/coefficient.js';
 // Functions
 import shoot from './modules/shoot.js';
 // Utils
