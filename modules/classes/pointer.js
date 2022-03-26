@@ -1,15 +1,11 @@
 export default class Pointer {
   constructor(props) {
     this.props = props;
-    // prettier-ignore
-    const { e: {x, y} } = props;
-
-    this.mouseCoords = { x, y };
   }
 
   get calcEndPoint() {
     // prettier-ignore
-    const { canvas, ball, sizes: {_border}, maxY } = this.props;
+    const { canvas, ball, sizes: {_border}, e } = this.props;
 
     const topBorderHeight = _border.margin + _border.height;
     const arrowLength = (canvas.height - topBorderHeight * 2) / 4;
@@ -17,8 +13,8 @@ export default class Pointer {
 
     // Calculate slope, y intercept (b) and the angle
     const pointA = [ball.pos.x, ball.pos.y];
-    const pointB = [this.mouseCoords.x, this.mouseCoords.y];
-    const slope = (pointA[1] - pointB[1]) / (pointA[0] - pointB[0]);
+    const pointB = [e.x, e.y];
+    const slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
     const b = pointB[1] - slope * pointB[0];
     const angle = Math.atan2(pointA[1] - pointB[1], pointA[0] - pointB[0]);
     // Calculate x given the top border's height as y
@@ -26,9 +22,25 @@ export default class Pointer {
     // Calculate y given the canvas' width as x
     const y = canvas.width * slope + b;
 
+    const getX = basedOn => {
+      const x = (basedOn - b) / slope;
+      if (x > ball.r && x < canvas.width - ball.r) return x;
+      // Make sure ball won't go over the canvas' width in the left corner
+      if (x < ball.r) return ball.r;
+      // Make sure ball won't go over the canvas' width in the right corner
+      if (x > canvas.width - ball.r) return canvas.width - ball.r;
+    };
+
+    const getY = basedOn => {
+      const y = basedOn * slope + b;
+      if (y > topBorderHeight + ball.r) return y;
+      // Make sure ball won't go over top border in the corners
+      if (y < topBorderHeight + ball.r) return topBorderHeight + ball.r;
+    };
+
     const setEndPoint = (axis, value) => {
-      if (axis === 'x') endpoint = [value, value * slope + b];
-      else if (axis === 'y') endpoint = [(value - b) / slope, value];
+      if (axis === 'x') endpoint = [value, getY(value)];
+      if (axis === 'y') endpoint = [getX(value), value];
     };
 
     // At 90 degree, slope is Infinite

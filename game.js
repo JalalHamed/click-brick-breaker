@@ -21,7 +21,6 @@ canvas.width = innerWidth;
 let state = JSON.parse(localStorage.getItem('cbb-state'));
 
 const sizes = getSizes(canvas);
-const maxY = canvas.height - sizes._border.margin - 50;
 const setState = data => {
   localStorage.setItem('cbb-state', JSON.stringify(data));
   state = JSON.parse(localStorage.getItem('cbb-state'));
@@ -79,7 +78,7 @@ class Game {
   handleMouseMove(e) {
     if (!isBallMoving) {
       if (this.isInBorder(e.y)) {
-        pointer = new Pointer({ e, c, ball, canvas, sizes, colors, maxY });
+        pointer = new Pointer({ e, c, ball, canvas, sizes, colors });
         canvas.style.cursor = 'pointer';
         if (!isMouseInBorder) isMouseInBorder = true;
       } else {
@@ -94,7 +93,6 @@ class Game {
       isBallMoving = true;
       isMouseInBorder = false;
       canvas.style.cursor = 'auto';
-      // const y = e.y < maxY ? e.y : maxY;
       const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
       const velocity = { x: Math.cos(angle) * 5, y: Math.sin(angle) * 5 };
       ball.velocity = velocity;
@@ -151,7 +149,9 @@ class Game {
   }
 
   isInBorder(y) {
-    return y > topBorder.pos.y + topBorder.height && y < bottomBorder.pos.y;
+    return (
+      y > topBorder.pos.y + topBorder.height && y < bottomBorder.pos.y - ball.r
+    );
   }
 
   calcGrid() {
