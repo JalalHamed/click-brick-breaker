@@ -8,34 +8,58 @@ export default class Pointer {
     const { canvas, ball, sizes: {_border}, e } = this.props;
 
     const topBorderHeight = _border.margin + _border.height;
+    const bottomBorderHeight = canvas.height - _border.margin - _border.height;
     const arrowLength = (canvas.height - topBorderHeight * 2) / 4;
     let endpoint = [];
 
-    // Calculate slope, y intercept (b) and the angle
     const pointA = [ball.pos.x, ball.pos.y];
     const pointB = [e.x, e.y];
-    const slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
+
+    // Calculate slope, y intercept (b) & the angle
+    let slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
+    if (Math.abs(slope) < 0.17) {
+      let s = Math.abs(slope);
+      if (slope > 0) slope = 0.17;
+      else slope = -0.17;
+    }
     const b = pointB[1] - slope * pointB[0];
-    const angle = Math.atan2(pointA[1] - pointB[1], pointA[0] - pointB[0]);
+    let angle = Math.atan2(pointA[1] - pointB[1], pointA[0] - pointB[0]);
+    // Prevent angle from being lower than 10 degrees | 0.174533 radiance = 10 degrees
+    if (angle < 0.174533) angle = 0.174533;
+    // Prevent angle from surpassing 170 degrees | 2.96706 radiance = 170 degrees
+    if (angle > 2.96706) angle = 2.96706;
+
     // Calculate x given the top border's height as y
     const x = (topBorderHeight - b) / slope;
     // Calculate y given the canvas' width as x
     const y = canvas.width * slope + b;
+    // Calculate the angle
 
     const getX = basedOn => {
       const x = (basedOn - b) / slope;
       if (x > ball.r && x < canvas.width - ball.r) return x;
-      // Make sure ball won't go over the canvas' width in the left corner
+      // Prevent ball from going over the canvas' width in the left corner
       if (x < ball.r) return ball.r;
-      // Make sure ball won't go over the canvas' width in the right corner
+      // Prevent ball from going over the canvas' width in the right corner
       if (x > canvas.width - ball.r) return canvas.width - ball.r;
     };
 
     const getY = basedOn => {
       const y = basedOn * slope + b;
-      if (y > topBorderHeight + ball.r) return y;
-      // Make sure ball won't go over top border in the corners
-      if (y < topBorderHeight + ball.r) return topBorderHeight + ball.r;
+      if (angle > 0.174533 && angle < 2.96706) {
+        if (y > topBorderHeight + ball.r) return y;
+        // Prevent ball from going over top border in the corners
+        if (y < topBorderHeight + ball.r) return topBorderHeight + ball.r;
+      }
+      // Prevent ball from going lower than 10 degrees
+      if (angle === 0.174533)
+        return bottomBorderHeight - Math.tan(angle) * (pointA[0] + ball.r);
+      // Prevent ball from surpassing 170 degrees
+      if (angle === 2.96706)
+        return (
+          bottomBorderHeight -
+          Math.tan(Math.PI - angle) * (canvas.width - pointA[0] + ball.r)
+        );
     };
 
     const setEndPoint = (axis, value) => {

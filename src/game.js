@@ -94,7 +94,7 @@ class Game {
       isMouseInBorder = false;
       canvas.style.cursor = 'auto';
       const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
-      const velocity = { x: Math.cos(angle) * 5, y: Math.sin(angle) * 5 };
+      const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
       ball.velocity = velocity;
       balls.push(ball);
       for (let i = 1; i < coefficient.count; i++) {
