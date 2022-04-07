@@ -10,7 +10,7 @@ import Coefficient from './classes/coefficient.js';
 // Functions
 import shoot from './modules/shoot.js';
 // Utils
-import { colors, getSizes, findIndex } from './modules/utils.js';
+import { getSizes, findIndex } from './modules/utils.js';
 // Config
 import { MAX_ANGLE, MIN_ANGLE } from './modules/config.js';
 
@@ -68,19 +68,19 @@ class Game {
       indexes.push(index);
       // prettier-ignore
       bricks.push(
-        new Brick({ grid, index, topBorder, sizes, score, c, colors })
+        new Brick({ grid, index, topBorder, sizes, score, c })
       );
     }
 
     // Generate bonus ball
     let index = findIndex(indexes);
-    bonuses.push(new Bonus({ state, canvas, c, sizes, colors, grid, index }));
+    bonuses.push(new Bonus({ state, canvas, c, sizes, grid, index }));
   }
 
   handleMouseMove(e) {
     if (!isBallMoving) {
       if (this.isInBorder(e.y)) {
-        pointer = new Pointer({ e, c, ball, canvas, sizes, colors });
+        pointer = new Pointer({ e, c, ball, canvas, sizes });
         canvas.style.cursor = 'pointer';
         if (!isMouseInBorder) isMouseInBorder = true;
       } else {
@@ -104,7 +104,7 @@ class Game {
       for (let i = 1; i < coefficient.count; i++) {
         // prettier-ignore
         balls.push(
-          new Ball({ state, colors, sizes, canvas, c, velocity, delay: i })
+          new Ball({ state, sizes, canvas, c, velocity, delay: i })
         );
       }
     }
@@ -186,8 +186,8 @@ const record = new Detail({ canvas, c, sizes, state, status: 'RECORD' });
 const score = new Detail({ canvas, c, sizes, state, status: 'SCORE' });
 const topBorder = new Border({ status: 'top', sizes, canvas, c });
 const bottomBorder = new Border({ status: 'bottom', sizes, canvas, c });
-const ball = new Ball({ state, canvas, c, sizes, colors });
-const coefficient = new Coefficient({ state, ball, sizes, c, colors });
+const ball = new Ball({ state, canvas, c, sizes });
+const coefficient = new Coefficient({ state, ball, sizes, c });
 const game = new Game();
 
 const handleGameFont = () => {

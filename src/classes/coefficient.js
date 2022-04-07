@@ -1,3 +1,5 @@
+import { COLORS } from '../modules/config.js';
+
 export default class Coefficient {
   constructor(props) {
     this.props = props;
@@ -13,10 +15,10 @@ export default class Coefficient {
   }
 
   draw() {
-    const { c, colors } = this.props;
+    const { c } = this.props;
 
     c.font = `1.5rem play`;
-    c.fillStyle = this.count > 0 ? colors.ball : '#fff';
+    c.fillStyle = this.count > 0 ? COLORS.ball : '#fff';
     c.textAlign = 'center';
     c.textBaseline = 'middle';
     c.fillText(`x${this.count}`, this.pos.x, this.pos.y);

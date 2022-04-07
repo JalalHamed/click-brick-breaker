@@ -1,3 +1,5 @@
+import { COLORS } from '../modules/config.js';
+
 export default class Brick {
   constructor(props) {
     this.props = props;
@@ -17,9 +19,9 @@ export default class Brick {
   }
 
   draw() {
-    const { c, colors } = this.props;
+    const { c } = this.props;
 
-    c.fillStyle = colors.brick;
+    c.fillStyle = COLORS.brick;
     c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
     c.font = `1.5rem play`;
     c.fillStyle = '#fff';

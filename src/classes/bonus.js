@@ -1,3 +1,5 @@
+import { COLORS } from '../modules/config.js';
+
 export default class Bonus {
   constructor(props) {
     this.props = props;
@@ -26,13 +28,13 @@ export default class Bonus {
 
   draw() {
     // prettier-ignore
-    const { c, colors, sizes: {_border} } = this.props;
+    const { c, sizes: {_border} } = this.props;
 
     // bonus ball
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    c.fillStyle = colors.bonus;
+    c.fillStyle = COLORS.bonus;
     c.fill();
 
     // bonus ball's border wrapper
@@ -40,7 +42,7 @@ export default class Bonus {
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.swingR, 0, 2 * Math.PI);
     c.lineWidth = _border.height;
-    c.strokeStyle = colors.bonus;
+    c.strokeStyle = COLORS.bonus;
     c.stroke();
   }
 

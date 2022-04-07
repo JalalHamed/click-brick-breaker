@@ -1,3 +1,5 @@
+import { COLORS } from '../modules/config.js';
+
 export default class Ball {
   constructor(props) {
     this.props = props;
@@ -20,12 +22,12 @@ export default class Ball {
   }
 
   draw() {
-    const { c, colors } = this.props;
+    const { c } = this.props;
 
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    c.fillStyle = colors.ball;
+    c.fillStyle = COLORS.ball;
     c.fill();
   }
 

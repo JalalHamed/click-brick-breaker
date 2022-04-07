@@ -1,13 +1,3 @@
-export const colors = {
-  ball: 'rgb(31, 115, 242)',
-  brick: 'rgb(239, 73, 33)',
-  pointer: {
-    line: 'rgb(31, 115, 242, 0.5)',
-    ball: 'rgb(143, 185, 248)',
-  },
-  bonus: 'rgb(79, 234, 115)',
-};
-
 export function getSizes(canvas) {
   return {
     _ball: {

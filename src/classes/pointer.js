@@ -1,5 +1,5 @@
 // Config
-import { MAX_ANGLE, MIN_ANGLE } from '../modules/config.js';
+import { MAX_ANGLE, MIN_ANGLE, COLORS } from '../modules/config.js';
 
 export default class Pointer {
   constructor(props) {
@@ -94,7 +94,7 @@ export default class Pointer {
   }
 
   draw(offset) {
-    const { c, colors, ball, sizes } = this.props;
+    const { c, ball, sizes } = this.props;
 
     // Dashed line
     c.beginPath();
@@ -102,7 +102,7 @@ export default class Pointer {
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint.dashedLine);
     c.lineDashOffset = offset;
-    c.strokeStyle = colors.pointer.line;
+    c.strokeStyle = COLORS.pointer.line;
     c.lineWidth = ball.r / 2.5;
     c.stroke();
 
@@ -111,7 +111,7 @@ export default class Pointer {
     c.setLineDash([]);
     c.moveTo(ball.pos.x, ball.pos.y);
     c.lineTo(...this.calcEndPoint.arrow);
-    c.strokeStyle = colors.pointer.line;
+    c.strokeStyle = COLORS.pointer.line;
     c.lineWidth = ball.r;
     c.stroke();
     // Arrow Head
@@ -140,7 +140,7 @@ export default class Pointer {
     c.beginPath();
     c.setLineDash([]);
     c.arc(...this.calcEndPoint.ball, ball.r, 0, 2 * Math.PI);
-    c.fillStyle = colors.pointer.line;
+    c.fillStyle = COLORS.pointer.line;
     c.fill();
   }
 }
