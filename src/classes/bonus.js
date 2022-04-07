@@ -4,18 +4,20 @@ import { COLORS, SIZES } from '../modules/config.js';
 export default class Bonus {
   constructor(props) {
     this.props = props;
-    // prettier-ignore
     const { state, yVelocity, index, grid, counter } = props;
-    const { _border, _ball, _brick } = SIZES;
 
-    this.r = _ball.radius;
-    this.swingR = _ball.radius;
+    this.r = SIZES.ball.radius;
+    this.swingR = SIZES.ball.radius;
     this.isGoingDown = true;
     this.counter = 0;
 
     this.pos = {
-      x: grid[index] + _brick.width / 2,
-      y: _border.margin + _border.height + _brick.height + _brick.height / 2,
+      x: grid[index] + SIZES.brick.width / 2,
+      y:
+        SIZES.border.margin +
+        SIZES.border.height +
+        SIZES.brick.height +
+        SIZES.brick.height / 2,
     };
 
     this.yVelocity = yVelocity || 0;
@@ -43,7 +45,7 @@ export default class Bonus {
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.swingR, 0, 2 * Math.PI);
-    c.lineWidth = SIZES._border.height;
+    c.lineWidth = SIZES.border.height;
     c.strokeStyle = COLORS.bonus;
     c.stroke();
   }
@@ -57,12 +59,18 @@ export default class Bonus {
     this.pos.y += this.yVelocity;
   }
 
-  repoSize({ SIZES: { _border, _ball, _brick }, grid }) {
+  repoSize({ grid }) {
+    const { border, ball, brick } = SIZES;
+
     this.pos = {
-      x: grid[this.props.index] + _brick.width / 2,
-      y: _border.margin + _border.height + _brick.height + _brick.height / 2,
+      x: grid[this.props.index] + SIZES.brick.width / 2,
+      y:
+        SIZES.border.margin +
+        SIZES.border.height +
+        SIZES.brick.height +
+        SIZES.brick.height / 2,
     };
 
-    this.r = _ball.radius;
+    this.r = SIZES.ball.radius;
   }
 }

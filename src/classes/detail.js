@@ -5,9 +5,7 @@ export default class Detail {
   constructor(props) {
     this.props = props;
     const { canvas, state, status } = props;
-    const {
-      _brick: { height },
-    } = SIZES;
+    const { height } = SIZES.brick;
 
     this.pos = {
       x: canvas.width / 2 + 80,
@@ -33,9 +31,7 @@ export default class Detail {
   }
 
   repoSize({ status }) {
-    const {
-      _brick: { height },
-    } = SIZES;
+    const { height } = SIZES.brick;
     const { canvas } = this.props;
 
     this.pos = {

@@ -5,13 +5,12 @@ export default class Ball {
   constructor(props) {
     this.props = props;
     const { state, canvas, velocity, delay } = props;
-    const { _border, _ball } = SIZES;
 
-    this.r = _ball.radius;
+    this.r = SIZES.ball.radius;
 
     this.pos = {
       x: state?.ball || canvas.width / 2,
-      y: canvas.height - _border.margin - this.r,
+      y: canvas.height - SIZES.border.margin - this.r,
     };
 
     this.velocity = {
@@ -39,13 +38,12 @@ export default class Ball {
 
   repoSize() {
     const { state, canvas } = this.props;
-    const { _border, _ball } = SIZES;
 
     this.pos = {
       x: state?.ball || canvas.width / 2,
-      y: canvas.height - _border.margin - this.r,
+      y: canvas.height - SIZES.border.margin - this.r,
     };
 
-    this.r = _ball.radius;
+    this.r = SIZES.ball.radius;
   }
 }

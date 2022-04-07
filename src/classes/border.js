@@ -5,15 +5,17 @@ export default class Border {
   constructor(props) {
     this.props = props;
     const { status, canvas } = props;
-    const { _border } = SIZES;
 
     this.pos = {
       x: 0,
-      y: status === 'top' ? _border.margin : canvas.height - _border.margin,
+      y:
+        status === 'top'
+          ? SIZES.border.margin
+          : canvas.height - SIZES.border.margin,
     };
 
     this.width = canvas.width;
-    this.height = _border.height;
+    this.height = SIZES.border.height;
   }
 
   draw() {
@@ -24,10 +26,10 @@ export default class Border {
     c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
   }
 
-  repoSize({ _border }) {
+  repoSize() {
     const { canvas } = this.props;
 
     this.width = canvas.width;
-    this.height = _border.height;
+    this.height = SIZES.border.height;
   }
 }

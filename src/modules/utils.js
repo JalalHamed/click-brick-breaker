@@ -1,13 +1,13 @@
 export function getSizes(canvas) {
   return {
-    _ball: {
+    ball: {
       radius: Math.round((canvas.width / 100) * 1.3),
     },
-    _border: {
+    border: {
       margin: canvas.height / 5,
       height: canvas.width / 125,
     },
-    _brick: {
+    brick: {
       margin: canvas.width / 120,
       width: (canvas.width - (canvas.width / 120) * 6) / 7,
       height:

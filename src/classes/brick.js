@@ -4,17 +4,15 @@ import { COLORS, SIZES } from '../modules/config.js';
 export default class Brick {
   constructor(props) {
     this.props = props;
-    // prettier-ignore
     const { grid, index, topBorder, score } = props;
-    const { _border, _brick } = SIZES;
-    const { width, height } = _brick;
+    const { width, height } = SIZES.brick;
 
     this.width = width;
     this.height = height;
 
     this.pos = {
       x: grid[index],
-      y: _border.margin + _border.height + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
+      y: SIZES.border.margin + SIZES.border.height + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
 
     this.weight = score.count;
@@ -36,9 +34,9 @@ export default class Brick {
     );
   }
 
-  repoSize({ SIZES: { _brick }, grid }) {
-    this.width = _brick.width;
-    this.height = _brick.height;
+  repoSize({ grid }) {
+    this.width = SIZES.brick.width;
+    this.height = SIZES.brick.height;
 
     this.pos = {
       ...this.pos,

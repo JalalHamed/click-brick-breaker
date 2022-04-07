@@ -125,25 +125,21 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    const { _border, _brick, _ball } = SIZES;
-    _ball.radius = Math.round((canvas.width / 100) * 1.3);
-    _border.margin = canvas.height / 5;
-    _border.height = canvas.width / 125;
-    _brick.margin = canvas.width / 120;
-    _brick.width = (canvas.width - _brick.margin * 6) / 7;
-    _brick.height =
+    SIZES.ball.radius = Math.round((canvas.width / 100) * 1.3);
+    SIZES.border.margin = canvas.height / 5;
+    SIZES.border.height = canvas.width / 125;
+    SIZES.brick.margin = canvas.width / 120;
+    SIZES.brick.width = (canvas.width - SIZES.brick.margin * 6) / 7;
+    SIZES.brick.height =
       (canvas.height -
-        (_border.margin * 2 + _border.height * 2) -
-        _brick.margin * 8) /
+        (SIZES.border.margin * 2 + SIZES.border.height * 2) -
+        SIZES.brick.margin * 8) /
       9;
     this.calcGrid();
 
-    bottomBorder.repoSize({ _border });
-    topBorder.repoSize({ _border });
-    ball.repoSize();
+    [bottomBorder, topBorder, ball, coefficient].forEach(c => c.repoSize()); // "c" for "class"
     record.repoSize({ status: 'record' });
     score.repoSize({ status: 'score' });
-    coefficient.repoSize();
     bricks.forEach(brick => brick.repoSize({ grid }));
     bonuses.forEach(bonus => bonus.repoSize({ grid }));
   }
@@ -156,7 +152,7 @@ class Game {
 
   calcGrid() {
     for (let i = 0; i < 7; i++)
-      grid[i] = i * SIZES._brick.width + i * SIZES._brick.margin;
+      grid[i] = i * SIZES.brick.width + i * SIZES.brick.margin;
   }
 
   animate() {

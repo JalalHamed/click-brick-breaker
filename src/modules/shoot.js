@@ -7,9 +7,8 @@ let landedBallXPos;
 const shoot = props => {
   // prettier-ignore
   const { ball, balls, setBalls, canvas, state, setState, coefficient, setIsBallMoving } = props;
-  const { _border } = SIZES;
-  const topBorderHeight = _border.margin + _border.height;
-  const bottomBorderSurface = canvas.height - _border.margin;
+  const topBorderHeight = SIZES.border.margin + SIZES.border.height;
+  const bottomBorderSurface = canvas.height - SIZES.border.margin;
 
   balls.forEach(ball => {
     const delay = ball.delay * ball.r;

@@ -9,10 +9,10 @@ export default class Pointer {
   get calcEndPoint() {
     // prettier-ignore
     const { canvas, ball, e } = this.props;
-    const { _border } = SIZES;
 
-    const topBorderHeight = _border.margin + _border.height;
-    const bottomBorderHeight = canvas.height - _border.margin - _border.height;
+    const topBorderHeight = SIZES.border.margin + SIZES.border.height;
+    const bottomBorderHeight =
+      canvas.height - SIZES.border.margin - SIZES.border.height;
     const arrowLength = (canvas.height - topBorderHeight * 2) / 4;
     let endpoint = [];
 
