@@ -1,3 +1,6 @@
+// Config
+import { MAX_ANGLE, MIN_ANGLE } from '../modules/config.js';
+
 export default class Pointer {
   constructor(props) {
     this.props = props;
@@ -24,10 +27,10 @@ export default class Pointer {
     }
     const b = pointB[1] - slope * pointB[0];
     let angle = Math.atan2(pointA[1] - pointB[1], pointA[0] - pointB[0]);
-    // Prevent angle from being lower than 10 degrees | 0.174533 radiance = 10 degrees
-    if (angle < 0.174533) angle = 0.174533;
-    // Prevent angle from surpassing 170 degrees | 2.96706 radiance = 170 degrees
-    if (angle > 2.96706) angle = 2.96706;
+    // Prevent angle from being lower than 10 degrees
+    if (angle < MIN_ANGLE) angle = MIN_ANGLE;
+    // Prevent angle from surpassing 170 degrees
+    if (angle > MAX_ANGLE) angle = MAX_ANGLE;
 
     // Calculate x given the top border's height as y
     const x = (topBorderHeight - b) / slope;
@@ -46,16 +49,16 @@ export default class Pointer {
 
     const getY = basedOn => {
       const y = basedOn * slope + b;
-      if (angle > 0.174533 && angle < 2.96706) {
+      if (angle > MIN_ANGLE && angle < MAX_ANGLE) {
         if (y > topBorderHeight + ball.r) return y;
         // Prevent ball from going over top border in the corners
         if (y < topBorderHeight + ball.r) return topBorderHeight + ball.r;
       }
       // Prevent ball from going lower than 10 degrees
-      if (angle === 0.174533)
+      if (angle === MIN_ANGLE)
         return bottomBorderHeight - Math.tan(angle) * (pointA[0] + ball.r);
       // Prevent ball from surpassing 170 degrees
-      if (angle === 2.96706)
+      if (angle === MAX_ANGLE)
         return (
           bottomBorderHeight -
           Math.tan(Math.PI - angle) * (canvas.width - pointA[0] + ball.r)

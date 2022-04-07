@@ -11,6 +11,8 @@ import Coefficient from './classes/coefficient.js';
 import shoot from './modules/shoot.js';
 // Utils
 import { colors, getSizes, findIndex } from './modules/utils.js';
+// Config
+import { MAX_ANGLE, MIN_ANGLE } from './modules/config.js';
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -93,7 +95,9 @@ class Game {
       isBallMoving = true;
       isMouseInBorder = false;
       canvas.style.cursor = 'auto';
-      const angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
+      let angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
+      if (angle > -MIN_ANGLE) angle = -MIN_ANGLE;
+      if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
       const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
       ball.velocity = velocity;
       balls.push(ball);
