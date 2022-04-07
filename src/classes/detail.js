@@ -1,8 +1,13 @@
+// Config
+import { SIZES } from '../modules/config.js';
+
 export default class Detail {
   constructor(props) {
     this.props = props;
-    // prettier-ignore
-    const { canvas, state, sizes: { _brick: { height } }, status } = props;
+    const { canvas, state, status } = props;
+    const {
+      _brick: { height },
+    } = SIZES;
 
     this.pos = {
       x: canvas.width / 2 + 80,
@@ -27,10 +32,12 @@ export default class Detail {
     this.count++;
   }
 
-  // prettier-ignore
-  repoSize({ sizes: { _brick: { height } }, status }) {
+  repoSize({ status }) {
+    const {
+      _brick: { height },
+    } = SIZES;
     const { canvas } = this.props;
-    
+
     this.pos = {
       x: canvas.width / 2 + 75,
       y: status === 'record' ? height * 1.3 : height * 1.3 + height,

@@ -1,10 +1,11 @@
-import { COLORS } from '../modules/config.js';
+// Config
+import { COLORS, SIZES } from '../modules/config.js';
 
 export default class Coefficient {
   constructor(props) {
     this.props = props;
-    // prettier-ignore
-    const { state, ball, sizes: { _border } } = props;
+    const { state, ball } = props;
+    const { _border } = SIZES;
 
     this.count = state?.coefficient || 1;
 
@@ -34,7 +35,8 @@ export default class Coefficient {
 
   repoSize() {
     // prettier-ignore
-    const { ball, sizes: { _border } } = this.props;
+    const { ball } = this.props;
+    const { _border } = SIZES;
 
     this.pos = {
       x: ball.pos.x,

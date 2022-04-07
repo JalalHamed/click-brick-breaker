@@ -1,10 +1,12 @@
-import { COLORS } from '../modules/config.js';
+// Config
+import { COLORS, SIZES } from '../modules/config.js';
 
 export default class Bonus {
   constructor(props) {
     this.props = props;
     // prettier-ignore
-    const { state, sizes: {_border, _ball, _brick}, canvas, yVelocity, index, grid, counter } = props;
+    const { state, yVelocity, index, grid, counter } = props;
+    const { _border, _ball, _brick } = SIZES;
 
     this.r = _ball.radius;
     this.swingR = _ball.radius;
@@ -28,7 +30,7 @@ export default class Bonus {
 
   draw() {
     // prettier-ignore
-    const { c, sizes: {_border} } = this.props;
+    const { c, } = this.props;
 
     // bonus ball
     c.beginPath();
@@ -41,7 +43,7 @@ export default class Bonus {
     c.beginPath();
     c.setLineDash([]);
     c.arc(this.pos.x, this.pos.y, this.swingR, 0, 2 * Math.PI);
-    c.lineWidth = _border.height;
+    c.lineWidth = SIZES._border.height;
     c.strokeStyle = COLORS.bonus;
     c.stroke();
   }
@@ -55,7 +57,7 @@ export default class Bonus {
     this.pos.y += this.yVelocity;
   }
 
-  repoSize({ sizes: { _border, _ball, _brick }, grid }) {
+  repoSize({ SIZES: { _border, _ball, _brick }, grid }) {
     this.pos = {
       x: grid[this.props.index] + _brick.width / 2,
       y: _border.margin + _border.height + _brick.height + _brick.height / 2,

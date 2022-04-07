@@ -1,5 +1,5 @@
 // Config
-import { MAX_ANGLE, MIN_ANGLE, COLORS } from '../modules/config.js';
+import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES } from '../modules/config.js';
 
 export default class Pointer {
   constructor(props) {
@@ -8,7 +8,8 @@ export default class Pointer {
 
   get calcEndPoint() {
     // prettier-ignore
-    const { canvas, ball, sizes: {_border}, e } = this.props;
+    const { canvas, ball, e } = this.props;
+    const { _border } = SIZES;
 
     const topBorderHeight = _border.margin + _border.height;
     const bottomBorderHeight = canvas.height - _border.margin - _border.height;
@@ -94,7 +95,7 @@ export default class Pointer {
   }
 
   draw(offset) {
-    const { c, ball, sizes } = this.props;
+    const { c, ball } = this.props;
 
     // Dashed line
     c.beginPath();

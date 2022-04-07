@@ -1,10 +1,12 @@
-import { COLORS } from '../modules/config.js';
+// Config
+import { COLORS, SIZES } from '../modules/config.js';
 
 export default class Brick {
   constructor(props) {
     this.props = props;
     // prettier-ignore
-    const { grid, index, topBorder, sizes: {_border, _brick}, score } = props;
+    const { grid, index, topBorder, score } = props;
+    const { _border, _brick } = SIZES;
     const { width, height } = _brick;
 
     this.width = width;
@@ -34,7 +36,7 @@ export default class Brick {
     );
   }
 
-  repoSize({ sizes: { _brick }, grid }) {
+  repoSize({ SIZES: { _brick }, grid }) {
     this.width = _brick.width;
     this.height = _brick.height;
 

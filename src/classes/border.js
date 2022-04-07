@@ -1,8 +1,11 @@
+// Config
+import { SIZES } from '../modules/config.js';
+
 export default class Border {
   constructor(props) {
     this.props = props;
-    // prettier-ignore
-    const { status, sizes: { _border }, canvas } = props;
+    const { status, canvas } = props;
+    const { _border } = SIZES;
 
     this.pos = {
       x: 0,

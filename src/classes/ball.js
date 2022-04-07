@@ -1,10 +1,11 @@
-import { COLORS } from '../modules/config.js';
+// Config
+import { COLORS, SIZES } from '../modules/config.js';
 
 export default class Ball {
   constructor(props) {
     this.props = props;
-    // prettier-ignore
-    const { state, sizes: {_border, _ball}, canvas, velocity, delay } = props;
+    const { state, canvas, velocity, delay } = props;
+    const { _border, _ball } = SIZES;
 
     this.r = _ball.radius;
 
@@ -37,8 +38,8 @@ export default class Ball {
   }
 
   repoSize() {
-    // prettier-ignore
-    const { state, canvas, sizes: { _border, _ball } } = this.props;
+    const { state, canvas } = this.props;
+    const { _border, _ball } = SIZES;
 
     this.pos = {
       x: state?.ball || canvas.width / 2,

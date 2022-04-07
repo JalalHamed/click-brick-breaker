@@ -12,17 +12,13 @@ import shoot from './modules/shoot.js';
 // Utils
 import { getSizes, findIndex } from './modules/utils.js';
 // Config
-import { MAX_ANGLE, MIN_ANGLE } from './modules/config.js';
+import { MAX_ANGLE, MIN_ANGLE, SIZES } from './modules/config.js';
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
-canvas.height = innerHeight;
-canvas.width = innerWidth;
-
 let state = JSON.parse(localStorage.getItem('cbb-state'));
 
-const sizes = getSizes(canvas);
 const setState = data => {
   localStorage.setItem('cbb-state', JSON.stringify(data));
   state = JSON.parse(localStorage.getItem('cbb-state'));
@@ -68,19 +64,19 @@ class Game {
       indexes.push(index);
       // prettier-ignore
       bricks.push(
-        new Brick({ grid, index, topBorder, sizes, score, c })
+        new Brick({ grid, index, topBorder, score, c })
       );
     }
 
     // Generate bonus ball
     let index = findIndex(indexes);
-    bonuses.push(new Bonus({ state, canvas, c, sizes, grid, index }));
+    bonuses.push(new Bonus({ state, c, grid, index }));
   }
 
   handleMouseMove(e) {
     if (!isBallMoving) {
       if (this.isInBorder(e.y)) {
-        pointer = new Pointer({ e, c, ball, canvas, sizes });
+        pointer = new Pointer({ e, c, ball, canvas });
         canvas.style.cursor = 'pointer';
         if (!isMouseInBorder) isMouseInBorder = true;
       } else {
@@ -104,7 +100,7 @@ class Game {
       for (let i = 1; i < coefficient.count; i++) {
         // prettier-ignore
         balls.push(
-          new Ball({ state, sizes, canvas, c, velocity, delay: i })
+          new Ball({ state, canvas, c, velocity, delay: i })
         );
       }
     }
@@ -129,7 +125,7 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    const { _border, _brick, _ball } = sizes;
+    const { _border, _brick, _ball } = SIZES;
     _ball.radius = Math.round((canvas.width / 100) * 1.3);
     _border.margin = canvas.height / 5;
     _border.height = canvas.width / 125;
@@ -145,11 +141,11 @@ class Game {
     bottomBorder.repoSize({ _border });
     topBorder.repoSize({ _border });
     ball.repoSize();
-    record.repoSize({ sizes, status: 'record' });
-    score.repoSize({ sizes, status: 'score' });
+    record.repoSize({ status: 'record' });
+    score.repoSize({ status: 'score' });
     coefficient.repoSize();
-    bricks.forEach(brick => brick.repoSize({ sizes, grid }));
-    bonuses.forEach(bonus => bonus.repoSize({ sizes, grid }));
+    bricks.forEach(brick => brick.repoSize({ grid }));
+    bonuses.forEach(bonus => bonus.repoSize({ grid }));
   }
 
   isInBorder(y) {
@@ -160,7 +156,7 @@ class Game {
 
   calcGrid() {
     for (let i = 0; i < 7; i++)
-      grid[i] = i * sizes._brick.width + i * sizes._brick.margin;
+      grid[i] = i * SIZES._brick.width + i * SIZES._brick.margin;
   }
 
   animate() {
@@ -169,7 +165,7 @@ class Game {
     this.draw();
     this.render();
     // prettier-ignore
-    if (isBallMoving) shoot({ ball, balls, setBalls, canvas, sizes, state, setState, coefficient, setIsBallMoving });
+    if (isBallMoving) shoot({ ball, balls, setBalls, canvas, state, setState, coefficient, setIsBallMoving });
   }
 
   init() {
@@ -182,12 +178,12 @@ class Game {
 }
 
 const fps = new FPS({ c, canvas });
-const record = new Detail({ canvas, c, sizes, state, status: 'RECORD' });
-const score = new Detail({ canvas, c, sizes, state, status: 'SCORE' });
-const topBorder = new Border({ status: 'top', sizes, canvas, c });
-const bottomBorder = new Border({ status: 'bottom', sizes, canvas, c });
-const ball = new Ball({ state, canvas, c, sizes });
-const coefficient = new Coefficient({ state, ball, sizes, c });
+const record = new Detail({ canvas, c, state, status: 'RECORD' });
+const score = new Detail({ canvas, c, state, status: 'SCORE' });
+const topBorder = new Border({ status: 'top', canvas, c });
+const bottomBorder = new Border({ status: 'bottom', canvas, c });
+const ball = new Ball({ state, canvas, c });
+const coefficient = new Coefficient({ state, ball, c });
 const game = new Game();
 
 const handleGameFont = () => {
