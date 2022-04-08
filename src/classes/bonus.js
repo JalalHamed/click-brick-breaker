@@ -63,14 +63,10 @@ export default class Bonus {
     const { border, ball, brick } = SIZES;
 
     this.pos = {
-      x: grid[this.props.index] + SIZES.brick.width / 2,
-      y:
-        SIZES.border.margin +
-        SIZES.border.height +
-        SIZES.brick.height +
-        SIZES.brick.height / 2,
+      x: grid[this.props.index] + brick.width / 2,
+      y: border.margin + border.height + brick.height + brick.height / 2,
     };
 
-    this.r = SIZES.ball.radius;
+    this.r = ball.radius;
   }
 }

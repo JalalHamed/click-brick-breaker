@@ -10,7 +10,7 @@ import Coefficient from './classes/coefficient.js';
 // Functions
 import shoot from './modules/shoot.js';
 // Utils
-import { getSizes, findIndex } from './modules/utils.js';
+import { findIndex } from './modules/utils.js';
 // Config
 import { MAX_ANGLE, MIN_ANGLE, SIZES } from './modules/config.js';
 

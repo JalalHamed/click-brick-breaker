@@ -1,5 +1,5 @@
 // Config
-import { SIZES } from './config.js';
+import { SIZES, SAFE_MARGIN_FROM_BORDERS as S_M_F_B } from './config.js';
 
 let counter = 0;
 let landedBallXPos;
@@ -33,7 +33,11 @@ const shoot = props => {
   counter++;
 
   if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
+    if (landedBallXPos < ball.r + S_M_F_B) landedBallXPos = ball.r + S_M_F_B;
+    if (landedBallXPos > canvas.width - ball.r - S_M_F_B)
+      landedBallXPos = canvas.width - ball.r - S_M_F_B;
     setState({ ...state, ball: landedBallXPos });
+    console.log(ball.r);
     ball.pos.x = landedBallXPos;
     coefficient.regainCount();
     coefficient.repoSize();
