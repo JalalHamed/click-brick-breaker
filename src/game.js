@@ -12,10 +12,8 @@ import shoot from './modules/shoot.js';
 // Utils
 import { findIndex, storage } from './modules/utils.js';
 // Config
-import { MAX_ANGLE, MIN_ANGLE, SIZES } from './modules/config.js';
+import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './modules/config.js';
 
-const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
 const state = storage.get();
 
 let isMouseInBorder = false;
@@ -56,22 +54,22 @@ class Game {
     for (let i = 0; i < bricksCount; i++) {
       let index = findIndex(indexes);
       indexes.push(index);
-      bricks.push(new Brick({ grid, index, topBorder, score, c }));
+      bricks.push(new Brick({ grid, index, topBorder, score }));
     }
 
     // Generate bonus ball
     let index = findIndex(indexes);
-    bonuses.push(new Bonus({ state, c, grid, index }));
+    bonuses.push(new Bonus({ state, grid, index }));
   }
 
   handleMouseMove(e) {
     if (!isBallMoving) {
       if (this.isInBorder(e.y)) {
-        pointer = new Pointer({ e, c, ball, canvas });
-        canvas.style.cursor = 'pointer';
+        pointer = new Pointer({ e, ball });
+        CANVAS.style.cursor = 'pointer';
         if (!isMouseInBorder) isMouseInBorder = true;
       } else {
-        canvas.style.cursor = 'auto';
+        CANVAS.style.cursor = 'auto';
         if (isMouseInBorder) isMouseInBorder = false;
       }
     }
@@ -81,7 +79,7 @@ class Game {
     if (this.isInBorder(e.y) && !isBallMoving) {
       isBallMoving = true;
       isMouseInBorder = false;
-      canvas.style.cursor = 'auto';
+      CANVAS.style.cursor = 'auto';
       let angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
       if (angle > -MIN_ANGLE) angle = -MIN_ANGLE;
       if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
@@ -89,13 +87,13 @@ class Game {
       ball.velocity = velocity;
       balls.push(ball);
       for (let i = 1; i < coefficient.count; i++) {
-        balls.push(new Ball({ state, canvas, c, velocity, delay: i }));
+        balls.push(new Ball({ state, velocity, delay: i }));
       }
     }
   }
 
   draw() {
-    c.clearRect(0, 0, canvas.width, canvas.height);
+    C.clearRect(0, 0, CANVAS.width, CANVAS.height);
     fps.draw();
     score.draw();
     record.draw();
@@ -113,19 +111,19 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    SIZES.ball.radius = Math.round((canvas.width / 100) * 1.3);
-    SIZES.border.margin = canvas.height / 5;
-    SIZES.border.height = canvas.width / 125;
-    SIZES.brick.margin = canvas.width / 120;
-    SIZES.brick.width = (canvas.width - SIZES.brick.margin * 6) / 7;
+    SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
+    SIZES.border.margin = CANVAS.height / 5;
+    SIZES.border.height = CANVAS.width / 125;
+    SIZES.brick.margin = CANVAS.width / 120;
+    SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
     SIZES.brick.height =
-      (canvas.height -
+      (CANVAS.height -
         (SIZES.border.margin * 2 + SIZES.border.height * 2) -
         SIZES.brick.margin * 8) /
       9;
     this.calcGrid();
 
-    [bottomBorder, topBorder, coefficient, ball].forEach(c => c.repoSize()); // "c" for "class"
+    [bottomBorder, topBorder, coefficient, ball].forEach(C => C.repoSize()); // "C" for "class"
     record.repoSize({ status: 'record' });
     score.repoSize({ status: 'score' });
     bricks.forEach(brick => brick.repoSize({ grid }));
@@ -149,25 +147,25 @@ class Game {
     this.draw();
     this.render();
     if (isBallMoving)
-      shoot({ ball, balls, setBalls, canvas, coefficient, setIsBallMoving });
+      shoot({ ball, balls, setBalls, coefficient, setIsBallMoving });
   }
 
   init() {
     this.animate();
     this.calcGrid();
     this.setRound();
-    canvas.addEventListener('mousemove', game.handleMouseMove);
-    canvas.addEventListener('click', game.handleClick);
+    CANVAS.addEventListener('mousemove', game.handleMouseMove);
+    CANVAS.addEventListener('click', game.handleClick);
   }
 }
 
-const fps = new FPS({ c, canvas });
-const record = new Detail({ canvas, c, state, status: 'RECORD' });
-const score = new Detail({ canvas, c, state, status: 'SCORE' });
-const topBorder = new Border({ status: 'top', canvas, c });
-const bottomBorder = new Border({ status: 'bottom', canvas, c });
-const ball = new Ball({ canvas, c });
-const coefficient = new Coefficient({ state, ball, c });
+const fps = new FPS();
+const record = new Detail({ state, status: 'RECORD' });
+const score = new Detail({ state, status: 'SCORE' });
+const topBorder = new Border({ status: 'top' });
+const bottomBorder = new Border({ status: 'bottom' });
+const ball = new Ball();
+const coefficient = new Coefficient({ state, ball, C });
 const game = new Game();
 
 const handleGameFont = () => {
@@ -190,8 +188,8 @@ const handleGameFont = () => {
 };
 
 const handleResize = () => {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
+  CANVAS.width = innerWidth;
+  CANVAS.height = innerHeight;
   if (!isBallMoving) game.repoSize();
 };
 

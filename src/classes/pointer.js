@@ -1,5 +1,12 @@
 // Config
-import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES } from '../modules/config.js';
+import {
+  MAX_ANGLE,
+  MIN_ANGLE,
+  COLORS,
+  SIZES,
+  CANVAS,
+  C,
+} from '../modules/config.js';
 
 export default class Pointer {
   constructor(props) {
@@ -7,12 +14,12 @@ export default class Pointer {
   }
 
   get calcEndPoint() {
-    const { canvas, ball, e } = this.props;
+    const { ball, e } = this.props;
     const { border } = SIZES;
 
     const topBorderHeight = border.margin + border.height;
-    const bottomBorderHeight = canvas.height - border.margin - border.height;
-    const arrowLength = (canvas.height - topBorderHeight * 2) / 4;
+    const bottomBorderHeight = CANVAS.height - border.margin - border.height;
+    const arrowLength = (CANVAS.height - topBorderHeight * 2) / 4;
     let endpoint = [];
 
     const pointA = [ball.pos.x, ball.pos.y];
@@ -34,17 +41,17 @@ export default class Pointer {
 
     // Calculate x given the top border's height as y
     const x = (topBorderHeight - b) / slope;
-    // Calculate y given the canvas' width as x
-    const y = canvas.width * slope + b;
+    // Calculate y given the CANVAS' width as x
+    const y = CANVAS.width * slope + b;
     // Calculate the angle
 
     const getX = basedOn => {
       const x = (basedOn - b) / slope;
-      if (x > ball.r && x < canvas.width - ball.r) return x;
-      // Prevent ball from going over the canvas' width in the left corner
+      if (x > ball.r && x < CANVAS.width - ball.r) return x;
+      // Prevent ball from going over the CANVAS' width in the left corner
       if (x < ball.r) return ball.r;
-      // Prevent ball from going over the canvas' width in the right corner
-      if (x > canvas.width - ball.r) return canvas.width - ball.r;
+      // Prevent ball from going over the CANVAS' width in the right corner
+      if (x > CANVAS.width - ball.r) return CANVAS.width - ball.r;
     };
 
     const getY = basedOn => {
@@ -61,7 +68,7 @@ export default class Pointer {
       if (angle === MAX_ANGLE)
         return (
           bottomBorderHeight -
-          Math.tan(Math.PI - angle) * (canvas.width - pointA[0] + ball.r)
+          Math.tan(Math.PI - angle) * (CANVAS.width - pointA[0] + ball.r)
         );
     };
 
@@ -73,11 +80,11 @@ export default class Pointer {
     // At 90 degree, slope is Infinite
     if (slope === Infinity) endpoint = [ball.pos.x, topBorderHeight + ball.r];
     // Pointer ball touches top border
-    if (x > 0 && x < canvas.width) setEndPoint('y', topBorderHeight + ball.r);
-    // Pointer ball touches left side of canvas
+    if (x > 0 && x < CANVAS.width) setEndPoint('y', topBorderHeight + ball.r);
+    // Pointer ball touches left side of CANVAS
     if (x < 0) setEndPoint('x', ball.r);
-    // Pointer ball touches right side of canvas
-    if (x > canvas.width) setEndPoint('x', canvas.width - ball.r);
+    // Pointer ball touches right side of CANVAS
+    if (x > CANVAS.width) setEndPoint('x', CANVAS.width - ball.r);
     // TODO: Change end point on colliding with bricks
 
     return {
@@ -94,53 +101,53 @@ export default class Pointer {
   }
 
   draw(offset) {
-    const { c, ball } = this.props;
+    const { ball } = this.props;
 
     // Dashed line
-    c.beginPath();
-    c.setLineDash([15, 10]);
-    c.moveTo(ball.pos.x, ball.pos.y);
-    c.lineTo(...this.calcEndPoint.dashedLine);
-    c.lineDashOffset = offset;
-    c.strokeStyle = COLORS.pointer.line;
-    c.lineWidth = ball.r / 2.5;
-    c.stroke();
+    C.beginPath();
+    C.setLineDash([15, 10]);
+    C.moveTo(ball.pos.x, ball.pos.y);
+    C.lineTo(...this.calcEndPoint.dashedLine);
+    C.lineDashOffset = offset;
+    C.strokeStyle = COLORS.pointer.line;
+    C.lineWidth = ball.r / 2.5;
+    C.stroke();
 
     // Arrow
-    c.beginPath();
-    c.setLineDash([]);
-    c.moveTo(ball.pos.x, ball.pos.y);
-    c.lineTo(...this.calcEndPoint.arrow);
-    c.strokeStyle = COLORS.pointer.line;
-    c.lineWidth = ball.r;
-    c.stroke();
+    C.beginPath();
+    C.setLineDash([]);
+    C.moveTo(ball.pos.x, ball.pos.y);
+    C.lineTo(...this.calcEndPoint.arrow);
+    C.strokeStyle = COLORS.pointer.line;
+    C.lineWidth = ball.r;
+    C.stroke();
     // Arrow Head
     const [endpointX, endpointY] = this.calcEndPoint.arrow;
     const angle = Math.atan2(endpointY - ball.pos.y, endpointX - ball.pos.x);
     const x = endpointX + Math.cos(angle) * ball.r * 1.4;
     const y = endpointY + Math.sin(angle) * ball.r * 1.4;
-    c.beginPath();
-    c.moveTo(x, y);
-    c.lineTo(
+    C.beginPath();
+    C.moveTo(x, y);
+    C.lineTo(
       x - ball.r * Math.cos(angle - Math.PI / 7),
       y - ball.r * Math.sin(angle - Math.PI / 7)
     );
-    c.lineTo(
+    C.lineTo(
       x - ball.r * Math.cos(angle + Math.PI / 7),
       y - ball.r * Math.sin(angle + Math.PI / 7)
     );
-    c.lineTo(x, y);
-    c.lineTo(
+    C.lineTo(x, y);
+    C.lineTo(
       x - ball.r * Math.cos(angle - Math.PI / 7),
       y - ball.r * Math.sin(angle - Math.PI / 7)
     );
-    c.stroke();
+    C.stroke();
 
     // Ball
-    c.beginPath();
-    c.setLineDash([]);
-    c.arc(...this.calcEndPoint.ball, ball.r, 0, 2 * Math.PI);
-    c.fillStyle = COLORS.pointer.line;
-    c.fill();
+    C.beginPath();
+    C.setLineDash([]);
+    C.arc(...this.calcEndPoint.ball, ball.r, 0, 2 * Math.PI);
+    C.fillStyle = COLORS.pointer.line;
+    C.fill();
   }
 }

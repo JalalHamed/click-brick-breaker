@@ -1,5 +1,5 @@
 // Config
-import { COLORS, SIZES } from '../modules/config.js';
+import { COLORS, SIZES, C } from '../modules/config.js';
 
 export default class Bonus {
   constructor(props) {
@@ -31,22 +31,20 @@ export default class Bonus {
   }
 
   draw() {
-    const { c } = this.props;
-
     // bonus ball
-    c.beginPath();
-    c.setLineDash([]);
-    c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    c.fillStyle = COLORS.bonus;
-    c.fill();
+    C.beginPath();
+    C.setLineDash([]);
+    C.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
+    C.fillStyle = COLORS.bonus;
+    C.fill();
 
     // bonus ball's border wrapper
-    c.beginPath();
-    c.setLineDash([]);
-    c.arc(this.pos.x, this.pos.y, this.swingR, 0, 2 * Math.PI);
-    c.lineWidth = SIZES.border.height;
-    c.strokeStyle = COLORS.bonus;
-    c.stroke();
+    C.beginPath();
+    C.setLineDash([]);
+    C.arc(this.pos.x, this.pos.y, this.swingR, 0, 2 * Math.PI);
+    C.lineWidth = SIZES.border.height;
+    C.strokeStyle = COLORS.bonus;
+    C.stroke();
   }
 
   render() {

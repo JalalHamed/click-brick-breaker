@@ -1,38 +1,33 @@
 // Config
-import { COLORS, SIZES } from '../modules/config.js';
+import { COLORS, SIZES, CANVAS, C } from '../modules/config.js';
 // Utils
 import { storage } from '../modules/utils.js';
 
 export default class Ball {
   constructor(props) {
-    this.props = props;
-    const { canvas, velocity, delay } = props;
-
     this.r = SIZES.ball.radius;
 
     this.pos = {
-      x: storage.get()?.ball || canvas.width / 2,
-      y: canvas.height - SIZES.border.margin - this.r,
+      x: storage.get()?.ball || CANVAS.width / 2,
+      y: CANVAS.height - SIZES.border.margin - this.r,
     };
 
     this.velocity = {
-      x: velocity?.x || 0,
-      y: velocity?.y || 0,
+      x: props?.velocity?.x || 0,
+      y: props?.velocity?.y || 0,
     };
 
-    this.delay = delay || 0;
+    this.delay = props?.delay || 0;
 
-    this.canvasWidthTracker = canvas.width;
+    this.canvasWidthTracker = CANVAS.width;
   }
 
   draw() {
-    const { c } = this.props;
-
-    c.beginPath();
-    c.setLineDash([]);
-    c.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    c.fillStyle = COLORS.ball;
-    c.fill();
+    C.beginPath();
+    C.setLineDash([]);
+    C.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
+    C.fillStyle = COLORS.ball;
+    C.fill();
   }
 
   update() {
@@ -41,15 +36,9 @@ export default class Ball {
   }
 
   repoSize() {
-    const { canvas } = this.props;
-
-    console.log('tracker', this.canvasWidthTracker);
-    console.log('current', canvas.width);
-    console.log('ball x pos', this.pos.x);
-
     this.pos = {
       ...this.pos,
-      x: (canvas.width * this.pos.x) / this.canvasWidthTracker,
+      x: (CANVAS.width * this.pos.x) / this.canvasWidthTracker,
     };
 
     storage.set({ ball: this.pos.x });

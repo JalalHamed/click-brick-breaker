@@ -1,6 +1,8 @@
+// Config
+import { CANVAS, C } from '../modules/config.js';
+
 export default class FPS {
-  constructor(props) {
-    this.props = props;
+  constructor() {
     this.lastRun = performance.now();
   }
 
@@ -11,10 +13,8 @@ export default class FPS {
   }
 
   draw() {
-    const { c, canvas } = this.props;
-
-    c.fillStyle = 'Black';
-    c.font = '1rem Arial';
-    c.fillText(Math.floor(this.calcFps) + ' fps', canvas.width - 35, 20);
+    C.fillStyle = 'Black';
+    C.font = '1rem Arial';
+    C.fillText(Math.floor(this.calcFps) + ' fps', CANVAS.width - 35, 20);
   }
 }

@@ -1,15 +1,19 @@
 // Utils
 import { storage } from './utils.js';
 // Config
-import { SIZES, SAFE_MARGIN_FROM_BORDERS as S_M_F_B } from './config.js';
+import {
+  SIZES,
+  SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
+  CANVAS,
+} from './config.js';
 
 let counter = 0;
 let landedBallXPos;
 
 const shoot = async props => {
-  const { ball, balls, setBalls, canvas, coefficient, setIsBallMoving } = props;
+  const { ball, balls, setBalls, coefficient, setIsBallMoving } = props;
   const topBorderHeight = SIZES.border.margin + SIZES.border.height;
-  const bottomBorderSurface = canvas.height - SIZES.border.margin;
+  const bottomBorderSurface = CANVAS.height - SIZES.border.margin;
 
   balls.forEach(ball => {
     const delay = ball.delay * ball.r;
@@ -18,7 +22,7 @@ const shoot = async props => {
     if (counter > delay) ball.update();
     if (counter === delay) coefficient.decreaseCount();
 
-    if (ball.pos.x - ball.r <= 0 || ball.pos.x + ball.r >= canvas.width)
+    if (ball.pos.x - ball.r <= 0 || ball.pos.x + ball.r >= CANVAS.width)
       ball.velocity.x = -ball.velocity.x;
     if (ball.pos.y <= topBorderHeight + ball.r) {
       ball.velocity.y = -ball.velocity.y;
@@ -35,8 +39,8 @@ const shoot = async props => {
 
   if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
     if (landedBallXPos < ball.r + S_M_F_B) landedBallXPos = ball.r + S_M_F_B;
-    if (landedBallXPos > canvas.width - ball.r - S_M_F_B)
-      landedBallXPos = canvas.width - ball.r - S_M_F_B;
+    if (landedBallXPos > CANVAS.width - ball.r - S_M_F_B)
+      landedBallXPos = CANVAS.width - ball.r - S_M_F_B;
     storage.set({ ball: landedBallXPos });
     ball.pos.x = landedBallXPos;
     coefficient.regainCount();

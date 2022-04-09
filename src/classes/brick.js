@@ -1,5 +1,5 @@
 // Config
-import { COLORS, SIZES } from '../modules/config.js';
+import { COLORS, SIZES, C } from '../modules/config.js';
 
 export default class Brick {
   constructor(props) {
@@ -19,15 +19,13 @@ export default class Brick {
   }
 
   draw() {
-    const { c } = this.props;
-
-    c.fillStyle = COLORS.brick;
-    c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-    c.font = `1.5rem play`;
-    c.fillStyle = '#fff';
-    c.textAlign = 'center';
-    c.textBaseline = 'middle';
-    c.fillText(
+    C.fillStyle = COLORS.brick;
+    C.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+    C.font = `1.5rem play`;
+    C.fillStyle = '#fff';
+    C.textAlign = 'center';
+    C.textBaseline = 'middle';
+    C.fillText(
       this.weight,
       this.pos.x + this.width / 2,
       this.pos.y + this.height / 2

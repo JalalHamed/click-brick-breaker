@@ -1,5 +1,5 @@
 // Config
-import { COLORS, SIZES } from '../modules/config.js';
+import { COLORS, SIZES, C } from '../modules/config.js';
 
 export default class Coefficient {
   constructor(props) {
@@ -15,13 +15,11 @@ export default class Coefficient {
   }
 
   draw() {
-    const { c } = this.props;
-
-    c.font = `1.5rem play`;
-    c.fillStyle = this.count > 0 ? COLORS.ball : '#fff';
-    c.textAlign = 'center';
-    c.textBaseline = 'middle';
-    c.fillText(`x${this.count}`, this.pos.x, this.pos.y);
+    C.font = `1.5rem play`;
+    C.fillStyle = this.count > 0 ? COLORS.ball : '#fff';
+    C.textAlign = 'center';
+    C.textBaseline = 'middle';
+    C.fillText(`x${this.count}`, this.pos.x, this.pos.y);
   }
 
   decreaseCount() {
