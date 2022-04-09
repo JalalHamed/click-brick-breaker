@@ -92,7 +92,7 @@ class Game {
 
   draw() {
     C.clearRect(0, 0, CANVAS.width, CANVAS.height);
-    fps.draw();
+    FPS.draw();
     score.draw();
     record.draw();
     topBorder.draw();
@@ -157,13 +157,12 @@ class Game {
   }
 }
 
-const fps = new FPS();
-const record = new Detail({  status: 'RECORD' });
-const score = new Detail({  status: 'SCORE' });
+const record = new Detail({ status: 'RECORD' });
+const score = new Detail({ status: 'SCORE' });
 const topBorder = new Border({ status: 'top' });
 const bottomBorder = new Border({ status: 'bottom' });
 const ball = new Ball();
-const coefficient = new Coefficient({  ball });
+const coefficient = new Coefficient({ ball });
 const game = new Game();
 
 const handleGameFont = () => {

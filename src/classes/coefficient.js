@@ -29,7 +29,7 @@ export default class Coefficient {
   }
 
   regainCount() {
-    this.count = this.props.storage.get()?.coefficient || 1;
+    this.count = storage.get()?.coefficient || 1;
   }
 
   repoSize() {

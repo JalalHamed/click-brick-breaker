@@ -1,7 +1,7 @@
 // Config
 import { CANVAS, C } from '../modules/config.js';
 
-export default class FPS {
+class FPS {
   constructor() {
     this.lastRun = performance.now();
   }
@@ -18,3 +18,5 @@ export default class FPS {
     C.fillText(Math.floor(this.calcFps) + ' fps', CANVAS.width - 35, 20);
   }
 }
+
+export default new FPS();
