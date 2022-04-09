@@ -1,10 +1,12 @@
 // Config
 import { SIZES, CANVAS, C } from '../modules/config.js';
+// Utils
+import { storage } from '../modules/utils.js';
 
 export default class Detail {
   constructor(props) {
     this.props = props;
-    const { state, status } = props;
+    const { status } = props;
     const { height } = SIZES.brick;
 
     this.pos = {
@@ -12,7 +14,8 @@ export default class Detail {
       y: status === 'RECORD' ? height * 1.3 : height * 1.3 + height,
     };
 
-    const count = status === 'RECORD' ? state?.record : state?.score;
+    const count =
+      status === 'RECORD' ? storage.get()?.record : storage.get()?.score;
     this.count = count || 1;
   }
 

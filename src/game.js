@@ -14,12 +14,10 @@ import { findIndex, storage } from './modules/utils.js';
 // Config
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './modules/config.js';
 
-const state = storage.get();
-
 let isMouseInBorder = false;
 let isBallMoving = false;
-let bricks = state?.bricks || [];
-let bonuses = state?.bonuses || [];
+let bricks = storage.get()?.bricks || [];
+let bonuses = storage.get()?.bonuses || [];
 let grid = [];
 let balls = [];
 let indexes = [];
@@ -59,7 +57,7 @@ class Game {
 
     // Generate bonus ball
     let index = findIndex(indexes);
-    bonuses.push(new Bonus({ state, grid, index }));
+    bonuses.push(new Bonus({ grid, index }));
   }
 
   handleMouseMove(e) {
@@ -87,7 +85,7 @@ class Game {
       ball.velocity = velocity;
       balls.push(ball);
       for (let i = 1; i < coefficient.count; i++) {
-        balls.push(new Ball({ state, velocity, delay: i }));
+        balls.push(new Ball({ velocity, delay: i }));
       }
     }
   }
@@ -160,12 +158,12 @@ class Game {
 }
 
 const fps = new FPS();
-const record = new Detail({ state, status: 'RECORD' });
-const score = new Detail({ state, status: 'SCORE' });
+const record = new Detail({  status: 'RECORD' });
+const score = new Detail({  status: 'SCORE' });
 const topBorder = new Border({ status: 'top' });
 const bottomBorder = new Border({ status: 'bottom' });
 const ball = new Ball();
-const coefficient = new Coefficient({ state, ball, C });
+const coefficient = new Coefficient({  ball });
 const game = new Game();
 
 const handleGameFont = () => {

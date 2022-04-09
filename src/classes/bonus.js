@@ -4,7 +4,7 @@ import { COLORS, SIZES, C } from '../modules/config.js';
 export default class Bonus {
   constructor(props) {
     this.props = props;
-    const { state, yVelocity, index, grid, counter } = props;
+    const { index, grid } = props;
 
     this.r = SIZES.ball.radius;
     this.swingR = SIZES.ball.radius;
@@ -20,7 +20,7 @@ export default class Bonus {
         SIZES.brick.height / 2,
     };
 
-    this.yVelocity = yVelocity || 0;
+    this.yVelocity = 0;
   }
 
   swingRadius() {

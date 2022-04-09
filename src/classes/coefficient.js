@@ -1,12 +1,14 @@
 // Config
 import { COLORS, SIZES, C } from '../modules/config.js';
+// Utils
+import { storage } from '../modules/utils.js';
 
 export default class Coefficient {
   constructor(props) {
     this.props = props;
-    const { state, ball } = props;
+    const { ball } = props;
 
-    this.count = state?.coefficient || 1;
+    this.count = storage.get()?.coefficient || 1;
 
     this.pos = {
       x: ball.pos.x,
@@ -27,7 +29,7 @@ export default class Coefficient {
   }
 
   regainCount() {
-    this.count = this.props.state?.coefficient || 1;
+    this.count = this.props.storage.get()?.coefficient || 1;
   }
 
   repoSize() {
