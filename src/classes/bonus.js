@@ -31,8 +31,7 @@ export default class Bonus {
   }
 
   draw() {
-    // prettier-ignore
-    const { c, } = this.props;
+    const { c } = this.props;
 
     // bonus ball
     c.beginPath();

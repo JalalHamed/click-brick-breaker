@@ -7,7 +7,6 @@ export default class Pointer {
   }
 
   get calcEndPoint() {
-    // prettier-ignore
     const { canvas, ball, e } = this.props;
 
     const topBorderHeight = SIZES.border.margin + SIZES.border.height;

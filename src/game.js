@@ -10,19 +10,13 @@ import Coefficient from './classes/coefficient.js';
 // Functions
 import shoot from './modules/shoot.js';
 // Utils
-import { findIndex } from './modules/utils.js';
+import { findIndex, storage } from './modules/utils.js';
 // Config
 import { MAX_ANGLE, MIN_ANGLE, SIZES } from './modules/config.js';
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
-
-let state = JSON.parse(localStorage.getItem('cbb-state'));
-
-const setState = data => {
-  localStorage.setItem('cbb-state', JSON.stringify(data));
-  state = JSON.parse(localStorage.getItem('cbb-state'));
-};
+const state = storage.get();
 
 let isMouseInBorder = false;
 let isBallMoving = false;
@@ -62,10 +56,7 @@ class Game {
     for (let i = 0; i < bricksCount; i++) {
       let index = findIndex(indexes);
       indexes.push(index);
-      // prettier-ignore
-      bricks.push(
-        new Brick({ grid, index, topBorder, score, c })
-      );
+      bricks.push(new Brick({ grid, index, topBorder, score, c }));
     }
 
     // Generate bonus ball
@@ -98,10 +89,7 @@ class Game {
       ball.velocity = velocity;
       balls.push(ball);
       for (let i = 1; i < coefficient.count; i++) {
-        // prettier-ignore
-        balls.push(
-          new Ball({ state, canvas, c, velocity, delay: i })
-        );
+        balls.push(new Ball({ state, canvas, c, velocity, delay: i }));
       }
     }
   }
@@ -160,8 +148,8 @@ class Game {
     offset--;
     this.draw();
     this.render();
-    // prettier-ignore
-    if (isBallMoving) shoot({ ball, balls, setBalls, canvas, state, setState, coefficient, setIsBallMoving });
+    if (isBallMoving)
+      shoot({ ball, balls, setBalls, canvas, coefficient, setIsBallMoving });
   }
 
   init() {

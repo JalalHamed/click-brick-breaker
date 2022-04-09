@@ -5,3 +5,12 @@ export function findIndex(indexes) {
   } while (indexes.includes(index));
   return index;
 }
+
+export const storage = {
+  get() {
+    return JSON.parse(localStorage.getItem('cbb-state'));
+  },
+  set(data) {
+    localStorage.setItem('cbb-state', JSON.stringify(data));
+  },
+};

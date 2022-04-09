@@ -1,12 +1,13 @@
+// Utils
+import { storage } from './utils.js';
 // Config
 import { SIZES, SAFE_MARGIN_FROM_BORDERS as S_M_F_B } from './config.js';
 
 let counter = 0;
 let landedBallXPos;
 
-const shoot = props => {
-  // prettier-ignore
-  const { ball, balls, setBalls, canvas, state, setState, coefficient, setIsBallMoving } = props;
+const shoot = async props => {
+  const { ball, balls, setBalls, canvas, coefficient, setIsBallMoving } = props;
   const topBorderHeight = SIZES.border.margin + SIZES.border.height;
   const bottomBorderSurface = canvas.height - SIZES.border.margin;
 
@@ -36,8 +37,7 @@ const shoot = props => {
     if (landedBallXPos < ball.r + S_M_F_B) landedBallXPos = ball.r + S_M_F_B;
     if (landedBallXPos > canvas.width - ball.r - S_M_F_B)
       landedBallXPos = canvas.width - ball.r - S_M_F_B;
-    setState({ ...state, ball: landedBallXPos });
-    console.log(ball.r);
+    storage.set({ ...storage.state, ball: landedBallXPos });
     ball.pos.x = landedBallXPos;
     coefficient.regainCount();
     coefficient.repoSize();
