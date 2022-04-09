@@ -1,5 +1,5 @@
 // Config
-import { COLORS, SIZES, C } from '../modules/config.js';
+import { COLORS, SIZES, C } from '../utils/config.js';
 
 export default class Brick {
   constructor(props) {

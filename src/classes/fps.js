@@ -1,5 +1,5 @@
 // Config
-import { CANVAS, C } from '../modules/config.js';
+import { CANVAS, C } from '../utils/config.js';
 
 class FPS {
   constructor() {

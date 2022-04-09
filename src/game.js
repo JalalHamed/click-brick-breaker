@@ -1,5 +1,4 @@
 // Classes
-import FPS from './classes/fps.js';
 import Detail from './classes/detail.js';
 import Border from './classes/border.js';
 import Ball from './classes/ball.js';
@@ -7,12 +6,14 @@ import Bonus from './classes/bonus.js';
 import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
 import Coefficient from './classes/coefficient.js';
+// Object Instances
+import fps from './classes/fps.js';
 // Functions
-import shoot from './modules/shoot.js';
+import shoot from './utils/shoot.js';
 // Utils
-import { findIndex, storage } from './modules/utils.js';
+import { findIndex, storage } from './utils/helpers.js';
 // Config
-import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './modules/config.js';
+import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './utils/config.js';
 
 let isMouseInBorder = false;
 let isBallMoving = false;
@@ -92,7 +93,7 @@ class Game {
 
   draw() {
     C.clearRect(0, 0, CANVAS.width, CANVAS.height);
-    FPS.draw();
+    fps.draw();
     score.draw();
     record.draw();
     topBorder.draw();

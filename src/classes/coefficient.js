@@ -1,7 +1,7 @@
 // Config
-import { COLORS, SIZES, C } from '../modules/config.js';
+import { COLORS, SIZES, C } from '../utils/config.js';
 // Utils
-import { storage } from '../modules/utils.js';
+import { storage } from '../utils/helpers.js';
 
 export default class Coefficient {
   constructor(props) {

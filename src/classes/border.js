@@ -1,5 +1,5 @@
 // Config
-import { SIZES, CANVAS, C } from '../modules/config.js';
+import { SIZES, CANVAS, C } from '../utils/config.js';
 
 export default class Border {
   constructor(props) {

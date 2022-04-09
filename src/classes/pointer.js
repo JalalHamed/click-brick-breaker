@@ -6,7 +6,7 @@ import {
   SIZES,
   CANVAS,
   C,
-} from '../modules/config.js';
+} from '../utils/config.js';
 
 export default class Pointer {
   constructor(props) {
