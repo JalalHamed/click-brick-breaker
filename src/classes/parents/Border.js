@@ -1,17 +1,10 @@
 // Configs
-import { SIZES, CANVAS, C } from '../utils/config.js';
+import { SIZES, CANVAS, C } from '../../utils/config.js';
 
 export default class Border {
-  constructor(props) {
-    this.props = props;
-    const { status } = props;
-
+  constructor() {
     this.pos = {
       x: 0,
-      y:
-        status === 'top'
-          ? SIZES.border.margin
-          : CANVAS.height - SIZES.border.margin,
     };
 
     this.width = CANVAS.width;

@@ -1,11 +1,12 @@
 // Classes
-import Border from './classes/border.js';
 import Ball from './classes/ball.js';
 import Bonus from './classes/bonus.js';
 import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
 import Coefficient from './classes/coefficient.js';
 // Object Instances
+import topBorder from './classes/inheritors/topBorder.js';
+import bottomBorder from './classes/inheritors/bottomBorder.js';
 import record from './classes/inheritors/record.js';
 import score from './classes/inheritors/score.js';
 import fps from './classes/fps.js';
@@ -159,8 +160,6 @@ class Game {
   }
 }
 
-const topBorder = new Border({ status: 'top' });
-const bottomBorder = new Border({ status: 'bottom' });
 const ball = new Ball();
 const coefficient = new Coefficient({ ball });
 const game = new Game();
