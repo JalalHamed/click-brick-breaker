@@ -7,12 +7,14 @@ import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
 import Coefficient from './classes/coefficient.js';
 // Object Instances
+import record from './classes/record.js';
 import fps from './classes/fps.js';
+console.log(record);
 // Functions
 import shoot from './utils/shoot.js';
-// Utils
+// Helpers
 import { findIndex, storage } from './utils/helpers.js';
-// Config
+// Configs
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './utils/config.js';
 
 let isMouseInBorder = false;
@@ -158,7 +160,7 @@ class Game {
   }
 }
 
-const record = new Detail({ status: 'RECORD' });
+// const record = new Detail({ status: 'RECORD' });
 const score = new Detail({ status: 'SCORE' });
 const topBorder = new Border({ status: 'top' });
 const bottomBorder = new Border({ status: 'bottom' });

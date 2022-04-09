@@ -1,4 +1,4 @@
-// Config
+// Configs
 import { CANVAS, C } from '../utils/config.js';
 
 class FPS {

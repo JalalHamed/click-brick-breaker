@@ -1,4 +1,4 @@
-// Config
+// Configs
 import { SIZES, CANVAS, C } from '../utils/config.js';
 
 export default class Border {

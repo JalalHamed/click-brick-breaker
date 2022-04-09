@@ -1,4 +1,4 @@
-// Config
+// Configs
 import {
   MAX_ANGLE,
   MIN_ANGLE,

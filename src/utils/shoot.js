@@ -1,6 +1,6 @@
-// Utils
+// Helpers
 import { storage } from './helpers.js';
-// Config
+// Configs
 import {
   SIZES,
   SAFE_MARGIN_FROM_BORDERS as S_M_F_B,

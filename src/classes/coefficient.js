@@ -1,6 +1,6 @@
-// Config
+// Configs
 import { COLORS, SIZES, C } from '../utils/config.js';
-// Utils
+// Helpers
 import { storage } from '../utils/helpers.js';
 
 export default class Coefficient {

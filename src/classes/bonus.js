@@ -1,4 +1,4 @@
-// Config
+// Configs
 import { COLORS, SIZES, C } from '../utils/config.js';
 
 export default class Bonus {
