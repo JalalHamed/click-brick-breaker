@@ -1,5 +1,4 @@
 // Classes
-import Detail from './classes/detail.js';
 import Border from './classes/border.js';
 import Ball from './classes/ball.js';
 import Bonus from './classes/bonus.js';
@@ -7,9 +6,9 @@ import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
 import Coefficient from './classes/coefficient.js';
 // Object Instances
-import record from './classes/record.js';
+import record from './classes/inheritors/record.js';
+import score from './classes/inheritors/score.js';
 import fps from './classes/fps.js';
-console.log(record);
 // Functions
 import shoot from './utils/shoot.js';
 // Helpers
@@ -160,8 +159,6 @@ class Game {
   }
 }
 
-// const record = new Detail({ status: 'RECORD' });
-const score = new Detail({ status: 'SCORE' });
 const topBorder = new Border({ status: 'top' });
 const bottomBorder = new Border({ status: 'bottom' });
 const ball = new Ball();
