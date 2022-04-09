@@ -8,10 +8,10 @@ export default class Pointer {
 
   get calcEndPoint() {
     const { canvas, ball, e } = this.props;
+    const { border } = SIZES;
 
-    const topBorderHeight = SIZES.border.margin + SIZES.border.height;
-    const bottomBorderHeight =
-      canvas.height - SIZES.border.margin - SIZES.border.height;
+    const topBorderHeight = border.margin + border.height;
+    const bottomBorderHeight = canvas.height - border.margin - border.height;
     const arrowLength = (canvas.height - topBorderHeight * 2) / 4;
     let endpoint = [];
 

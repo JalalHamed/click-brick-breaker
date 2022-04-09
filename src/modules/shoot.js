@@ -37,7 +37,7 @@ const shoot = async props => {
     if (landedBallXPos < ball.r + S_M_F_B) landedBallXPos = ball.r + S_M_F_B;
     if (landedBallXPos > canvas.width - ball.r - S_M_F_B)
       landedBallXPos = canvas.width - ball.r - S_M_F_B;
-    storage.set({ ...storage.state, ball: landedBallXPos });
+    storage.set({ ball: landedBallXPos });
     ball.pos.x = landedBallXPos;
     coefficient.regainCount();
     coefficient.repoSize();

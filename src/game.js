@@ -125,7 +125,7 @@ class Game {
       9;
     this.calcGrid();
 
-    [bottomBorder, topBorder, ball, coefficient].forEach(c => c.repoSize()); // "c" for "class"
+    [bottomBorder, topBorder, coefficient, ball].forEach(c => c.repoSize()); // "c" for "class"
     record.repoSize({ status: 'record' });
     score.repoSize({ status: 'score' });
     bricks.forEach(brick => brick.repoSize({ grid }));
@@ -166,7 +166,7 @@ const record = new Detail({ canvas, c, state, status: 'RECORD' });
 const score = new Detail({ canvas, c, state, status: 'SCORE' });
 const topBorder = new Border({ status: 'top', canvas, c });
 const bottomBorder = new Border({ status: 'bottom', canvas, c });
-const ball = new Ball({ state, canvas, c });
+const ball = new Ball({ canvas, c });
 const coefficient = new Coefficient({ state, ball, c });
 const game = new Game();
 
