@@ -99,13 +99,13 @@ class Pointer {
     };
   }
 
-  draw(offset) {
+  draw() {
     // Dashed line
     C.beginPath();
     C.setLineDash([15, 10]);
     C.moveTo(mainBall.pos.x, mainBall.pos.y);
     C.lineTo(...this.calcEndPoint.dashedLine);
-    C.lineDashOffset = offset;
+    C.lineDashOffset = state.offset;
     C.strokeStyle = COLORS.pointer.line;
     C.lineWidth = mainBall.r / 2.5;
     C.stroke();

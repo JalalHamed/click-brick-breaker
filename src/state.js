@@ -18,4 +18,5 @@ export const state = {
   grid: [],
   shotBalls: [],
   mouseCoords: {},
+  offset: 0,
 };
