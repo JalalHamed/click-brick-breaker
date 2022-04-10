@@ -1,10 +1,12 @@
+// Classes
+import score from './statistics/score.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 
 export default class Brick {
   constructor(props) {
     this.props = props;
-    const { grid, index, topBorder, score } = props;
+    const { grid, index } = props;
     const { width, height } = SIZES.brick;
 
     this.width = width;

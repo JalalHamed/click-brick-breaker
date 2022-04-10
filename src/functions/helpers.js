@@ -1,4 +1,4 @@
-export function findIndex(indexes) {
+export function genRndUnusedIndex(indexes) {
   let index;
   do {
     index = Math.floor(Math.random() * 7);

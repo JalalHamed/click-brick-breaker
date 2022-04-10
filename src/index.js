@@ -14,7 +14,7 @@ import fps from './classes/fps.js';
 // Functions
 import shoot from './functions/shoot.js';
 // Helpers
-import { findIndex, storage } from './functions/helpers.js';
+import { genRndUnusedIndex, storage } from './functions/helpers.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
@@ -23,8 +23,7 @@ let isBallMoving = false;
 let bricks = storage.get()?.bricks || [];
 let bonuses = storage.get()?.bonuses || [];
 let grid = [];
-let balls = [];
-let indexes = [];
+let shotBalls = [];
 let counter = 0;
 let offset = 0;
 let pointer;
@@ -38,7 +37,7 @@ const setIsBallMoving = status => {
 };
 
 const setBalls = array => {
-  balls = array;
+  shotBalls = array;
 };
 
 class Game {
@@ -49,18 +48,20 @@ class Game {
   }
 
   setRound() {
+    let indexes = [];
     // Generate bricks
-    const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus mainBall)
-    const bricksCount = Math.floor(Math.random() * maxBricks) + 1;
+    const maxBricksCount =
+      score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
+    const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
 
     for (let i = 0; i < bricksCount; i++) {
-      let index = findIndex(indexes);
+      let index = genRndUnusedIndex(indexes);
       indexes.push(index);
-      bricks.push(new Brick({ grid, index, topBorder, score }));
+      bricks.push(new Brick({ grid, index }));
     }
 
-    // Generate bonus mainBall
-    let index = findIndex(indexes);
+    // Generate bonus ball
+    let index = genRndUnusedIndex(indexes);
     bonuses.push(new Bonus({ grid, index }));
   }
 
@@ -87,9 +88,9 @@ class Game {
       if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
       const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
       mainBall.velocity = velocity;
-      balls.push(mainBall); // shotBalls*
+      shotBalls.push(mainBall);
       for (let i = 1; i < coefficient.count; i++) {
-        balls.push(new Ball({ velocity, delay: i }));
+        shotBalls.push(new Ball({ velocity, delay: i }));
       }
     }
   }
@@ -149,8 +150,7 @@ class Game {
     offset--;
     this.draw();
     this.render();
-    if (isBallMoving)
-      shoot({ mainBall, balls, setBalls, coefficient, setIsBallMoving });
+    if (isBallMoving) shoot({ mainBall, shotBalls, setBalls, setIsBallMoving });
   }
 
   init() {
