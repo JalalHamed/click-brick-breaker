@@ -7,7 +7,7 @@ export const COLORS = {
   ball: {
     main: 'rgb(31, 115, 242)',
     bonus: 'rgb(79, 234, 115)',
-    pointer: 'rgb(143, 185, 248)',
+    pointer: 'rgb(31, 115, 242, 0.5)',
   },
   brick: 'rgb(239, 73, 33)',
   pointer: {

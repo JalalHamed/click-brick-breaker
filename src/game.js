@@ -12,11 +12,11 @@ import score from './classes/statistics/score.js';
 import coefficient from './classes/coefficient.js';
 import fps from './classes/fps.js';
 // Functions
-import shoot from './utils/shoot.js';
+import shoot from './functions/shoot.js';
 // Helpers
-import { findIndex, storage } from './utils/helpers.js';
+import { findIndex, storage } from './functions/helpers.js';
 // Configs
-import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './utils/config.js';
+import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
 let isMouseInBorder = false;
 let isBallMoving = false;

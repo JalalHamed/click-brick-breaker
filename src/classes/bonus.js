@@ -1,5 +1,5 @@
 // Configs
-import { COLORS, SIZES, C } from '../utils/config.js';
+import { COLORS, SIZES, C } from '../config.js';
 
 export default class Bonus {
   constructor(props) {

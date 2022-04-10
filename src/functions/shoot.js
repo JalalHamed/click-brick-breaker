@@ -5,7 +5,7 @@ import {
   SIZES,
   SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
   CANVAS,
-} from './config.js';
+} from '../config.js';
 
 let counter = 0;
 let landedBallXPos;

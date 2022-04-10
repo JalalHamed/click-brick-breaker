@@ -1,5 +1,5 @@
 // Configs
-import { CANVAS, C, SIZES } from '../../utils/config.js';
+import { CANVAS, C, SIZES } from '../../config.js';
 
 export default class Statistics {
   constructor() {

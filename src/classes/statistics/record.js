@@ -1,9 +1,9 @@
 // Classes
 import Statistics from './Statistics.js';
 // Configs
-import { SIZES, C } from '../../utils/config.js';
+import { SIZES, C } from '../../config.js';
 // Helpers
-import { storage } from '../../utils/helpers.js';
+import { storage } from '../../functions/helpers.js';
 
 class Record extends Statistics {
   constructor() {

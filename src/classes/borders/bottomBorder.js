@@ -1,7 +1,7 @@
 // Classes
 import Border from './Border.js';
 // Configs
-import { SIZES, CANVAS } from '../../utils/config.js';
+import { SIZES, CANVAS } from '../../config.js';
 
 class BottomBorder extends Border {
   constructor() {

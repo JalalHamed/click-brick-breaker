@@ -1,9 +1,9 @@
 // Object Instances
 import mainBall from './balls/mainBall.js';
 // Configs
-import { COLORS, SIZES, C } from '../utils/config.js';
+import { COLORS, SIZES, C } from '../config.js';
 // Helpers
-import { storage } from '../utils/helpers.js';
+import { storage } from '../functions/helpers.js';
 
 class Coefficient {
   constructor() {

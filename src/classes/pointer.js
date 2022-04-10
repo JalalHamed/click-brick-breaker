@@ -3,14 +3,7 @@ import mainBall from './balls/mainBall.js';
 import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
-import {
-  MAX_ANGLE,
-  MIN_ANGLE,
-  COLORS,
-  SIZES,
-  CANVAS,
-  C,
-} from '../utils/config.js';
+import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
 
 export default class Pointer {
   constructor(props) {

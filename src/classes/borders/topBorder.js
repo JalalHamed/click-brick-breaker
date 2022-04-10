@@ -1,7 +1,7 @@
 // Classes
 import Border from './Border.js';
 // Configs
-import { SIZES } from '../../utils/config.js';
+import { SIZES } from '../../config.js';
 
 class TobBorder extends Border {
   constructor() {
