@@ -67,7 +67,7 @@ class Game {
   handleMouseMove(e) {
     if (!isBallMoving) {
       if (this.isInBorder(e.y)) {
-        pointer = new Pointer({ e, mainBall });
+        pointer = new Pointer({ e });
         CANVAS.style.cursor = 'pointer';
         if (!isMouseInBorder) isMouseInBorder = true;
       } else {

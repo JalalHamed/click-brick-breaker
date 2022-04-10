@@ -1,3 +1,7 @@
+// Object Instances
+import mainBall from './balls/mainBall.js';
+import topBorder from './borders/topBorder.js';
+import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import {
   MAX_ANGLE,
@@ -14,16 +18,13 @@ export default class Pointer {
   }
 
   get calcEndPoint() {
-    const { mainBall, e } = this.props;
-    const { border } = SIZES;
-
-    const topBorderHeight = border.margin + border.height;
-    const bottomBorderHeight = CANVAS.height - border.margin - border.height;
+    const topBorderHeight = topBorder.pos.y + SIZES.border.height;
+    const bottomBorderHeight = bottomBorder.pos.y - SIZES.border.height;
     const arrowLength = (CANVAS.height - topBorderHeight * 2) / 4;
     let endpoint = [];
 
     const pointA = [mainBall.pos.x, mainBall.pos.y];
-    const pointB = [e.x, e.y];
+    const pointB = [this.props.e.x, this.props.e.y];
 
     // Calculate slope, y intercept (b) & the angle
     let slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
@@ -104,8 +105,6 @@ export default class Pointer {
   }
 
   draw(offset) {
-    const { mainBall } = this.props;
-
     // Dashed line
     C.beginPath();
     C.setLineDash([15, 10]);
