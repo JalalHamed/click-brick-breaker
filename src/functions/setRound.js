@@ -1,7 +1,7 @@
 // Classes
 import Brick from '../classes/brick.js';
 import Bonus from '../classes/bonus.js';
-// Object Instances
+// Constructor Instances
 import score from '../classes/statistics/score.js';
 // Configs
 import { genRndUnusedIndex } from './helpers.js';

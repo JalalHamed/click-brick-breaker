@@ -2,7 +2,7 @@
 import Ball from './classes/balls/Ball.js';
 import Bonus from './classes/bonus.js';
 import Brick from './classes/brick.js';
-// Object Instances
+// Constructor Instances
 import mainBall from './classes/balls/mainBall.js';
 import pointer from './classes/pointer.js';
 import topBorder from './classes/borders/topBorder.js';
@@ -14,6 +14,7 @@ import fps from './classes/fps.js';
 // Handlers
 import handleMouseMove from './handlers/handleMouseMove.js';
 import handleResize from './handlers/handleResize.js';
+import handleClick from './handlers/handleClick.js';
 // Functions
 import shoot from './functions/shoot.js';
 import setRound from './functions/setRound.js';
@@ -28,23 +29,6 @@ import { storage, state } from './state.js';
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
 let offset = 0;
-
-const handleClick = e => {
-  if (isInBorder(e.y) && !state.isBallMoving) {
-    state.isBallMoving = true;
-    state.isMouseInBorder = false;
-    CANVAS.style.cursor = 'auto';
-    let angle = Math.atan2(e.y - mainBall.pos.y, e.x - mainBall.pos.x);
-    if (angle > -MIN_ANGLE) angle = -MIN_ANGLE;
-    if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
-    const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
-    mainBall.velocity = velocity;
-    state.shotBalls.push(mainBall);
-    for (let i = 1; i < coefficient.count; i++) {
-      state.shotBalls.push(new Ball({ velocity, delay: i }));
-    }
-  }
-};
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);

@@ -1,4 +1,4 @@
-// Object Instances
+// Constructor Instances
 import mainBall from './balls/mainBall.js';
 import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';

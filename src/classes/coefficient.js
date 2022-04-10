@@ -1,4 +1,4 @@
-// Object Instances
+// Constructor Instances
 import mainBall from './balls/mainBall.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
