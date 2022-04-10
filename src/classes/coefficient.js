@@ -6,19 +6,19 @@ import { storage } from '../utils/helpers.js';
 export default class Coefficient {
   constructor(props) {
     this.props = props;
-    const { ball } = props;
+    const { mainBall } = props;
 
     this.count = storage.get()?.coefficient || 1;
 
     this.pos = {
-      x: ball.pos.x,
-      y: ball.pos.y + SIZES.border.height + ball.r * 3,
+      x: mainBall.pos.x,
+      y: mainBall.pos.y + SIZES.border.height + mainBall.r * 3,
     };
   }
 
   draw() {
     C.font = `1.5rem play`;
-    C.fillStyle = this.count > 0 ? COLORS.ball : '#fff';
+    C.fillStyle = this.count > 0 ? COLORS.ball.main : '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';
     C.fillText(`x${this.count}`, this.pos.x, this.pos.y);

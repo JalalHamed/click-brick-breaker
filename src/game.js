@@ -5,7 +5,7 @@ import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
 import Coefficient from './classes/coefficient.js';
 // Object Instances
-import ball from './classes/inheritors/mainBall.js';
+import mainBall from './classes/inheritors/mainBall.js';
 import topBorder from './classes/inheritors/topBorder.js';
 import bottomBorder from './classes/inheritors/bottomBorder.js';
 import record from './classes/inheritors/record.js';
@@ -50,7 +50,7 @@ class Game {
 
   setRound() {
     // Generate bricks
-    const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
+    const maxBricks = score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus mainBall)
     const bricksCount = Math.floor(Math.random() * maxBricks) + 1;
 
     for (let i = 0; i < bricksCount; i++) {
@@ -59,7 +59,7 @@ class Game {
       bricks.push(new Brick({ grid, index, topBorder, score }));
     }
 
-    // Generate bonus ball
+    // Generate bonus mainBall
     let index = findIndex(indexes);
     bonuses.push(new Bonus({ grid, index }));
   }
@@ -67,7 +67,7 @@ class Game {
   handleMouseMove(e) {
     if (!isBallMoving) {
       if (this.isInBorder(e.y)) {
-        pointer = new Pointer({ e, ball });
+        pointer = new Pointer({ e, mainBall });
         CANVAS.style.cursor = 'pointer';
         if (!isMouseInBorder) isMouseInBorder = true;
       } else {
@@ -82,12 +82,12 @@ class Game {
       isBallMoving = true;
       isMouseInBorder = false;
       CANVAS.style.cursor = 'auto';
-      let angle = Math.atan2(e.y - ball.pos.y, e.x - ball.pos.x);
+      let angle = Math.atan2(e.y - mainBall.pos.y, e.x - mainBall.pos.x);
       if (angle > -MIN_ANGLE) angle = -MIN_ANGLE;
       if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
       const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
-      ball.velocity = velocity;
-      balls.push(ball);
+      mainBall.velocity = velocity;
+      balls.push(mainBall);
       for (let i = 1; i < coefficient.count; i++) {
         balls.push(new Ball({ velocity, delay: i }));
       }
@@ -101,7 +101,7 @@ class Game {
     record.draw();
     topBorder.draw();
     bottomBorder.draw();
-    ball.draw();
+    mainBall.draw();
     coefficient.draw();
     bricks.forEach(brick => brick.draw());
     bonuses.forEach(bonus => bonus.draw());
@@ -113,7 +113,7 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
+    SIZES.mainBall.radius = Math.round((CANVAS.width / 100) * 1.3);
     SIZES.border.margin = CANVAS.height / 5;
     SIZES.border.height = CANVAS.width / 125;
     SIZES.brick.margin = CANVAS.width / 120;
@@ -125,7 +125,7 @@ class Game {
       9;
     this.calcGrid();
 
-    [bottomBorder, topBorder, coefficient, ball].forEach(C => C.repoSize()); // "C" for "class"
+    [bottomBorder, topBorder, coefficient, mainBall].forEach(C => C.repoSize()); // "C" for "class"
     record.repoSize({ status: 'record' });
     score.repoSize({ status: 'score' });
     bricks.forEach(brick => brick.repoSize({ grid }));
@@ -134,7 +134,8 @@ class Game {
 
   isInBorder(y) {
     return (
-      y > topBorder.pos.y + topBorder.height && y < bottomBorder.pos.y - ball.r
+      y > topBorder.pos.y + topBorder.height &&
+      y < bottomBorder.pos.y - mainBall.r
     );
   }
 
@@ -149,7 +150,7 @@ class Game {
     this.draw();
     this.render();
     if (isBallMoving)
-      shoot({ ball, balls, setBalls, coefficient, setIsBallMoving });
+      shoot({ mainBall, balls, setBalls, coefficient, setIsBallMoving });
   }
 
   init() {
@@ -161,7 +162,7 @@ class Game {
   }
 }
 
-const coefficient = new Coefficient({ ball });
+const coefficient = new Coefficient({ mainBall });
 const game = new Game();
 
 const handleGameFont = () => {

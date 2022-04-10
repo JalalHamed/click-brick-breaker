@@ -2,13 +2,12 @@ export const CANVAS = document.querySelector('CANVAS');
 export const C = CANVAS.getContext('2d');
 
 export const COLORS = {
-  ball: 'rgb(31, 115, 242)',
+  ball: { main: 'rgb(31, 115, 242)', bonus: 'rgb(79, 234, 115)' },
   brick: 'rgb(239, 73, 33)',
   pointer: {
     line: 'rgb(31, 115, 242, 0.5)',
     ball: 'rgb(143, 185, 248)',
   },
-  bonus: 'rgb(79, 234, 115)',
 };
 
 CANVAS.height = innerHeight;

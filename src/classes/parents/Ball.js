@@ -26,7 +26,7 @@ export default class Ball {
     C.beginPath();
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.ball;
+    C.fillStyle = COLORS.ball.main;
     C.fill();
   }
 

@@ -35,7 +35,7 @@ export default class Bonus {
     C.beginPath();
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.bonus;
+    C.fillStyle = COLORS.ball.bonus;
     C.fill();
 
     // bonus ball's border wrapper
@@ -43,7 +43,7 @@ export default class Bonus {
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, this.swingR, 0, 2 * Math.PI);
     C.lineWidth = SIZES.border.height;
-    C.strokeStyle = COLORS.bonus;
+    C.strokeStyle = COLORS.ball.bonus;
     C.stroke();
   }
 
