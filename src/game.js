@@ -3,13 +3,13 @@ import Ball from './classes/balls/Ball.js';
 import Bonus from './classes/bonus.js';
 import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
-import Coefficient from './classes/coefficient.js';
 // Object Instances
 import mainBall from './classes/balls/mainBall.js';
 import topBorder from './classes/borders/topBorder.js';
 import bottomBorder from './classes/borders/bottomBorder.js';
 import record from './classes/statistics/record.js';
 import score from './classes/statistics/score.js';
+import coefficient from './classes/coefficient.js';
 import fps from './classes/fps.js';
 // Functions
 import shoot from './utils/shoot.js';
@@ -162,7 +162,6 @@ class Game {
   }
 }
 
-const coefficient = new Coefficient({ mainBall });
 const game = new Game();
 
 const handleGameFont = () => {

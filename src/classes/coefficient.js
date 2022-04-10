@@ -1,13 +1,12 @@
+// Object Instances
+import mainBall from './balls/mainBall.js';
 // Configs
 import { COLORS, SIZES, C } from '../utils/config.js';
 // Helpers
 import { storage } from '../utils/helpers.js';
 
-export default class Coefficient {
-  constructor(props) {
-    this.props = props;
-    const { mainBall } = props;
-
+class Coefficient {
+  constructor() {
     this.count = storage.get()?.coefficient || 1;
 
     this.pos = {
@@ -33,11 +32,11 @@ export default class Coefficient {
   }
 
   repoSize() {
-    const { mainBall } = this.props;
-
     this.pos = {
       x: mainBall.pos.x,
       y: mainBall.pos.y + SIZES.border.height + mainBall.r * 3,
     };
   }
 }
+
+export default new Coefficient();
