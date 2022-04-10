@@ -10,7 +10,7 @@ import { calcGrid } from './helpers.js';
 // Configs
 import { CANVAS, SIZES } from '../config.js';
 // State
-import { state } from '../storage.js';
+import { state } from '../state.js';
 
 const repoSize = () => /* re-position and re-size */ {
   CANVAS.width = innerWidth;

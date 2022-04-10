@@ -16,7 +16,7 @@ import shoot from './functions/shoot.js';
 import repoSize from './functions/repoSize.js';
 import { genRndUnusedIndex, calcGrid } from './functions/helpers.js';
 // Storage
-import { storage, state } from './storage.js';
+import { storage, state } from './state.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 

@@ -1,7 +1,7 @@
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
-import { state } from '../storage.js';
+import { state } from '../state.js';
 
 export default class Bonus {
   constructor(props) {

@@ -1,7 +1,7 @@
 // Configs
 import { SIZES } from '../config.js';
 // State
-import { state } from '../storage.js';
+import { state } from '../state.js';
 
 export function genRndUnusedIndex(indexes) {
   let index;

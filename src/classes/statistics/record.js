@@ -3,7 +3,7 @@ import Statistics from './Statistics.js';
 // Configs
 import { SIZES, C, CANVAS } from '../../config.js';
 // Storage
-import { storage } from '../../storage.js';
+import { storage } from '../../state.js';
 
 class Record extends Statistics {
   constructor() {

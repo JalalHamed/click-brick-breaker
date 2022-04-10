@@ -2,7 +2,7 @@
 import coefficient from '../classes/coefficient.js';
 import mainBall from '../classes/balls/mainBall.js';
 // Storage
-import { storage, state } from '../storage.js';
+import { storage, state } from '../state.js';
 // Configs
 import {
   SIZES,
