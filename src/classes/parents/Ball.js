@@ -8,7 +8,7 @@ export default class Ball {
     this.r = SIZES.ball.radius;
 
     this.pos = {
-      x: storage.get()?.ball || CANVAS.width / 2,
+      x: storage.get()?.mainBall || CANVAS.width / 2,
       y: CANVAS.height - SIZES.border.margin - this.r,
     };
 
@@ -41,7 +41,7 @@ export default class Ball {
       x: (CANVAS.width * this.pos.x) / this.canvasWidthTracker,
     };
 
-    storage.set({ ball: this.pos.x });
+    storage.set({ mainBall: this.pos.x });
 
     this.r = SIZES.ball.radius;
   }

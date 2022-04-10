@@ -1,17 +1,21 @@
 export const CANVAS = document.querySelector('CANVAS');
 export const C = CANVAS.getContext('2d');
+CANVAS.height = innerHeight;
+CANVAS.width = innerWidth;
 
 export const COLORS = {
-  ball: { main: 'rgb(31, 115, 242)', bonus: 'rgb(79, 234, 115)' },
+  ball: {
+    main: 'rgb(31, 115, 242)',
+    bonus: 'rgb(79, 234, 115)',
+    pointer: 'rgb(143, 185, 248)',
+  },
   brick: 'rgb(239, 73, 33)',
   pointer: {
     line: 'rgb(31, 115, 242, 0.5)',
-    ball: 'rgb(143, 185, 248)',
+    arrow: 'rgb(31, 115, 242, 0.5)',
   },
 };
 
-CANVAS.height = innerHeight;
-CANVAS.width = innerWidth;
 export const SIZES = {
   ball: {
     radius: Math.round((CANVAS.width / 100) * 1.3),

@@ -11,38 +11,46 @@ let counter = 0;
 let landedBallXPos;
 
 const shoot = async props => {
-  const { ball, balls, setBalls, coefficient, setIsBallMoving } = props;
+  const { mainBall, balls, setBalls, coefficient, setIsBallMoving } = props;
   const topBorderHeight = SIZES.border.margin + SIZES.border.height;
   const bottomBorderSurface = CANVAS.height - SIZES.border.margin;
 
-  balls.forEach(ball => {
-    const delay = ball.delay * ball.r;
-    ball.draw();
+  balls.forEach(mainBall => {
+    const delay = mainBall.delay * mainBall.r;
+    mainBall.draw();
 
-    if (counter > delay) ball.update();
+    if (counter > delay) mainBall.update();
     if (counter === delay) coefficient.decreaseCount();
 
-    if (ball.pos.x - ball.r <= 0 || ball.pos.x + ball.r >= CANVAS.width)
-      ball.velocity.x = -ball.velocity.x;
-    if (ball.pos.y <= topBorderHeight + ball.r) {
-      ball.velocity.y = -ball.velocity.y;
+    if (
+      mainBall.pos.x - mainBall.r <= 0 ||
+      mainBall.pos.x + mainBall.r >= CANVAS.width
+    )
+      mainBall.velocity.x = -mainBall.velocity.x;
+    if (mainBall.pos.y <= topBorderHeight + mainBall.r) {
+      mainBall.velocity.y = -mainBall.velocity.y;
     }
-    if (ball.pos.y > bottomBorderSurface - ball.r) {
-      ball.velocity.x = 0;
-      ball.velocity.y = 0;
-      landedBallXPos = ball.pos.x;
-      ball.pos.y = bottomBorderSurface - ball.r;
+    if (mainBall.pos.y > bottomBorderSurface - mainBall.r) {
+      mainBall.velocity.x = 0;
+      mainBall.velocity.y = 0;
+      landedBallXPos = mainBall.pos.x;
+      mainBall.pos.y = bottomBorderSurface - mainBall.r;
     }
   });
 
   counter++;
 
-  if (balls.every(ball => ball.velocity.x === 0 && ball.velocity.y === 0)) {
-    if (landedBallXPos < ball.r + S_M_F_B) landedBallXPos = ball.r + S_M_F_B;
-    if (landedBallXPos > CANVAS.width - ball.r - S_M_F_B)
-      landedBallXPos = CANVAS.width - ball.r - S_M_F_B;
-    storage.set({ ball: landedBallXPos });
-    ball.pos.x = landedBallXPos;
+  if (
+    balls.every(
+      mainBall => mainBall.velocity.x === 0 && mainBall.velocity.y === 0
+    )
+  ) {
+    if (landedBallXPos < mainBall.r + S_M_F_B)
+      landedBallXPos = mainBall.r + S_M_F_B;
+    if (landedBallXPos > CANVAS.width - mainBall.r - S_M_F_B)
+      landedBallXPos = CANVAS.width - mainBall.r - S_M_F_B;
+    storage.set({ mainBall: landedBallXPos });
+    mainBall.pos.x = landedBallXPos;
     coefficient.regainCount();
     coefficient.repoSize();
     counter = 0;

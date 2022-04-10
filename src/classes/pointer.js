@@ -121,7 +121,7 @@ export default class Pointer {
     C.setLineDash([]);
     C.moveTo(mainBall.pos.x, mainBall.pos.y);
     C.lineTo(...this.calcEndPoint.arrow);
-    C.strokeStyle = COLORS.pointer.line;
+    C.strokeStyle = COLORS.pointer.arrow;
     C.lineWidth = mainBall.r;
     C.stroke();
     // Arrow Head
@@ -153,7 +153,7 @@ export default class Pointer {
     C.beginPath();
     C.setLineDash([]);
     C.arc(...this.calcEndPoint.mainBall, mainBall.r, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.pointer.line;
+    C.fillStyle = COLORS.ball.pointer;
     C.fill();
   }
 }

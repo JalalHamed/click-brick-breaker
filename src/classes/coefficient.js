@@ -33,11 +33,11 @@ export default class Coefficient {
   }
 
   repoSize() {
-    const { ball } = this.props;
+    const { mainBall } = this.props;
 
     this.pos = {
-      x: ball.pos.x,
-      y: ball.pos.y + SIZES.border.height + ball.r * 3,
+      x: mainBall.pos.x,
+      y: mainBall.pos.y + SIZES.border.height + mainBall.r * 3,
     };
   }
 }
