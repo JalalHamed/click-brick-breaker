@@ -13,8 +13,9 @@ import coefficient from './classes/coefficient.js';
 import fps from './classes/fps.js';
 // Functions
 import shoot from './functions/shoot.js';
-// Helpers
-import { genRndUnusedIndex, storage } from './functions/helpers.js';
+import { genRndUnusedIndex } from './functions/helpers.js';
+// Storage
+import storage from './storage.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
@@ -28,6 +29,11 @@ let counter = 0;
 let offset = 0;
 let pointer;
 
+const calcGrid = () => {
+  for (let i = 0; i < 7; i++)
+    grid[i] = i * SIZES.brick.width + i * SIZES.brick.margin;
+};
+
 const setIsBallMoving = status => {
   if (typeof status === 'boolean') isBallMoving = status;
   else
@@ -40,129 +46,114 @@ const setBalls = array => {
   shotBalls = array;
 };
 
-class Game {
-  constructor() {
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.animate = this.animate.bind(this);
-  }
+const setRound = () => {
+  let indexes = [];
+  // Generate bricks
+  const maxBricksCount =
+    score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
+  const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
 
-  setRound() {
-    let indexes = [];
-    // Generate bricks
-    const maxBricksCount =
-      score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
-    const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
-
-    for (let i = 0; i < bricksCount; i++) {
-      let index = genRndUnusedIndex(indexes);
-      indexes.push(index);
-      bricks.push(new Brick({ grid, index }));
-    }
-
-    // Generate bonus ball
+  for (let i = 0; i < bricksCount; i++) {
     let index = genRndUnusedIndex(indexes);
-    bonuses.push(new Bonus({ grid, index }));
+    indexes.push(index);
+    bricks.push(new Brick({ grid, index }));
   }
 
-  handleMouseMove(e) {
-    if (!isBallMoving) {
-      if (this.isInBorder(e.y)) {
-        pointer = new Pointer({ e });
-        CANVAS.style.cursor = 'pointer';
-        if (!isMouseInBorder) isMouseInBorder = true;
-      } else {
-        CANVAS.style.cursor = 'auto';
-        if (isMouseInBorder) isMouseInBorder = false;
-      }
-    }
-  }
+  // Generate bonus ball
+  let index = genRndUnusedIndex(indexes);
+  bonuses.push(new Bonus({ grid, index }));
+};
 
-  handleClick(e) {
-    if (this.isInBorder(e.y) && !isBallMoving) {
-      isBallMoving = true;
-      isMouseInBorder = false;
+const isInBorder = y => {
+  return (
+    y > topBorder.pos.y + topBorder.height &&
+    y < bottomBorder.pos.y - mainBall.r
+  );
+};
+
+const handleMouseMove = e => {
+  if (!isBallMoving) {
+    if (isInBorder(e.y)) {
+      pointer = new Pointer({ e });
+      CANVAS.style.cursor = 'pointer';
+      if (!isMouseInBorder) isMouseInBorder = true;
+    } else {
       CANVAS.style.cursor = 'auto';
-      let angle = Math.atan2(e.y - mainBall.pos.y, e.x - mainBall.pos.x);
-      if (angle > -MIN_ANGLE) angle = -MIN_ANGLE;
-      if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
-      const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
-      mainBall.velocity = velocity;
-      shotBalls.push(mainBall);
-      for (let i = 1; i < coefficient.count; i++) {
-        shotBalls.push(new Ball({ velocity, delay: i }));
-      }
+      if (isMouseInBorder) isMouseInBorder = false;
     }
   }
+};
 
-  draw() {
-    C.clearRect(0, 0, CANVAS.width, CANVAS.height);
-    fps.draw();
-    score.draw();
-    record.draw();
-    topBorder.draw();
-    bottomBorder.draw();
-    mainBall.draw();
-    coefficient.draw();
-    bricks.forEach(brick => brick.draw());
-    bonuses.forEach(bonus => bonus.draw());
-    if (isMouseInBorder && !isBallMoving) pointer.draw(offset);
+const handleClick = e => {
+  if (isInBorder(e.y) && !isBallMoving) {
+    isBallMoving = true;
+    isMouseInBorder = false;
+    CANVAS.style.cursor = 'auto';
+    let angle = Math.atan2(e.y - mainBall.pos.y, e.x - mainBall.pos.x);
+    if (angle > -MIN_ANGLE) angle = -MIN_ANGLE;
+    if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
+    const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
+    mainBall.velocity = velocity;
+    shotBalls.push(mainBall);
+    for (let i = 1; i < coefficient.count; i++) {
+      shotBalls.push(new Ball({ velocity, delay: i }));
+    }
   }
+};
 
-  render() {
-    bonuses.forEach(bonus => bonus.render());
-  }
+const draw = () => {
+  C.clearRect(0, 0, CANVAS.width, CANVAS.height);
+  fps.draw();
+  score.draw();
+  record.draw();
+  topBorder.draw();
+  bottomBorder.draw();
+  mainBall.draw();
+  coefficient.draw();
+  bricks.forEach(brick => brick.draw());
+  bonuses.forEach(bonus => bonus.draw());
+  if (isMouseInBorder && !isBallMoving) pointer.draw(offset);
+};
 
-  repoSize() /* re-position and re-size */ {
-    SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
-    SIZES.border.margin = CANVAS.height / 5;
-    SIZES.border.height = CANVAS.width / 125;
-    SIZES.brick.margin = CANVAS.width / 120;
-    SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
-    SIZES.brick.height =
-      (CANVAS.height -
-        (SIZES.border.margin * 2 + SIZES.border.height * 2) -
-        SIZES.brick.margin * 8) /
-      9;
-    this.calcGrid();
+const render = () => {
+  bonuses.forEach(bonus => bonus.render());
+};
 
-    [bottomBorder, topBorder, coefficient, mainBall].forEach(c => c.repoSize()); // "c" for "class"
-    record.repoSize();
-    score.repoSize();
-    bricks.forEach(brick => brick.repoSize({ grid }));
-    bonuses.forEach(bonus => bonus.repoSize({ grid }));
-  }
+const repoSize = () => /* re-position and re-size */ {
+  CANVAS.width = innerWidth;
+  CANVAS.height = innerHeight;
+  SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
+  SIZES.border.margin = CANVAS.height / 5;
+  SIZES.border.height = CANVAS.width / 125;
+  SIZES.brick.margin = CANVAS.width / 120;
+  SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
+  SIZES.brick.height =
+    (CANVAS.height -
+      (SIZES.border.margin * 2 + SIZES.border.height * 2) -
+      SIZES.brick.margin * 8) /
+    9;
+  calcGrid();
 
-  isInBorder(y) {
-    return (
-      y > topBorder.pos.y + topBorder.height &&
-      y < bottomBorder.pos.y - mainBall.r
-    );
-  }
+  [bottomBorder, topBorder, coefficient, mainBall].forEach(c => c.repoSize()); // "c" for "class"
+  record.repoSize();
+  score.repoSize();
+  bricks.forEach(brick => brick.repoSize({ grid }));
+  bonuses.forEach(bonus => bonus.repoSize({ grid }));
+};
 
-  calcGrid() {
-    for (let i = 0; i < 7; i++)
-      grid[i] = i * SIZES.brick.width + i * SIZES.brick.margin;
-  }
+const animate = () => {
+  const rAF = requestAnimationFrame(animate);
+  offset--;
+  draw();
+  render();
+  if (isBallMoving) shoot({ mainBall, shotBalls, setBalls, setIsBallMoving });
+};
 
-  animate() {
-    const rAF = requestAnimationFrame(this.animate);
-    offset--;
-    this.draw();
-    this.render();
-    if (isBallMoving) shoot({ mainBall, shotBalls, setBalls, setIsBallMoving });
-  }
-
-  init() {
-    this.animate();
-    this.calcGrid();
-    this.setRound();
-    CANVAS.addEventListener('mousemove', game.handleMouseMove);
-    CANVAS.addEventListener('click', game.handleClick);
-  }
-}
-
-const game = new Game();
+const init = () => {
+  animate();
+  calcGrid();
+  setRound();
+};
 
 const handleGameFont = () => {
   const loadingEl = document.querySelector('.loading');
@@ -172,7 +163,7 @@ const handleGameFont = () => {
     },
     active() {
       loadingEl.style.display = 'none';
-      game.init();
+      init();
     },
     inactive() {
       loadingEl.style.display = 'none';
@@ -185,10 +176,10 @@ const handleGameFont = () => {
 };
 
 const handleResize = () => {
-  CANVAS.width = innerWidth;
-  CANVAS.height = innerHeight;
-  if (!isBallMoving) game.repoSize();
+  if (!isBallMoving) repoSize();
 };
 
 addEventListener('load', handleGameFont);
 addEventListener('resize', handleResize);
+addEventListener('mousemove', handleMouseMove);
+addEventListener('click', handleClick);

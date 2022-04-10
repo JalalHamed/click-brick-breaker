@@ -1,7 +1,7 @@
 // Classes
 import coefficient from '../classes/coefficient.js';
-// Helpers
-import { storage } from './helpers.js';
+// Storage
+import storage from '../storage.js';
 // Configs
 import {
   SIZES,

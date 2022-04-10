@@ -2,8 +2,8 @@
 import Statistics from './Statistics.js';
 // Configs
 import { SIZES, C, CANVAS } from '../../config.js';
-// Helpers
-import { storage } from '../../functions/helpers.js';
+// Storage
+import storage from '../../storage.js';
 
 class Record extends Statistics {
   constructor() {
