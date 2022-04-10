@@ -15,7 +15,11 @@ import fps from './classes/fps.js';
 import shoot from './functions/shoot.js';
 import repoSize from './functions/repoSize.js';
 import setRound from './functions/setRound.js';
-import { genRndUnusedIndex, calcGrid } from './functions/helpers.js';
+import {
+  genRndUnusedIndex,
+  calcGrid,
+  isInBorder,
+} from './functions/helpers.js';
 // State
 import { storage, state } from './state.js';
 // Configs
@@ -23,13 +27,6 @@ import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
 let offset = 0;
 let pointer;
-
-const isInBorder = y => {
-  return (
-    y > topBorder.pos.y + topBorder.height &&
-    y < bottomBorder.pos.y - mainBall.r
-  );
-};
 
 const handleMouseMove = e => {
   if (!state.isBallMoving) {
