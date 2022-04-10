@@ -125,9 +125,9 @@ class Game {
       9;
     this.calcGrid();
 
-    [bottomBorder, topBorder, coefficient, mainBall].forEach(C => C.repoSize()); // "C" for "class"
-    record.repoSize({ status: 'record' });
-    score.repoSize({ status: 'score' });
+    [bottomBorder, topBorder, coefficient, mainBall].forEach(c => c.repoSize()); // "c" for "class"
+    record.repoSize();
+    score.repoSize();
     bricks.forEach(brick => brick.repoSize({ grid }));
     bonuses.forEach(bonus => bonus.repoSize({ grid }));
   }
@@ -165,16 +165,17 @@ class Game {
 const game = new Game();
 
 const handleGameFont = () => {
+  const loadingEl = document.querySelector('.loading');
   WebFont.load({
     google: {
       families: ['Play:700'],
     },
     active() {
-      document.querySelector('.pre-load').style.display = 'none';
+      loadingEl.style.display = 'none';
       game.init();
     },
     inactive() {
-      document.querySelector('.pre-load').style.display = 'none';
+      loadingEl.style.display = 'none';
       alert(
         "Couldn't load game's fonts. Please make sure you have a sustainable internet connection and try again."
       );

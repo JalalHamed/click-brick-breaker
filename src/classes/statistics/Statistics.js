@@ -19,13 +19,4 @@ export default class Statistics {
   addOne() {
     this.count++;
   }
-
-  repoSize() {
-    const { height } = SIZES.brick;
-
-    this.pos = {
-      x: CANVAS.width / 2 + 75,
-      y: this.status === 'Record' ? height * 1.3 : height * 1.3 + height,
-    };
-  }
 }

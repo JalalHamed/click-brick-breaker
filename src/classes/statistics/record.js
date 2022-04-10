@@ -12,6 +12,15 @@ class Record extends Statistics {
     this.pos.y = SIZES.brick.height * 1.3;
     this.count = storage.get()?.record || 1;
   }
+
+  repoSize() {
+    const { height } = SIZES.brick;
+
+    this.pos = {
+      x: CANVAS.width / 2 + 75,
+      y: height * 1.3,
+    };
+  }
 }
 
 export default new Record();

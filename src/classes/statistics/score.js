@@ -14,6 +14,15 @@ class Score extends Statistics {
     this.pos.y = height * 1.3 + height;
     this.count = storage.get()?.score || 1;
   }
+
+  repoSize() {
+    const { height } = SIZES.brick;
+
+    this.pos = {
+      x: CANVAS.width / 2 + 75,
+      y: height * 1.3 + height,
+    };
+  }
 }
 
 export default new Score();
