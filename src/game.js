@@ -113,7 +113,7 @@ class Game {
   }
 
   repoSize() /* re-position and re-size */ {
-    SIZES.mainBall.radius = Math.round((CANVAS.width / 100) * 1.3);
+    SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
     SIZES.border.margin = CANVAS.height / 5;
     SIZES.border.height = CANVAS.width / 125;
     SIZES.brick.margin = CANVAS.width / 120;

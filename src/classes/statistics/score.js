@@ -1,7 +1,7 @@
 // Classes
 import Statistics from './Statistics.js';
 // Configs
-import { SIZES, C } from '../../config.js';
+import { SIZES, C, CANVAS } from '../../config.js';
 // Helpers
 import { storage } from '../../functions/helpers.js';
 
