@@ -14,7 +14,7 @@ export default class Pointer {
   }
 
   get calcEndPoint() {
-    const { ball, e } = this.props;
+    const { mainBall, e } = this.props;
     const { border } = SIZES;
 
     const topBorderHeight = border.margin + border.height;
@@ -22,7 +22,7 @@ export default class Pointer {
     const arrowLength = (CANVAS.height - topBorderHeight * 2) / 4;
     let endpoint = [];
 
-    const pointA = [ball.pos.x, ball.pos.y];
+    const pointA = [mainBall.pos.x, mainBall.pos.y];
     const pointB = [e.x, e.y];
 
     // Calculate slope, y intercept (b) & the angle
@@ -47,28 +47,29 @@ export default class Pointer {
 
     const getX = basedOn => {
       const x = (basedOn - b) / slope;
-      if (x > ball.r && x < CANVAS.width - ball.r) return x;
+      if (x > mainBall.r && x < CANVAS.width - mainBall.r) return x;
       // Prevent ball from going over the CANVAS' width in the left corner
-      if (x < ball.r) return ball.r;
+      if (x < mainBall.r) return mainBall.r;
       // Prevent ball from going over the CANVAS' width in the right corner
-      if (x > CANVAS.width - ball.r) return CANVAS.width - ball.r;
+      if (x > CANVAS.width - mainBall.r) return CANVAS.width - mainBall.r;
     };
 
     const getY = basedOn => {
       const y = basedOn * slope + b;
       if (angle > MIN_ANGLE && angle < MAX_ANGLE) {
-        if (y > topBorderHeight + ball.r) return y;
-        // Prevent ball from going over top border in the corners
-        if (y < topBorderHeight + ball.r) return topBorderHeight + ball.r;
+        if (y > topBorderHeight + mainBall.r) return y;
+        // Prevent mainBall from going over top border in the corners
+        if (y < topBorderHeight + mainBall.r)
+          return topBorderHeight + mainBall.r;
       }
-      // Prevent ball from going lower than 10 degrees
+      // Prevent mainBall from going lower than 10 degrees
       if (angle === MIN_ANGLE)
-        return bottomBorderHeight - Math.tan(angle) * (pointA[0] + ball.r);
-      // Prevent ball from surpassing 170 degrees
+        return bottomBorderHeight - Math.tan(angle) * (pointA[0] + mainBall.r);
+      // Prevent mainBall from surpassing 170 degrees
       if (angle === MAX_ANGLE)
         return (
           bottomBorderHeight -
-          Math.tan(Math.PI - angle) * (CANVAS.width - pointA[0] + ball.r)
+          Math.tan(Math.PI - angle) * (CANVAS.width - pointA[0] + mainBall.r)
         );
     };
 
@@ -78,20 +79,22 @@ export default class Pointer {
     };
 
     // At 90 degree, slope is Infinite
-    if (slope === Infinity) endpoint = [ball.pos.x, topBorderHeight + ball.r];
-    // Pointer ball touches top border
-    if (x > 0 && x < CANVAS.width) setEndPoint('y', topBorderHeight + ball.r);
-    // Pointer ball touches left side of CANVAS
-    if (x < 0) setEndPoint('x', ball.r);
-    // Pointer ball touches right side of CANVAS
-    if (x > CANVAS.width) setEndPoint('x', CANVAS.width - ball.r);
+    if (slope === Infinity)
+      endpoint = [mainBall.pos.x, topBorderHeight + mainBall.r];
+    // Pointer mainBall touches top border
+    if (x > 0 && x < CANVAS.width)
+      setEndPoint('y', topBorderHeight + mainBall.r);
+    // Pointer mainBall touches left side of CANVAS
+    if (x < 0) setEndPoint('x', mainBall.r);
+    // Pointer mainBall touches right side of CANVAS
+    if (x > CANVAS.width) setEndPoint('x', CANVAS.width - mainBall.r);
     // TODO: Change end point on colliding with bricks
 
     return {
-      ball: endpoint,
+      mainBall: endpoint,
       dashedLine: [
-        endpoint[0] + Math.cos(angle) * ball.r * 2,
-        endpoint[1] + Math.sin(angle) * ball.r * 2,
+        endpoint[0] + Math.cos(angle) * mainBall.r * 2,
+        endpoint[1] + Math.sin(angle) * mainBall.r * 2,
       ],
       arrow: [
         pointA[0] - Math.cos(angle) * arrowLength,
@@ -101,52 +104,55 @@ export default class Pointer {
   }
 
   draw(offset) {
-    const { ball } = this.props;
+    const { mainBall } = this.props;
 
     // Dashed line
     C.beginPath();
     C.setLineDash([15, 10]);
-    C.moveTo(ball.pos.x, ball.pos.y);
+    C.moveTo(mainBall.pos.x, mainBall.pos.y);
     C.lineTo(...this.calcEndPoint.dashedLine);
     C.lineDashOffset = offset;
     C.strokeStyle = COLORS.pointer.line;
-    C.lineWidth = ball.r / 2.5;
+    C.lineWidth = mainBall.r / 2.5;
     C.stroke();
 
     // Arrow
     C.beginPath();
     C.setLineDash([]);
-    C.moveTo(ball.pos.x, ball.pos.y);
+    C.moveTo(mainBall.pos.x, mainBall.pos.y);
     C.lineTo(...this.calcEndPoint.arrow);
     C.strokeStyle = COLORS.pointer.line;
-    C.lineWidth = ball.r;
+    C.lineWidth = mainBall.r;
     C.stroke();
     // Arrow Head
     const [endpointX, endpointY] = this.calcEndPoint.arrow;
-    const angle = Math.atan2(endpointY - ball.pos.y, endpointX - ball.pos.x);
-    const x = endpointX + Math.cos(angle) * ball.r * 1.4;
-    const y = endpointY + Math.sin(angle) * ball.r * 1.4;
+    const angle = Math.atan2(
+      endpointY - mainBall.pos.y,
+      endpointX - mainBall.pos.x
+    );
+    const x = endpointX + Math.cos(angle) * mainBall.r * 1.4;
+    const y = endpointY + Math.sin(angle) * mainBall.r * 1.4;
     C.beginPath();
     C.moveTo(x, y);
     C.lineTo(
-      x - ball.r * Math.cos(angle - Math.PI / 7),
-      y - ball.r * Math.sin(angle - Math.PI / 7)
+      x - mainBall.r * Math.cos(angle - Math.PI / 7),
+      y - mainBall.r * Math.sin(angle - Math.PI / 7)
     );
     C.lineTo(
-      x - ball.r * Math.cos(angle + Math.PI / 7),
-      y - ball.r * Math.sin(angle + Math.PI / 7)
+      x - mainBall.r * Math.cos(angle + Math.PI / 7),
+      y - mainBall.r * Math.sin(angle + Math.PI / 7)
     );
     C.lineTo(x, y);
     C.lineTo(
-      x - ball.r * Math.cos(angle - Math.PI / 7),
-      y - ball.r * Math.sin(angle - Math.PI / 7)
+      x - mainBall.r * Math.cos(angle - Math.PI / 7),
+      y - mainBall.r * Math.sin(angle - Math.PI / 7)
     );
     C.stroke();
 
     // Ball
     C.beginPath();
     C.setLineDash([]);
-    C.arc(...this.calcEndPoint.ball, ball.r, 0, 2 * Math.PI);
+    C.arc(...this.calcEndPoint.mainBall, mainBall.r, 0, 2 * Math.PI);
     C.fillStyle = COLORS.pointer.line;
     C.fill();
   }

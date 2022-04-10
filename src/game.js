@@ -87,7 +87,7 @@ class Game {
       if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
       const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
       mainBall.velocity = velocity;
-      balls.push(mainBall);
+      balls.push(mainBall); // shotBalls*
       for (let i = 1; i < coefficient.count; i++) {
         balls.push(new Ball({ velocity, delay: i }));
       }
