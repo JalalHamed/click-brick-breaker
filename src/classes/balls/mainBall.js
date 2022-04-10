@@ -1,5 +1,5 @@
 // Classes
-import Ball from '../parents/Ball.js';
+import Ball from './Ball.js';
 
 class MainBall extends Ball {
   constructor() {

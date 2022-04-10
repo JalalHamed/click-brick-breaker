@@ -1,5 +1,5 @@
 // Classes
-import Border from '../parents/Border.js';
+import Border from './Border.js';
 // Configs
 import { SIZES } from '../../utils/config.js';
 

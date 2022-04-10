@@ -1,5 +1,5 @@
 // Classes
-import Statistics from '../parents/Statistics.js';
+import Statistics from './Statistics.js';
 // Configs
 import { SIZES, C } from '../../utils/config.js';
 // Helpers

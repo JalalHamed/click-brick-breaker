@@ -1,15 +1,15 @@
 // Classes
-import Ball from './classes/parents/Ball.js';
+import Ball from './classes/balls/Ball.js';
 import Bonus from './classes/bonus.js';
 import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
 import Coefficient from './classes/coefficient.js';
 // Object Instances
-import mainBall from './classes/inheritors/mainBall.js';
-import topBorder from './classes/inheritors/topBorder.js';
-import bottomBorder from './classes/inheritors/bottomBorder.js';
-import record from './classes/inheritors/record.js';
-import score from './classes/inheritors/score.js';
+import mainBall from './classes/balls/mainBall.js';
+import topBorder from './classes/borders/topBorder.js';
+import bottomBorder from './classes/borders/bottomBorder.js';
+import record from './classes/statistics/record.js';
+import score from './classes/statistics/score.js';
 import fps from './classes/fps.js';
 // Functions
 import shoot from './utils/shoot.js';
