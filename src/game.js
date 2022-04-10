@@ -1,10 +1,11 @@
 // Classes
-import Ball from './classes/ball.js';
+import Ball from './classes/parents/Ball.js';
 import Bonus from './classes/bonus.js';
 import Brick from './classes/brick.js';
 import Pointer from './classes/pointer.js';
 import Coefficient from './classes/coefficient.js';
 // Object Instances
+import ball from './classes/inheritors/mainBall.js';
 import topBorder from './classes/inheritors/topBorder.js';
 import bottomBorder from './classes/inheritors/bottomBorder.js';
 import record from './classes/inheritors/record.js';
@@ -160,7 +161,6 @@ class Game {
   }
 }
 
-const ball = new Ball();
 const coefficient = new Coefficient({ ball });
 const game = new Game();
 

@@ -1,7 +1,7 @@
 // Configs
-import { COLORS, SIZES, CANVAS, C } from '../utils/config.js';
+import { COLORS, SIZES, CANVAS, C } from '../../utils/config.js';
 // Helpers
-import { storage } from '../utils/helpers.js';
+import { storage } from '../../utils/helpers.js';
 
 export default class Ball {
   constructor(props) {
