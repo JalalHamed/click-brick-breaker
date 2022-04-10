@@ -16,21 +16,15 @@ import shoot from './functions/shoot.js';
 import repoSize from './functions/repoSize.js';
 import { genRndUnusedIndex, calcGrid } from './functions/helpers.js';
 // Storage
-import storage from './storage.js';
+import { storage, state } from './storage.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
-let isMouseInBorder = false;
-let isBallMoving = false;
-let bricks = storage.get()?.bricks || [];
-let bonuses = storage.get()?.bonuses || [];
-let grid = [];
-let shotBalls = [];
 let offset = 0;
 let pointer;
 
 const setIsBallMoving = status => {
-  if (typeof status === 'boolean') isBallMoving = status;
+  if (typeof status === 'boolean') state.isBallMoving = status;
   else
     throw Error(
       "Wrong type, only boolean is acceptable. (here's why typescript exists)"
@@ -38,7 +32,7 @@ const setIsBallMoving = status => {
 };
 
 const setBalls = array => {
-  shotBalls = array;
+  state.shotBalls = array;
 };
 
 const setRound = () => {
@@ -51,12 +45,12 @@ const setRound = () => {
   for (let i = 0; i < bricksCount; i++) {
     let index = genRndUnusedIndex(indexes);
     indexes.push(index);
-    bricks.push(new Brick({ grid, index }));
+    state.bricks.push(new Brick({ index }));
   }
 
   // Generate bonus ball
   let index = genRndUnusedIndex(indexes);
-  bonuses.push(new Bonus({ grid, index }));
+  state.bonuses.push(new Bonus({ index }));
 };
 
 const isInBorder = y => {
@@ -67,31 +61,31 @@ const isInBorder = y => {
 };
 
 const handleMouseMove = e => {
-  if (!isBallMoving) {
+  if (!state.isBallMoving) {
     if (isInBorder(e.y)) {
       pointer = new Pointer({ e });
       CANVAS.style.cursor = 'pointer';
-      if (!isMouseInBorder) isMouseInBorder = true;
+      if (!state.isMouseInBorder) state.isMouseInBorder = true;
     } else {
       CANVAS.style.cursor = 'auto';
-      if (isMouseInBorder) isMouseInBorder = false;
+      if (state.isMouseInBorder) state.isMouseInBorder = false;
     }
   }
 };
 
 const handleClick = e => {
-  if (isInBorder(e.y) && !isBallMoving) {
-    isBallMoving = true;
-    isMouseInBorder = false;
+  if (isInBorder(e.y) && !state.isBallMoving) {
+    state.isBallMoving = true;
+    state.isMouseInBorder = false;
     CANVAS.style.cursor = 'auto';
     let angle = Math.atan2(e.y - mainBall.pos.y, e.x - mainBall.pos.x);
     if (angle > -MIN_ANGLE) angle = -MIN_ANGLE;
     if (angle < -MAX_ANGLE) angle = -MAX_ANGLE;
     const velocity = { x: Math.cos(angle) * 15, y: Math.sin(angle) * 15 };
     mainBall.velocity = velocity;
-    shotBalls.push(mainBall);
+    state.shotBalls.push(mainBall);
     for (let i = 1; i < coefficient.count; i++) {
-      shotBalls.push(new Ball({ velocity, delay: i }));
+      state.shotBalls.push(new Ball({ velocity, delay: i }));
     }
   }
 };
@@ -105,13 +99,13 @@ const draw = () => {
   bottomBorder.draw();
   mainBall.draw();
   coefficient.draw();
-  bricks.forEach(brick => brick.draw());
-  bonuses.forEach(bonus => bonus.draw());
-  if (isMouseInBorder && !isBallMoving) pointer.draw(offset);
+  state.bricks.forEach(brick => brick.draw());
+  state.bonuses.forEach(bonus => bonus.draw());
+  if (state.isMouseInBorder && !state.isBallMoving) pointer.draw(offset);
 };
 
 const render = () => {
-  bonuses.forEach(bonus => bonus.render());
+  state.bonuses.forEach(bonus => bonus.render());
 };
 
 const animate = () => {
@@ -119,12 +113,12 @@ const animate = () => {
   offset--;
   draw();
   render();
-  if (isBallMoving) shoot({ shotBalls, setBalls, setIsBallMoving });
+  if (state.isBallMoving) shoot({ setBalls, setIsBallMoving });
 };
 
 const init = () => {
   animate();
-  calcGrid(grid);
+  calcGrid();
   setRound();
 };
 
@@ -149,7 +143,7 @@ const handleGameFont = () => {
 };
 
 const handleResize = () => {
-  if (!isBallMoving) repoSize(bricks, bonuses, grid);
+  if (!state.isBallMoving) repoSize();
 };
 
 addEventListener('load', handleGameFont);

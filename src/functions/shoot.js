@@ -2,7 +2,7 @@
 import coefficient from '../classes/coefficient.js';
 import mainBall from '../classes/balls/mainBall.js';
 // Storage
-import storage from '../storage.js';
+import { storage, state } from '../storage.js';
 // Configs
 import {
   SIZES,
@@ -14,11 +14,11 @@ let counter = 0;
 let landedBallXPos;
 
 const shoot = async props => {
-  const { shotBalls, setBalls, setIsBallMoving } = props;
+  const { setBalls, setIsBallMoving } = props;
   const topBorderHeight = SIZES.border.margin + SIZES.border.height;
   const bottomBorderSurface = CANVAS.height - SIZES.border.margin;
 
-  shotBalls.forEach(mainBall => {
+  state.shotBalls.forEach(mainBall => {
     const delay = mainBall.delay * mainBall.r;
     mainBall.draw();
 
@@ -44,7 +44,7 @@ const shoot = async props => {
   counter++;
 
   if (
-    shotBalls.every(
+    state.shotBalls.every(
       mainBall => mainBall.velocity.x === 0 && mainBall.velocity.y === 0
     )
   ) {

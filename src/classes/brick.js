@@ -2,18 +2,20 @@
 import score from './statistics/score.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
+// State
+import { state } from '../storage.js';
 
 export default class Brick {
   constructor(props) {
     this.props = props;
-    const { grid, index } = props;
+    const { index } = props;
     const { width, height } = SIZES.brick;
 
     this.width = width;
     this.height = height;
 
     this.pos = {
-      x: grid[index],
+      x: state.grid[index],
       y: SIZES.border.margin + SIZES.border.height + this.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
 
@@ -34,13 +36,13 @@ export default class Brick {
     );
   }
 
-  repoSize({ grid }) {
+  repoSize() {
     this.width = SIZES.brick.width;
     this.height = SIZES.brick.height;
 
     this.pos = {
       ...this.pos,
-      x: grid[this.props.index],
+      x: state.grid[this.props.index],
     };
   }
 }

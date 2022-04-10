@@ -3,7 +3,7 @@ import mainBall from './balls/mainBall.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // Storage
-import storage from '../storage.js';
+import { storage } from '../storage.js';
 
 class Coefficient {
   constructor() {

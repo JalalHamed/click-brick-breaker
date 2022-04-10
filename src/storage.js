@@ -1,4 +1,4 @@
-const storage = {
+export const storage = {
   get() {
     return JSON.parse(localStorage.getItem('cbb-state'));
   },
@@ -10,4 +10,11 @@ const storage = {
   },
 };
 
-export default storage;
+export const state = {
+  isMouseInBorder: false,
+  isBallMoving: false,
+  bricks: storage.get()?.bricks || [],
+  bonuses: storage.get()?.bonuses || [],
+  grid: [],
+  shotBalls: [],
+};

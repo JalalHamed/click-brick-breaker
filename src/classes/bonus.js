@@ -1,10 +1,12 @@
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
+// State
+import { state } from '../storage.js';
 
 export default class Bonus {
   constructor(props) {
     this.props = props;
-    const { index, grid } = props;
+    const { index } = props;
 
     this.r = SIZES.ball.radius;
     this.swingR = SIZES.ball.radius;
@@ -12,7 +14,7 @@ export default class Bonus {
     this.counter = 0;
 
     this.pos = {
-      x: grid[index] + SIZES.brick.width / 2,
+      x: state.grid[index] + SIZES.brick.width / 2,
       y:
         SIZES.border.margin +
         SIZES.border.height +
@@ -56,11 +58,11 @@ export default class Bonus {
     this.pos.y += this.yVelocity;
   }
 
-  repoSize({ grid }) {
+  repoSize() {
     const { border, ball, brick } = SIZES;
 
     this.pos = {
-      x: grid[this.props.index] + brick.width / 2,
+      x: state.grid[this.props.index] + brick.width / 2,
       y: border.margin + border.height + brick.height + brick.height / 2,
     };
 

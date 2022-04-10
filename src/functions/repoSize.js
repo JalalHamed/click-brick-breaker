@@ -9,8 +9,10 @@ import coefficient from '../classes/coefficient.js';
 import { calcGrid } from './helpers.js';
 // Configs
 import { CANVAS, SIZES } from '../config.js';
+// State
+import { state } from '../storage.js';
 
-const repoSize = (bricks, bonuses, grid) => /* re-position and re-size */ {
+const repoSize = () => /* re-position and re-size */ {
   CANVAS.width = innerWidth;
   CANVAS.height = innerHeight;
   SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
@@ -23,13 +25,13 @@ const repoSize = (bricks, bonuses, grid) => /* re-position and re-size */ {
       (SIZES.border.margin * 2 + SIZES.border.height * 2) -
       SIZES.brick.margin * 8) /
     9;
-  calcGrid(grid);
+  calcGrid();
 
   [bottomBorder, topBorder, coefficient].forEach(c => c.repoSize()); // "c" for "class"
   record.repoSize();
   score.repoSize();
-  bricks.forEach(brick => brick.repoSize({ grid }));
-  bonuses.forEach(bonus => bonus.repoSize({ grid }));
+  state.bricks.forEach(brick => brick.repoSize());
+  state.bonuses.forEach(bonus => bonus.repoSize());
 };
 
 export default repoSize;

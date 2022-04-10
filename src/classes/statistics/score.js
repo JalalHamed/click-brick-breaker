@@ -3,7 +3,7 @@ import Statistics from './Statistics.js';
 // Configs
 import { SIZES, C, CANVAS } from '../../config.js';
 // Storage
-import storage from '../../storage.js';
+import { storage } from '../../storage.js';
 
 const { height } = SIZES.brick;
 
