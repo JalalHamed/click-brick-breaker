@@ -2,15 +2,17 @@
 import Ball from './classes/balls/Ball.js';
 import Bonus from './classes/bonus.js';
 import Brick from './classes/brick.js';
-import Pointer from './classes/pointer.js';
 // Object Instances
 import mainBall from './classes/balls/mainBall.js';
+import pointer from './classes/pointer.js';
 import topBorder from './classes/borders/topBorder.js';
 import bottomBorder from './classes/borders/bottomBorder.js';
 import record from './classes/statistics/record.js';
 import score from './classes/statistics/score.js';
 import coefficient from './classes/coefficient.js';
 import fps from './classes/fps.js';
+// Handlers
+import handleMouseMove from './handlers/handleMouseMove.js';
 // Functions
 import shoot from './functions/shoot.js';
 import repoSize from './functions/repoSize.js';
@@ -26,20 +28,6 @@ import { storage, state } from './state.js';
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
 let offset = 0;
-let pointer;
-
-const handleMouseMove = e => {
-  if (!state.isBallMoving) {
-    if (isInBorder(e.y)) {
-      pointer = new Pointer({ e });
-      CANVAS.style.cursor = 'pointer';
-      if (!state.isMouseInBorder) state.isMouseInBorder = true;
-    } else {
-      CANVAS.style.cursor = 'auto';
-      if (state.isMouseInBorder) state.isMouseInBorder = false;
-    }
-  }
-};
 
 const handleClick = e => {
   if (isInBorder(e.y) && !state.isBallMoving) {
@@ -90,6 +78,10 @@ const init = () => {
   setRound();
 };
 
+const handleResize = () => {
+  if (!state.isBallMoving) repoSize();
+};
+
 const handleGameFont = () => {
   const loadingEl = document.querySelector('.loading');
   WebFont.load({
@@ -108,10 +100,6 @@ const handleGameFont = () => {
       location.reload();
     },
   });
-};
-
-const handleResize = () => {
-  if (!state.isBallMoving) repoSize();
 };
 
 addEventListener('load', handleGameFont);

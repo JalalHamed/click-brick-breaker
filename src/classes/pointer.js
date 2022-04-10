@@ -4,8 +4,10 @@ import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
+// State
+import { state } from '../state.js';
 
-export default class Pointer {
+class Pointer {
   constructor(props) {
     this.props = props;
   }
@@ -17,7 +19,7 @@ export default class Pointer {
     let endpoint = [];
 
     const pointA = [mainBall.pos.x, mainBall.pos.y];
-    const pointB = [this.props.e.x, this.props.e.y];
+    const pointB = [state.mouseCoords.x, state.mouseCoords.y];
 
     // Calculate slope, y intercept (b) & the angle
     let slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
@@ -149,3 +151,5 @@ export default class Pointer {
     C.fill();
   }
 }
+
+export default new Pointer();

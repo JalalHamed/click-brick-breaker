@@ -17,4 +17,5 @@ export const state = {
   bonuses: storage.get()?.bonuses || [],
   grid: [],
   shotBalls: [],
+  mouseCoords: {},
 };
