@@ -13,9 +13,9 @@ import coefficient from './classes/coefficient.js';
 import fps from './classes/fps.js';
 // Handlers
 import handleMouseMove from './handlers/handleMouseMove.js';
+import handleResize from './handlers/handleResize.js';
 // Functions
 import shoot from './functions/shoot.js';
-import repoSize from './functions/repoSize.js';
 import setRound from './functions/setRound.js';
 import {
   genRndUnusedIndex,
@@ -76,10 +76,6 @@ const init = () => {
   animate();
   calcGrid();
   setRound();
-};
-
-const handleResize = () => {
-  if (!state.isBallMoving) repoSize();
 };
 
 const handleGameFont = () => {
