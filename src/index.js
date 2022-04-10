@@ -13,7 +13,8 @@ import coefficient from './classes/coefficient.js';
 import fps from './classes/fps.js';
 // Functions
 import shoot from './functions/shoot.js';
-import { genRndUnusedIndex } from './functions/helpers.js';
+import repoSize from './functions/repoSize.js';
+import { genRndUnusedIndex, calcGrid } from './functions/helpers.js';
 // Storage
 import storage from './storage.js';
 // Configs
@@ -25,14 +26,8 @@ let bricks = storage.get()?.bricks || [];
 let bonuses = storage.get()?.bonuses || [];
 let grid = [];
 let shotBalls = [];
-let counter = 0;
 let offset = 0;
 let pointer;
-
-const calcGrid = () => {
-  for (let i = 0; i < 7; i++)
-    grid[i] = i * SIZES.brick.width + i * SIZES.brick.margin;
-};
 
 const setIsBallMoving = status => {
   if (typeof status === 'boolean') isBallMoving = status;
@@ -119,39 +114,17 @@ const render = () => {
   bonuses.forEach(bonus => bonus.render());
 };
 
-const repoSize = () => /* re-position and re-size */ {
-  CANVAS.width = innerWidth;
-  CANVAS.height = innerHeight;
-  SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
-  SIZES.border.margin = CANVAS.height / 5;
-  SIZES.border.height = CANVAS.width / 125;
-  SIZES.brick.margin = CANVAS.width / 120;
-  SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
-  SIZES.brick.height =
-    (CANVAS.height -
-      (SIZES.border.margin * 2 + SIZES.border.height * 2) -
-      SIZES.brick.margin * 8) /
-    9;
-  calcGrid();
-
-  [bottomBorder, topBorder, coefficient, mainBall].forEach(c => c.repoSize()); // "c" for "class"
-  record.repoSize();
-  score.repoSize();
-  bricks.forEach(brick => brick.repoSize({ grid }));
-  bonuses.forEach(bonus => bonus.repoSize({ grid }));
-};
-
 const animate = () => {
   const rAF = requestAnimationFrame(animate);
   offset--;
   draw();
   render();
-  if (isBallMoving) shoot({ mainBall, shotBalls, setBalls, setIsBallMoving });
+  if (isBallMoving) shoot({ shotBalls, setBalls, setIsBallMoving });
 };
 
 const init = () => {
   animate();
-  calcGrid();
+  calcGrid(grid);
   setRound();
 };
 
@@ -176,7 +149,7 @@ const handleGameFont = () => {
 };
 
 const handleResize = () => {
-  if (!isBallMoving) repoSize();
+  if (!isBallMoving) repoSize(bricks, bonuses, grid);
 };
 
 addEventListener('load', handleGameFont);
