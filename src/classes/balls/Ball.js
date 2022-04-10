@@ -1,6 +1,6 @@
 // Configs
 import { COLORS, SIZES, CANVAS, C } from '../../config.js';
-// Storage
+// State
 import { storage } from '../../state.js';
 
 export default class Ball {

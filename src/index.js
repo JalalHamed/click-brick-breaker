@@ -14,44 +14,15 @@ import fps from './classes/fps.js';
 // Functions
 import shoot from './functions/shoot.js';
 import repoSize from './functions/repoSize.js';
+import setRound from './functions/setRound.js';
 import { genRndUnusedIndex, calcGrid } from './functions/helpers.js';
-// Storage
+// State
 import { storage, state } from './state.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, SIZES, CANVAS, C } from './config.js';
 
 let offset = 0;
 let pointer;
-
-const setIsBallMoving = status => {
-  if (typeof status === 'boolean') state.isBallMoving = status;
-  else
-    throw Error(
-      "Wrong type, only boolean is acceptable. (here's why typescript exists)"
-    );
-};
-
-const setBalls = array => {
-  state.shotBalls = array;
-};
-
-const setRound = () => {
-  let indexes = [];
-  // Generate bricks
-  const maxBricksCount =
-    score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
-  const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
-
-  for (let i = 0; i < bricksCount; i++) {
-    let index = genRndUnusedIndex(indexes);
-    indexes.push(index);
-    state.bricks.push(new Brick({ index }));
-  }
-
-  // Generate bonus ball
-  let index = genRndUnusedIndex(indexes);
-  state.bonuses.push(new Bonus({ index }));
-};
 
 const isInBorder = y => {
   return (
@@ -113,7 +84,7 @@ const animate = () => {
   offset--;
   draw();
   render();
-  if (state.isBallMoving) shoot({ setBalls, setIsBallMoving });
+  if (state.isBallMoving) shoot();
 };
 
 const init = () => {

@@ -1,7 +1,7 @@
 // Classes
 import coefficient from '../classes/coefficient.js';
 import mainBall from '../classes/balls/mainBall.js';
-// Storage
+// State
 import { storage, state } from '../state.js';
 // Configs
 import {
@@ -13,8 +13,7 @@ import {
 let counter = 0;
 let landedBallXPos;
 
-const shoot = async props => {
-  const { setBalls, setIsBallMoving } = props;
+const shoot = () => {
   const topBorderHeight = SIZES.border.margin + SIZES.border.height;
   const bottomBorderSurface = CANVAS.height - SIZES.border.margin;
 
@@ -57,8 +56,8 @@ const shoot = async props => {
     coefficient.regainCount();
     coefficient.repoSize();
     counter = 0;
-    setBalls([]);
-    setIsBallMoving(false);
+    state.shotBalls = [];
+    state.isBallMoving = false;
   }
 };
 

@@ -2,7 +2,7 @@
 import Statistics from './Statistics.js';
 // Configs
 import { SIZES, C, CANVAS } from '../../config.js';
-// Storage
+// State
 import { storage } from '../../state.js';
 
 class Record extends Statistics {
