@@ -8,14 +8,8 @@ import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
 import { state } from '../state.js';
 
 class Pointer {
-  constructor(props) {
-    this.props = props;
-  }
-
   get calcEndPoint() {
-    const topBorderHeight = topBorder.pos.y + SIZES.border.height;
-    const bottomBorderHeight = bottomBorder.pos.y - SIZES.border.height;
-    const arrowLength = (CANVAS.height - topBorderHeight * 2) / 4;
+    const arrowLength = (CANVAS.height - topBorder.heightFromTop * 2) / 4;
     let endpoint = [];
 
     const pointA = [mainBall.pos.x, mainBall.pos.y];
@@ -36,7 +30,7 @@ class Pointer {
     if (angle > MAX_ANGLE) angle = MAX_ANGLE;
 
     // Calculate x given the top border's height as y
-    const x = (topBorderHeight - b) / slope;
+    const x = (topBorder.heightFromTop - b) / slope;
     // Calculate y given the CANVAS' width as x
     const y = CANVAS.width * slope + b;
     // Calculate the angle
@@ -53,18 +47,23 @@ class Pointer {
     const getY = basedOn => {
       const y = basedOn * slope + b;
       if (angle > MIN_ANGLE && angle < MAX_ANGLE) {
-        if (y > topBorderHeight + mainBall.r) return y;
+        if (y > topBorder.heightFromTop + mainBall.r) return y;
         // Prevent mainBall from going over top border in the corners
-        if (y < topBorderHeight + mainBall.r)
-          return topBorderHeight + mainBall.r;
+        if (y < topBorder.heightFromTop + mainBall.r)
+          return topBorder.heightFromTop + mainBall.r;
       }
       // Prevent mainBall from going lower than 10 degrees
       if (angle === MIN_ANGLE)
-        return bottomBorderHeight - Math.tan(angle) * (pointA[0] + mainBall.r);
+        return (
+          bottomBorder.heightFromTop -
+          bottomBorder.height -
+          Math.tan(angle) * (pointA[0] + mainBall.r)
+        );
       // Prevent mainBall from surpassing 170 degrees
       if (angle === MAX_ANGLE)
         return (
-          bottomBorderHeight -
+          bottomBorder.heightFromTop -
+          bottomBorder.height -
           Math.tan(Math.PI - angle) * (CANVAS.width - pointA[0] + mainBall.r)
         );
     };
@@ -76,10 +75,10 @@ class Pointer {
 
     // At 90 degree, slope is Infinite
     if (slope === Infinity)
-      endpoint = [mainBall.pos.x, topBorderHeight + mainBall.r];
+      endpoint = [mainBall.pos.x, topBorder.heightFromTop + mainBall.r];
     // Pointer mainBall touches top border
     if (x > 0 && x < CANVAS.width)
-      setEndPoint('y', topBorderHeight + mainBall.r);
+      setEndPoint('y', topBorder.heightFromTop + mainBall.r);
     // Pointer mainBall touches left side of CANVAS
     if (x < 0) setEndPoint('x', mainBall.r);
     // Pointer mainBall touches right side of CANVAS

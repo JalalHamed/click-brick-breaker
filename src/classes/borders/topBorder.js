@@ -8,6 +8,10 @@ class TobBorder extends Border {
     super();
     this.pos.y = SIZES.border.margin;
   }
+
+  get heightFromTop() {
+    return this.pos.y + this.height;
+  }
 }
 
 export default new TobBorder();

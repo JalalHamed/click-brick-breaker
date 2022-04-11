@@ -12,21 +12,16 @@ import { calcGrid } from './functions/helpers.js';
 // State
 import { state } from './state.js';
 
-export const init = () => {
-  animate();
-  calcGrid();
-  setRound();
-};
-
 const animate = () => {
   const rAF = requestAnimationFrame(animate);
   state.offset--;
-  draw();
-  render();
+  [draw, render].forEach(item => item());
   if (state.isBallMoving) shoot();
 };
 
-addEventListener('load', handleGameFont);
+const init = () => [animate, calcGrid, setRound].forEach(item => item());
+
+addEventListener('load', () => handleGameFont(init));
 addEventListener('resize', handleResize);
 addEventListener('mousemove', handleMouseMove);
 addEventListener('click', handleClick);

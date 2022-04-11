@@ -1,6 +1,8 @@
 // Classes
 import coefficient from '../classes/coefficient.js';
 import mainBall from '../classes/balls/mainBall.js';
+import topBorder from '../classes/borders/topBorder.js';
+import bottomBorder from '../classes/borders/bottomBorder.js';
 // State
 import { storage, state } from '../state.js';
 // Configs
@@ -14,9 +16,6 @@ let counter = 0;
 let landedBallXPos;
 
 const shoot = () => {
-  const topBorderHeight = SIZES.border.margin + SIZES.border.height;
-  const bottomBorderSurface = CANVAS.height - SIZES.border.margin;
-
   state.shotBalls.forEach(mainBall => {
     const delay = mainBall.delay * mainBall.r;
     mainBall.draw();
@@ -29,14 +28,14 @@ const shoot = () => {
       mainBall.pos.x + mainBall.r >= CANVAS.width
     )
       mainBall.velocity.x = -mainBall.velocity.x;
-    if (mainBall.pos.y <= topBorderHeight + mainBall.r) {
+    if (mainBall.pos.y <= topBorder.heightFromTop + mainBall.r) {
       mainBall.velocity.y = -mainBall.velocity.y;
     }
-    if (mainBall.pos.y > bottomBorderSurface - mainBall.r) {
+    if (mainBall.pos.y > bottomBorder.heightFromTop - mainBall.r) {
       mainBall.velocity.x = 0;
       mainBall.velocity.y = 0;
       landedBallXPos = mainBall.pos.x;
-      mainBall.pos.y = bottomBorderSurface - mainBall.r;
+      mainBall.pos.y = bottomBorder.heightFromTop - mainBall.r;
     }
   });
 

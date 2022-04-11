@@ -1,7 +1,4 @@
-// Functions
-import { init } from '../index.js';
-
-const handleGameFont = () => {
+const handleGameFont = init => {
   const loadingEl = document.querySelector('.loading');
   WebFont.load({
     google: {

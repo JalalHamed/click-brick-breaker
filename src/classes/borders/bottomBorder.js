@@ -8,6 +8,10 @@ class BottomBorder extends Border {
     super();
     this.pos.y = CANVAS.height - SIZES.border.margin;
   }
+
+  get heightFromTop() {
+    return this.pos.y;
+  }
 }
 
 export default new BottomBorder();
