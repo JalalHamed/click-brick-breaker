@@ -2,6 +2,8 @@
 import mainBall from './balls/mainBall.js';
 import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
+// Functions
+import { getAngle } from '../functions/helpers.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
@@ -23,17 +25,12 @@ class Pointer {
       else slope = -0.17;
     }
     const b = pointB[1] - slope * pointB[0];
-    let angle = Math.atan2(pointA[1] - pointB[1], pointA[0] - pointB[0]);
-    // Prevent angle from being lower than 10 degrees
-    if (angle < MIN_ANGLE) angle = MIN_ANGLE;
-    // Prevent angle from surpassing 170 degrees
-    if (angle > MAX_ANGLE) angle = MAX_ANGLE;
+    const angle = getAngle(state.mouseCoords);
 
     // Calculate x given the top border's height as y
     const x = (topBorder.heightFromTop - b) / slope;
     // Calculate y given the CANVAS' width as x
     const y = CANVAS.width * slope + b;
-    // Calculate the angle
 
     const getX = basedOn => {
       const x = (basedOn - b) / slope;

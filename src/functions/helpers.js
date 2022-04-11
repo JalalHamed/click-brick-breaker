@@ -3,7 +3,7 @@ import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 import mainBall from '../classes/balls/mainBall.js';
 // Configs
-import { SIZES } from '../config.js';
+import { SIZES, MIN_ANGLE, MAX_ANGLE } from '../config.js';
 // State
 import { state } from '../state.js';
 
@@ -25,4 +25,13 @@ export function isInBorder(y) {
     y > topBorder.pos.y + topBorder.height &&
     y < bottomBorder.pos.y - mainBall.r
   );
+}
+
+export function getAngle(e) {
+  let angle = Math.atan2(mainBall.pos.y - e.y, mainBall.pos.x - e.x);
+  // Prevent angle from being lower than 10 degrees
+  if (angle < MIN_ANGLE) angle = MIN_ANGLE;
+  // Prevent angle from surpassing 170 degrees
+  if (angle > MAX_ANGLE) angle = MAX_ANGLE;
+  return angle;
 }
