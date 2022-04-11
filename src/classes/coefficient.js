@@ -1,5 +1,6 @@
 // Constructor Instances
 import mainBall from './balls/mainBall.js';
+import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -11,12 +12,12 @@ class Coefficient {
 
     this.pos = {
       x: mainBall.pos.x,
-      y: mainBall.pos.y + SIZES.border.height + mainBall.r * 3,
+      y: bottomBorder.heightFromTop + mainBall.r * 2.5,
     };
   }
 
   draw() {
-    C.font = `1.5rem play`;
+    C.font = `${innerWidth / 400}rem play`;
     C.fillStyle = this.count > 0 ? COLORS.ball.main : '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';
@@ -32,10 +33,8 @@ class Coefficient {
   }
 
   repoSize() {
-    this.pos = {
-      x: mainBall.pos.x,
-      y: mainBall.pos.y + SIZES.border.height + mainBall.r * 3,
-    };
+    this.pos.x = mainBall.pos.x;
+    this.pos.y = bottomBorder.heightFromTop + mainBall.r * 2.5;
   }
 }
 
