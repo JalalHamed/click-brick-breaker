@@ -4,7 +4,7 @@ import mainBall from '../classes/balls/mainBall.js';
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 // State
-import { storage, state } from '../state.js';
+import { state } from '../state.js';
 // Configs
 import {
   SIZES,
@@ -50,7 +50,7 @@ const shoot = () => {
       landedBallXPos = mainBall.r + S_M_F_B;
     if (landedBallXPos > CANVAS.width - mainBall.r - S_M_F_B)
       landedBallXPos = CANVAS.width - mainBall.r - S_M_F_B;
-    storage.set({ mainBall: landedBallXPos });
+    state.setLocalStorage({ mainBall: landedBallXPos });
     mainBall.pos.x = landedBallXPos;
     coefficient.regainCount();
     coefficient.repoSize();

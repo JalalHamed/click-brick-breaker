@@ -3,7 +3,7 @@ import Statistics from './Statistics.js';
 // Configs
 import { SIZES, C, CANVAS } from '../../config.js';
 // State
-import { storage } from '../../state.js';
+import { state } from '../../state.js';
 
 const { height } = SIZES.brick;
 
@@ -12,7 +12,7 @@ class Score extends Statistics {
     super();
     this.status = 'Score';
     this.pos.y = height * 1.3 + height;
-    this.count = storage.get()?.score || 1;
+    this.count = state.getLocalStorage()?.score || 1;
   }
 
   repoSize() {

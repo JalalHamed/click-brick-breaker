@@ -3,11 +3,11 @@ import mainBall from './balls/mainBall.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
-import { storage } from '../state.js';
+import { state } from '../state.js';
 
 class Coefficient {
   constructor() {
-    this.count = storage.get()?.coefficient || 1;
+    this.count = state.getLocalStorage()?.coefficient || 1;
 
     this.pos = {
       x: mainBall.pos.x,
@@ -28,7 +28,7 @@ class Coefficient {
   }
 
   regainCount() {
-    this.count = storage.get()?.coefficient || 1;
+    this.count = state.getLocalStorage()?.coefficient || 1;
   }
 
   repoSize() {

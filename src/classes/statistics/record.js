@@ -3,14 +3,14 @@ import Statistics from './Statistics.js';
 // Configs
 import { SIZES, C, CANVAS } from '../../config.js';
 // State
-import { storage } from '../../state.js';
+import { state } from '../../state.js';
 
 class Record extends Statistics {
   constructor() {
     super();
     this.status = 'Record';
     this.pos.y = SIZES.brick.height * 1.3;
-    this.count = storage.get()?.record || 1;
+    this.count = state.getLocalStorage()?.record || 1;
   }
 
   repoSize() {

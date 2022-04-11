@@ -1,15 +1,17 @@
+// Constructor Instances
+import bottomBorder from '../borders/bottomBorder.js';
 // Configs
 import { COLORS, SIZES, CANVAS, C } from '../../config.js';
 // State
-import { storage } from '../../state.js';
+import { state } from '../../state.js';
 
 export default class Ball {
   constructor(props) {
     this.r = SIZES.ball.radius;
 
     this.pos = {
-      x: storage.get()?.mainBall || CANVAS.width / 2,
-      y: CANVAS.height - SIZES.border.margin - this.r,
+      x: state.getLocalStorage()?.mainBall || CANVAS.width / 2,
+      y: bottomBorder.heightFromTop - this.r,
     };
 
     this.velocity = {
@@ -18,8 +20,6 @@ export default class Ball {
     };
 
     this.delay = props?.delay || 0;
-
-    this.canvasWidthTracker = CANVAS.width;
   }
 
   draw() {
@@ -33,16 +33,5 @@ export default class Ball {
   update() {
     this.pos.x += this.velocity.x;
     this.pos.y += this.velocity.y;
-  }
-
-  repoSize() {
-    this.pos = {
-      ...this.pos,
-      x: (CANVAS.width * this.pos.x) / this.canvasWidthTracker,
-    };
-
-    storage.set({ mainBall: this.pos.x });
-
-    this.r = SIZES.ball.radius;
   }
 }

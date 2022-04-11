@@ -1,4 +1,4 @@
-// Classes
+// Constructor Instances
 import record from '../classes/statistics/record.js';
 import score from '../classes/statistics/score.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
@@ -17,7 +17,6 @@ const handleResize = () => {
     CANVAS.width = innerWidth;
     CANVAS.height = innerHeight;
     SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
-    SIZES.border.margin = CANVAS.height / 5;
     SIZES.border.height = CANVAS.width / 125;
     SIZES.brick.margin = CANVAS.width / 120;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
@@ -28,9 +27,9 @@ const handleResize = () => {
       9;
     calcGrid();
 
-    [bottomBorder, topBorder, coefficient].forEach(c => c.repoSize()); // "c" for "class"
-    record.repoSize();
-    score.repoSize();
+    [bottomBorder, topBorder, coefficient, record, score, mainBall].forEach(
+      item => item.repoSize()
+    );
     state.bricks.forEach(brick => brick.repoSize());
     state.bonuses.forEach(bonus => bonus.repoSize());
   }
