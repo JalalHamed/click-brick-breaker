@@ -3,13 +3,20 @@ import Brick from '../classes/Brick.js';
 import Bonus from '../classes/Bonus.js';
 // Constructor Instances
 import score from '../classes/statistics/score.js';
-// Configs
+// Functions
 import { genRndUnusedIndex } from './helpers.js';
+// Configs
+import { CANVAS } from '../config.js';
 // State
 import { state } from '../state.js';
 
 const setRound = () => {
   let indexes = [];
+
+  if (!state.getLS()?.record) {
+    console.log('First time EVER playing the game.');
+    // state.setLS({ mainBall: CANVAS.width / 2, record: 1, score: 1 });
+  }
 
   // Generate bricks
   const maxBricksCount =
@@ -25,6 +32,18 @@ const setRound = () => {
   // Generate bonus ball
   let index = genRndUnusedIndex(indexes);
   state.bonuses.push(new Bonus({ index }));
+
+  // Set brick and bonus ball to local storage
+  state.setLS({
+    bricks: [
+      {
+        x: state.bricks[0].pos.x,
+        y: state.bricks[0].pos.y,
+        weight: state.bricks[0].weight,
+      },
+    ],
+    bonuses: { x: state.bonuses[0].pos.x, y: state.bonuses[0].pos.y },
+  });
 };
 
 export default setRound;

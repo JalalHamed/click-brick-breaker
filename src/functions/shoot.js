@@ -55,7 +55,7 @@ const shoot = () => {
       shotBall => shotBall.velocity.x === 0 && shotBall.velocity.y === 0
     )
   ) {
-    state.setLocalStorage({ mainBall: state.shotBalls[0].pos.x });
+    state.setLS({ mainBall: state.shotBalls[0].pos.x });
     coefficient.regainCount();
     coefficient.repoSize();
     counter = 0;

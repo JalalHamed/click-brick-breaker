@@ -18,7 +18,7 @@ class MainBall extends Ball {
     this.pos.y = bottomBorder.heightFromTop - this.r;
 
     this.pos.x = (this.pos.x * innerWidth) / state.innerWidth;
-    state.setLocalStorage({ mainBall: this.pos.x });
+    state.setLS({ mainBall: this.pos.x });
     state.innerWidth = innerWidth;
   }
 }

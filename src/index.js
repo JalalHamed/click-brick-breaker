@@ -19,7 +19,7 @@ const animate = () => {
   if (state.isBallMoving) shoot();
 };
 
-const init = () => [animate, calcGrid, setRound].forEach(item => item());
+const init = () => [calcGrid, setRound, animate].forEach(item => item());
 
 addEventListener('load', () => handleGameFont(init));
 addEventListener('resize', handleResize);

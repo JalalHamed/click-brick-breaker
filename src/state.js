@@ -7,14 +7,14 @@ export const state = {
   shotBalls: [],
   mouseCoords: {},
   offset: 0,
-  innerWidth: innerWidth,
-  getLocalStorage() {
+  innerWidth,
+  getLS() {
     return JSON.parse(localStorage.getItem('cbb-state'));
   },
-  setLocalStorage(data) {
+  setLS(data) {
     localStorage.setItem(
       'cbb-state',
-      JSON.stringify({ ...this.getLocalStorage(), ...data })
+      JSON.stringify({ ...this.getLS(), ...data })
     );
   },
 };

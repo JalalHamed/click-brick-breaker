@@ -15,7 +15,7 @@ import { state } from '../state.js';
 
 class Coefficient {
   constructor() {
-    this.count = state.getLocalStorage()?.coefficient || 1;
+    this.count = state.getLS()?.coefficient || 1;
 
     this.posY = bottomBorder.heightFromTop + mainBall.r * 2.5;
 
@@ -40,7 +40,7 @@ class Coefficient {
   }
 
   regainCount() {
-    this.count = state.getLocalStorage()?.coefficient || 1;
+    this.count = state.getLS()?.coefficient || 1;
   }
 
   repoSize() {

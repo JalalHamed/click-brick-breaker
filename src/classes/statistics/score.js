@@ -12,7 +12,7 @@ class Score extends Statistics {
     super();
     this.status = 'Score';
     this.pos.y = height * 1.3 + height;
-    this.count = state.getLocalStorage()?.score || 1;
+    this.count = state.getLS()?.score || 1;
   }
 
   repoSize() {
