@@ -16,9 +16,4 @@ export default class Border {
     C.fillStyle = '#000';
     C.fillRect(this.pos.x, this.pos.y, this.width, this.height);
   }
-
-  repoSize() {
-    this.width = CANVAS.width;
-    this.height = SIZES.border.height;
-  }
 }

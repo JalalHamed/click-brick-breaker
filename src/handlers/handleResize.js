@@ -27,7 +27,7 @@ const handleResize = () => {
       9;
     calcGrid();
 
-    [bottomBorder, topBorder, coefficient, record, score, mainBall].forEach(
+    [bottomBorder, topBorder, mainBall, coefficient, record, score].forEach(
       item => item.repoSize()
     );
     state.bricks.forEach(brick => brick.repoSize());

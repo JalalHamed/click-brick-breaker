@@ -39,3 +39,6 @@ export const MAX_ANGLE = 2.96706; // 2.96706 radiance = 170 degrees
 export const MIN_ANGLE = 0.174533; // 0.174533 radiance = 10 degrees
 
 export const SAFE_MARGIN_FROM_BORDERS = 0.1; // if ball's x position is exactly equal to the ball's radius (which means it's completely in the screen yet tangent with the left side of the screen) it would get buggy and would not fly towards the correct direction after shooting. Same goes for the right side of the screen (if ball's x pos is exactly equal to CANVAS' width minus the ball's radius). So discoverd there has to be a tiny bit of a margin with the borders.
+
+export const MAX_COEFFICIENT_Y_POS = 675;
+export const MAX_COEFFICIENT_FONT_SIZE = 2;

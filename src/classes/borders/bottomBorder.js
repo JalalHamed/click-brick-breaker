@@ -12,6 +12,12 @@ class BottomBorder extends Border {
   get heightFromTop() {
     return this.pos.y;
   }
+
+  repoSize() {
+    this.width = CANVAS.width;
+    this.height = SIZES.border.height;
+    this.pos.y = CANVAS.height - SIZES.border.margin;
+  }
 }
 
 export default new BottomBorder();

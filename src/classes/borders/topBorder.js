@@ -1,7 +1,7 @@
 // Classes
 import Border from './Border.js';
 // Configs
-import { SIZES } from '../../config.js';
+import { SIZES, CANVAS } from '../../config.js';
 
 class TobBorder extends Border {
   constructor() {
@@ -11,6 +11,12 @@ class TobBorder extends Border {
 
   get heightFromTop() {
     return this.pos.y + this.height;
+  }
+
+  repoSize() {
+    this.width = CANVAS.width;
+    this.height = SIZES.border.height;
+    this.pos.y = SIZES.border.margin;
   }
 }
 
