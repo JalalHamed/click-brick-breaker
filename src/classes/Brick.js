@@ -1,5 +1,3 @@
-// Classes
-import score from './statistics/score.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -8,14 +6,15 @@ import { state } from '../state.js';
 export default class Brick {
   constructor(props) {
     this.props = props;
-    const { width, height } = SIZES.brick;
+
+    this.index = props.index;
 
     this.pos = {
-      x: state.grid[props.index],
-      y: SIZES.border.margin + SIZES.border.height + height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
+      x: state.grid[this.index],
+      y: SIZES.border.margin + SIZES.border.height + SIZES.brick.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
 
-    this.weight = score.count;
+    this.weight = props.weight;
   }
 
   draw() {

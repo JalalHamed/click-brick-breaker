@@ -11,9 +11,10 @@ export default class Bonus {
     this.swingR = SIZES.ball.radius;
     this.isGoingDown = true;
     this.counter = 0;
+    this.index = props.index;
 
     this.pos = {
-      x: state.grid[props.index] + SIZES.brick.width / 2,
+      x: state.grid[this.index] + SIZES.brick.width / 2,
       y:
         SIZES.border.margin +
         SIZES.border.height +

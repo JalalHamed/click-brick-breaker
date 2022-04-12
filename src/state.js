@@ -9,7 +9,8 @@ export const state = {
   offset: 0,
   innerWidth,
   getLS(data) {
-    return JSON.parse(localStorage.getItem('cbb-state'))[data];
+    const storage = JSON.parse(localStorage.getItem('cbb-state'));
+    return storage && storage[data];
   },
   setLS(data) {
     localStorage.setItem(
