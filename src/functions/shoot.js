@@ -8,34 +8,43 @@ import { state } from '../state.js';
 // Configs
 import {
   SIZES,
-  SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
   CANVAS,
+  SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
 } from '../config.js';
 
 let counter = 0;
-let landedBallXPos;
 
 const shoot = () => {
-  state.shotBalls.forEach(mainBall => {
-    const delay = mainBall.delay * mainBall.r;
-    mainBall.draw();
+  state.shotBalls.forEach(shotBall => {
+    const delay = shotBall.delay * shotBall.r;
+    shotBall.draw();
 
-    if (counter > delay) mainBall.update();
+    if (counter > delay) shotBall.update();
     if (counter === delay) coefficient.decreaseCount();
 
+    // Reverse ball's direction when hitting the left and right borders.
     if (
-      mainBall.pos.x - mainBall.r <= 0 ||
-      mainBall.pos.x + mainBall.r >= CANVAS.width
+      shotBall.pos.x - shotBall.r <= 0 ||
+      shotBall.pos.x + shotBall.r >= CANVAS.width
     )
-      mainBall.velocity.x = -mainBall.velocity.x;
-    if (mainBall.pos.y <= topBorder.heightFromTop + mainBall.r) {
-      mainBall.velocity.y = -mainBall.velocity.y;
+      shotBall.velocity.x = -shotBall.velocity.x;
+    // Reverse ball's direction when hitting the top border.
+    if (shotBall.pos.y <= topBorder.heightFromTop + shotBall.r) {
+      shotBall.velocity.y = -shotBall.velocity.y;
     }
-    if (mainBall.pos.y > bottomBorder.heightFromTop - mainBall.r) {
-      mainBall.velocity.x = 0;
-      mainBall.velocity.y = 0;
-      landedBallXPos = mainBall.pos.x;
-      mainBall.pos.y = bottomBorder.heightFromTop - mainBall.r;
+
+    // Stop the ball when hitting the bottom border.
+    if (shotBall.pos.y > bottomBorder.heightFromTop - shotBall.r) {
+      shotBall.velocity.x = 0;
+      shotBall.velocity.y = 0;
+
+      shotBall.pos.y = bottomBorder.heightFromTop - shotBall.r;
+
+      // Prevent ball from going over the canvas' left and right border when landing.
+      if (shotBall.pos.x < mainBall.r + S_M_F_B)
+        shotBall.pos.x = mainBall.r + S_M_F_B;
+      if (shotBall.pos.x > CANVAS.width - mainBall.r - S_M_F_B)
+        shotBall.pos.x = CANVAS.width - mainBall.r - S_M_F_B;
     }
   });
 
@@ -43,15 +52,10 @@ const shoot = () => {
 
   if (
     state.shotBalls.every(
-      mainBall => mainBall.velocity.x === 0 && mainBall.velocity.y === 0
+      shotBall => shotBall.velocity.x === 0 && shotBall.velocity.y === 0
     )
   ) {
-    if (landedBallXPos < mainBall.r + S_M_F_B)
-      landedBallXPos = mainBall.r + S_M_F_B;
-    if (landedBallXPos > CANVAS.width - mainBall.r - S_M_F_B)
-      landedBallXPos = CANVAS.width - mainBall.r - S_M_F_B;
-    state.setLocalStorage({ mainBall: landedBallXPos });
-    mainBall.pos.x = landedBallXPos;
+    state.setLocalStorage({ mainBall: state.shotBalls[0].pos.x });
     coefficient.regainCount();
     coefficient.repoSize();
     counter = 0;

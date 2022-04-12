@@ -6,7 +6,7 @@ import coefficient from '../classes/coefficient.js';
 // Functions
 import { getAngle, isInBorder } from '../functions/helpers.js';
 // Configs
-import { CANVAS, MIN_ANGLE, MAX_ANGLE } from '../config.js';
+import { CANVAS } from '../config.js';
 // State
 import { state } from '../state.js';
 

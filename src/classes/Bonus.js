@@ -6,7 +6,6 @@ import { state } from '../state.js';
 export default class Bonus {
   constructor(props) {
     this.props = props;
-    const { index } = props;
 
     this.r = SIZES.ball.radius;
     this.swingR = SIZES.ball.radius;
@@ -14,7 +13,7 @@ export default class Bonus {
     this.counter = 0;
 
     this.pos = {
-      x: state.grid[index] + SIZES.brick.width / 2,
+      x: state.grid[props.index] + SIZES.brick.width / 2,
       y:
         SIZES.border.margin +
         SIZES.border.height +
@@ -22,7 +21,10 @@ export default class Bonus {
         SIZES.brick.height / 2,
     };
 
-    this.yVelocity = 0;
+    this.velocity = {
+      x: 0,
+      y: 0,
+    };
   }
 
   swingRadius() {
@@ -55,7 +57,7 @@ export default class Bonus {
   }
 
   update() {
-    this.pos.y += this.yVelocity;
+    this.pos.y += this.velocity.y;
   }
 
   repoSize() {
