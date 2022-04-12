@@ -10,7 +10,7 @@ export default class Ball {
     this.r = SIZES.ball.radius;
 
     this.pos = {
-      x: state.getLS()?.mainBall || CANVAS.width / 2,
+      x: state.getLS('mainBall') || CANVAS.width / 2,
       y: bottomBorder.heightFromTop - this.r,
     };
 

@@ -13,7 +13,7 @@ import { state } from '../state.js';
 const setRound = () => {
   let indexes = [];
 
-  if (!state.getLS()?.record) {
+  if (!state.getLS('record')) {
     console.log('First time EVER playing the game.');
     // state.setLS({ mainBall: CANVAS.width / 2, record: 1, score: 1 });
   }
@@ -42,7 +42,7 @@ const setRound = () => {
         weight: state.bricks[0].weight,
       },
     ],
-    bonuses: { x: state.bonuses[0].pos.x, y: state.bonuses[0].pos.y },
+    bonuses: [{ x: state.bonuses[0].pos.x, y: state.bonuses[0].pos.y }],
   });
 };
 

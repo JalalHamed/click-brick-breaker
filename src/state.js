@@ -8,8 +8,8 @@ export const state = {
   mouseCoords: {},
   offset: 0,
   innerWidth,
-  getLS() {
-    return JSON.parse(localStorage.getItem('cbb-state'));
+  getLS(data) {
+    return JSON.parse(localStorage.getItem('cbb-state'))[data];
   },
   setLS(data) {
     localStorage.setItem(

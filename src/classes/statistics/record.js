@@ -10,7 +10,7 @@ class Record extends Statistics {
     super();
     this.status = 'Record';
     this.pos.y = SIZES.brick.height * 1.3;
-    this.count = state.getLS()?.record || 1;
+    this.count = state.getLS('record') || 1;
   }
 
   repoSize() {
