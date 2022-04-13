@@ -1,5 +1,5 @@
 // Handlers
-import handleGameFont from './handlers/handleGameFont.js';
+import handleLoad from './handlers/handleLoad.js';
 import handleMouseMove from './handlers/handleMouseMove.js';
 import handleResize from './handlers/handleResize.js';
 import handleClick from './handlers/handleClick.js';
@@ -21,7 +21,7 @@ const animate = () => {
 
 const init = () => [calcGrid, setRound, animate].forEach(item => item());
 
-addEventListener('load', () => handleGameFont(init));
+addEventListener('load', () => handleLoad(init));
 addEventListener('resize', handleResize);
 addEventListener('mousemove', handleMouseMove);
 addEventListener('click', handleClick);

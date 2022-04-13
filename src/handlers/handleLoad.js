@@ -1,5 +1,7 @@
-const handleGameFont = init => {
-  const loadingEl = document.querySelector('.loading');
+const loadingEl = document.querySelector('.loading');
+
+const handleLoad = init => {
+  // Load Game Font
   WebFont.load({
     google: {
       families: ['Play:700'],
@@ -18,4 +20,4 @@ const handleGameFont = init => {
   });
 };
 
-export default handleGameFont;
+export default handleLoad;
