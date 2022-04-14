@@ -52,14 +52,14 @@ class Pointer {
       // Prevent mainBall from going lower than 10 degrees
       if (angle === MIN_ANGLE)
         return (
-          bottomBorder.heightFromTop -
+          bottomBorder.pos.y -
           bottomBorder.height -
           Math.tan(angle) * (pointA[0] + mainBall.r)
         );
       // Prevent mainBall from surpassing 170 degrees
       if (angle === MAX_ANGLE)
         return (
-          bottomBorder.heightFromTop -
+          bottomBorder.pos.y -
           bottomBorder.height -
           Math.tan(Math.PI - angle) * (CANVAS.width - pointA[0] + mainBall.r)
         );

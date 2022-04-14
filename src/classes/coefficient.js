@@ -18,7 +18,7 @@ class Coefficient {
 
     this.pos = {
       x: mainBall.pos.x,
-      y: bottomBorder.heightFromTop + mainBall.r * 2.5,
+      y: bottomBorder.pos.y + mainBall.r * 2.5,
     };
   }
 
@@ -42,7 +42,7 @@ class Coefficient {
 
   repoSize() {
     this.pos.x = mainBall.pos.x;
-    this.pos.y = bottomBorder.heightFromTop + mainBall.r * 2.5;
+    this.pos.y = bottomBorder.pos.y + mainBall.r * 2.5;
   }
 }
 

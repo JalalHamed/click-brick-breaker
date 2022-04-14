@@ -34,11 +34,11 @@ const shoot = () => {
     }
 
     // Stop the ball when hitting the bottom border.
-    if (shotBall.pos.y > bottomBorder.heightFromTop - shotBall.r) {
+    if (shotBall.pos.y > bottomBorder.pos.y - shotBall.r) {
       shotBall.velocity.x = 0;
       shotBall.velocity.y = 0;
 
-      shotBall.pos.y = bottomBorder.heightFromTop - shotBall.r;
+      shotBall.pos.y = bottomBorder.pos.y - shotBall.r;
 
       // Prevent ball from going over the canvas' left and right border when landing.
       if (shotBall.pos.x < mainBall.r + S_M_F_B)

@@ -15,7 +15,7 @@ class MainBall extends Ball {
   repoSize() {
     this.r = SIZES.ball.radius;
 
-    this.pos.y = bottomBorder.heightFromTop - this.r;
+    this.pos.y = bottomBorder.pos.y - this.r;
 
     this.pos.x = (this.pos.x * innerWidth) / state.innerWidth;
     state.setLS({ mainBall: this.pos.x });
