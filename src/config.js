@@ -1,7 +1,8 @@
+export const CANVAS_MIN_WIDTH = 350;
 export const CANVAS = document.querySelector('CANVAS');
 export const C = CANVAS.getContext('2d');
 CANVAS.height = innerHeight;
-CANVAS.width = innerWidth;
+CANVAS.width = innerWidth >= CANVAS_MIN_WIDTH ? innerWidth : CANVAS_MIN_WIDTH;
 
 export const COLORS = {
   ball: {
