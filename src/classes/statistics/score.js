@@ -10,13 +10,13 @@ class Score extends Statistics {
   constructor() {
     super();
     this.status = 'Score';
-    this.pos.y = record.pos.y + 35;
+    this.pos.y = record.pos.y + 37;
     this.count = state.getLS('score') || 1;
   }
 
   repoSize() {
     this.pos = {
-      x: CANVAS.width / 2 + 75,
+      x: CANVAS.width / 2 + 70,
       y: record.pos.y + 35,
     };
   }

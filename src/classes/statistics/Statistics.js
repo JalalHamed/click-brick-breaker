@@ -9,7 +9,7 @@ export default class Statistics {
   }
 
   draw() {
-    C.font = `2rem play`;
+    C.font = `2.5rem play`;
     C.fillStyle = '#000';
     C.textAlign = 'right';
     C.textBaseline = 'middle';

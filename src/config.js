@@ -24,17 +24,13 @@ export const SIZES = {
     radius: MIN_BALL_RADIUS + Math.round(CANVAS.width / 200),
   },
   border: {
-    margin: CANVAS.height / 6,
-    height: CANVAS.width / 125,
+    margin: CANVAS.height / 8,
+    height: CANVAS.width / 150,
   },
   brick: {
-    margin: CANVAS.width / 120,
-    width: (CANVAS.width - (CANVAS.width / 120) * 6) / 7,
-    height:
-      (CANVAS.height -
-        ((CANVAS.height / 5) * 2 + (CANVAS.width / 125) * 2) -
-        (CANVAS.width / 120) * 8) /
-      9,
+    margin: 5,
+    width: (CANVAS.width - 30) / 7, // equals => (CANVAS.width - SIZES.brick.margin * 6) / 7
+    height: (CANVAS.height - (CANVAS.height / 8) * 2 - 40) / 9, // equals => (bottomBorder.pos.y - topBorder.heightFromTop - SIZES.brick.margin * 8) / 9
   },
 };
 

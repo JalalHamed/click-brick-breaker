@@ -5,7 +5,6 @@ import bottomBorder from './borders/bottomBorder.js';
 import {
   C,
   CANVAS,
-  SIZES,
   COLORS,
   MAX_COEFFICIENT_FONT_SIZE as M_C_F_S,
 } from '../config.js';
@@ -41,8 +40,10 @@ class Coefficient {
   }
 
   repoSize() {
-    this.pos.x = mainBall.pos.x;
-    this.pos.y = bottomBorder.pos.y + mainBall.r * 2.5;
+    this.pos = {
+      x: mainBall.pos.x,
+      y: bottomBorder.pos.y + mainBall.r * 2.5,
+    };
   }
 }
 

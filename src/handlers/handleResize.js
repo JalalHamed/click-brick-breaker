@@ -17,13 +17,10 @@ const handleResize = () => {
     CANVAS.width = innerWidth;
     CANVAS.height = innerHeight;
     SIZES.ball.radius = MIN_BALL_RADIUS + Math.round(CANVAS.width / 200);
-    SIZES.border.height = CANVAS.width / 125;
-    SIZES.brick.margin = CANVAS.width / 120;
+    SIZES.border.height = CANVAS.width / 150;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
     SIZES.brick.height =
-      (CANVAS.height -
-        (SIZES.border.margin * 2 + SIZES.border.height * 2) -
-        SIZES.brick.margin * 8) /
+      (bottomBorder.pos.y - topBorder.heightFromTop - SIZES.brick.margin * 8) /
       9;
     calcGrid();
 

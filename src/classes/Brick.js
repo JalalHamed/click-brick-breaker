@@ -23,7 +23,7 @@ export default class Brick {
     const { width, height } = SIZES.brick;
     C.fillStyle = COLORS.brick;
     C.fillRect(this.pos.x, this.pos.y, width, height);
-    C.font = `1.5rem play`;
+    C.font = `${height / 21}rem play`;
     C.fillStyle = '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';
@@ -31,9 +31,6 @@ export default class Brick {
   }
 
   repoSize() {
-    this.pos = {
-      ...this.pos,
-      x: state.grid[this.props.index],
-    };
+    this.pos.x = state.grid[this.props.index];
   }
 }
