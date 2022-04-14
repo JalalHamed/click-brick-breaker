@@ -8,7 +8,7 @@ import coefficient from '../classes/coefficient.js';
 // Functions
 import { calcGrid } from '../functions/helpers.js';
 // Configs
-import { CANVAS, SIZES } from '../config.js';
+import { CANVAS, SIZES, MIN_BALL_RADIUS } from '../config.js';
 // State
 import { state } from '../state.js';
 
@@ -16,7 +16,7 @@ const handleResize = () => {
   if (!state.isBallMoving) {
     CANVAS.width = innerWidth;
     CANVAS.height = innerHeight;
-    SIZES.ball.radius = Math.round((CANVAS.width / 100) * 1.3);
+    SIZES.ball.radius = MIN_BALL_RADIUS + Math.round(CANVAS.width / 200);
     SIZES.border.height = CANVAS.width / 125;
     SIZES.brick.margin = CANVAS.width / 120;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;

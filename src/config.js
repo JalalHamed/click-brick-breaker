@@ -16,12 +16,14 @@ export const COLORS = {
   },
 };
 
+export const MIN_BALL_RADIUS = 7;
+
 export const SIZES = {
   ball: {
-    radius: Math.round((CANVAS.width / 100) * 1.3),
+    radius: MIN_BALL_RADIUS + Math.round(CANVAS.width / 200),
   },
   border: {
-    margin: CANVAS.height / 5,
+    margin: CANVAS.height / 6,
     height: CANVAS.width / 125,
   },
   brick: {

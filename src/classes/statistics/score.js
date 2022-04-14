@@ -1,26 +1,23 @@
 // Classes
 import Statistics from './Statistics.js';
+import record from './record.js';
 // Configs
-import { SIZES, C, CANVAS } from '../../config.js';
+import { C, CANVAS } from '../../config.js';
 // State
 import { state } from '../../state.js';
-
-const { height } = SIZES.brick;
 
 class Score extends Statistics {
   constructor() {
     super();
     this.status = 'Score';
-    this.pos.y = height * 1.3 + height;
+    this.pos.y = record.pos.y + 35;
     this.count = state.getLS('score') || 1;
   }
 
   repoSize() {
-    const { height } = SIZES.brick;
-
     this.pos = {
       x: CANVAS.width / 2 + 75,
-      y: height * 1.3 + height,
+      y: record.pos.y + 35,
     };
   }
 }
