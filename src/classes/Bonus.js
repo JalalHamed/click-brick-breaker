@@ -1,3 +1,5 @@
+// Classes
+import topBorder from './borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -15,11 +17,7 @@ export default class Bonus {
 
     this.pos = {
       x: state.grid[this.index] + SIZES.brick.width / 2,
-      y:
-        SIZES.border.margin +
-        SIZES.border.height +
-        SIZES.brick.height +
-        SIZES.brick.height / 2,
+      y: topBorder.heightFromTop + SIZES.brick.height + SIZES.brick.height / 2,
     };
 
     this.velocity = {

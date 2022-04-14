@@ -15,7 +15,10 @@ export const state = {
   setLS(data) {
     localStorage.setItem(
       'cbb-state',
-      JSON.stringify({ ...this.getLS(), ...data })
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem('cbb-state')),
+        ...data,
+      })
     );
   },
 };

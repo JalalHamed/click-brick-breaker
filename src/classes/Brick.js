@@ -1,3 +1,5 @@
+// Classes
+import topBorder from './borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -11,7 +13,7 @@ export default class Brick {
 
     this.pos = {
       x: state.grid[this.index],
-      y: SIZES.border.margin + SIZES.border.height + SIZES.brick.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
+      y: topBorder.heightFromTop + SIZES.brick.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
     };
 
     this.weight = props.weight;
