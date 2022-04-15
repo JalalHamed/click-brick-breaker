@@ -1,10 +1,13 @@
+// Functions
 import { getBorderMargin, getFontSize } from './functions/helpers.js';
 
 export const CANVAS_MIN_WIDTH = 350;
+export const CANVAS_MIN_HEIGHT = 600;
 export const CANVAS = document.querySelector('CANVAS');
-export const C = CANVAS.getContext('2d');
-CANVAS.height = innerHeight;
+CANVAS.height =
+  innerHeight >= CANVAS_MIN_HEIGHT ? innerHeight : CANVAS_MIN_HEIGHT;
 CANVAS.width = innerWidth >= CANVAS_MIN_WIDTH ? innerWidth : CANVAS_MIN_WIDTH;
+export const C = CANVAS.getContext('2d');
 
 export const COLORS = {
   ball: {

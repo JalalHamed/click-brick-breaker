@@ -38,7 +38,7 @@ export function getAngle(e) {
 
 export function getBorderMargin() {
   const { height, width } = CANVAS;
-  if (width / height >= 0.8) return height / (5 * (width / height));
+  if (width / height >= 0.8) return height / (6 * (width / height));
   else return (height - width) / 2;
 }
 
