@@ -33,7 +33,7 @@ const handleResize = () => {
     SIZES.ball.radius = MIN_BALL_RADIUS + Math.round(CANVAS.width / 200);
     SIZES.border.margin = getBorderMargin();
     SIZES.border.height = CANVAS.width / 150;
-    SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
+    SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 5) / 6;
     SIZES.brick.height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9;
     SIZES.font = getFontSize();
     calcGrid();

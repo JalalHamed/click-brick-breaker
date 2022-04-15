@@ -21,10 +21,10 @@ const setRound = () => {
   if (!state.getLS('bricks')?.length && !state.getLS('bonuses')?.length) {
     // Generate bricks
     const maxBricksCount =
-      score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 6, need at least one free space for the bonus ball)
+      score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 5, need at least one free spot for the bonus ball)
     const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
 
-    for (let i = 0; i < bricksCount; i++) {
+    for (let i = 0; i < 6; i++) {
       let index = genRndUnusedIndex(indexes);
       indexes.push(index);
       state.bricks.push(new Brick({ index, weight: score.count }));

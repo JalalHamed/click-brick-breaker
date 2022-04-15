@@ -34,7 +34,7 @@ export const SIZES = {
   },
   brick: {
     margin: 5,
-    width: (CANVAS.width - 30) / 7, // 30 = SIZES.brick.margin * 6 (the maximum number of bricks in a row is 6)
+    width: (CANVAS.width - 25) / 6, // 30 = SIZES.brick.margin * 5 (the maximum number of bricks in a row is 5)
     height: (CANVAS.height - getBorderMargin() * 2 - 40) / 9, // 40 = SIZES.brick.margin * 8 (the maximum number of bricks in a column is 8)
   },
   font: getFontSize(),

@@ -16,7 +16,7 @@ export function genRndUnusedIndex(indexes) {
 }
 
 export function calcGrid() {
-  for (let i = 0; i < 7; i++)
+  for (let i = 0; i < 6; i++)
     state.grid[i] = i * SIZES.brick.width + i * SIZES.brick.margin;
 }
 
