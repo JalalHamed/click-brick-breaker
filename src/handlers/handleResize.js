@@ -6,7 +6,11 @@ import topBorder from '../classes/borders/topBorder.js';
 import mainBall from '../classes/balls/mainBall.js';
 import coefficient from '../classes/coefficient.js';
 // Functions
-import { calcGrid, getBorderMargin } from '../functions/helpers.js';
+import {
+  calcGrid,
+  getBorderMargin,
+  getFontSize,
+} from '../functions/helpers.js';
 // Configs
 import { CANVAS, SIZES, MIN_BALL_RADIUS, CANVAS_MIN_WIDTH } from '../config.js';
 // State
@@ -21,6 +25,7 @@ const handleResize = () => {
     SIZES.border.height = CANVAS.width / 150;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
     SIZES.brick.height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9;
+    SIZES.font = getFontSize();
     calcGrid();
 
     [bottomBorder, topBorder, mainBall, coefficient, record, score].forEach(
