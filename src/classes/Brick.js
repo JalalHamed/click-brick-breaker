@@ -1,5 +1,7 @@
 // Classes
 import topBorder from './borders/topBorder.js';
+// Functions
+import { getFontSize } from '../functions/helpers.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -23,7 +25,7 @@ export default class Brick {
     const { width, height } = SIZES.brick;
     C.fillStyle = COLORS.brick;
     C.fillRect(this.pos.x, this.pos.y, width, height);
-    C.font = `${height / 21}rem play`;
+    C.font = `${getFontSize()}rem play`;
     C.fillStyle = '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';

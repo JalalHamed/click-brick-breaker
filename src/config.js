@@ -31,8 +31,8 @@ export const SIZES = {
   },
   brick: {
     margin: 5,
-    width: (CANVAS.width - 30) / 7, // equals => (CANVAS.width - SIZES.brick.margin * 6) / 7
-    height: (CANVAS.height - (CANVAS.height / 8) * 2 - 40) / 9, // equals => (bottomBorder.pos.y - topBorder.heightFromTop - SIZES.brick.margin * 8) / 9
+    width: (CANVAS.width - 30) / 7,
+    height: (CANVAS.height - getBorderMargin() * 2 - 40) / 9,
   },
 };
 

@@ -20,9 +20,7 @@ const handleResize = () => {
     SIZES.border.margin = getBorderMargin();
     SIZES.border.height = CANVAS.width / 150;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 6) / 7;
-    SIZES.brick.height =
-      (bottomBorder.pos.y - topBorder.heightFromTop - SIZES.brick.margin * 8) /
-      9;
+    SIZES.brick.height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9;
     calcGrid();
 
     [bottomBorder, topBorder, mainBall, coefficient, record, score].forEach(

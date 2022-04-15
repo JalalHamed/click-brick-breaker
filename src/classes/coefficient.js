@@ -1,13 +1,10 @@
 // Constructor Instances
 import mainBall from './balls/mainBall.js';
 import bottomBorder from './borders/bottomBorder.js';
+// Functions
+import { getFontSize } from '../functions/helpers.js';
 // Configs
-import {
-  C,
-  CANVAS,
-  COLORS,
-  MAX_COEFFICIENT_FONT_SIZE as M_C_F_S,
-} from '../config.js';
+import { C, CANVAS, COLORS } from '../config.js';
 // State
 import { state } from '../state.js';
 
@@ -22,9 +19,7 @@ class Coefficient {
   }
 
   draw() {
-    C.font = `${
-      CANVAS.width / 400 > M_C_F_S ? M_C_F_S : CANVAS.width / 400
-    }rem play`;
+    C.font = `${getFontSize()}rem play`;
     C.fillStyle = this.count > 0 ? COLORS.ball.main : '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';
