@@ -1,5 +1,3 @@
-// Functions
-import { getFontSize } from '../../functions/helpers.js';
 // Configs
 import { CANVAS, C, SIZES } from '../../config.js';
 
@@ -11,7 +9,7 @@ export default class Statistics {
   }
 
   draw() {
-    C.font = `${getFontSize()}rem play`;
+    C.font = `${SIZES.font}rem play`;
     C.fillStyle = '#000';
     C.textAlign = 'right';
     C.textBaseline = 'middle';

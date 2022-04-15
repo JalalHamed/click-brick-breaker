@@ -1,4 +1,4 @@
-import { getBorderMargin } from './functions/helpers.js';
+import { getBorderMargin, getFontSize } from './functions/helpers.js';
 
 export const CANVAS_MIN_WIDTH = 350;
 export const CANVAS = document.querySelector('CANVAS');
@@ -34,11 +34,10 @@ export const SIZES = {
     width: (CANVAS.width - 30) / 7,
     height: (CANVAS.height - getBorderMargin() * 2 - 40) / 9,
   },
+  font: getFontSize(),
 };
 
 export const MAX_ANGLE = 2.96706; // 2.96706 radiance = 170 degrees
 export const MIN_ANGLE = 0.174533; // 0.174533 radiance = 10 degrees
 
 export const SAFE_MARGIN_FROM_BORDERS = 0.1; // so it won't get buggy and stuck.
-
-export const MAX_COEFFICIENT_FONT_SIZE = 2;

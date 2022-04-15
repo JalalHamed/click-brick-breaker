@@ -43,6 +43,7 @@ export function getBorderMargin() {
 }
 
 export function getFontSize() {
-  const { width, height } = SIZES.brick;
+  const width = (CANVAS.width - 30) / 7; // brick's width
+  const height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9; // brick's height
   return width > height ? width / height : height / width;
 }
