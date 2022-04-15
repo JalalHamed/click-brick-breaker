@@ -3,7 +3,7 @@ import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 import mainBall from '../classes/balls/mainBall.js';
 // Configs
-import { SIZES, MIN_ANGLE, MAX_ANGLE } from '../config.js';
+import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
 // State
 import { state } from '../state.js';
 
@@ -34,4 +34,10 @@ export function getAngle(e) {
   // Prevent angle from surpassing 170 degrees
   if (angle > MAX_ANGLE) angle = MAX_ANGLE;
   return angle;
+}
+
+export function getBorderMargin() {
+  const { height, width } = CANVAS;
+  if (width / height >= 1) return height / (5 * (width / height));
+  else return (height - width) / 2;
 }
