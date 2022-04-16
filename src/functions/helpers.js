@@ -15,6 +15,10 @@ export function genRndUnusedIndex(indexes) {
   return index;
 }
 
+export const render = () => {
+  state.bonuses.forEach(bonus => bonus.render());
+};
+
 export function calcGrid() {
   for (let i = 0; i < 6; i++)
     state.grid[i] = i * SIZES.brick.width + i * SIZES.brick.margin;

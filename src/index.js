@@ -7,8 +7,7 @@ import handleClick from './handlers/handleClick.js';
 import shoot from './functions/shoot.js';
 import setRound from './functions/setRound.js';
 import draw from './functions/draw.js';
-import render from './functions/render.js';
-import { calcGrid } from './functions/helpers.js';
+import { calcGrid, render } from './functions/helpers.js';
 // State
 import { state } from './state.js';
 
