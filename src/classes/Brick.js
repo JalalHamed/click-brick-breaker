@@ -5,9 +5,6 @@ import { COLORS, SIZES, C } from '../config.js';
 // State
 import state from '../state.js';
 
-// TEMP IMPORT, MAKE SURE TO DELETE LATER
-import bottomBorder from './borders/bottomBorder.js';
-
 export default class Brick {
   constructor(props) {
     this.props = props;
