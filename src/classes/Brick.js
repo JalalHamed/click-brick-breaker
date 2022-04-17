@@ -3,17 +3,18 @@ import topBorder from './borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
+
+// TEMP IMPORT, MAKE SURE TO DELETE LATER
+import bottomBorder from './borders/bottomBorder.js';
 
 export default class Brick {
   constructor(props) {
     this.props = props;
 
-    console.log(props.gridRowIndex);
-
     this.pos = {
       x: state.grid.row[props.gridRowIndex],
-      y: topBorder.heightFromTop + SIZES.brick.height,
+      y: topBorder.heightFromTop + state.grid.column[props.gridColumnIndex],
     };
 
     this.weight = props.weight;
@@ -31,6 +32,10 @@ export default class Brick {
   }
 
   repoSize() {
-    this.pos.x = state.grid[this.props.gridRowIndex];
+    this.pos = {
+      x: state.grid.row[this.props.gridRowIndex],
+      y:
+        topBorder.heightFromTop + state.grid.column[this.props.gridColumnIndex],
+    };
   }
 }

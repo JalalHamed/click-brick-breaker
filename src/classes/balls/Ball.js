@@ -3,7 +3,7 @@ import bottomBorder from '../borders/bottomBorder.js';
 // Configs
 import { COLORS, SIZES, CANVAS, C } from '../../config.js';
 // State
-import { state } from '../../state.js';
+import state from '../../state.js';
 
 export default class Ball {
   constructor(props) {

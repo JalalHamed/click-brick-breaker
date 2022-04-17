@@ -3,7 +3,7 @@ import { isInBorder } from '../functions/helpers.js';
 // Configs
 import { CANVAS } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 
 const handleMouseMove = e => {
   if (!state.isBallMoving) {

@@ -4,7 +4,7 @@ import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { C, CANVAS, COLORS, SIZES } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 
 class Coefficient {
   constructor() {

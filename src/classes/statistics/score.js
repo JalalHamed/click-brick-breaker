@@ -4,7 +4,7 @@ import record from './record.js';
 // Configs
 import { C, CANVAS, SIZES } from '../../config.js';
 // State
-import { state } from '../../state.js';
+import state from '../../state.js';
 
 class Score extends Statistics {
   constructor() {

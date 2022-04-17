@@ -7,7 +7,7 @@ import { getAngle } from '../functions/helpers.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 
 class Pointer {
   get calcEndPoint() {

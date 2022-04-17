@@ -5,7 +5,7 @@ import mainBall from '../classes/balls/mainBall.js';
 // Configs
 import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 
 export function genRndUniqueNum(numbers) {
   let number;
@@ -22,8 +22,7 @@ export function render() {
 export function calcGrid() {
   const { width, height, margin } = SIZES.brick;
   for (let i = 0; i < 6; i++) state.grid.row[i] = i * (width + margin);
-  for (let i = 0; i < 8; i++) state.grid.column[i] = i * (height + margin);
-  console.log(state.grid);
+  for (let i = 0; i < 9; i++) state.grid.column[i] = i * (height + margin);
 }
 
 export function isInBorder(y) {

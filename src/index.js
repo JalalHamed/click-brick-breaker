@@ -9,7 +9,7 @@ import setRound from './functions/setRound.js';
 import draw from './functions/draw.js';
 import { calcGrid, render } from './functions/helpers.js';
 // State
-import { state } from './state.js';
+import state from './state.js';
 
 const animate = () => {
   const rAF = requestAnimationFrame(animate);

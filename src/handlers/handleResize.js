@@ -20,7 +20,7 @@ import {
   CANVAS_MIN_HEIGHT,
 } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 
 const handleResize = () => {
   if (
@@ -34,7 +34,8 @@ const handleResize = () => {
     SIZES.border.margin = getBorderMargin();
     SIZES.border.height = CANVAS.width / 150;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 5) / 6;
-    SIZES.brick.height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9;
+    SIZES.brick.height =
+      (CANVAS.height - getBorderMargin() * 2 - SIZES.border.height - 40) / 9;
     SIZES.font = getFontSize();
     calcGrid();
 

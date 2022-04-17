@@ -1,4 +1,4 @@
-export const state = {
+const state = {
   isMouseInBorder: false,
   isBallMoving: false,
   bricks: [],
@@ -22,3 +22,5 @@ export const state = {
     );
   },
 };
+
+export default state;

@@ -3,7 +3,7 @@ import Ball from './Ball.js';
 // Constructor Instances
 import bottomBorder from '../borders/bottomBorder.js';
 // State
-import { state } from '../../state.js';
+import state from '../../state.js';
 // Configs
 import { SIZES } from '../../config.js';
 

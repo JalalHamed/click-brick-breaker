@@ -4,7 +4,7 @@ import topBorder from '../borders/topBorder.js';
 // Configs
 import { C, CANVAS } from '../../config.js';
 // State
-import { state } from '../../state.js';
+import state from '../../state.js';
 
 class Record extends Statistics {
   constructor() {

@@ -4,7 +4,7 @@ import mainBall from '../classes/balls/mainBall.js';
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 // Configs
 import {
   SIZES,

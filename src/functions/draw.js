@@ -10,7 +10,7 @@ import fps from '../classes/fps.js';
 // Configs
 import { C, CANVAS } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);

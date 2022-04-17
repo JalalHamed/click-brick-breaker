@@ -3,18 +3,24 @@ import topBorder from './borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
-import { state } from '../state.js';
+import state from '../state.js';
 
 export default class Bonus {
   constructor(props) {
+    this.props = props;
     this.r = SIZES.ball.radius;
     this.ringR = SIZES.ball.radius;
     this.isGoingDown = true;
     this.counter = 0;
+    this.gridRowIndex = props.gridRowIndex;
 
     this.pos = {
       x: state.grid.row[props.gridRowIndex] + SIZES.brick.width / 2,
-      y: topBorder.heightFromTop + SIZES.brick.height + SIZES.brick.height / 2,
+      y:
+        topBorder.heightFromTop +
+        SIZES.brick.height +
+        SIZES.brick.height / 2 +
+        props.gridColumnIndex,
     };
 
     this.velocity = {
@@ -58,7 +64,7 @@ export default class Bonus {
 
   repoSize() {
     this.pos = {
-      x: state.grid[props.gridRowIndex] + SIZES.brick.width / 2,
+      x: state.grid[this.props.gridRowIndex] + SIZES.brick.width / 2,
       y: topBorder.heightFromTop + SIZES.brick.height + SIZES.brick.height / 2,
     };
 
