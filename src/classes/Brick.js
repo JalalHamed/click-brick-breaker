@@ -9,11 +9,11 @@ export default class Brick {
   constructor(props) {
     this.props = props;
 
-    this.index = props.index;
+    console.log(props.gridRowIndex);
 
     this.pos = {
-      x: state.grid[this.index],
-      y: topBorder.heightFromTop + SIZES.brick.height, // must be greater/less than the topBorder/bottomBorder's y pos +/- the border height
+      x: state.grid.row[props.gridRowIndex],
+      y: topBorder.heightFromTop + SIZES.brick.height,
     };
 
     this.weight = props.weight;
@@ -31,6 +31,6 @@ export default class Brick {
   }
 
   repoSize() {
-    this.pos.x = state.grid[this.props.index];
+    this.pos.x = state.grid[this.props.gridRowIndex];
   }
 }

@@ -11,10 +11,9 @@ export default class Bonus {
     this.ringR = SIZES.ball.radius;
     this.isGoingDown = true;
     this.counter = 0;
-    this.index = props.index;
 
     this.pos = {
-      x: state.grid[this.index] + SIZES.brick.width / 2,
+      x: state.grid.row[props.gridRowIndex] + SIZES.brick.width / 2,
       y: topBorder.heightFromTop + SIZES.brick.height + SIZES.brick.height / 2,
     };
 
@@ -59,7 +58,7 @@ export default class Bonus {
 
   repoSize() {
     this.pos = {
-      x: state.grid[this.index] + SIZES.brick.width / 2,
+      x: state.grid[props.gridRowIndex] + SIZES.brick.width / 2,
       y: topBorder.heightFromTop + SIZES.brick.height + SIZES.brick.height / 2,
     };
 

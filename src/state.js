@@ -3,7 +3,7 @@ export const state = {
   isBallMoving: false,
   bricks: [],
   bonuses: [],
-  grid: [],
+  grid: { row: [], column: [] },
   shotBalls: [],
   mouseCoords: {},
   offset: 0,

@@ -4,50 +4,33 @@ import Bonus from '../classes/Bonus.js';
 // Constructor Instances
 import score from '../classes/statistics/score.js';
 // Functions
-import { genRndUnusedIndex } from './helpers.js';
+import { genRndUniqueNum } from './helpers.js';
 // Configs
 import { CANVAS } from '../config.js';
 // State
 import { state } from '../state.js';
 
 const setRound = () => {
-  let indexes = [];
+  let gridRowIndexes = [];
 
-  if (!state.getLS('record')) {
-    console.log('First time EVER playing the game.');
-    // state.setLS({ mainBall: CANVAS.width / 2, record: 1, score: 1 });
+  // Generate bricks
+  const maxBricksCount =
+    score.count < 25 ? Math.floor(Math.sqrt(score.count)) : 5; // Gradually increase the maximum number of bricks that can be generated (up to 5, need at least one free spot for the bonus ball)
+  const bricksCount = Math.floor(Math.random() * maxBricksCount);
+
+  for (let i = 0; i < maxBricksCount; i++) {
+    let gridRowIndex = genRndUniqueNum(gridRowIndexes);
+    gridRowIndexes.push(gridRowIndex);
+    state.bricks.push(
+      new Brick({ gridRowIndex, gridColumnIndex: 0, weight: score.count })
+    );
   }
 
-  if (!state.getLS('bricks')?.length && !state.getLS('bonuses')?.length) {
-    // Generate bricks
-    const maxBricksCount =
-      score.count < 36 ? Math.floor(Math.sqrt(score.count)) : 6; // Gradually increase the maximum number of bricks that can be generated (up to 5, need at least one free spot for the bonus ball)
-    const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
-
-    for (let i = 0; i < 6; i++) {
-      let index = genRndUnusedIndex(indexes);
-      indexes.push(index);
-      state.bricks.push(new Brick({ index, weight: score.count }));
-    }
-
-    // Generate bonus ball
-    let index = genRndUnusedIndex(indexes);
-    state.bonuses.push(new Bonus({ index, weight: score.count }));
-
-    state.setLS({
-      bricks: [{ index: state.bricks[0].index, weight: score.count }],
-      bonuses: [state.bonuses[0].index],
-    });
-  } else {
-    state.getLS('bricks').forEach(brick => {
-      state.bricks.push(
-        new Brick({ index: brick.index, weight: brick.weight })
-      );
-    });
-    state.getLS('bonuses').forEach(bonus => {
-      state.bonuses.push(new Bonus({ index: bonus }));
-    });
-  }
+  // Generate bonus ball
+  let gridRowIndex = genRndUniqueNum(gridRowIndexes);
+  state.bonuses.push(
+    new Bonus({ gridRowIndex, gridColumnIndex: 0, weight: score.count })
+  );
 };
 
 export default setRound;

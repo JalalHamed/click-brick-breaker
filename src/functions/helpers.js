@@ -7,21 +7,23 @@ import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
 // State
 import { state } from '../state.js';
 
-export function genRndUnusedIndex(indexes) {
-  let index;
+export function genRndUniqueNum(numbers) {
+  let number;
   do {
-    index = Math.floor(Math.random() * 7);
-  } while (indexes.includes(index));
-  return index;
+    number = Math.floor(Math.random() * 6);
+  } while (numbers.includes(number));
+  return number;
 }
 
-export const render = () => {
+export function render() {
   state.bonuses.forEach(bonus => bonus.render());
-};
+}
 
 export function calcGrid() {
-  for (let i = 0; i < 6; i++)
-    state.grid[i] = i * SIZES.brick.width + i * SIZES.brick.margin;
+  const { width, height, margin } = SIZES.brick;
+  for (let i = 0; i < 6; i++) state.grid.row[i] = i * (width + margin);
+  for (let i = 0; i < 8; i++) state.grid.column[i] = i * (height + margin);
+  console.log(state.grid);
 }
 
 export function isInBorder(y) {
