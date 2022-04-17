@@ -6,7 +6,7 @@ const state = {
   grid: { row: [], column: [] },
   shotBalls: [],
   mouseCoords: {},
-  offset: 0,
+  counter: 0,
   innerWidth,
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));

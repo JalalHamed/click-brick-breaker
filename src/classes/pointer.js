@@ -101,7 +101,7 @@ class Pointer {
     C.setLineDash([15, 10]);
     C.moveTo(mainBall.pos.x, mainBall.pos.y);
     C.lineTo(...this.calcEndPoint.dashedLine);
-    C.lineDashOffset = state.offset;
+    C.lineDashOffset = -state.counter;
     C.strokeStyle = COLORS.pointer.line;
     C.lineWidth = mainBall.r / 2.5;
     C.stroke();

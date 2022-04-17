@@ -7,14 +7,14 @@ import handleClick from './handlers/handleClick.js';
 import shoot from './functions/shoot.js';
 import setRound from './functions/setRound.js';
 import draw from './functions/draw.js';
-import { calcGrid, render } from './functions/helpers.js';
+import { calcGrid } from './functions/helpers.js';
 // State
 import state from './state.js';
 
 const animate = () => {
   const rAF = requestAnimationFrame(animate);
-  state.offset--;
-  [draw, render].forEach(item => item());
+  state.counter++;
+  draw();
   if (state.isBallMoving) shoot();
 };
 

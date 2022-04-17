@@ -15,10 +15,6 @@ export function genRndUniqueNum(numbers) {
   return number;
 }
 
-export function render() {
-  state.bonuses.forEach(bonus => bonus.render());
-}
-
 export function calcGrid() {
   const { width, height, margin } = SIZES.brick;
   for (let i = 0; i < 6; i++) state.grid.row[i] = i * (width + margin);
