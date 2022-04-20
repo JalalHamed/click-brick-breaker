@@ -1,7 +1,7 @@
 // State
 import state from '../state.js';
 
-const newRound = () => {
+const setNewRound = () => {
   let isDone = { bricks: false, bonuses: false };
 
   state.bricks.forEach(brick => {
@@ -23,4 +23,4 @@ const newRound = () => {
   if (isDone.bricks && isDone.bonuses) state.isSettingsNewRound = false;
 };
 
-export default newRound;
+export default setNewRound;

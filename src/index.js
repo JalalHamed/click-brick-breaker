@@ -7,7 +7,7 @@ import handleClick from './handlers/handleClick.js';
 import shoot from './functions/shoot.js';
 import setRound from './functions/setRound.js';
 import draw from './functions/draw.js';
-import newRound from './functions/newRound.js';
+import setNewRound from './functions/setNewRound.js';
 import { calcGrid } from './functions/helpers.js';
 // State
 import state from './state.js';
@@ -17,7 +17,7 @@ const animate = () => {
   state.counter++;
   draw();
   if (state.isBallMoving) shoot();
-  if (state.isSettingsNewRound) newRound();
+  if (state.isSettingsNewRound) setNewRound();
 };
 
 const init = () => [calcGrid, setRound, animate].forEach(item => item());
