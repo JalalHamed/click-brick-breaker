@@ -13,7 +13,7 @@ const setNewRound = () => {
 
   // Bring down bricks
   state.bricks.forEach(brick => {
-    if (brick.pos.y < brick.pos.nextY) brick.pos.y += 1;
+    if (brick.pos.y < brick.pos.nextY) brick.pos.y += 3;
     else {
       brick.nextRound();
       isDone.bricks = true;
@@ -22,7 +22,7 @@ const setNewRound = () => {
 
   // Bring down bonus balls
   state.bonuses.forEach(bonus => {
-    if (bonus.pos.y < bonus.pos.nextY) bonus.pos.y += 1;
+    if (bonus.pos.y < bonus.pos.nextY) bonus.pos.y += 3;
     else {
       bonus.nextRound();
       isDone.bonuses = true;

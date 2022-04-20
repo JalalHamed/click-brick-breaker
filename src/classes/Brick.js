@@ -20,6 +20,7 @@ export default class Brick {
 
   nextRound() {
     this.props.gridColumnIndex++;
+    this.pos.y = getBrickYPos(this.props.gridColumnIndex);
     this.pos.nextY = getBrickYPos(this.props.gridColumnIndex + 1);
   }
 

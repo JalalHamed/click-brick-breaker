@@ -20,6 +20,7 @@ export default class Bonus {
 
   nextRound() {
     this.props.gridColumnIndex++;
+    this.pos.y = getBonusYPos(this.props.gridColumnIndex);
     this.pos.nextY = getBonusYPos(this.props.gridColumnIndex + 1);
   }
 
@@ -55,7 +56,7 @@ export default class Bonus {
     this.pos = {
       x: state.grid.row[this.props.gridRowIndex] + SIZES.brick.width / 2,
       y: getBonusYPos(this.props.gridColumnIndex),
-      nextY: getBonusYPos(props.gridColumnIndex + 1),
+      nextY: getBonusYPos(this.props.gridColumnIndex + 1),
     };
 
     this.r = SIZES.ball.radius;
