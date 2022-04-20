@@ -5,7 +5,7 @@ import handleResize from './handlers/handleResize.js';
 import handleClick from './handlers/handleClick.js';
 // Functions
 import shoot from './functions/shoot.js';
-import setRound from './functions/setRound.js';
+import generateBricksAndBonus from './functions/generateBricksAndBonus.js';
 import draw from './functions/draw.js';
 import setNewRound from './functions/setNewRound.js';
 import { calcGrid } from './functions/helpers.js';
@@ -20,7 +20,8 @@ const animate = () => {
   if (state.isSettingNewRound) setNewRound();
 };
 
-const init = () => [calcGrid, setRound, animate].forEach(item => item());
+const init = () =>
+  [calcGrid, generateBricksAndBonus, animate].forEach(item => item());
 
 addEventListener('load', () => handleLoad(init));
 addEventListener('resize', handleResize);

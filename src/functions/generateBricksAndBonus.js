@@ -8,7 +8,7 @@ import { genRndUniqueNum } from './helpers.js';
 // State
 import state from '../state.js';
 
-const setRound = () => {
+const generateBricksAndBonus = () => {
   let gridRowIndexes = [];
 
   // Generate bricks
@@ -31,4 +31,4 @@ const setRound = () => {
   );
 };
 
-export default setRound;
+export default generateBricksAndBonus;
