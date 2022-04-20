@@ -14,13 +14,9 @@ import state from '../state.js';
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
-  fps.draw();
-  score.draw();
-  record.draw();
-  topBorder.draw();
-  bottomBorder.draw();
-  mainBall.draw();
-  coefficient.draw();
+  [fps, score, record, topBorder, bottomBorder, mainBall, coefficient].forEach(
+    item => item.draw()
+  );
   state.bricks.forEach(brick => brick.draw());
   state.bonuses.forEach(bonus => bonus.draw());
   if (state.isMouseInBorder && !state.isBallMoving) pointer.draw();

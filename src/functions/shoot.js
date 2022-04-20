@@ -61,6 +61,7 @@ const shoot = () => {
     counter = 0;
     state.shotBalls = [];
     state.isBallMoving = false;
+    state.isSettingsNewRound = true;
   }
 };
 

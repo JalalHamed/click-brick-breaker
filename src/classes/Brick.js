@@ -12,9 +12,16 @@ export default class Brick {
     this.pos = {
       x: state.grid.row[props.gridRowIndex],
       y: topBorder.heightFromTop + state.grid.column[props.gridColumnIndex],
+      nextY:
+        topBorder.heightFromTop + state.grid.column[props.gridColumnIndex + 1],
     };
 
     this.weight = props.weight;
+  }
+
+  setNextY() {
+    const { height, margin } = SIZES.brick;
+    this.pos.nextY = this.pos.y + margin + height;
   }
 
   draw() {
