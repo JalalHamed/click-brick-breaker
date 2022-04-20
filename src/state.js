@@ -1,7 +1,7 @@
 const state = {
   isMouseInBorder: false,
   isBallMoving: false,
-  isSettingsNewRound: false,
+  isSettingNewRound: false,
   bricks: [],
   bonuses: [],
   grid: { row: [], column: [] },

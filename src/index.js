@@ -17,7 +17,7 @@ const animate = () => {
   state.counter++;
   draw();
   if (state.isBallMoving) shoot();
-  if (state.isSettingsNewRound) setNewRound();
+  if (state.isSettingNewRound) setNewRound();
 };
 
 const init = () => [calcGrid, setRound, animate].forEach(item => item());

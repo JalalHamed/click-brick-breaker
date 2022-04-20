@@ -1,5 +1,6 @@
 // Classes
 import Statistics from './Statistics.js';
+// Constructor Instances
 import topBorder from '../borders/topBorder.js';
 // Configs
 import { C, CANVAS } from '../../config.js';

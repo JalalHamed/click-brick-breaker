@@ -1,4 +1,4 @@
-// Classes
+// Constructor Instances
 import coefficient from '../classes/coefficient.js';
 import mainBall from '../classes/balls/mainBall.js';
 import topBorder from '../classes/borders/topBorder.js';
@@ -61,7 +61,7 @@ const shoot = () => {
     counter = 0;
     state.shotBalls = [];
     state.isBallMoving = false;
-    state.isSettingsNewRound = true;
+    state.isSettingNewRound = true;
   }
 };
 
