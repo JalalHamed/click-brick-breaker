@@ -1,5 +1,5 @@
-// Classes
-import topBorder from './borders/topBorder.js';
+// Functions
+import { getBrickYPos } from '../functions/helpers.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -11,17 +11,16 @@ export default class Brick {
 
     this.pos = {
       x: state.grid.row[props.gridRowIndex],
-      y: topBorder.heightFromTop + state.grid.column[props.gridColumnIndex],
-      nextY:
-        topBorder.heightFromTop + state.grid.column[props.gridColumnIndex + 1],
+      y: getBrickYPos(props.gridColumnIndex),
+      nextY: getBrickYPos(props.gridColumnIndex + 1),
     };
 
     this.weight = props.weight;
   }
 
-  setNextY() {
-    const { height, margin } = SIZES.brick;
-    this.pos.nextY = this.pos.y + margin + height;
+  nextRound() {
+    this.props.gridColumnIndex++;
+    this.pos.nextY = getBrickYPos(this.props.gridColumnIndex + 1);
   }
 
   draw() {
@@ -38,8 +37,8 @@ export default class Brick {
   repoSize() {
     this.pos = {
       x: state.grid.row[this.props.gridRowIndex],
-      y:
-        topBorder.heightFromTop + state.grid.column[this.props.gridColumnIndex],
+      y: getBrickYPos(this.props.gridColumnIndex),
+      nextY: getBrickYPos(this.props.gridColumnIndex + 1),
     };
   }
 }

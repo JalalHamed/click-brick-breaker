@@ -1,5 +1,5 @@
-// Classes
-import topBorder from './borders/topBorder.js';
+// Function
+import { getBonusYPos } from '../functions/helpers.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -13,11 +13,14 @@ export default class Bonus {
 
     this.pos = {
       x: state.grid.row[props.gridRowIndex] + SIZES.brick.width / 2,
-      y:
-        topBorder.heightFromTop +
-        SIZES.brick.height / 2 +
-        state.grid.column[props.gridColumnIndex],
+      y: getBonusYPos(props.gridColumnIndex),
+      nextY: getBonusYPos(props.gridColumnIndex + 1),
     };
+  }
+
+  nextRound() {
+    this.props.gridColumnIndex++;
+    this.pos.nextY = getBonusYPos(this.props.gridColumnIndex + 1);
   }
 
   swingRing() {
@@ -51,10 +54,8 @@ export default class Bonus {
   repoSize() {
     this.pos = {
       x: state.grid.row[this.props.gridRowIndex] + SIZES.brick.width / 2,
-      y:
-        topBorder.heightFromTop +
-        SIZES.brick.height / 2 +
-        state.grid.column[this.props.gridColumnIndex],
+      y: getBonusYPos(this.props.gridColumnIndex),
+      nextY: getBonusYPos(props.gridColumnIndex + 1),
     };
 
     this.r = SIZES.ball.radius;
