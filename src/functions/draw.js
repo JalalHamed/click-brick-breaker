@@ -13,14 +13,15 @@ import { C, CANVAS, SIZES } from '../config.js';
 import state from '../state.js';
 
 let isGoingDown = false;
-const swingRing = () => {
+
+function swingRing() {
   const { radius } = SIZES.ball;
   if (state.bonusRing > radius && isGoingDown) state.bonusRing--;
+  if (state.bonusRing === radius) isGoingDown = false;
   if (state.bonusRing < Math.floor(radius * 1.7) && !isGoingDown)
     state.bonusRing++;
-  if (state.bonusRing === radius) isGoingDown = false;
   if (state.bonusRing === Math.floor(radius * 1.7)) isGoingDown = true;
-};
+}
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);

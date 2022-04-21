@@ -12,6 +12,7 @@ const state = {
   mouseCoords: {},
   counter: 0,
   bonusRing: SIZES.ball.radius,
+  brickID: 1,
   innerWidth,
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));

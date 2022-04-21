@@ -7,14 +7,6 @@ import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
 // State
 import state from '../state.js';
 
-export function genRndUniqueNum(numbers) {
-  let number;
-  do {
-    number = Math.floor(Math.random() * 6);
-  } while (numbers.includes(number));
-  return number;
-}
-
 export function calcGrid() {
   const { width, height, margin } = SIZES.brick;
   for (let i = 0; i < 6; i++) state.grid.row[i] = i * (width + margin);

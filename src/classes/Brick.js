@@ -12,6 +12,9 @@ export default class Brick {
   constructor(props) {
     this.props = props;
 
+    this.id = state.brickID;
+    state.brickID++;
+
     this.gridColumnIndex = 1;
     this.gridRowIndex = props.gridRowIndex;
 

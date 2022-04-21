@@ -3,10 +3,16 @@ import Brick from '../classes/Brick.js';
 import Bonus from '../classes/Bonus.js';
 // Constructor Instances
 import score from '../classes/statistics/score.js';
-// Functions
-import { genRndUniqueNum } from './helpers.js';
 // State
 import state from '../state.js';
+
+function genRndUniqueGridRowIndex(usedIndexes) {
+  let index;
+  do {
+    index = Math.floor(Math.random() * 6);
+  } while (usedIndexes.includes(index));
+  return index;
+}
 
 const generateBricksAndBonus = () => {
   let gridRowIndexes = [];
@@ -17,14 +23,18 @@ const generateBricksAndBonus = () => {
   const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
 
   for (let i = 0; i < bricksCount; i++) {
-    const gridRowIndex = genRndUniqueNum(gridRowIndexes);
+    const gridRowIndex = genRndUniqueGridRowIndex(gridRowIndexes);
     gridRowIndexes.push(gridRowIndex);
     state.bricks.push(new Brick({ gridRowIndex }));
   }
 
   // Generate bonus ball
-  const gridRowIndex = genRndUniqueNum(gridRowIndexes);
-  state.bonuses.push(new Bonus({ gridRowIndex, ring: state.bonuses[0]?.ring }));
+  state.bonuses.push(
+    new Bonus({
+      gridRowIndex: genRndUniqueGridRowIndex(gridRowIndexes),
+      ring: state.bonuses[0]?.ring,
+    })
+  );
 };
 
 export default generateBricksAndBonus;

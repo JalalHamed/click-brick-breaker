@@ -7,30 +7,32 @@ import record from '../classes/statistics/record.js';
 // State
 import state from '../state.js';
 import generateBricksAndBonus from './generateBricksAndBonus.js';
+// Configs
+import { BRICK_AND_BONUS_BOUNCE_SIZE as B_A_B_B_S } from '../config.js';
+
+let isGoingDown = true;
 
 const setNewRound = () => {
-  let isDone = { bricks: false, bonuses: false };
+  let isDone = false;
 
-  // Bring down bricks
-  state.bricks.forEach(brick => {
-    if (brick.pos.y < brick.pos.nextY) brick.pos.y += 3;
-    else {
-      brick.nextRound();
-      isDone.bricks = true;
+  // Bring down bricks and bonus balls 1 row
+  [...state.bricks, ...state.bonuses].forEach(item => {
+    const posY = Math.round(item.pos.y);
+    const posNextY = Math.round(item.pos.nextY);
+
+    if (posY < posNextY + B_A_B_B_S && isGoingDown) item.pos.y += 3;
+    if (posY >= posNextY + B_A_B_B_S && isGoingDown) isGoingDown = false;
+    if (posY > posNextY && !isGoingDown) item.pos.y -= 1;
+    if (posY === posNextY && !isGoingDown) {
+      isDone = true;
+      isGoingDown = true;
     }
   });
 
-  // Bring down bonus balls
-  state.bonuses.forEach(bonus => {
-    if (bonus.pos.y < bonus.pos.nextY) bonus.pos.y += 3;
-    else {
-      bonus.nextRound();
-      isDone.bonuses = true;
-    }
-  });
+  if (isDone) {
+    [...state.bricks, ...state.bonuses].forEach(item => item.nextRound());
 
-  if (isDone.bricks && isDone.bonuses) {
-    // Increase score and record (if necessary)
+    // Increase score (and record if necessary)
     score.addOne();
     if (record.count < score.count) record.addOne();
 
