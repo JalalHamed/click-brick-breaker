@@ -1,27 +1,33 @@
-// Function
-import { getBonusYPos } from '../functions/helpers.js';
+// Constructor Instances
+import topBorder from '../classes/borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
 import state from '../state.js';
 
+const calcYPos = gCI =>
+  topBorder.heightFromTop + SIZES.brick.height / 2 + state.grid.column[gCI];
+
 export default class Bonus {
   constructor(props) {
     this.props = props;
+
+    this.gridColumnIndex = 1;
+    this.gridRowIndex = this.props.gridRowIndex;
     this.isGoingDown = true;
     this.ring = SIZES.ball.radius;
 
     this.pos = {
-      x: state.grid.row[props.gridRowIndex] + SIZES.brick.width / 2,
-      y: getBonusYPos(props.gridColumnIndex),
-      nextY: getBonusYPos(props.gridColumnIndex + 1),
+      x: state.grid.row[this.gridRowIndex] + SIZES.brick.width / 2,
+      y: calcYPos(this.gridColumnIndex),
+      nextY: calcYPos(this.gridColumnIndex + 1),
     };
   }
 
   nextRound() {
-    this.props.gridColumnIndex++;
-    this.pos.y = getBonusYPos(this.props.gridColumnIndex);
-    this.pos.nextY = getBonusYPos(this.props.gridColumnIndex + 1);
+    this.gridColumnIndex++;
+    this.pos.y = calcYPos(this.gridColumnIndex);
+    this.pos.nextY = calcYPos(this.gridColumnIndex + 1);
   }
 
   swingRing() {
@@ -54,9 +60,9 @@ export default class Bonus {
 
   repoSize() {
     this.pos = {
-      x: state.grid.row[this.props.gridRowIndex] + SIZES.brick.width / 2,
-      y: getBonusYPos(this.props.gridColumnIndex),
-      nextY: getBonusYPos(this.props.gridColumnIndex + 1),
+      x: state.grid.row[this.gridRowIndex] + SIZES.brick.width / 2,
+      y: calcYPos(this.gridColumnIndex),
+      nextY: calcYPos(this.props.gridColumnIndex + 1),
     };
 
     this.r = SIZES.ball.radius;

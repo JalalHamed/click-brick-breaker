@@ -1,27 +1,32 @@
-// Functions
-import { getBrickYPos } from '../functions/helpers.js';
+// Constructor Instances
+import topBorder from '../classes/borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
 import state from '../state.js';
 
+const calcYPos = gCI => topBorder.heightFromTop + state.grid.column[gCI];
+
 export default class Brick {
   constructor(props) {
     this.props = props;
 
+    this.gridColumnIndex = 1;
+    this.gridRowIndex = props.gridRowIndex;
+
     this.pos = {
-      x: state.grid.row[props.gridRowIndex],
-      y: getBrickYPos(props.gridColumnIndex),
-      nextY: getBrickYPos(props.gridColumnIndex + 1),
+      x: state.grid.row[this.gridRowIndex],
+      y: calcYPos(this.gridColumnIndex),
+      nextY: calcYPos(this.gridColumnIndex + 1),
     };
 
     this.weight = props.weight;
   }
 
   nextRound() {
-    this.props.gridColumnIndex++;
-    this.pos.y = getBrickYPos(this.props.gridColumnIndex);
-    this.pos.nextY = getBrickYPos(this.props.gridColumnIndex + 1);
+    this.gridColumnIndex++;
+    this.pos.y = calcYPos(this.gridColumnIndex);
+    this.pos.nextY = calcYPos(this.gridColumnIndex + 1);
   }
 
   draw() {
@@ -37,9 +42,9 @@ export default class Brick {
 
   repoSize() {
     this.pos = {
-      x: state.grid.row[this.props.gridRowIndex],
-      y: getBrickYPos(this.props.gridColumnIndex),
-      nextY: getBrickYPos(this.props.gridColumnIndex + 1),
+      x: state.grid.row[this.gridRowIndex],
+      y: calcYPos(this.gridColumnIndex),
+      nextY: calcYPos(this.props.gridColumnIndex + 1),
     };
   }
 }

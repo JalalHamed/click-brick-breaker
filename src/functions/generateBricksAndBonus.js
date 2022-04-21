@@ -19,15 +19,17 @@ const generateBricksAndBonus = () => {
   for (let i = 0; i < bricksCount; i++) {
     let gridRowIndex = genRndUniqueNum(gridRowIndexes);
     gridRowIndexes.push(gridRowIndex);
-    state.bricks.push(
-      new Brick({ gridRowIndex, gridColumnIndex: 1, weight: score.count })
-    );
+    state.bricks.push(new Brick({ gridRowIndex, weight: score.count }));
   }
 
   // Generate bonus ball
   let gridRowIndex = genRndUniqueNum(gridRowIndexes);
   state.bonuses.push(
-    new Bonus({ gridRowIndex, gridColumnIndex: 1, weight: score.count })
+    new Bonus({
+      gridRowIndex,
+      weight: score.count,
+      ring: state.ring,
+    })
   );
 };
 

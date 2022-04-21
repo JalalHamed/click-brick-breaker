@@ -48,15 +48,3 @@ export function getFontSize() {
   const height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9; // brick's height
   return width > height ? width / height : height / width;
 }
-
-export function getBrickYPos(gridColumnIndex) {
-  return topBorder.heightFromTop + state.grid.column[gridColumnIndex];
-}
-
-export function getBonusYPos(gridColumnIndex) {
-  return (
-    topBorder.heightFromTop +
-    SIZES.brick.height / 2 +
-    state.grid.column[gridColumnIndex]
-  );
-}
