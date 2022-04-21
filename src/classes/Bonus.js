@@ -1,5 +1,5 @@
 // Constructor Instances
-import topBorder from '../classes/borders/topBorder.js';
+import topBorder from './borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -14,8 +14,6 @@ export default class Bonus {
 
     this.gridColumnIndex = 1;
     this.gridRowIndex = this.props.gridRowIndex;
-    this.isGoingDown = true;
-    this.ring = SIZES.ball.radius;
 
     this.pos = {
       x: state.grid.row[this.gridRowIndex] + SIZES.brick.width / 2,
@@ -30,14 +28,6 @@ export default class Bonus {
     this.pos.nextY = calcYPos(this.gridColumnIndex + 1);
   }
 
-  swingRing() {
-    const { radius } = SIZES.ball;
-    if (this.ring > radius && this.isGoingDown) this.ring--;
-    if (this.ring === radius) this.isGoingDown = false;
-    if (this.ring < radius * 2 && !this.isGoingDown) this.ring++;
-    if (this.ring === radius * 2) this.isGoingDown = true;
-  }
-
   draw() {
     // bonus ball
     C.beginPath();
@@ -49,13 +39,10 @@ export default class Bonus {
     // bonus ball's ring
     C.beginPath();
     C.setLineDash([]);
-    C.arc(this.pos.x, this.pos.y, this.ring, 0, 2 * Math.PI);
+    C.arc(this.pos.x, this.pos.y, state.bonusRing, 0, 2 * Math.PI);
     C.lineWidth = SIZES.border.height / 1.3;
     C.strokeStyle = COLORS.ball.bonus;
     C.stroke();
-
-    // bonus ball's ring animation
-    if (state.counter % 3 === 0) this.swingRing();
   }
 
   repoSize() {
@@ -65,6 +52,6 @@ export default class Bonus {
       nextY: calcYPos(this.props.gridColumnIndex + 1),
     };
 
-    this.r = SIZES.ball.radius;
+    state.bonusRing = SIZES.ball.radius;
   }
 }

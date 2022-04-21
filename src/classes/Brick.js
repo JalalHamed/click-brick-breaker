@@ -1,5 +1,6 @@
 // Constructor Instances
-import topBorder from '../classes/borders/topBorder.js';
+import score from './statistics/score.js';
+import topBorder from './borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -20,7 +21,7 @@ export default class Brick {
       nextY: calcYPos(this.gridColumnIndex + 1),
     };
 
-    this.weight = props.weight;
+    this.weight = score.count;
   }
 
   nextRound() {

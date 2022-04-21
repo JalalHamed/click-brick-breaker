@@ -1,3 +1,6 @@
+// Configs
+import { SIZES } from './config.js';
+
 const state = {
   isMouseInBorder: false,
   isBallMoving: false,
@@ -8,6 +11,7 @@ const state = {
   shotBalls: [],
   mouseCoords: {},
   counter: 0,
+  bonusRing: SIZES.ball.radius,
   innerWidth,
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));
