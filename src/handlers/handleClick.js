@@ -20,7 +20,7 @@ const handleClick = e => {
     state.isMouseInBorder = false; // without this, the pointer will be drawn after the balls land even if the mouse is outside of the borders.
     CANVAS.style.cursor = 'auto';
     const angle = getAngle(e);
-    const velocity = { x: -Math.cos(angle) * 10, y: -Math.sin(angle) * 10 };
+    const velocity = { x: -Math.cos(angle) * 15, y: -Math.sin(angle) * 15 };
     mainBall.velocity = velocity;
     state.shotBalls.push(mainBall);
     for (let i = 1; i < coefficient.count; i++) {
