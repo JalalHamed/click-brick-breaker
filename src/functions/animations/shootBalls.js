@@ -35,17 +35,33 @@ const shootBalls = () => {
     // Change balls direction on colliding with bricks
     const { width, height } = SIZES.brick;
     state.bricks.forEach(brick => {
+      // Hitting top and bottom sides
       if (
-        shotBall.pos.y - shotBall.r <= brick.pos.y + height &&
+        ((shotBall.pos.y - shotBall.r < brick.pos.y + height + 0.001 &&
+          shotBall.pos.y + shotBall.r > brick.pos.y + height) ||
+          (shotBall.pos.y - shotBall.r < brick.pos.y + 0.001 &&
+            shotBall.pos.y + shotBall.r > brick.pos.y)) &&
         shotBall.pos.x > brick.pos.x &&
         shotBall.pos.x < brick.pos.x + width
       ) {
         shotBall.velocity.y = -shotBall.velocity.y;
         brick.collide();
       }
+
+      // Hitting left and right sides
+      if (
+        ((shotBall.pos.x + shotBall.r > brick.pos.x + width + 0.001 &&
+          shotBall.pos.x - shotBall.r < brick.pos.x + width) ||
+          (shotBall.pos.x + shotBall.r > brick.pos.x + 0.001 &&
+            shotBall.pos.x - shotBall.r < brick.pos.x)) &&
+        shotBall.pos.y < brick.pos.y + height &&
+        shotBall.pos.y > brick.pos.y
+      ) {
+        shotBall.velocity.x = -shotBall.velocity.x;
+        brick.collide();
+      }
     });
 
-    // Stop the ball when hitting the bottom border.
     if (shotBall.pos.y > bottomBorder.pos.y - shotBall.r) {
       shotBall.velocity.x = 0;
       shotBall.velocity.y = 0;
