@@ -20,7 +20,7 @@ const setNewRound = () => {
     const posY = Math.round(item.pos.y);
     const posNextY = Math.round(item.pos.nextY);
 
-    if (posY < posNextY + B_A_B_B_S && isGoingDown) item.pos.y += 3;
+    if (posY < posNextY + B_A_B_B_S && isGoingDown) item.pos.y += 5;
     if (posY >= posNextY + B_A_B_B_S && isGoingDown) isGoingDown = false;
     if (posY > posNextY && !isGoingDown) item.pos.y -= 1;
     if (posY === posNextY && !isGoingDown) {
