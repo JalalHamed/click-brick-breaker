@@ -15,7 +15,7 @@ export default class Brick {
     this.id = state.brickID;
     state.brickID++;
 
-    this.gridColumnIndex = 0;
+    this.gridColumnIndex = 4;
     this.gridRowIndex = props.gridRowIndex;
 
     this.pos = {
@@ -25,6 +25,12 @@ export default class Brick {
     };
 
     this.weight = score.count;
+  }
+
+  collide() {
+    this.weight--;
+    if (this.weight === 0)
+      state.bricks = state.bricks.filter(brick => brick.id !== this.id);
   }
 
   go1RowDown() {

@@ -6,7 +6,7 @@ import { CANVAS } from '../config.js';
 import state from '../state.js';
 
 const handleMouseMove = e => {
-  if (!state.isBallMoving) {
+  if (!state.isBallMoving && !state.areBricksAndBonusesMoving) {
     if (isInBorder(e.y)) {
       state.mouseCoords = { x: e.x, y: e.y };
       if (CANVAS.style.cursor !== 'pointer') CANVAS.style.cursor = 'pointer';

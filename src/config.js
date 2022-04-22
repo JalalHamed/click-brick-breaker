@@ -19,7 +19,6 @@ export const COLORS = {
     line: 'rgb(31, 115, 242, 0.5)',
     arrow: 'rgb(31, 115, 242, 0.5)',
   },
-  brick: ['rgb(238, 78, 80)', 'rgb(243, 159, 115)'],
 };
 
 export const MIN_BALL_RADIUS = 7;

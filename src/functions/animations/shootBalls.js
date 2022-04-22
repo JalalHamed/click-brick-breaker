@@ -1,30 +1,25 @@
 // Constructor Instances
-import coefficient from '../classes/coefficient.js';
-import mainBall from '../classes/balls/mainBall.js';
-import topBorder from '../classes/borders/topBorder.js';
-import bottomBorder from '../classes/borders/bottomBorder.js';
-import score from '../classes/statistics/score.js';
-import record from '../classes/statistics/record.js';
+import coefficient from '../../classes/coefficient.js';
+import topBorder from '../../classes/borders/topBorder.js';
+import bottomBorder from '../../classes/borders/bottomBorder.js';
+import score from '../../classes/statistics/score.js';
+import record from '../../classes/statistics/record.js';
 // Functions
-import generateBricksAndBonus from './generateBricksAndBonus.js';
+import generateBricksAndBonus from '../generateBricksAndBonus.js';
 // State
-import state from '../state.js';
+import state from '../../state.js';
 // Configs
 import {
-  SIZES,
   CANVAS,
   SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
-} from '../config.js';
+  SIZES,
+} from '../../config.js';
 
-let counter = 0;
-
-const shoot = () => {
+const shootBalls = () => {
   state.shotBalls.forEach(shotBall => {
-    const delay = shotBall.delay * shotBall.r;
     shotBall.draw();
-
-    if (counter > delay) shotBall.update();
-    if (counter === delay) coefficient.decreaseCount();
+    shotBall.update();
+    coefficient.decreaseCount();
 
     // Reverse ball's direction when hitting the left and right borders.
     if (
@@ -37,6 +32,19 @@ const shoot = () => {
       shotBall.velocity.y = -shotBall.velocity.y;
     }
 
+    // Change balls direction on colliding with bricks
+    const { width, height } = SIZES.brick;
+    state.bricks.forEach(brick => {
+      if (
+        shotBall.pos.y - shotBall.r <= brick.pos.y + height &&
+        shotBall.pos.x > brick.pos.x &&
+        shotBall.pos.x < brick.pos.x + width
+      ) {
+        shotBall.velocity.y = -shotBall.velocity.y;
+        brick.collide();
+      }
+    });
+
     // Stop the ball when hitting the bottom border.
     if (shotBall.pos.y > bottomBorder.pos.y - shotBall.r) {
       shotBall.velocity.x = 0;
@@ -45,26 +53,22 @@ const shoot = () => {
       shotBall.pos.y = bottomBorder.pos.y - shotBall.r;
 
       // Prevent ball from going over the canvas' left and right border when landing.
-      if (shotBall.pos.x < mainBall.r + S_M_F_B)
-        shotBall.pos.x = mainBall.r + S_M_F_B;
-      if (shotBall.pos.x > CANVAS.width - mainBall.r - S_M_F_B)
-        shotBall.pos.x = CANVAS.width - mainBall.r - S_M_F_B;
+      if (shotBall.pos.x < shotBall.r + S_M_F_B)
+        shotBall.pos.x = shotBall.r + S_M_F_B;
+      if (shotBall.pos.x > CANVAS.width - shotBall.r - S_M_F_B)
+        shotBall.pos.x = CANVAS.width - shotBall.r - S_M_F_B;
     }
   });
-
-  counter++;
 
   if (
     state.shotBalls.every(
       shotBall => shotBall.velocity.x === 0 && shotBall.velocity.y === 0
     )
   ) {
+    state.isBallMoving = false;
     state.setLS({ mainBall: state.shotBalls[0].pos.x });
     coefficient.regainCount();
-    coefficient.repoSize();
-    counter = 0;
     state.shotBalls = [];
-    state.isBallMoving = false;
     score.addOne();
     if (record.count < score.count) record.addOne();
     generateBricksAndBonus();
@@ -72,4 +76,4 @@ const shoot = () => {
   }
 };
 
-export default shoot;
+export default shootBalls;

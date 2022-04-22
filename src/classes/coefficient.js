@@ -30,6 +30,7 @@ class Coefficient {
 
   regainCount() {
     this.count = state.getLS('coefficient') || 1;
+    this.repoSize();
   }
 
   repoSize() {

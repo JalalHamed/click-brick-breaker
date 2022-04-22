@@ -6,7 +6,7 @@ import handleClick from './handlers/handleClick.js';
 // Functions
 import bringDownBricksAndBonuses from './functions/animations/bringDownBricksAndBonuses.js';
 import generateBricksAndBonus from './functions/generateBricksAndBonus.js';
-import shoot from './functions/shoot.js';
+import shootBalls from './functions/animations/shootBalls.js';
 import draw from './functions/draw.js';
 import { calcGrid } from './functions/helpers.js';
 // State
@@ -16,7 +16,7 @@ const animate = () => {
   const rAF = requestAnimationFrame(animate);
   state.counter++;
   draw();
-  if (state.isBallMoving) shoot();
+  if (state.isBallMoving) shootBalls();
   if (state.areBricksAndBonusesMoving) bringDownBricksAndBonuses();
 };
 
