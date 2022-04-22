@@ -40,7 +40,7 @@ export default class Bonus {
     C.beginPath();
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, state.bonusRing, 0, 2 * Math.PI);
-    C.lineWidth = SIZES.border.height / 1.3;
+    C.lineWidth = SIZES.border.height;
     C.strokeStyle = COLORS.ball.bonus;
     C.stroke();
   }
