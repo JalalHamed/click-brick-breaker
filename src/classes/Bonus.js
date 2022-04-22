@@ -12,7 +12,7 @@ export default class Bonus {
   constructor(props) {
     this.props = props;
 
-    this.gridColumnIndex = 1;
+    this.gridColumnIndex = 0;
     this.gridRowIndex = this.props.gridRowIndex;
 
     this.pos = {
@@ -22,7 +22,7 @@ export default class Bonus {
     };
   }
 
-  nextRound() {
+  go1RowDown() {
     this.gridColumnIndex++;
     this.pos.y = calcYPos(this.gridColumnIndex);
     this.pos.nextY = calcYPos(this.gridColumnIndex + 1);

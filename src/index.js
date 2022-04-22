@@ -4,10 +4,10 @@ import handleMouseMove from './handlers/handleMouseMove.js';
 import handleResize from './handlers/handleResize.js';
 import handleClick from './handlers/handleClick.js';
 // Functions
-import shoot from './functions/shoot.js';
+import bringDownBricksAndBonuses from './functions/animations/bringDownBricksAndBonuses.js';
 import generateBricksAndBonus from './functions/generateBricksAndBonus.js';
+import shoot from './functions/shoot.js';
 import draw from './functions/draw.js';
-import setNewRound from './functions/setNewRound.js';
 import { calcGrid } from './functions/helpers.js';
 // State
 import state from './state.js';
@@ -17,11 +17,12 @@ const animate = () => {
   state.counter++;
   draw();
   if (state.isBallMoving) shoot();
-  if (state.isSettingNewRound) setNewRound();
+  if (state.areBricksAndBonusesMoving) bringDownBricksAndBonuses();
 };
 
-const init = () =>
+const init = () => {
   [calcGrid, generateBricksAndBonus, animate].forEach(item => item());
+};
 
 addEventListener('load', () => handleLoad(init));
 addEventListener('resize', handleResize);

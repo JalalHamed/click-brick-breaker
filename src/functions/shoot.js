@@ -3,6 +3,10 @@ import coefficient from '../classes/coefficient.js';
 import mainBall from '../classes/balls/mainBall.js';
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
+import score from '../classes/statistics/score.js';
+import record from '../classes/statistics/record.js';
+// Functions
+import generateBricksAndBonus from './generateBricksAndBonus.js';
 // State
 import state from '../state.js';
 // Configs
@@ -61,7 +65,10 @@ const shoot = () => {
     counter = 0;
     state.shotBalls = [];
     state.isBallMoving = false;
-    state.isSettingNewRound = true;
+    score.addOne();
+    if (record.count < score.count) record.addOne();
+    generateBricksAndBonus();
+    state.areBricksAndBonusesMoving = true;
   }
 };
 

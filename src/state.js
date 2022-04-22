@@ -4,7 +4,7 @@ import { SIZES } from './config.js';
 const state = {
   isMouseInBorder: false,
   isBallMoving: false,
-  isSettingNewRound: false,
+  areBricksAndBonusesMoving: true,
   bricks: [],
   bonuses: [],
   grid: { row: [], column: [] },

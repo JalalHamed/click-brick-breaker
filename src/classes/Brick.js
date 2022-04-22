@@ -15,7 +15,7 @@ export default class Brick {
     this.id = state.brickID;
     state.brickID++;
 
-    this.gridColumnIndex = 1;
+    this.gridColumnIndex = 0;
     this.gridRowIndex = props.gridRowIndex;
 
     this.pos = {
@@ -27,7 +27,7 @@ export default class Brick {
     this.weight = score.count;
   }
 
-  nextRound() {
+  go1RowDown() {
     this.gridColumnIndex++;
     this.pos.y = calcYPos(this.gridColumnIndex);
     this.pos.nextY = calcYPos(this.gridColumnIndex + 1);
@@ -36,8 +36,8 @@ export default class Brick {
   getRGB(color) {
     // heaviest: 'rgb(240, 80, 80)' & lightest: 'rgb(240, 160, 120)'
     const difference = score.count - this.weight;
-    const coefficient = color === 'green' ? 80 : 40;
-    const x = coefficient / (score.count - 1);
+    const LightestMinusHeaviest = color === 'green' ? 80 : 40;
+    const x = LightestMinusHeaviest / (score.count - 1);
     if (difference > 0) return 80 + difference * x;
     else return 80;
   }
