@@ -1,5 +1,5 @@
 // Constructor Instances
-import mainBall from './balls/mainBall.js';
+import projectile from './projectiles/projectile.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { C, CANVAS, COLORS, SIZES } from '../config.js';
@@ -11,8 +11,8 @@ class Coefficient {
     this.count = state.getLS('coefficient') || 1;
 
     this.pos = {
-      x: mainBall.pos.x,
-      y: bottomBorder.pos.y + mainBall.r * 2.5,
+      x: projectile.pos.x,
+      y: bottomBorder.pos.y + projectile.r * 2.5,
     };
   }
 
@@ -35,8 +35,8 @@ class Coefficient {
 
   repoSize() {
     this.pos = {
-      x: mainBall.pos.x,
-      y: bottomBorder.pos.y + mainBall.r * 2.5,
+      x: projectile.pos.x,
+      y: bottomBorder.pos.y + projectile.r * 2.5,
     };
   }
 }

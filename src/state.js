@@ -9,7 +9,7 @@ const state = {
   mouseCoords: {},
   bricks: [],
   bonuses: [],
-  shotBalls: [],
+  shotProjectiles: [],
   counter: 0,
   bonusRing: SIZES.ball.radius,
   brickID: 1,

@@ -5,12 +5,12 @@ import { COLORS, SIZES, CANVAS, C } from '../../config.js';
 // State
 import state from '../../state.js';
 
-export default class Ball {
+export default class Projectile {
   constructor(props) {
     this.r = SIZES.ball.radius;
 
     this.pos = {
-      x: state.getLS('mainBall') || CANVAS.width / 2,
+      x: state.getLS('projectile') || CANVAS.width / 2,
       y: bottomBorder.pos.y - this.r,
     };
 

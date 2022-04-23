@@ -15,8 +15,8 @@ import {
   SIZES,
 } from '../../config.js';
 
-const shootBalls = () => {
-  state.shotBalls.forEach(shotBall => {
+const shootProjectiles = () => {
+  state.shotProjectiles.forEach(shotBall => {
     shotBall.draw();
     shotBall.update();
     coefficient.decreaseCount();
@@ -32,7 +32,7 @@ const shootBalls = () => {
       shotBall.velocity.y = -shotBall.velocity.y;
     }
 
-    // Change balls direction on colliding with bricks
+    // Change projectiles direction on colliding with bricks
     const { width, height } = SIZES.brick;
     state.bricks.forEach(brick => {
       // Hitting top and bottom sides
@@ -77,14 +77,14 @@ const shootBalls = () => {
   });
 
   if (
-    state.shotBalls.every(
+    state.shotProjectiles.every(
       shotBall => shotBall.velocity.x === 0 && shotBall.velocity.y === 0
     )
   ) {
     state.isBallMoving = false;
-    state.setLS({ mainBall: state.shotBalls[0].pos.x });
+    state.setLS({ projectile: state.shotProjectiles[0].pos.x });
     coefficient.regainCount();
-    state.shotBalls = [];
+    state.shotProjectiles = [];
     score.addOne();
     if (record.count < score.count) record.addOne();
     genBaB();
@@ -92,4 +92,4 @@ const shootBalls = () => {
   }
 };
 
-export default shootBalls;
+export default shootProjectiles;
