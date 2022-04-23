@@ -1,8 +1,8 @@
 // Handlers
-import handleLoad from './handlers/handleLoad.js';
-import handleMouseMove from './handlers/handleMouseMove.js';
-import handleResize from './handlers/handleResize.js';
-import handleClick from './handlers/handleClick.js';
+import handleLoad from './functions/handlers/handleLoad.js';
+import handleMouseMove from './functions/handlers/handleMouseMove.js';
+import handleResize from './functions/handlers/handleResize.js';
+import handleClick from './functions/handlers/handleClick.js';
 // Functions
 import bringDownBricksAndBonuses from './functions/animations/bringDownBricksAndBonuses.js';
 import generateBricksAndBonus from './functions/generateBricksAndBonus.js';

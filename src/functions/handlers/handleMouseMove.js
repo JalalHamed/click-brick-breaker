@@ -1,9 +1,9 @@
 // Functions
-import { isInBorder } from '../functions/helpers.js';
+import { isInBorder } from '../helpers.js';
 // Configs
-import { CANVAS } from '../config.js';
+import { CANVAS } from '../../config.js';
 // State
-import state from '../state.js';
+import state from '../../state.js';
 
 const handleMouseMove = e => {
   if (!state.isBallMoving && !state.areBricksAndBonusesMoving) {
