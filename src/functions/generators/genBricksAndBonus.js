@@ -1,10 +1,10 @@
 // Classes
-import Brick from '../classes/Brick.js';
-import Bonus from '../classes/Bonus.js';
+import Brick from '../../classes/Brick.js';
+import Bonus from '../../classes/Bonus.js';
 // Constructor Instances
-import score from '../classes/statistics/score.js';
+import score from '../../classes/statistics/score.js';
 // State
-import state from '../state.js';
+import state from '../../state.js';
 
 function genRndUniqueGridRowIndex(usedIndexes) {
   let index;
@@ -14,7 +14,7 @@ function genRndUniqueGridRowIndex(usedIndexes) {
   return index;
 }
 
-const generateBricksAndBonus = () => {
+const genBricksAndBonus = () => {
   let gridRowIndexes = [];
 
   // Generate bricks
@@ -41,4 +41,4 @@ const generateBricksAndBonus = () => {
   );
 };
 
-export default generateBricksAndBonus;
+export default genBricksAndBonus;

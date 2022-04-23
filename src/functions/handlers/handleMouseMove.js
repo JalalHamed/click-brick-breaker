@@ -1,12 +1,12 @@
 // Functions
-import { isInBorder } from '../helpers.js';
+import { isAnythingMoving, isInBorder } from '../helpers.js';
 // Configs
 import { CANVAS } from '../../config.js';
 // State
 import state from '../../state.js';
 
 const handleMouseMove = e => {
-  if (!state.isBallMoving && !state.areBricksAndBonusesMoving) {
+  if (!isAnythingMoving()) {
     if (isInBorder(e.y)) {
       state.mouseCoords = { x: e.x, y: e.y };
       if (CANVAS.style.cursor !== 'pointer') CANVAS.style.cursor = 'pointer';

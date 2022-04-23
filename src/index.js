@@ -4,24 +4,20 @@ import handleMouseMove from './functions/handlers/handleMouseMove.js';
 import handleResize from './functions/handlers/handleResize.js';
 import handleClick from './functions/handlers/handleClick.js';
 // Functions
-import bringDownBricksAndBonuses from './functions/animations/bringDownBricksAndBonuses.js';
-import generateBricksAndBonus from './functions/generateBricksAndBonus.js';
-import shootBalls from './functions/animations/shootBalls.js';
+import genBricksAndBonus from './functions/generators/genBricksAndBonus.js';
 import draw from './functions/draw.js';
 import { calcGrid } from './functions/helpers.js';
 // State
 import state from './state.js';
 
 const animate = () => {
-  const rAF = requestAnimationFrame(animate);
   state.counter++;
   draw();
-  if (state.isBallMoving) shootBalls();
-  if (state.areBricksAndBonusesMoving) bringDownBricksAndBonuses();
+  requestAnimationFrame(animate);
 };
 
 const init = () => {
-  [calcGrid, generateBricksAndBonus, animate].forEach(item => item());
+  [calcGrid, genBricksAndBonus, animate].forEach(item => item());
 };
 
 addEventListener('load', () => handleLoad(init));

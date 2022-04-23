@@ -6,7 +6,12 @@ import topBorder from '../../classes/borders/topBorder.js';
 import mainBall from '../../classes/balls/mainBall.js';
 import coefficient from '../../classes/coefficient.js';
 // Functions
-import { calcGrid, getBorderMargin, getFontSize } from '../helpers.js';
+import {
+  calcGrid,
+  getBorderMargin,
+  getFontSize,
+  isAnythingMoving,
+} from '../helpers.js';
 // Configs
 import {
   CANVAS,
@@ -20,7 +25,7 @@ import state from '../../state.js';
 
 const handleResize = () => {
   if (
-    !state.isBallMoving &&
+    !isAnythingMoving() &&
     innerWidth >= CANVAS_MIN_WIDTH &&
     innerHeight >= CANVAS_MIN_HEIGHT
   ) {

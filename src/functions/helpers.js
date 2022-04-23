@@ -40,3 +40,8 @@ export function getFontSize() {
   const height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9; // brick's height
   return width > height ? width / height : height / width;
 }
+
+export function isAnythingMoving() {
+  if (state.isBallMoving || state.areBricksAndBonusesMoving) return true;
+  else return false;
+}
