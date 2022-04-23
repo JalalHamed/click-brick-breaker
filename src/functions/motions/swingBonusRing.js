@@ -6,7 +6,7 @@ import state from '../../state.js';
 let isGoingDown = false;
 
 const swingBonusRing = () => {
-  const { radius } = SIZES.ball;
+  const { radius } = SIZES.projectile;
   if (state.bonusRing > radius && isGoingDown) state.bonusRing--;
   if (state.bonusRing <= radius) isGoingDown = false;
   if (state.bonusRing < Math.floor(radius * 1.7) && !isGoingDown)

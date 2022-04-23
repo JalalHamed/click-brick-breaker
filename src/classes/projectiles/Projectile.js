@@ -7,7 +7,7 @@ import state from '../../state.js';
 
 export default class Projectile {
   constructor(props) {
-    this.r = SIZES.ball.radius;
+    this.r = SIZES.projectile.radius;
 
     this.pos = {
       x: state.getLS('projectile') || CANVAS.width / 2,
@@ -26,7 +26,7 @@ export default class Projectile {
     C.beginPath();
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.ball.main;
+    C.fillStyle = COLORS.projectile;
     C.fill();
   }
 

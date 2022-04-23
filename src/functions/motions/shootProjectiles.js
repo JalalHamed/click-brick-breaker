@@ -16,20 +16,20 @@ import {
 } from '../../config.js';
 
 const shootProjectiles = () => {
-  state.shotProjectiles.forEach(shotBall => {
-    shotBall.draw();
-    shotBall.update();
+  state.shotProjectiles.forEach(shotProjectile => {
+    shotProjectile.draw();
+    shotProjectile.update();
     coefficient.decreaseCount();
 
-    // Reverse ball's direction when hitting the left and right borders.
+    // Reverse projectile's direction when hitting the left and right borders.
     if (
-      shotBall.pos.x - shotBall.r <= 0 ||
-      shotBall.pos.x + shotBall.r >= CANVAS.width
+      shotProjectile.pos.x - shotProjectile.r <= 0 ||
+      shotProjectile.pos.x + shotProjectile.r >= CANVAS.width
     )
-      shotBall.velocity.x = -shotBall.velocity.x;
-    // Reverse ball's direction when hitting the top border.
-    if (shotBall.pos.y <= topBorder.heightFromTop + shotBall.r) {
-      shotBall.velocity.y = -shotBall.velocity.y;
+      shotProjectile.velocity.x = -shotProjectile.velocity.x;
+    // Reverse projectile's direction when hitting the top border.
+    if (shotProjectile.pos.y <= topBorder.heightFromTop + shotProjectile.r) {
+      shotProjectile.velocity.y = -shotProjectile.velocity.y;
     }
 
     // Change projectiles direction on colliding with bricks
@@ -37,51 +37,69 @@ const shootProjectiles = () => {
     state.bricks.forEach(brick => {
       // Hitting top and bottom sides
       if (
-        ((shotBall.pos.y - shotBall.r < brick.pos.y + height + 0.001 &&
-          shotBall.pos.y + shotBall.r > brick.pos.y + height) ||
-          (shotBall.pos.y - shotBall.r < brick.pos.y + 0.001 &&
-            shotBall.pos.y + shotBall.r > brick.pos.y)) &&
-        shotBall.pos.x > brick.pos.x &&
-        shotBall.pos.x < brick.pos.x + width
+        ((shotProjectile.pos.y - shotProjectile.r <
+          brick.pos.y + height + 0.001 &&
+          shotProjectile.pos.y + shotProjectile.r > brick.pos.y + height) ||
+          (shotProjectile.pos.y - shotProjectile.r < brick.pos.y + 0.001 &&
+            shotProjectile.pos.y + shotProjectile.r > brick.pos.y)) &&
+        shotProjectile.pos.x > brick.pos.x &&
+        shotProjectile.pos.x < brick.pos.x + width
       ) {
-        shotBall.velocity.y = -shotBall.velocity.y;
+        shotProjectile.velocity.y = -shotProjectile.velocity.y;
         brick.collide();
       }
 
       // Hitting left and right sides
       if (
-        ((shotBall.pos.x + shotBall.r > brick.pos.x + width + 0.001 &&
-          shotBall.pos.x - shotBall.r < brick.pos.x + width) ||
-          (shotBall.pos.x + shotBall.r > brick.pos.x + 0.001 &&
-            shotBall.pos.x - shotBall.r < brick.pos.x)) &&
-        shotBall.pos.y < brick.pos.y + height &&
-        shotBall.pos.y > brick.pos.y
+        ((shotProjectile.pos.x + shotProjectile.r >
+          brick.pos.x + width + 0.001 &&
+          shotProjectile.pos.x - shotProjectile.r < brick.pos.x + width) ||
+          (shotProjectile.pos.x + shotProjectile.r > brick.pos.x + 0.001 &&
+            shotProjectile.pos.x - shotProjectile.r < brick.pos.x)) &&
+        shotProjectile.pos.y < brick.pos.y + height &&
+        shotProjectile.pos.y > brick.pos.y
       ) {
-        shotBall.velocity.x = -shotBall.velocity.x;
+        shotProjectile.velocity.x = -shotProjectile.velocity.x;
         brick.collide();
       }
     });
 
-    if (shotBall.pos.y > bottomBorder.pos.y - shotBall.r) {
-      shotBall.velocity.x = 0;
-      shotBall.velocity.y = 0;
+    // Drop bonuses once colliding with projectiles.
+    state.bonuses.forEach(bonus => {
+      const dist = Math.hypot(
+        bonus.pos.x - shotProjectile.pos.x,
+        bonus.pos.y - shotProjectile.pos.y
+      );
 
-      shotBall.pos.y = bottomBorder.pos.y - shotBall.r;
+      if (dist - shotProjectile.r < 10) {
+        bonus.displayRing = false;
+        state.collidedBonuses.push(bonus);
+        state.isBonusMoving = true;
+      }
+    });
 
-      // Prevent ball from going over the canvas' left and right border when landing.
-      if (shotBall.pos.x < shotBall.r + S_M_F_B)
-        shotBall.pos.x = shotBall.r + S_M_F_B;
-      if (shotBall.pos.x > CANVAS.width - shotBall.r - S_M_F_B)
-        shotBall.pos.x = CANVAS.width - shotBall.r - S_M_F_B;
+    // Land projectile one hitting bottom border.
+    if (shotProjectile.pos.y > bottomBorder.pos.y - shotProjectile.r) {
+      shotProjectile.velocity.x = 0;
+      shotProjectile.velocity.y = 0;
+
+      shotProjectile.pos.y = bottomBorder.pos.y - shotProjectile.r;
+
+      // Prevent projectile from going over the canvas' left and right border when landing.
+      if (shotProjectile.pos.x < shotProjectile.r + S_M_F_B)
+        shotProjectile.pos.x = shotProjectile.r + S_M_F_B;
+      if (shotProjectile.pos.x > CANVAS.width - shotProjectile.r - S_M_F_B)
+        shotProjectile.pos.x = CANVAS.width - shotProjectile.r - S_M_F_B;
     }
   });
 
   if (
     state.shotProjectiles.every(
-      shotBall => shotBall.velocity.x === 0 && shotBall.velocity.y === 0
+      shotProjectile =>
+        shotProjectile.velocity.x === 0 && shotProjectile.velocity.y === 0
     )
   ) {
-    state.isBallMoving = false;
+    state.isProjectileMoving = false;
     state.setLS({ projectile: state.shotProjectiles[0].pos.x });
     coefficient.regainCount();
     state.shotProjectiles = [];

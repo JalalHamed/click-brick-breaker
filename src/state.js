@@ -3,15 +3,17 @@ import { SIZES } from './config.js';
 
 const state = {
   isMouseInBorder: false,
-  isBallMoving: false,
+  isProjectileMoving: false,
+  isBonusMoving: false,
   areBricksAndBonusesMoving: true,
   grid: { row: [], column: [] },
   mouseCoords: {},
   bricks: [],
   bonuses: [],
   shotProjectiles: [],
+  collidedBonuses: [],
   counter: 0,
-  bonusRing: SIZES.ball.radius,
+  bonusRing: SIZES.projectile.radius,
   brickID: 1,
   innerWidth,
   getLS(data) {

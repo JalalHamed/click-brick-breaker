@@ -10,22 +10,20 @@ CANVAS.width = innerWidth >= CANVAS_MIN_WIDTH ? innerWidth : CANVAS_MIN_WIDTH;
 export const C = CANVAS.getContext('2d');
 
 export const COLORS = {
-  ball: {
-    main: 'rgb(31, 115, 242)',
-    bonus: 'rgb(79, 234, 115)',
-    pointer: 'rgb(31, 115, 242, 0.5)',
-  },
+  projectile: 'rgb(31, 115, 242)',
+  bonus: 'rgb(79, 234, 115)',
   pointer: {
     line: 'rgb(31, 115, 242, 0.5)',
     arrow: 'rgb(31, 115, 242, 0.5)',
+    ball: 'rgb(31, 115, 242, 0.5)',
   },
 };
 
-export const MIN_BALL_RADIUS = 7;
+export const MIN_PROJECTILE_RADIUS = 7;
 
 export const SIZES = {
-  ball: {
-    radius: MIN_BALL_RADIUS + Math.round(CANVAS.width / 200),
+  projectile: {
+    radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
   },
   border: {
     margin: getBorderMargin(),

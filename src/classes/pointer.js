@@ -35,9 +35,9 @@ class Pointer {
     const getX = basedOn => {
       const x = (basedOn - b) / slope;
       if (x > projectile.r && x < CANVAS.width - projectile.r) return x;
-      // Prevent ball from going over the CANVAS' width in the left corner
+      // Prevent projectile from going over the CANVAS' width in the left corner
       if (x < projectile.r) return projectile.r;
-      // Prevent ball from going over the CANVAS' width in the right corner
+      // Prevent projectile from going over the CANVAS' width in the right corner
       if (x > CANVAS.width - projectile.r) return CANVAS.width - projectile.r;
     };
 
@@ -73,12 +73,12 @@ class Pointer {
     // At 90 degree, slope is Infinite
     if (slope === Infinity)
       endpoint = [projectile.pos.x, topBorder.heightFromTop + projectile.r];
-    // Pointer ball touches top border
+    // Pointer projectile touches top border
     if (x > 0 && x < CANVAS.width)
       setEndPoint('y', topBorder.heightFromTop + projectile.r);
-    // Pointer ball touches left side of CANVAS
+    // Pointer projectile touches left side of CANVAS
     if (x < 0) setEndPoint('x', projectile.r);
-    // Pointer ball touches right side of CANVAS
+    // Pointer projectile touches right side of CANVAS
     if (x > CANVAS.width) setEndPoint('x', CANVAS.width - projectile.r);
     // TODO: Change end point on colliding with bricks
 
@@ -143,7 +143,7 @@ class Pointer {
     C.beginPath();
     C.setLineDash([]);
     C.arc(...this.calcEndPoint.projectile, projectile.r, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.ball.pointer;
+    C.fillStyle = COLORS.pointer.ball;
     C.fill();
   }
 }

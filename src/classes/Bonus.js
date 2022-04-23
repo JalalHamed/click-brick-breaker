@@ -14,6 +14,7 @@ export default class Bonus {
 
     this.gridColumnIndex = 0;
     this.gridRowIndex = this.props.gridRowIndex;
+    this.displayRing = true;
 
     this.pos = {
       x: state.grid.row[this.gridRowIndex] + SIZES.brick.width / 2,
@@ -29,20 +30,22 @@ export default class Bonus {
   }
 
   draw() {
-    // bonus ball
+    // bonus
     C.beginPath();
     C.setLineDash([]);
-    C.arc(this.pos.x, this.pos.y, SIZES.ball.radius, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.ball.bonus;
+    C.arc(this.pos.x, this.pos.y, SIZES.projectile.radius, 0, 2 * Math.PI);
+    C.fillStyle = COLORS.bonus;
     C.fill();
 
-    // bonus ball's ring
-    C.beginPath();
-    C.setLineDash([]);
-    C.arc(this.pos.x, this.pos.y, state.bonusRing, 0, 2 * Math.PI);
-    C.lineWidth = SIZES.border.height;
-    C.strokeStyle = COLORS.ball.bonus;
-    C.stroke();
+    // bonus' ring
+    if (this.displayRing) {
+      C.beginPath();
+      C.setLineDash([]);
+      C.arc(this.pos.x, this.pos.y, state.bonusRing, 0, 2 * Math.PI);
+      C.lineWidth = SIZES.border.height;
+      C.strokeStyle = COLORS.bonus;
+      C.stroke();
+    }
   }
 
   repoSize() {
@@ -52,6 +55,6 @@ export default class Bonus {
       nextY: calcYPos(this.props.gridColumnIndex + 1),
     };
 
-    state.bonusRing = SIZES.ball.radius;
+    state.bonusRing = SIZES.projectile.radius;
   }
 }

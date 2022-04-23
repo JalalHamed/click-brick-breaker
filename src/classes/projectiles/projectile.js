@@ -13,7 +13,7 @@ class MainProjectile extends Projectile {
   }
 
   repoSize() {
-    this.r = SIZES.ball.radius;
+    this.r = SIZES.projectile.radius;
 
     this.pos.y = bottomBorder.pos.y - this.r;
 

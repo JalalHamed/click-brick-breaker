@@ -16,7 +16,7 @@ import state from '../../state.js';
 
 const handleClick = e => {
   if (isInBorder(e.y) && !isAnythingMoving()) {
-    state.isBallMoving = true;
+    state.isProjectileMoving = true;
     state.isMouseInBorder = false; // without this, the pointer will be drawn after the projectiles land even if the mouse is outside of the borders.
     CANVAS.style.cursor = 'auto';
     const angle = getAngle(e);

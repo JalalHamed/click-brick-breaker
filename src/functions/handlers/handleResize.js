@@ -16,7 +16,7 @@ import {
 import {
   CANVAS,
   SIZES,
-  MIN_BALL_RADIUS,
+  MIN_PROJECTILE_RADIUS,
   CANVAS_MIN_WIDTH,
   CANVAS_MIN_HEIGHT,
 } from '../../config.js';
@@ -31,7 +31,8 @@ const handleResize = () => {
   ) {
     CANVAS.width = innerWidth;
     CANVAS.height = innerHeight;
-    SIZES.ball.radius = MIN_BALL_RADIUS + Math.round(CANVAS.width / 200);
+    SIZES.projectile.radius =
+      MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200);
     SIZES.border.margin = getBorderMargin();
     SIZES.border.height = CANVAS.width / 150;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 5) / 6;

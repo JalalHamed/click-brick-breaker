@@ -18,7 +18,7 @@ class Coefficient {
 
   draw() {
     C.font = `${SIZES.font}rem play`;
-    C.fillStyle = this.count > 0 ? COLORS.ball.main : '#fff';
+    C.fillStyle = this.count > 0 ? COLORS.projectile : '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';
     C.fillText(`x${this.count}`, this.pos.x, this.pos.y);

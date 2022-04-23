@@ -23,7 +23,7 @@ const genBricksAndBonus = () => {
       ? score.count < 25
         ? Math.floor(Math.sqrt(score.count))
         : 5
-      : 2; // Gradually increase the maximum number of bricks that can be generated (up to 5, need at least one free spot for the bonus ball) starting at 2.
+      : 2; // Gradually increase the maximum number of bricks that can be generated (up to 5, need at least one free spot for the bonus) starting at 2.
   const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
 
   for (let i = 0; i < bricksCount; i++) {
@@ -32,7 +32,7 @@ const genBricksAndBonus = () => {
     state.bricks.push(new Brick({ gridRowIndex }));
   }
 
-  // Generate bonus ball
+  // Generate bonus
   state.bonuses.push(
     new Bonus({
       gridRowIndex: genRndUniqueGridRowIndex(gridRowIndexes),

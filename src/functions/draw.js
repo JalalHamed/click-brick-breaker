@@ -11,6 +11,7 @@ import fps from '../classes/fps.js';
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import shootProjectiles from './motions/shootProjectiles.js';
+import dropBonus from './motions/dropBonus.js';
 import { isAnythingMoving } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -33,8 +34,9 @@ const draw = () => {
 
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
   if (state.counter % 3 === 0) swingBonusRing();
-  if (state.isBallMoving) shootProjectiles();
+  if (state.isProjectileMoving) shootProjectiles();
   if (state.areBricksAndBonusesMoving) bringDownBaB();
+  if (state.isBonusMoving) dropBonus();
 };
 
 export default draw;

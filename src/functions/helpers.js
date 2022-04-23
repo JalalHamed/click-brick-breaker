@@ -42,6 +42,6 @@ export function getFontSize() {
 }
 
 export function isAnythingMoving() {
-  if (state.isBallMoving || state.areBricksAndBonusesMoving) return true;
+  if (state.isProjectileMoving || state.areBricksAndBonusesMoving) return true;
   else return false;
 }
