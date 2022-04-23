@@ -14,7 +14,7 @@ function genRndUniqueGridRowIndex(usedIndexes) {
   return index;
 }
 
-const genBaB = () => {
+const genBricksAndBonus = () => {
   let gridRowIndexes = [];
 
   // Generate bricks
@@ -41,4 +41,4 @@ const genBaB = () => {
   );
 };
 
-export default genBaB;
+export default genBricksAndBonus;

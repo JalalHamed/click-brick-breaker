@@ -5,7 +5,7 @@ import state from '../../state.js';
 
 let isGoingDown = true;
 
-const bringDownBaB = () => {
+const bringDownBricksAndBonuses = () => {
   [...state.bricks, ...state.bonuses].forEach(item => {
     const posY = Math.round(item.pos.y);
     const posNextY = Math.round(item.pos.nextY);
@@ -23,4 +23,4 @@ const bringDownBaB = () => {
     [...state.bricks, ...state.bonuses].forEach(item => item.updateYPos());
 };
 
-export default bringDownBaB;
+export default bringDownBricksAndBonuses;
