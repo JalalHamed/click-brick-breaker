@@ -5,7 +5,7 @@ import bottomBorder from '../../classes/borders/bottomBorder.js';
 import score from '../../classes/statistics/score.js';
 import record from '../../classes/statistics/record.js';
 // Functions
-import genBricksAndBonus from '../generators/genBricksAndBonus.js';
+import genBaB from '../generators/genBaB.js';
 // State
 import state from '../../state.js';
 // Configs
@@ -87,7 +87,7 @@ const shootBalls = () => {
     state.shotBalls = [];
     score.addOne();
     if (record.count < score.count) record.addOne();
-    genBricksAndBonus();
+    genBaB();
     state.areBricksAndBonusesMoving = true;
   }
 };

@@ -5,7 +5,7 @@ import state from '../../state.js';
 
 let isGoingDown = true;
 
-const dropBricksAndBonuses = () => {
+const bringDownBaB = () => {
   [...state.bricks, ...state.bonuses].forEach(item => {
     const posY = Math.round(item.pos.y);
     const posNextY = Math.round(item.pos.nextY);
@@ -20,7 +20,7 @@ const dropBricksAndBonuses = () => {
   });
 
   if (state.areBricksAndBonusesMoving === false)
-    [...state.bricks, ...state.bonuses].forEach(item => item.goDownOneRow());
+    [...state.bricks, ...state.bonuses].forEach(item => item.updateYPos());
 };
 
-export default dropBricksAndBonuses;
+export default bringDownBaB;

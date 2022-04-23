@@ -8,9 +8,9 @@ import score from '../classes/statistics/score.js';
 import coefficient from '../classes/coefficient.js';
 import fps from '../classes/fps.js';
 // Functions
-import swingBonusRing from './relocations/swingBonusRing.js';
-import dropBricksAndBonuses from './relocations/dropBricksAndBonuses.js';
-import shootBalls from './relocations/shootBalls.js';
+import swingBonusRing from './motions/swingBonusRing.js';
+import bringDownBaB from './motions/bringDownBaB.js';
+import shootBalls from './motions/shootBalls.js';
 import { isAnythingMoving } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -28,7 +28,7 @@ const draw = () => {
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
   if (state.counter % 3 === 0) swingBonusRing();
   if (state.isBallMoving) shootBalls();
-  if (state.areBricksAndBonusesMoving) dropBricksAndBonuses();
+  if (state.areBricksAndBonusesMoving) bringDownBaB();
 };
 
 export default draw;

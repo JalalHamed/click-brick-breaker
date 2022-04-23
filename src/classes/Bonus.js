@@ -22,7 +22,7 @@ export default class Bonus {
     };
   }
 
-  goDownOneRow() {
+  updateYPos() {
     this.gridColumnIndex++;
     this.pos.y = calcYPos(this.gridColumnIndex);
     this.pos.nextY = calcYPos(this.gridColumnIndex + 1);

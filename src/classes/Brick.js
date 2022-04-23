@@ -33,7 +33,7 @@ export default class Brick {
       state.bricks = state.bricks.filter(brick => brick.id !== this.id);
   }
 
-  goDownOneRow() {
+  updateYPos() {
     this.gridColumnIndex++;
     this.pos.y = calcYPos(this.gridColumnIndex);
     this.pos.nextY = calcYPos(this.gridColumnIndex + 1);
