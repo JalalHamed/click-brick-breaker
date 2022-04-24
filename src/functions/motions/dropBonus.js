@@ -6,12 +6,14 @@ import { SIZES } from '../../config.js';
 import state from '../../state.js';
 
 const dropBonus = () => {
-  console.log('dropping');
-  state.collidedBonuses.forEach(bonus => {
+  state.droppingBonuses.forEach(bonus => {
     if (bonus.pos.y < bottomBorder.pos.y) bonus.pos.y += 7;
     else {
       bonus.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
-      state.isBonusDropping = false;
+      state.mergingBonuses.push(bonus);
+      state.droppingBonuses = state.droppingBonuses.filter(
+        item => item.id !== bonus.id
+      );
     }
   });
 };

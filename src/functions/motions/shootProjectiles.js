@@ -22,13 +22,13 @@ const shootProjectiles = () => {
     shotProjectile.update();
     coefficient.decreaseCount();
 
-    // Reverse projectile's direction when hitting the left and right borders.
+    // Reverse projectile's direction when hitting the left and right borders
     if (
       shotProjectile.pos.x - shotProjectile.r <= 0 ||
       shotProjectile.pos.x + shotProjectile.r >= CANVAS.width
     )
       shotProjectile.velocity.x = -shotProjectile.velocity.x;
-    // Reverse projectile's direction when hitting the top border.
+    // Reverse projectile's direction when hitting the top border
     if (shotProjectile.pos.y <= topBorder.heightFromTop + shotProjectile.r) {
       shotProjectile.velocity.y = -shotProjectile.velocity.y;
     }
@@ -65,7 +65,7 @@ const shootProjectiles = () => {
       }
     });
 
-    // Drop bonuses once colliding with projectiles.
+    // Projectile and bonus collision
     state.bonuses.forEach(bonus => {
       const dist = Math.hypot(
         bonus.pos.x - shotProjectile.pos.x,
@@ -74,20 +74,19 @@ const shootProjectiles = () => {
 
       if (dist - shotProjectile.r < 10) {
         bonus.displayRing = false;
-        state.collidedBonuses.push(bonus);
+        state.droppingBonuses.push(bonus);
         state.bonuses = state.bonuses.filter(item => item.id !== bonus.id);
-        state.isBonusDropping = true;
       }
     });
 
-    // Land projectile one hitting bottom border.
+    // Land projectile once hitting bottom border
     if (shotProjectile.pos.y > bottomBorder.pos.y - shotProjectile.r) {
       shotProjectile.velocity.x = 0;
       shotProjectile.velocity.y = 0;
 
       shotProjectile.pos.y = bottomBorder.pos.y - shotProjectile.r;
 
-      // Prevent projectile from going over the canvas' left and right border when landing.
+      // Prevent projectile from going over the canvas' left and right border when landing
       if (shotProjectile.pos.x < shotProjectile.r + S_M_F_B)
         shotProjectile.pos.x = shotProjectile.r + S_M_F_B;
       if (shotProjectile.pos.x > CANVAS.width - shotProjectile.r - S_M_F_B)
@@ -95,13 +94,11 @@ const shootProjectiles = () => {
     }
   });
 
-  if (haveAllTheProjectilesLanded() && !state.isBonusDropping) {
+  if (haveAllTheProjectilesLanded() && !state.droppingBonuses.length) {
     state.isProjectileMoving = false;
     state.setLS({ projectile: state.shotProjectiles[0].pos.x });
     coefficient.regainCount();
     state.shotProjectiles = [];
-
-    if (state.collidedBonuses.length) state.isBonusMerging = true;
 
     score.addOne();
     if (record.count < score.count) record.addOne();

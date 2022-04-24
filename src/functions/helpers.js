@@ -42,7 +42,13 @@ export function getFontSize() {
 }
 
 export function isAnythingMoving() {
-  if (state.isProjectileMoving || state.areBricksAndBonusesMoving) return true;
+  if (
+    state.isProjectileMoving ||
+    state.areBricksAndBonusesMoving ||
+    state.droppingBonuses.length ||
+    state.mergingBonuses.length
+  )
+    return true;
   else return false;
 }
 

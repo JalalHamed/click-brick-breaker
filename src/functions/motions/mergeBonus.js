@@ -8,16 +8,13 @@ import state from '../../state.js';
 const velocity = SIZES.projectile.radius;
 
 const mergeBonus = () => {
-  console.log('merging');
-  state.collidedBonuses.forEach(bonus => {
+  state.mergingBonuses.forEach(bonus => {
     if (bonus.pos.x > projectile.pos.x + velocity) bonus.pos.x -= velocity;
     else if (bonus.pos.x < projectile.pos.x - velocity) bonus.pos.x += velocity;
-    else {
-      state.collidedBonuses = state.collidedBonuses.filter(
+    else
+      state.mergingBonuses = state.mergingBonuses.filter(
         item => item.id !== bonus.id
       );
-      state.isBonusMerging = false;
-    }
   });
 };
 
