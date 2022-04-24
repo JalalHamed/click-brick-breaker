@@ -11,12 +11,12 @@ export const C = CANVAS.getContext('2d');
 
 // NOTE: colors MUST be in RGB format
 export const COLORS = {
-  projectile: 'rgb(31, 115, 242)',
+  projectile: 'rgb(93, 167, 239)',
   bonus: 'rgb(79, 234, 115)',
   pointer: {
-    line: 'rgb(31, 115, 242, 0.5)',
-    arrow: 'rgb(31, 115, 242, 0.5)',
-    ball: 'rgb(31, 115, 242, 0.5)',
+    line: 'rgb(93, 167, 239, 0.5)',
+    arrow: 'rgb(93, 167, 239, 0.5)',
+    ball: 'rgb(93, 167, 239, 0.5)',
   },
 };
 

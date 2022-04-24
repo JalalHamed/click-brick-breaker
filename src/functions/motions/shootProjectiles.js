@@ -101,6 +101,9 @@ const shootProjectiles = () => {
     coefficient.regainCount();
     state.shotProjectiles = [];
 
+    if (state.mergingBonuses.length)
+      state.mergingBonuses.forEach(bonus => bonus.calcSteps());
+
     score.addOne();
     if (record.count < score.count) record.addOne();
     genBaB();

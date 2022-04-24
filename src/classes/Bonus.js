@@ -34,6 +34,12 @@ export default class Bonus {
     };
   }
 
+  calcSteps() {
+    this.steps = Math.floor(
+      Math.hypot(this.pos.x - projectile.pos.x) / this.velocity.x
+    );
+  }
+
   updateYPos() {
     this.gridColumnIndex++;
     this.pos.y = calcYPos(this.gridColumnIndex);
