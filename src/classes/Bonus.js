@@ -1,5 +1,6 @@
 // Constructor Instances
 import topBorder from './borders/topBorder.js';
+import projectile from './projectiles/projectile.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -14,7 +15,10 @@ export default class Bonus {
 
     this.id = state.bonusID;
     state.bonusID++;
+
+    this.color = COLORS.bonus;
     this.displayRing = true;
+
     this.gridColumnIndex = 0;
     this.gridRowIndex = this.props.gridRowIndex;
 
@@ -22,6 +26,11 @@ export default class Bonus {
       x: state.grid.row[this.gridRowIndex] + SIZES.brick.width / 2,
       y: calcYPos(this.gridColumnIndex),
       nextY: calcYPos(this.gridColumnIndex + 1),
+    };
+
+    this.velocity = {
+      x: SIZES.projectile.radius * 1.5,
+      y: 10,
     };
   }
 
@@ -36,7 +45,7 @@ export default class Bonus {
     C.beginPath();
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, SIZES.projectile.radius, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.bonus;
+    C.fillStyle = this.color;
     C.fill();
 
     // bonus' ring

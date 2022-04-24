@@ -12,8 +12,9 @@ import state from '../../state.js';
 // Configs
 import {
   CANVAS,
-  SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
   SIZES,
+  SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
+  BONUS_RING_MAX_RADIUS as B_R_M_R,
 } from '../../config.js';
 
 const shootProjectiles = () => {
@@ -65,14 +66,14 @@ const shootProjectiles = () => {
       }
     });
 
-    // Projectile and bonus collision
+    // Bonus collision
     state.bonuses.forEach(bonus => {
       const dist = Math.hypot(
         bonus.pos.x - shotProjectile.pos.x,
         bonus.pos.y - shotProjectile.pos.y
       );
 
-      if (dist - shotProjectile.r < 10) {
+      if (dist - B_R_M_R < 10) {
         bonus.displayRing = false;
         state.droppingBonuses.push(bonus);
         state.bonuses = state.bonuses.filter(item => item.id !== bonus.id);

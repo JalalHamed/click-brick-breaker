@@ -21,15 +21,8 @@ import state from '../state.js';
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
-  [
-    fps,
-    score,
-    record,
-    topBorder,
-    bottomBorder,
-    projectile,
-    coefficient,
-  ].forEach(item => item.draw());
+  // prettier-ignore
+  [fps, score, record, topBorder, bottomBorder, projectile, coefficient].forEach(item => item.draw());
   state.bricks.forEach(brick => brick.draw());
   state.bonuses.forEach(bonus => bonus.draw());
 
