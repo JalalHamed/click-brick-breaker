@@ -25,7 +25,7 @@ body {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: rgb(31, 115, 242);
+  background: rgb(93, 167, 239);
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
