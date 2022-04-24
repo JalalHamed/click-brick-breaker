@@ -12,9 +12,11 @@ export default class Bonus {
   constructor(props) {
     this.props = props;
 
+    this.id = state.bonusID;
+    state.bonusID++;
+    this.displayRing = true;
     this.gridColumnIndex = 0;
     this.gridRowIndex = this.props.gridRowIndex;
-    this.displayRing = true;
 
     this.pos = {
       x: state.grid.row[this.gridRowIndex] + SIZES.brick.width / 2,

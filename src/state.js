@@ -4,7 +4,8 @@ import { SIZES } from './config.js';
 const state = {
   isMouseInBorder: false,
   isProjectileMoving: false,
-  isBonusMoving: false,
+  isBonusDropping: false,
+  isBonusMerging: false,
   areBricksAndBonusesMoving: true,
   grid: { row: [], column: [] },
   mouseCoords: {},
@@ -15,6 +16,7 @@ const state = {
   counter: 0,
   bonusRing: SIZES.projectile.radius,
   brickID: 1,
+  bonusID: 1,
   innerWidth,
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));

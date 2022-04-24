@@ -12,6 +12,7 @@ import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import shootProjectiles from './motions/shootProjectiles.js';
 import dropBonus from './motions/dropBonus.js';
+import mergeBonus from './motions/mergeBonus.js';
 import { isAnythingMoving } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -31,12 +32,15 @@ const draw = () => {
   ].forEach(item => item.draw());
   state.bricks.forEach(brick => brick.draw());
   state.bonuses.forEach(bonus => bonus.draw());
+  if (state.collidedBonuses.length)
+    state.collidedBonuses.forEach(bonus => bonus.draw());
 
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
   if (state.counter % 3 === 0) swingBonusRing();
   if (state.isProjectileMoving) shootProjectiles();
   if (state.areBricksAndBonusesMoving) bringDownBaB();
-  if (state.isBonusMoving) dropBonus();
+  if (state.isBonusDropping) dropBonus();
+  if (state.isBonusMerging) mergeBonus();
 };
 
 export default draw;

@@ -45,3 +45,14 @@ export function isAnythingMoving() {
   if (state.isProjectileMoving || state.areBricksAndBonusesMoving) return true;
   else return false;
 }
+
+export function haveAllTheProjectilesLanded() {
+  if (
+    state.shotProjectiles.every(
+      shotProjectile =>
+        shotProjectile.velocity.x === 0 && shotProjectile.velocity.y === 0
+    )
+  )
+    return true;
+  else return false;
+}

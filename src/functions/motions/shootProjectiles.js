@@ -6,6 +6,7 @@ import score from '../../classes/statistics/score.js';
 import record from '../../classes/statistics/record.js';
 // Functions
 import genBaB from '../generators/genBaB.js';
+import { haveAllTheProjectilesLanded } from '../helpers.js';
 // State
 import state from '../../state.js';
 // Configs
@@ -74,7 +75,8 @@ const shootProjectiles = () => {
       if (dist - shotProjectile.r < 10) {
         bonus.displayRing = false;
         state.collidedBonuses.push(bonus);
-        state.isBonusMoving = true;
+        state.bonuses = state.bonuses.filter(item => item.id !== bonus.id);
+        state.isBonusDropping = true;
       }
     });
 
@@ -93,16 +95,14 @@ const shootProjectiles = () => {
     }
   });
 
-  if (
-    state.shotProjectiles.every(
-      shotProjectile =>
-        shotProjectile.velocity.x === 0 && shotProjectile.velocity.y === 0
-    )
-  ) {
+  if (haveAllTheProjectilesLanded() && !state.isBonusDropping) {
     state.isProjectileMoving = false;
     state.setLS({ projectile: state.shotProjectiles[0].pos.x });
     coefficient.regainCount();
     state.shotProjectiles = [];
+
+    if (state.collidedBonuses.length) state.isBonusMerging = true;
+
     score.addOne();
     if (record.count < score.count) record.addOne();
     genBaB();
