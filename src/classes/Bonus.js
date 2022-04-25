@@ -29,7 +29,7 @@ export default class Bonus {
     };
 
     this.velocity = {
-      x: SIZES.projectile.radius * 1.5,
+      x: SIZES.projectile.radius,
       y: 10,
     };
   }

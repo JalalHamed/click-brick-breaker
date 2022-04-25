@@ -11,8 +11,8 @@ import fps from '../classes/fps.js';
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import shootProjectiles from './motions/shootProjectiles.js';
-import dropBonus from './motions/dropBonus.js';
-import mergeBonus from './motions/mergeBonus.js';
+import dropBonuses from './motions/dropBonuses.js';
+import mergeBonuses from './motions/mergeBonuses.js';
 import { isAnythingMoving, haveAllTheProjectilesLanded } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -33,9 +33,9 @@ const draw = () => {
   if (state.counter % 3 === 0) swingBonusRing();
   if (state.isProjectileMoving) shootProjectiles();
   if (state.areBricksAndBonusesMoving) bringDownBaB();
-  if (state.droppingBonuses.length) dropBonus();
+  if (state.droppingBonuses.length) dropBonuses();
   if (haveAllTheProjectilesLanded() && state.mergingBonuses.length)
-    mergeBonus();
+    mergeBonuses();
 };
 
 export default draw;

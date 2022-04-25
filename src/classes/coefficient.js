@@ -2,13 +2,13 @@
 import projectile from './projectiles/projectile.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
-import { C, CANVAS, COLORS, SIZES } from '../config.js';
+import { C, COLORS, SIZES } from '../config.js';
 // State
 import state from '../state.js';
 
 class Coefficient {
   constructor() {
-    this.count = state.getLS('coefficient') || 1;
+    this.count = 1;
 
     this.pos = {
       x: projectile.pos.x,
@@ -28,8 +28,12 @@ class Coefficient {
     this.count--;
   }
 
+  increaseCount(count) {
+    this.count += count;
+  }
+
   regainCount() {
-    this.count = state.getLS('coefficient') || 1;
+    this.count = 1;
     this.repoSize();
   }
 

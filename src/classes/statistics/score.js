@@ -12,7 +12,7 @@ class Score extends Statistics {
     super();
     this.status = 'Score';
     this.pos.y = record.pos.y + 15 * SIZES.font;
-    this.count = state.getLS('score') || 1;
+    this.count = 1;
   }
 
   repoSize() {

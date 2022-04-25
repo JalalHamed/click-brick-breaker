@@ -7,12 +7,13 @@ import state from '../../state.js';
 
 const { radius } = SIZES.projectile;
 
-const dropBonus = () => {
+const dropBonuses = () => {
   state.droppingBonuses.forEach(bonus => {
     if (bonus.pos.y < bottomBorder.pos.y - radius) bonus.pos.y += 10;
     else {
       bonus.pos.y = bottomBorder.pos.y - radius;
       state.mergingBonuses.push(bonus);
+      state.mergingBonusesCount++;
       state.droppingBonuses = state.droppingBonuses.filter(
         item => item.id !== bonus.id
       );
@@ -20,4 +21,4 @@ const dropBonus = () => {
   });
 };
 
-export default dropBonus;
+export default dropBonuses;

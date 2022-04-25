@@ -6,6 +6,7 @@ import score from '../../classes/statistics/score.js';
 import record from '../../classes/statistics/record.js';
 // Functions
 import genBaB from '../generators/genBaB.js';
+import genBonusVelocity from '../generators/genBonusVelocity.js';
 import { haveAllTheProjectilesLanded } from '../helpers.js';
 // State
 import state from '../../state.js';
@@ -101,8 +102,10 @@ const shootProjectiles = () => {
     coefficient.regainCount();
     state.shotProjectiles = [];
 
-    if (state.mergingBonuses.length)
+    if (state.mergingBonuses.length) {
       state.mergingBonuses.forEach(bonus => bonus.calcSteps());
+      genBonusVelocity();
+    }
 
     score.addOne();
     if (record.count < score.count) record.addOne();

@@ -12,7 +12,7 @@ class Record extends Statistics {
     super();
     this.status = 'Record';
     this.pos.x = CANVAS.width / 2;
-    this.count = state.getLS('record') || 1;
+    this.count = 1;
   }
 
   repoSize() {
