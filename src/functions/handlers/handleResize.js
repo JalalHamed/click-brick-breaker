@@ -3,7 +3,7 @@ import record from '../../classes/statistics/record.js';
 import score from '../../classes/statistics/score.js';
 import bottomBorder from '../../classes/borders/bottomBorder.js';
 import topBorder from '../../classes/borders/topBorder.js';
-import projectile from '../../classes/projectiles/projectile.js';
+import projectile from '../../classes/Projectile.js';
 import coefficient from '../../classes/coefficient.js';
 // Functions
 import {

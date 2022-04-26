@@ -1,6 +1,6 @@
 // Constructor Instances
 import topBorder from './borders/topBorder.js';
-import projectile from './projectiles/projectile.js';
+import projectile from './Projectile.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State

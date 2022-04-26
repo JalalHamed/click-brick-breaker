@@ -1,11 +1,11 @@
 // Constructor Instances
-import bottomBorder from '../borders/bottomBorder.js';
+import bottomBorder from './borders/bottomBorder.js';
 // Configs
-import { COLORS, SIZES, CANVAS, C } from '../../config.js';
+import { COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
-import state from '../../state.js';
+import state from '../state.js';
 
-export default class Projectile {
+export class Projectile {
   constructor(props) {
     this.r = SIZES.projectile.radius;
 
@@ -34,4 +34,16 @@ export default class Projectile {
     this.pos.x += this.velocity.x;
     this.pos.y += this.velocity.y;
   }
+
+  repoSize() {
+    this.r = SIZES.projectile.radius;
+
+    this.pos.y = bottomBorder.pos.y - this.r;
+
+    this.pos.x = (this.pos.x * innerWidth) / state.innerWidth;
+    state.setLS({ projectile: this.pos.x });
+    state.innerWidth = innerWidth;
+  }
 }
+
+export default new Projectile();

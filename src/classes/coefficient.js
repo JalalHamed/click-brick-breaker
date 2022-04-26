@@ -1,5 +1,5 @@
 // Constructor Instances
-import projectile from './projectiles/projectile.js';
+import projectile from './Projectile.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { C, COLORS, SIZES } from '../config.js';

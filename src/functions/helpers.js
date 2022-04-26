@@ -1,7 +1,7 @@
 // Constructor Instances
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
-import projectile from '../classes/projectiles/projectile.js';
+import projectile from '../classes/Projectile.js';
 // Configs
 import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
 // State

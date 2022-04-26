@@ -1,5 +1,5 @@
 // Constructor Instances
-import projectile from '../classes/projectiles/projectile.js';
+import projectile from '../classes/Projectile.js';
 import pointer from '../classes/pointer.js';
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';

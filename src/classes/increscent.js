@@ -1,5 +1,5 @@
 // Constructor Instances
-import projectile from './projectiles/projectile.js';
+import projectile from './Projectile.js';
 // Configs
 import { C, SIZES, COLORS } from '../config.js';
 // State

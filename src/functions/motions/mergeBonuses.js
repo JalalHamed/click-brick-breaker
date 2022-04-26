@@ -1,5 +1,5 @@
 // Constructor Instance
-import projectile from '../../classes/projectiles/projectile.js';
+import projectile from '../../classes/Projectile.js';
 import coefficient from '../../classes/coefficient.js';
 // Functions
 import genBonusColor from '../generators/genBonusColor.js';
