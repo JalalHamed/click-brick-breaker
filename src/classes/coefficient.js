@@ -30,7 +30,8 @@ class Coefficient {
   }
 
   increaseCount() {
-    this.count += state.mergingBonusesCount;
+    this.count++;
+    this.regainCount();
   }
 
   regainCount() {
