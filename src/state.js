@@ -4,7 +4,7 @@ import { SIZES } from './config.js';
 const state = {
   isMouseInBorder: false,
   isProjectileMoving: false,
-  isIncrescent: false,
+  isIncrescentVisible: false,
   areBricksAndBonusesMoving: true,
 
   grid: { row: [], column: [] },
