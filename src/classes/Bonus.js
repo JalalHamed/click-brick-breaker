@@ -58,7 +58,7 @@ export default class Bonus {
     if (this.displayRing) {
       C.beginPath();
       C.setLineDash([]);
-      C.arc(this.pos.x, this.pos.y, state.bonusRing, 0, 2 * Math.PI);
+      C.arc(this.pos.x, this.pos.y, state.bonusRingRadius, 0, 2 * Math.PI);
       C.lineWidth = SIZES.border.height;
       C.strokeStyle = COLORS.bonus;
       C.stroke();
@@ -72,6 +72,6 @@ export default class Bonus {
       nextY: calcYPos(this.props.gridColumnIndex + 1),
     };
 
-    state.bonusRing = SIZES.projectile.radius;
+    state.bonusRingRadius = SIZES.projectile.radius;
   }
 }

@@ -7,11 +7,11 @@ let isGoingDown = false;
 
 const swingBonusRing = () => {
   const { radius } = SIZES.projectile;
-  if (state.bonusRing > radius && isGoingDown) state.bonusRing--;
-  if (state.bonusRing <= radius) isGoingDown = false;
-  if (state.bonusRing < Math.floor(B_R_M_R) && !isGoingDown)
-    state.bonusRing += state.bonusRing / 20;
-  if (state.bonusRing >= Math.floor(B_R_M_R)) isGoingDown = true;
+  if (state.bonusRingRadius > radius && isGoingDown) state.bonusRingRadius--;
+  if (state.bonusRingRadius <= radius) isGoingDown = false;
+  if (state.bonusRingRadius < Math.floor(B_R_M_R) && !isGoingDown)
+    state.bonusRingRadius += state.bonusRingRadius / 20;
+  if (state.bonusRingRadius >= Math.floor(B_R_M_R)) isGoingDown = true;
 };
 
 export default swingBonusRing;
