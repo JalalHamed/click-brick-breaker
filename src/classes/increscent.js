@@ -6,7 +6,7 @@ import state from '../state.js';
 class Increscent {
   constructor() {
     this.pos = {
-      y: state.projectiles[0]?.pos.y - SIZES.projectile.radius * 2,
+      y: state.projectiles[0].pos.y - SIZES.projectile.radius * 2,
     };
 
     this.transparency = 1;

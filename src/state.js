@@ -1,4 +1,5 @@
 // Configs
+import { SIZES } from './config.js';
 
 const state = {
   isMouseInBorder: false,
@@ -20,7 +21,7 @@ const state = {
   brickID: 1,
   bonusID: 1,
   projectileID: 1,
-  bonusRingRadius: 10,
+  bonusRingRadius: SIZES.projectile.radius,
   innerWidth,
 
   getLS(data) {

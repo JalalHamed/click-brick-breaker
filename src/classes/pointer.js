@@ -1,5 +1,6 @@
 // Constructor Instances
-import { topBorder, bottomBorder } from './exports.js';
+import topBorder from './borders/topBorder.js';
+import bottomBorder from './borders/bottomBorder.js';
 // Functions
 import { getAngle } from '../functions/helpers.js';
 // Configs

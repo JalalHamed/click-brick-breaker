@@ -1,5 +1,5 @@
 // Classes
-import { Projectile } from './classes/exports.js';
+import Projectile from './classes/Projectile.js';
 // Handlers
 import handleLoad from './functions/handlers/handleLoad.js';
 import handleMouseMove from './functions/handlers/handleMouseMove.js';

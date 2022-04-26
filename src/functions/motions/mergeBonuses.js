@@ -1,5 +1,5 @@
 // Constructor Instance
-import { coefficient } from '../../classes/exports.js';
+import coefficient from '../../classes/coefficient.js';
 // Functions
 import genBonusColor from '../generators/genBonusColor.js';
 // Configs

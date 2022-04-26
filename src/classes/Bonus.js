@@ -1,5 +1,5 @@
 // Constructor Instances
-import { topBorder } from './exports.js';
+import topBorder from './borders/topBorder.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State

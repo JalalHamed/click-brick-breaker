@@ -1,12 +1,10 @@
 // Constructor Instances
-import {
-  Projectile,
-  record,
-  score,
-  bottomBorder,
-  topBorder,
-  coefficient,
-} from '../../classes/exports.js';
+import Projectile from '../../classes/Projectile.js';
+import record from '../../classes/statistics/record.js';
+import score from '../../classes/statistics/score.js';
+import bottomBorder from '../../classes/borders/bottomBorder.js';
+import topBorder from '../../classes/borders/topBorder.js';
+import coefficient from '../../classes/coefficient.js';
 // Functions
 import {
   calcGrid,

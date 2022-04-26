@@ -1,5 +1,8 @@
 // Classes
-import { Brick, Bonus, score } from '../../classes/exports.js';
+import Brick from '../../classes/Brick.js';
+import Bonus from '../../classes/Bonus.js';
+// Constructor Instances
+import score from '../../classes/statistics/score.js';
 // State
 import state from '../../state.js';
 
