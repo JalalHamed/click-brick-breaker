@@ -20,7 +20,9 @@ const genBonusVelocity = () => {
   state.mergingBonuses.forEach(bonus => {
     if (bonus.id !== closestBonus.id)
       bonus.velocity.x =
-        (getDist(bonus) / getDist(closestBonus)) * SIZES.projectile.radius;
+        (getDist(bonus) / getDist(closestBonus)) *
+        SIZES.projectile.radius *
+        1.3;
   });
 };
 

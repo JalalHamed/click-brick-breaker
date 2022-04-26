@@ -9,6 +9,7 @@ import state from '../state.js';
 class Coefficient {
   constructor() {
     this.count = 1;
+    this.displayCount = 1;
 
     this.pos = {
       x: projectile.pos.x,
@@ -18,22 +19,22 @@ class Coefficient {
 
   draw() {
     C.font = `${SIZES.font}rem play`;
-    C.fillStyle = this.count > 0 ? COLORS.projectile : '#fff';
+    C.fillStyle = this.displayCount > 0 ? COLORS.projectile : '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';
-    C.fillText(`x${this.count}`, this.pos.x, this.pos.y);
+    C.fillText(`x${this.displayCount}`, this.pos.x, this.pos.y);
   }
 
   decreaseCount() {
-    this.count--;
+    this.displayCount--;
   }
 
-  increaseCount(count) {
-    this.count += count;
+  increaseCount() {
+    this.count += state.mergingBonusesCount;
   }
 
   regainCount() {
-    this.count = 1;
+    this.displayCount = this.count;
     this.repoSize();
   }
 

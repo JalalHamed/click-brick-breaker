@@ -1,8 +1,8 @@
 // Constructor Instance
 import projectile from '../../classes/projectiles/projectile.js';
+import coefficient from '../../classes/coefficient.js';
 // Functions
 import genBonusColor from '../generators/genBonusColor.js';
-import increaseCoefficient from './increaseCoefficient.js';
 // Configs
 import { COLORS } from '../../config.js';
 // State
@@ -16,10 +16,11 @@ const mergeBonuses = () => {
     else if (bonus.pos.x < projectile.pos.x - bonus.velocity.x)
       bonus.pos.x += bonus.velocity.x;
     else {
-      increaseCoefficient();
+      coefficient.increaseCount();
+      state.isIncrescent = true;
       state.mergingBonuses = state.mergingBonuses.filter(
         item => item.id !== bonus.id
-      );
+      ); // could even say `state.mergingBonuses = []` since all the bonuses arrive at the same time
     }
   });
 };
