@@ -1,7 +1,6 @@
 // Classes
-import { Projectile } from '../../classes/Projectile.js';
+import Projectile from '../../classes/Projectile.js';
 // Constructor Instances
-import projectile from '../../classes/Projectile.js';
 import coefficient from '../../classes/coefficient.js';
 // Functions
 import {
@@ -17,14 +16,16 @@ import state from '../../state.js';
 const handleClick = e => {
   if (isInBorder(e.y) && !isAnythingMoving()) {
     state.isProjectileMoving = true;
-    state.isMouseInBorder = false; // without this, the pointer will be drawn after the projectiles land even if the mouse is outside of the borders.
+    state.isMouseInBorder = false; // without this, the pointer will be drawn after the projectiles land on the same spot it was when the click event happened whether the mouse is inside or outside of the borders.
     CANVAS.style.cursor = 'auto';
     const angle = getAngle(e);
     const velocity = { x: -Math.cos(angle) * 15, y: -Math.sin(angle) * 15 };
-    projectile.velocity = velocity;
-    state.shotProjectiles.push(projectile);
-    for (let i = 1; i < coefficient.count; i++) {
-      state.shotProjectiles.push(new Projectile({ velocity, delay: i }));
+    state.projectiles.forEach(projectile => (projectile.velocity = velocity));
+    if (state.projectiles.length < coefficient.count) {
+      const shortage = coefficient.count - state.projectiles.length;
+      for (let i = 0; i < shortage; i++) {
+        state.projectiles.push(new Projectile({ velocity }));
+      }
     }
   }
 };

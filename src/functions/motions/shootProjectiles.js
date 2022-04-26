@@ -19,7 +19,8 @@ import {
 } from '../../config.js';
 
 const shootProjectiles = () => {
-  state.shotProjectiles.forEach(shotProjectile => {
+  console.log(state.projectiles);
+  state.projectiles.forEach(shotProjectile => {
     shotProjectile.draw();
     shotProjectile.update();
     coefficient.decreaseCount();
@@ -98,9 +99,8 @@ const shootProjectiles = () => {
 
   if (haveAllTheProjectilesLanded() && !state.droppingBonuses.length) {
     state.isProjectileMoving = false;
-    state.setLS({ projectile: state.shotProjectiles[0].pos.x });
+    state.setLS({ projectile: state.projectiles[0].pos.x });
     coefficient.regainCount();
-    state.shotProjectiles = [];
 
     if (state.mergingBonuses.length) {
       state.mergingBonuses.forEach(bonus => bonus.calcSteps());

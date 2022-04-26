@@ -1,7 +1,6 @@
 // Constructor Instances
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
-import projectile from '../classes/Projectile.js';
 // Configs
 import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
 // State
@@ -16,12 +15,15 @@ export function calcGrid() {
 export function isInBorder(y) {
   return (
     y > topBorder.pos.y + topBorder.height &&
-    y < bottomBorder.pos.y - projectile.r
+    y < bottomBorder.pos.y - SIZES.projectile.radius
   );
 }
 
 export function getAngle(e) {
-  let angle = Math.atan2(projectile.pos.y - e.y, projectile.pos.x - e.x);
+  let angle = Math.atan2(
+    state.projectiles[o].pos.y - e.y,
+    state.projectiles[o].pos.x - e.x
+  );
   // Prevent angle from being lower than 10 degrees
   if (angle < MIN_ANGLE) angle = MIN_ANGLE;
   // Prevent angle from surpassing 170 degrees
@@ -54,7 +56,7 @@ export function isAnythingMoving() {
 
 export function haveAllTheProjectilesLanded() {
   if (
-    state.shotProjectiles.every(
+    state.projectiles.every(
       shotProjectile =>
         shotProjectile.velocity.x === 0 && shotProjectile.velocity.y === 0
     )

@@ -1,5 +1,3 @@
-// Constructor Instance
-import projectile from '../../classes/Projectile.js';
 // Configs
 import { COLORS } from '../../config.js';
 

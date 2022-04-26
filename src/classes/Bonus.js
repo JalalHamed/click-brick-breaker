@@ -1,6 +1,5 @@
 // Constructor Instances
 import topBorder from './borders/topBorder.js';
-import projectile from './Projectile.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -36,7 +35,7 @@ export default class Bonus {
 
   calcSteps() {
     this.steps = Math.floor(
-      Math.abs(this.pos.x - projectile.pos.x) / this.velocity.x
+      Math.abs(this.pos.x - state.projectiles[0].pos.x) / this.velocity.x
     );
   }
 

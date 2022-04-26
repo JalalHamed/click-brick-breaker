@@ -1,5 +1,3 @@
-// Constructor Instances
-import projectile from './Projectile.js';
 // Configs
 import { C, SIZES, COLORS } from '../config.js';
 // State
@@ -8,7 +6,7 @@ import state from '../state.js';
 class Increscent {
   constructor() {
     this.pos = {
-      y: projectile.pos.y - projectile.r * 2,
+      y: state.projectiles[0].pos.y - SIZES.projectile.radius * 2,
     };
 
     this.transparency = 1;
@@ -20,11 +18,15 @@ class Increscent {
     C.fillStyle = this.color;
     C.textAlign = 'center';
     C.textBaseline = 'middle';
-    C.fillText(`+${state.mergingBonusesCount}`, projectile.pos.x, this.pos.y);
+    C.fillText(
+      `+${state.mergingBonusesCount}`,
+      state.projectiles[0].pos.x,
+      this.pos.y
+    );
   }
 
   repoSize() {
-    this.pos.y = projectile.pos.y - projectile.r * 2;
+    this.pos.y = state.projectiles[0].pos.y - SIZES.projectile.radius * 2;
   }
 }
 

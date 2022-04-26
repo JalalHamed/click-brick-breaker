@@ -12,7 +12,7 @@ const state = {
 
   bricks: [],
   bonuses: [],
-  shotProjectiles: [],
+  projectiles: [],
   droppingBonuses: [],
   mergingBonuses: [],
 
@@ -20,6 +20,7 @@ const state = {
   mergingBonusesCount: 0,
   brickID: 1,
   bonusID: 1,
+  projectileID: 1,
   bonusRingRadius: SIZES.projectile.radius,
   innerWidth,
 

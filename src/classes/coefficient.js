@@ -1,5 +1,4 @@
 // Constructor Instances
-import projectile from './Projectile.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { C, COLORS, SIZES } from '../config.js';
@@ -12,8 +11,8 @@ class Coefficient {
     this.displayCount = 1;
 
     this.pos = {
-      x: projectile.pos.x,
-      y: bottomBorder.pos.y + projectile.r * 2.5,
+      x: state.projectiles[0].pos.x,
+      y: bottomBorder.pos.y + SIZES.projectile.radius * 2.5,
     };
   }
 
@@ -41,8 +40,8 @@ class Coefficient {
 
   repoSize() {
     this.pos = {
-      x: projectile.pos.x,
-      y: bottomBorder.pos.y + projectile.r * 2.5,
+      x: state.projectiles[0].pos.x,
+      y: bottomBorder.pos.y + SIZES.projectile.radius * 2.5,
     };
   }
 }

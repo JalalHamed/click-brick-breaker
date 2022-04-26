@@ -1,5 +1,4 @@
 // Constructor Instance
-import projectile from '../../classes/Projectile.js';
 import coefficient from '../../classes/coefficient.js';
 // Functions
 import genBonusColor from '../generators/genBonusColor.js';
@@ -11,9 +10,9 @@ import state from '../../state.js';
 const mergeBonuses = () => {
   state.mergingBonuses.forEach(bonus => {
     bonus.color = genBonusColor(bonus);
-    if (bonus.pos.x > projectile.pos.x + bonus.velocity.x)
+    if (bonus.pos.x > state.projectiles[0].pos.x + bonus.velocity.x)
       bonus.pos.x -= bonus.velocity.x;
-    else if (bonus.pos.x < projectile.pos.x - bonus.velocity.x)
+    else if (bonus.pos.x < state.projectiles[0].pos.x - bonus.velocity.x)
       bonus.pos.x += bonus.velocity.x;
     else {
       coefficient.increaseCount();

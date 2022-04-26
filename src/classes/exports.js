@@ -1,0 +1,12 @@
+export { default as Border } from './borders/Border.js';
+export { default as bottomBorder } from './borders/bottomBorder';
+export { default as topBorder } from './borders/topBorder.js';
+export { default as score } from './statistics/score.js';
+export { default as record } from './statistics/record.js';
+export { default as Bonus } from './Bonus.js';
+export { default as Brick } from './Brick.js';
+export { default as coefficient } from './coefficient.js';
+export { default as fps } from './fps.js';
+export { default as increscent } from './increscent.js';
+export { default as pointer } from './pointer.js';
+export { default as Projectile } from './Projectile.js';

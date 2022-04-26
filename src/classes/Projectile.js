@@ -5,9 +5,12 @@ import { COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
 import state from '../state.js';
 
-export class Projectile {
+export default class Projectile {
   constructor(props) {
     this.r = SIZES.projectile.radius;
+
+    this.id = state.projectileID;
+    state.projectileID++;
 
     this.pos = {
       x: state.getLS('projectile') || CANVAS.width / 2,
@@ -18,8 +21,6 @@ export class Projectile {
       x: props?.velocity?.x || 0,
       y: props?.velocity?.y || 0,
     };
-
-    this.delay = props?.delay || 0;
   }
 
   draw() {
@@ -45,5 +46,3 @@ export class Projectile {
     state.innerWidth = innerWidth;
   }
 }
-
-export default new Projectile();

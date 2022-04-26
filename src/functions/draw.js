@@ -1,12 +1,11 @@
 // Constructor Instances
-import projectile from '../classes/Projectile.js';
 import pointer from '../classes/pointer.js';
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 import record from '../classes/statistics/record.js';
 import score from '../classes/statistics/score.js';
-import coefficient from '../classes/coefficient.js';
 import increscent from '../classes/increscent.js';
+import coefficient from '../classes/coefficient.js';
 import fps from '../classes/fps.js';
 // Functions
 import swingBonusRing from './motions/swingBonusRing.js';
@@ -27,7 +26,8 @@ const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
   // prettier-ignore
-  [fps, score, record, topBorder, bottomBorder, projectile, coefficient].forEach(item => item.draw());
+  [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
+  state.projectiles[0].draw();
   state.bricks.forEach(brick => brick.draw());
   state.bonuses.forEach(bonus => bonus.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();

@@ -1,9 +1,9 @@
 // Constructor Instances
+import Projectile from '../../classes/Projectile.js';
 import record from '../../classes/statistics/record.js';
 import score from '../../classes/statistics/score.js';
 import bottomBorder from '../../classes/borders/bottomBorder.js';
 import topBorder from '../../classes/borders/topBorder.js';
-import projectile from '../../classes/Projectile.js';
 import coefficient from '../../classes/coefficient.js';
 // Functions
 import {
@@ -41,9 +41,10 @@ const handleResize = () => {
     SIZES.font = getFontSize();
     calcGrid();
 
-    [bottomBorder, topBorder, projectile, coefficient, record, score].forEach(
-      item => item.repoSize()
+    [bottomBorder, topBorder, coefficient, record, score].forEach(item =>
+      item.repoSize()
     );
+    state.projectiles.forEach(projectile => projectile.repoSize());
     state.bricks.forEach(brick => brick.repoSize());
     state.bonuses.forEach(bonus => bonus.repoSize());
   }
