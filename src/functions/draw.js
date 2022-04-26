@@ -14,7 +14,7 @@ import bringDownBaB from './motions/bringDownBaB.js';
 import shootProjectiles from './motions/shootProjectiles.js';
 import dropBonuses from './motions/dropBonuses.js';
 import mergeBonuses from './motions/mergeBonuses.js';
-import increaseCoefficient from './motions/increaseCoefficient.js';
+import displayIncrescent from './motions/displayIncrescent.js';
 import { isAnythingMoving, haveAllTheProjectilesLanded } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -41,7 +41,7 @@ const draw = () => {
   if (state.droppingBonuses.length) dropBonuses();
   if (haveAllTheProjectilesLanded() && state.mergingBonuses.length)
     mergeBonuses();
-  if (state.isIncrescent) increaseCoefficient();
+  if (state.isIncrescent) displayIncrescent();
 };
 
 export default draw;

@@ -9,7 +9,7 @@ import {
 // State
 import state from '../../state.js';
 
-const increaseCoefficient = () => {
+const displayIncrescent = () => {
   if (increscent.pos.y > bottomBorder.pos.y - I_D_T_T) {
     increscent.pos.y -= 5;
     increscent.transparency -= 0.05;
@@ -25,4 +25,4 @@ const increaseCoefficient = () => {
   }
 };
 
-export default increaseCoefficient;
+export default displayIncrescent;
