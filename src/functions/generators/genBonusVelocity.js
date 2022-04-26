@@ -1,5 +1,5 @@
 // Constructor Instances
-import coefficient from '../../classes/coefficient.js';
+import { coefficient } from '../../classes/exports.js';
 // Configs
 import { SIZES } from '../../config.js';
 // State

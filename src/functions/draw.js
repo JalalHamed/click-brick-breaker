@@ -1,12 +1,14 @@
 // Constructor Instances
-import pointer from '../classes/pointer.js';
-import topBorder from '../classes/borders/topBorder.js';
-import bottomBorder from '../classes/borders/bottomBorder.js';
-import record from '../classes/statistics/record.js';
-import score from '../classes/statistics/score.js';
-import increscent from '../classes/increscent.js';
-import coefficient from '../classes/coefficient.js';
-import fps from '../classes/fps.js';
+import {
+  pointer,
+  topBorder,
+  bottomBorder,
+  record,
+  score,
+  increscent,
+  coefficient,
+  fps,
+} from '../classes/exports.js';
 // Functions
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';

@@ -1,7 +1,5 @@
 // Classes
-import Projectile from '../../classes/Projectile.js';
-// Constructor Instances
-import coefficient from '../../classes/coefficient.js';
+import { Projectile, coefficient } from '../../classes/exports.js';
 // Functions
 import {
   getAngle,

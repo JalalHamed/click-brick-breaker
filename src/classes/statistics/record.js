@@ -1,7 +1,5 @@
 // Classes
-import Statistics from './Statistics.js';
-// Constructor Instances
-import topBorder from '../borders/topBorder.js';
+import { Statistics, topBorder } from '../exports.js';
 // Configs
 import { C, CANVAS } from '../../config.js';
 // State

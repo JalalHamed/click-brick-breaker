@@ -1,6 +1,5 @@
 // Constructor Instances
-import topBorder from '../classes/borders/topBorder.js';
-import bottomBorder from '../classes/borders/bottomBorder.js';
+import { topBorder, bottomBorder } from '../classes/exports.js';
 // Configs
 import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
 // State
@@ -21,8 +20,8 @@ export function isInBorder(y) {
 
 export function getAngle(e) {
   let angle = Math.atan2(
-    state.projectiles[o].pos.y - e.y,
-    state.projectiles[o].pos.x - e.x
+    state.projectiles[0].pos.y - e.y,
+    state.projectiles[0].pos.x - e.x
   );
   // Prevent angle from being lower than 10 degrees
   if (angle < MIN_ANGLE) angle = MIN_ANGLE;

@@ -1,5 +1,5 @@
 // Constructor Instances
-import bottomBorder from './borders/bottomBorder.js';
+import { bottomBorder } from './exports.js';
 // Configs
 import { C, COLORS, SIZES } from '../config.js';
 // State
@@ -11,7 +11,7 @@ class Coefficient {
     this.displayCount = 1;
 
     this.pos = {
-      x: state.projectiles[0].pos.x,
+      x: state.projectiles[0]?.pos.x,
       y: bottomBorder.pos.y + SIZES.projectile.radius * 2.5,
     };
   }

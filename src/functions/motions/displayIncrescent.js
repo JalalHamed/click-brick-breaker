@@ -1,6 +1,5 @@
 // Constructor Instances
-import increscent from '../../classes/increscent.js';
-import bottomBorder from '../../classes/borders/bottomBorder.js';
+import { increscent, bottomBorder } from '../../classes/exports.js';
 // Configs
 import {
   INCRESCENT_DISTANCE_TO_TAKE as I_D_T_T,

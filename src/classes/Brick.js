@@ -1,6 +1,5 @@
 // Constructor Instances
-import score from './statistics/score.js';
-import topBorder from './borders/topBorder.js';
+import { score, topBorder } from './exports.js';
 // Configs
 import { SIZES, C } from '../config.js';
 // State

@@ -1,9 +1,11 @@
 // Constructor Instances
-import coefficient from '../../classes/coefficient.js';
-import topBorder from '../../classes/borders/topBorder.js';
-import bottomBorder from '../../classes/borders/bottomBorder.js';
-import score from '../../classes/statistics/score.js';
-import record from '../../classes/statistics/record.js';
+import {
+  coefficient,
+  topBorder,
+  bottomBorder,
+  score,
+  record,
+} from '../../classes/exports.js';
 // Functions
 import genBaB from '../generators/genBaB.js';
 import genBonusVelocity from '../generators/genBonusVelocity.js';

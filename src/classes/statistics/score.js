@@ -1,7 +1,5 @@
 // Classes
-import Statistics from './Statistics.js';
-// Constructor Instances
-import record from './record.js';
+import { Statistics, record } from '../exports.js';
 // Configs
 import { C, CANVAS, SIZES } from '../../config.js';
 // State
