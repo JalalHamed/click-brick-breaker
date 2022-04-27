@@ -71,8 +71,10 @@ class Pointer {
       if (axis === 'y') endpoint = [getX(value), value];
     };
 
+    console.log(slope);
+
     // At 90 degree, slope is Infinite
-    if (slope === Infinity)
+    if (slope === Infinity || slope === -Infinity)
       endpoint = [state.projectiles[0].pos.x, topBorder.heightFromTop + radius];
     // Pointer projectile touches top border
     if (x > 0 && x < CANVAS.width)

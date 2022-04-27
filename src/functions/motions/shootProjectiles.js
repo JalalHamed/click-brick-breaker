@@ -19,7 +19,6 @@ import {
 } from '../../config.js';
 
 const shootProjectiles = () => {
-  console.log(state.projectiles);
   state.projectiles.forEach(shotProjectile => {
     shotProjectile.draw();
     shotProjectile.update();
