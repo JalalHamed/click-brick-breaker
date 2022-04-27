@@ -57,8 +57,7 @@ export function isAnythingMoving() {
 export function haveAllTheProjectilesLanded() {
   if (
     state.projectiles.every(
-      shotProjectile =>
-        shotProjectile.velocity.x === 0 && shotProjectile.velocity.y === 0
+      projectile => projectile.velocity.x === 0 && projectile.velocity.y === 0
     )
   )
     return true;

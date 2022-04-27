@@ -14,6 +14,7 @@ import Projectile from './classes/Projectile.js';
 
 const animate = () => {
   state.counter++;
+  if (state.counter > 999) state.counter = 1;
   draw();
   requestAnimationFrame(animate);
 };

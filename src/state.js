@@ -16,13 +16,13 @@ const state = {
   droppingBonuses: [],
   mergingBonuses: [],
 
+  innerWidth,
   counter: 0,
   mergingBonusesCount: 0,
   brickID: 1,
   bonusID: 1,
   projectileID: 1,
   bonusRingRadius: SIZES.projectile.radius,
-  innerWidth,
 
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));
