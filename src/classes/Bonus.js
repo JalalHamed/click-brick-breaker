@@ -70,7 +70,5 @@ export default class Bonus {
       y: calcYPos(this.gridColumnIndex),
       nextY: calcYPos(this.props.gridColumnIndex + 1),
     };
-
-    state.bonusRingRadius = SIZES.projectile.radius;
   }
 }

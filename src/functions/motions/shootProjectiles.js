@@ -15,7 +15,6 @@ import {
   CANVAS,
   SIZES,
   SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
-  BONUS_RING_MAX_RADIUS as B_R_M_R,
   PROJECTILE_SPEED_COEFFICIENT as P_S_C,
 } from '../../config.js';
 
@@ -78,7 +77,7 @@ const shootProjectiles = () => {
         bonus.pos.y - projectile.pos.y
       );
 
-      if (dist - B_R_M_R < 10) {
+      if (dist - SIZES.bonus.maxRadius < 10) {
         bonus.displayRing = false;
         state.droppingBonuses.push(bonus);
         state.bonuses = state.bonuses.filter(item => item.id !== bonus.id);

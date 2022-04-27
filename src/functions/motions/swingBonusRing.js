@@ -1,17 +1,23 @@
 // Configs
-import { SIZES, BONUS_RING_MAX_RADIUS as B_R_M_R } from '../../config.js';
+import { SIZES } from '../../config.js';
 // State
 import state from '../../state.js';
 
-let isGoingDown = false;
-
 const swingBonusRing = () => {
-  if (SIZES.bonus.radius > SIZES.projectile.radius && isGoingDown)
+  if (
+    SIZES.bonus.radius > SIZES.projectile.radius &&
+    state.bonusRingStatus === 'dwindle'
+  )
     SIZES.bonus.radius--;
-  if (SIZES.bonus.radius <= SIZES.projectile.radius) isGoingDown = false;
-  if (SIZES.bonus.radius < Math.floor(B_R_M_R) && !isGoingDown)
+  if (SIZES.bonus.radius <= SIZES.projectile.radius)
+    state.bonusRingStatus = 'widen';
+  if (
+    SIZES.bonus.radius < SIZES.bonus.maxRadius &&
+    state.bonusRingStatus === 'widen'
+  )
     SIZES.bonus.radius += SIZES.bonus.radius / 20;
-  if (SIZES.bonus.radius >= Math.floor(B_R_M_R)) isGoingDown = true;
+  if (SIZES.bonus.radius >= SIZES.bonus.maxRadius)
+    state.bonusRingStatus = 'dwindle';
 };
 
 export default swingBonusRing;
