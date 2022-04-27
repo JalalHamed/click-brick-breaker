@@ -6,12 +6,12 @@ import state from '../../state.js';
 let isGoingDown = false;
 
 const swingBonusRing = () => {
-  const { radius } = SIZES.projectile;
-  if (state.bonusRingRadius > radius && isGoingDown) state.bonusRingRadius--;
-  if (state.bonusRingRadius <= radius) isGoingDown = false;
-  if (state.bonusRingRadius < Math.floor(B_R_M_R) && !isGoingDown)
-    state.bonusRingRadius += state.bonusRingRadius / 20;
-  if (state.bonusRingRadius >= Math.floor(B_R_M_R)) isGoingDown = true;
+  if (SIZES.bonus.radius > SIZES.projectile.radius && isGoingDown)
+    SIZES.bonus.radius--;
+  if (SIZES.bonus.radius <= SIZES.projectile.radius) isGoingDown = false;
+  if (SIZES.bonus.radius < Math.floor(B_R_M_R) && !isGoingDown)
+    SIZES.bonus.radius += SIZES.bonus.radius / 20;
+  if (SIZES.bonus.radius >= Math.floor(B_R_M_R)) isGoingDown = true;
 };
 
 export default swingBonusRing;

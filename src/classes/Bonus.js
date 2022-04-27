@@ -57,7 +57,7 @@ export default class Bonus {
     if (this.displayRing) {
       C.beginPath();
       C.setLineDash([]);
-      C.arc(this.pos.x, this.pos.y, state.bonusRingRadius, 0, 2 * Math.PI);
+      C.arc(this.pos.x, this.pos.y, SIZES.bonus.radius, 0, 2 * Math.PI);
       C.lineWidth = SIZES.border.height;
       C.strokeStyle = COLORS.bonus;
       C.stroke();

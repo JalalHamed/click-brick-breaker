@@ -24,8 +24,6 @@ let counter = 0;
 const shootProjectiles = () => {
   counter++;
 
-  console.log(state.projectiles);
-
   state.projectiles.forEach(projectile => {
     if (((projectile.id - 1) * (3 * projectile.r)) / P_S_C <= counter) {
       projectile.update();

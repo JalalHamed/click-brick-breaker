@@ -26,6 +26,9 @@ export const SIZES = {
   projectile: {
     radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
   },
+  bonus: {
+    radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
+  },
   border: {
     margin: getBorderMargin(),
     height: CANVAS.width / 150,
