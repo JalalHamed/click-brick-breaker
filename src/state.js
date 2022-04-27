@@ -1,3 +1,5 @@
+// Classes
+import Projectile from './classes/Projectile.js';
 // Configs
 import { SIZES } from './config.js';
 
@@ -12,7 +14,7 @@ const state = {
 
   bricks: [],
   bonuses: [],
-  projectiles: [],
+  projectiles: [new Projectile()],
   droppingBonuses: [],
   mergingBonuses: [],
 

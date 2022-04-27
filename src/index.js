@@ -1,5 +1,3 @@
-// Classes
-import Projectile from './classes/Projectile.js';
 // Handlers
 import handleLoad from './functions/handlers/handleLoad.js';
 import handleMouseMove from './functions/handlers/handleMouseMove.js';
@@ -19,7 +17,6 @@ const animate = () => {
 };
 
 const init = () => {
-  state.projectiles.push(new Projectile());
   [calcGrid, genBaB, animate].forEach(item => item());
 };
 
