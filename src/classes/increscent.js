@@ -1,3 +1,5 @@
+// Classes
+import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { C, SIZES, COLORS } from '../config.js';
 // State
@@ -6,7 +8,7 @@ import state from '../state.js';
 class Increscent {
   constructor() {
     this.pos = {
-      y: state.projectiles[0].pos.y - SIZES.projectile.radius * 2,
+      y: bottomBorder.pos.y - SIZES.projectile.radius * 2,
     };
 
     this.transparency = 1;

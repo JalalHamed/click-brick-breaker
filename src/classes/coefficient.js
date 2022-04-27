@@ -1,7 +1,7 @@
 // Constructor Instances
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
-import { C, COLORS, SIZES } from '../config.js';
+import { C, COLORS, SIZES, CANVAS } from '../config.js';
 // State
 import state from '../state.js';
 
@@ -11,7 +11,7 @@ class Coefficient {
     this.displayCount = 1;
 
     this.pos = {
-      x: state.projectiles[0].pos.x,
+      x: state.getLS('projectile') || CANVAS.width / 2,
       y: bottomBorder.pos.y + SIZES.projectile.radius * 2.5,
     };
   }
