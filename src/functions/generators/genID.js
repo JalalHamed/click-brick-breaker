@@ -1,17 +1,14 @@
-const ids = {
-  projectiles: 1,
-  bonuses: 1,
-  bricks: 1,
-};
+// State
+import state from '../../state.js';
 
 const genID = status => {
   switch (status) {
     case 'projectile':
-      return ids.projectiles++;
+      return state.ids.projectile++;
     case 'bonus':
-      return ids.bonuses++;
+      return state.ids.bonus++;
     case 'brick':
-      return ids.bricks++;
+      return state.ids.brick++;
     default:
       return;
   }

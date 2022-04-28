@@ -25,6 +25,7 @@ const shootProjectiles = () => {
   counter++;
 
   state.projectiles.forEach(projectile => {
+    console.log(projectile.id);
     const delay = Math.floor(
       ((projectile.id - 1) * SIZES.projectile.radius * 3) / P_S_C + 1
     );
@@ -35,8 +36,9 @@ const shootProjectiles = () => {
     if (
       projectile.pos.x - SIZES.projectile.radius <= 0 ||
       projectile.pos.x + SIZES.projectile.radius >= CANVAS.width
-    )
+    ) {
       projectile.velocity.x = -projectile.velocity.x;
+    }
     // Reverse projectile's direction when hitting the top border
     if (projectile.pos.y <= topBorder.heightFromTop + SIZES.projectile.radius) {
       projectile.velocity.y = -projectile.velocity.y;
@@ -113,6 +115,7 @@ const shootProjectiles = () => {
     isFirstOneToLand = true;
     state.isMoving.projectiles = false;
     counter = 0;
+    state.projectiles = [];
     state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 

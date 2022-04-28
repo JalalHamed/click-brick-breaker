@@ -1,3 +1,6 @@
+// Constructor Instances
+import score from './classes/statistics/score.js';
+
 const state = {
   isMouseInBorder: false,
 
@@ -9,6 +12,11 @@ const state = {
   },
   grid: { row: [], column: [] },
   mouseCoords: {},
+  ids: {
+    projectile: 1,
+    bonus: 1,
+    brick: 1,
+  },
 
   bricks: [],
   bonuses: [],
