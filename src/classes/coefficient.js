@@ -40,7 +40,7 @@ class Coefficient {
 
   repoSize() {
     this.pos = {
-      x: state.projectiles[0].pos.x,
+      x: state.getLS('projectile') || CANVAS.width / 2,
       y: bottomBorder.pos.y + SIZES.projectile.radius * 2.5,
     };
   }

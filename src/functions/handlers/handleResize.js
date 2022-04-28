@@ -45,10 +45,9 @@ const handleResize = () => {
     SIZES.font = getFontSize();
     calcGrid();
 
-    [bottomBorder, topBorder, coefficient, record, score].forEach(item =>
-      item.repoSize()
-    );
-    state.projectiles.forEach(projectile => projectile.repoSize());
+    [bottomBorder, topBorder].forEach(item => item.repoSize()); // bottom border should repoSize before projectile
+    state.projectiles.forEach(projectile => projectile.repoSize()); // projectile should repoSize before coefficient
+    [coefficient, record, score].forEach(item => item.repoSize());
     state.bricks.forEach(brick => brick.repoSize());
     state.bonuses.forEach(bonus => bonus.repoSize());
   }

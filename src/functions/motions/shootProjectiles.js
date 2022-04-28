@@ -24,19 +24,22 @@ const shootProjectiles = () => {
   counter++;
 
   state.projectiles.forEach(projectile => {
-    if (((projectile.id - 1) * (3 * projectile.r)) / P_S_C <= counter) {
+    if (
+      ((projectile.id - 1) * (3 * SIZES.projectile.radius)) / P_S_C <=
+      counter
+    ) {
       projectile.update();
       coefficient.decreaseCount();
     }
 
     // Reverse projectile's direction when hitting the left and right borders
     if (
-      projectile.pos.x - projectile.r <= 0 ||
-      projectile.pos.x + projectile.r >= CANVAS.width
+      projectile.pos.x - SIZES.projectile.radius <= 0 ||
+      projectile.pos.x + SIZES.projectile.radius >= CANVAS.width
     )
       projectile.velocity.x = -projectile.velocity.x;
     // Reverse projectile's direction when hitting the top border
-    if (projectile.pos.y <= topBorder.heightFromTop + projectile.r) {
+    if (projectile.pos.y <= topBorder.heightFromTop + SIZES.projectile.radius) {
       projectile.velocity.y = -projectile.velocity.y;
     }
 
@@ -45,10 +48,11 @@ const shootProjectiles = () => {
     state.bricks.forEach(brick => {
       // Hitting top and bottom sides
       if (
-        ((projectile.pos.y - projectile.r < brick.pos.y + height + 0.001 &&
-          projectile.pos.y + projectile.r > brick.pos.y + height) ||
-          (projectile.pos.y - projectile.r < brick.pos.y + 0.001 &&
-            projectile.pos.y + projectile.r > brick.pos.y)) &&
+        ((projectile.pos.y - SIZES.projectile.radius <
+          brick.pos.y + height + 0.001 &&
+          projectile.pos.y + SIZES.projectile.radius > brick.pos.y + height) ||
+          (projectile.pos.y - SIZES.projectile.radius < brick.pos.y + 0.001 &&
+            projectile.pos.y + SIZES.projectile.radius > brick.pos.y)) &&
         projectile.pos.x > brick.pos.x &&
         projectile.pos.x < brick.pos.x + width
       ) {
@@ -58,10 +62,11 @@ const shootProjectiles = () => {
 
       // Hitting left and right sides
       if (
-        ((projectile.pos.x + projectile.r > brick.pos.x + width + 0.001 &&
-          projectile.pos.x - projectile.r < brick.pos.x + width) ||
-          (projectile.pos.x + projectile.r > brick.pos.x + 0.001 &&
-            projectile.pos.x - projectile.r < brick.pos.x)) &&
+        ((projectile.pos.x + SIZES.projectile.radius >
+          brick.pos.x + width + 0.001 &&
+          projectile.pos.x - SIZES.projectile.radius < brick.pos.x + width) ||
+          (projectile.pos.x + SIZES.projectile.radius > brick.pos.x + 0.001 &&
+            projectile.pos.x - SIZES.projectile.radius < brick.pos.x)) &&
         projectile.pos.y < brick.pos.y + height &&
         projectile.pos.y > brick.pos.y
       ) {
@@ -85,17 +90,17 @@ const shootProjectiles = () => {
     });
 
     // Land projectile once hitting bottom border
-    if (projectile.pos.y > bottomBorder.pos.y - projectile.r) {
+    if (projectile.pos.y > bottomBorder.pos.y - SIZES.projectile.radius) {
       projectile.velocity.x = 0;
       projectile.velocity.y = 0;
 
-      projectile.pos.y = bottomBorder.pos.y - projectile.r;
+      projectile.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
 
       // Prevent projectile from going over the canvas' left and right border when landing
-      if (projectile.pos.x < projectile.r + S_M_F_B)
-        projectile.pos.x = projectile.r + S_M_F_B;
-      if (projectile.pos.x > CANVAS.width - projectile.r - S_M_F_B)
-        projectile.pos.x = CANVAS.width - projectile.r - S_M_F_B;
+      if (projectile.pos.x < SIZES.projectile.radius + S_M_F_B)
+        projectile.pos.x = SIZES.projectile.radius + S_M_F_B;
+      if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_B)
+        projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_B;
     }
   });
 

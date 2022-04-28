@@ -8,7 +8,7 @@ import state from '../state.js';
 class Increscent {
   constructor() {
     this.pos = {
-      y: bottomBorder.pos.y - SIZES.projectile.radius * 2,
+      y: bottomBorder.pos.y - SIZES.projectile.radius * 3,
     };
 
     this.transparency = 1;
@@ -28,7 +28,7 @@ class Increscent {
   }
 
   repoSize() {
-    this.pos.y = state.projectiles[0].pos.y - SIZES.projectile.radius * 2;
+    this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius * 3;
   }
 }
 
