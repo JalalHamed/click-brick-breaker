@@ -105,7 +105,7 @@ const shootProjectiles = () => {
   });
 
   if (haveAllTheProjectilesLanded() && !state.droppingBonuses.length) {
-    state.motions.projectiles = false;
+    state.isMoving.projectiles = false;
     counter = 0;
     state.setLS({ projectile: state.projectiles[0].pos.x });
     coefficient.regainCount();
@@ -118,8 +118,7 @@ const shootProjectiles = () => {
     score.addOne();
     if (record.count < score.count) record.addOne();
     genBaB();
-    state.motions.bricks = true;
-    state.motions.bonuses = true;
+    state.isMoving.BaB = true;
   }
 };
 

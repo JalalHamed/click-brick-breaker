@@ -15,12 +15,11 @@ const bringDownBricksAndBonuses = () => {
     if (posY > posNextY && !isGoingDown) item.pos.y -= 1;
     if (posY === posNextY && !isGoingDown) {
       isGoingDown = true;
-      state.motions.bricks = false;
-      state.motions.bonuses = false;
+      state.isMoving.BaB = false;
     }
   });
 
-  if (!state.motions.bricks && !state.motions.bonuses)
+  if (!state.isMoving.BaB)
     [...state.bricks, ...state.bonuses].forEach(item => item.updateYPos());
 };
 

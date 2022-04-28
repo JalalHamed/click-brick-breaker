@@ -21,7 +21,7 @@ const displayIncrescent = () => {
     increscent.repoSize();
     increscent.transparency = 1;
     increscent.color = COLORS.projectile;
-    state.motions.increscent = false;
+    state.isMoving.increscent = false;
     state.mergingBonusesCount = 0;
   }
 };
