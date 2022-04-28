@@ -25,13 +25,11 @@ const shootProjectiles = () => {
   counter++;
 
   state.projectiles.forEach(projectile => {
-    if (
-      ((projectile.id - 1) * (3 * SIZES.projectile.radius)) / P_S_C <=
-      counter
-    ) {
-      projectile.update();
-      coefficient.decreaseCount();
-    }
+    const delay = Math.floor(
+      ((projectile.id - 1) * SIZES.projectile.radius * 3) / P_S_C + 1
+    );
+    if (delay <= counter) projectile.update();
+    if (delay === counter) coefficient.decreaseCount();
 
     // Reverse projectile's direction when hitting the left and right borders
     if (
