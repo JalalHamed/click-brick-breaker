@@ -36,7 +36,7 @@ export default class Bonus {
 
   calcSteps() {
     this.steps = Math.floor(
-      Math.abs(this.pos.x - state.projectiles[0].pos.x) / this.velocity.x
+      Math.abs(this.pos.x - state.projectile.pos.x) / this.velocity.x
     );
   }
 

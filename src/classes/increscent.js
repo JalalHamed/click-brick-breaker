@@ -22,7 +22,7 @@ class Increscent {
     C.textBaseline = 'middle';
     C.fillText(
       `+${state.mergingBonusesCount}`,
-      state.projectiles[0].pos.x,
+      state.projectile.pos.x,
       this.pos.y
     );
   }

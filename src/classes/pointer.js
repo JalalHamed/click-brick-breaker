@@ -15,7 +15,7 @@ class Pointer {
     const arrowLength = (CANVAS.height - topBorder.heightFromTop * 2) / 4;
     let endpoint = [];
 
-    const pointA = [state.projectiles[0].pos.x, state.projectiles[0].pos.y];
+    const pointA = [state.projectile.pos.x, state.projectile.pos.y];
     const pointB = [state.mouseCoords.x, state.mouseCoords.y];
 
     // Calculate slope, y intercept (b) & the angle
@@ -73,7 +73,7 @@ class Pointer {
 
     // At 90 degree, slope is Infinite
     if (slope === Infinity || slope === -Infinity)
-      endpoint = [state.projectiles[0].pos.x, topBorder.heightFromTop + radius];
+      endpoint = [state.projectile.pos.x, topBorder.heightFromTop + radius];
     // Pointer projectile touches top border
     if (x > 0 && x < CANVAS.width)
       setEndPoint('y', topBorder.heightFromTop + radius);
@@ -100,7 +100,7 @@ class Pointer {
     // Dashed line
     C.beginPath();
     C.setLineDash([15, 10]);
-    C.moveTo(state.projectiles[0].pos.x, state.projectiles[0].pos.y);
+    C.moveTo(state.projectile.pos.x, state.projectile.pos.y);
     C.lineTo(...this.calcEndPoint.dashedLine);
     C.lineDashOffset = -state.counter;
     C.strokeStyle = COLORS.pointer.line;
@@ -110,7 +110,7 @@ class Pointer {
     // Arrow
     C.beginPath();
     C.setLineDash([]);
-    C.moveTo(state.projectiles[0].pos.x, state.projectiles[0].pos.y);
+    C.moveTo(state.projectile.pos.x, state.projectile.pos.y);
     C.lineTo(...this.calcEndPoint.arrow);
     C.strokeStyle = COLORS.pointer.arrow;
     C.lineWidth = radius;
@@ -118,8 +118,8 @@ class Pointer {
     // Arrow Head
     const [endpointX, endpointY] = this.calcEndPoint.arrow;
     const angle = Math.atan2(
-      endpointY - state.projectiles[0].pos.y,
-      endpointX - state.projectiles[0].pos.x
+      endpointY - state.projectile.pos.y,
+      endpointX - state.projectile.pos.x
     );
     const x = endpointX + Math.cos(angle) * radius * 1.4;
     const y = endpointY + Math.sin(angle) * radius * 1.4;

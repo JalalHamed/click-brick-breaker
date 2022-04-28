@@ -19,6 +19,7 @@ import {
 } from '../../config.js';
 
 let counter = 0;
+let firstLand = true;
 
 const shootProjectiles = () => {
   counter++;
@@ -101,13 +102,20 @@ const shootProjectiles = () => {
         projectile.pos.x = SIZES.projectile.radius + S_M_F_B;
       if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_B)
         projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_B;
+
+      // Keep track of the first one to land
+      if (firstLand) {
+        state.mainProjectileID = projectile.id;
+        firstLand = false;
+      }
     }
   });
 
   if (haveAllTheProjectilesLanded() && !state.droppingBonuses.length) {
+    firstLand = true;
     state.isMoving.projectiles = false;
     counter = 0;
-    state.setLS({ projectile: state.projectiles[0].pos.x });
+    state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 
     if (state.mergingBonuses.length) {

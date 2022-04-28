@@ -5,12 +5,11 @@ import handleResize from './functions/handlers/handleResize.js';
 import handleClick from './functions/handlers/handleClick.js';
 // Functions
 import genBaB from './functions/generators/genBaB.js';
+import genFirstProjectile from './functions/generators/genFirstProjectile.js';
 import draw from './functions/draw.js';
 import { calcGrid } from './functions/helpers.js';
 // State
 import state from './state.js';
-// Classes
-import Projectile from './classes/Projectile.js';
 
 const animate = () => {
   state.counter++;
@@ -20,8 +19,7 @@ const animate = () => {
 };
 
 const init = () => {
-  state.projectiles.push(new Projectile());
-  [calcGrid, genBaB, animate].forEach(item => item());
+  [genFirstProjectile, calcGrid, genBaB, animate].forEach(item => item());
 };
 
 addEventListener('load', () => handleLoad(init));

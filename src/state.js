@@ -1,6 +1,7 @@
 const state = {
   isMouseInBorder: false,
 
+  projectile: {},
   isMoving: {
     BaB: true, // Bricks and Bonuses
     projectiles: false,
@@ -19,7 +20,6 @@ const state = {
   innerWidth,
   counter: 0,
   mergingBonusesCount: 0,
-  mainProjectileID: 1,
 
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));
