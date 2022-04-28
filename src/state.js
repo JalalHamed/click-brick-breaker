@@ -1,5 +1,4 @@
 const state = {
-  bonusRingStatus: 'dwindle',
   isMouseInBorder: false,
   isProjectileMoving: false,
   isIncrescentVisible: false,
