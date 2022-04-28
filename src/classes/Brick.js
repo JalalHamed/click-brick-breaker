@@ -1,6 +1,8 @@
 // Constructor Instances
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
+// Functions
+import genID from '../functions/generators/genID.js';
 // Configs
 import { SIZES, C } from '../config.js';
 // State
@@ -12,8 +14,7 @@ export default class Brick {
   constructor(props) {
     this.props = props;
 
-    this.id = state.brickID;
-    state.brickID++;
+    this.id = genID('brick');
 
     this.gridColumnIndex = 0;
     this.gridRowIndex = props.gridRowIndex;

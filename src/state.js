@@ -22,6 +22,7 @@ const state = {
   brickID: 1,
   bonusID: 1,
   projectileID: 1,
+  mainProjectileID: 1,
 
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));

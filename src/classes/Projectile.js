@@ -1,5 +1,7 @@
 // Constructor Instances
 import bottomBorder from './borders/bottomBorder.js';
+// Functions
+import genID from '../functions/generators/genID.js';
 // Configs
 import { COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
@@ -7,8 +9,7 @@ import state from '../state.js';
 
 export default class Projectile {
   constructor(props) {
-    this.id = state.projectileID;
-    state.projectileID++;
+    this.id = genID('projectile');
 
     this.pos = {
       x: state.getLS('projectile') || CANVAS.width / 2,

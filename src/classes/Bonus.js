@@ -1,5 +1,7 @@
 // Constructor Instances
 import topBorder from './borders/topBorder.js';
+// Functions
+import genID from '../functions/generators/genID.js';
 // Configs
 import { COLORS, SIZES, C } from '../config.js';
 // State
@@ -12,8 +14,7 @@ export default class Bonus {
   constructor(props) {
     this.props = props;
 
-    this.id = state.bonusID;
-    state.bonusID++;
+    this.id = genID('bonus');
 
     this.color = COLORS.bonus;
     this.displayRing = true;
