@@ -31,6 +31,7 @@ const handleResize = () => {
   ) {
     CANVAS.width = innerWidth;
     CANVAS.height = innerHeight;
+
     SIZES.projectile.radius =
       MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200);
     SIZES.bonus.radius = MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200);

@@ -3,7 +3,7 @@ import topBorder from './borders/topBorder.js';
 // Functions
 import genID from '../functions/generators/genID.js';
 // Configs
-import { COLORS, SIZES, C } from '../config.js';
+import { COLORS, SIZES, C, MERGING_VELOCITY as M_V } from '../config.js';
 // State
 import state from '../state.js';
 
@@ -28,10 +28,7 @@ export default class Bonus {
       nextY: calcYPos(this.gridColumnIndex + 1),
     };
 
-    this.velocity = {
-      x: SIZES.projectile.radius * 1.3,
-      y: 10,
-    };
+    this.velocity = { x: M_V, y: 10 };
   }
 
   calcSteps() {

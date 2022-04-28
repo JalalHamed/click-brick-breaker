@@ -14,6 +14,7 @@ import shootProjectiles from './motions/shootProjectiles.js';
 import dropBonuses from './motions/dropBonuses.js';
 import mergeBonuses from './motions/mergeBonuses.js';
 import displayIncrescent from './motions/displayIncrescent.js';
+import mergeProjectiles from './motions/mergeProjectiles.js';
 import { isAnythingMoving, haveAllTheProjectilesLanded } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -43,6 +44,7 @@ const draw = () => {
   if (haveAllTheProjectilesLanded() && state.mergingBonuses.length)
     mergeBonuses();
   if (state.isMoving.increscent) displayIncrescent();
+  if (state.mergingProjectiles.length) mergeProjectiles();
 };
 
 export default draw;

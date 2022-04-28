@@ -1,11 +1,7 @@
-// Classes
-import Projectile from '../../classes/Projectile.js';
 // Constructor Instances
 import coefficient from '../../classes/coefficient.js';
 // Functions
 import genBonusColor from '../generators/genBonusColor.js';
-// Configs
-import { COLORS } from '../../config.js';
 // State
 import state from '../../state.js';
 

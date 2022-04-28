@@ -8,15 +8,16 @@ import record from '../../classes/statistics/record.js';
 import genBaB from '../generators/genBaB.js';
 import genBonusVelocity from '../generators/genBonusVelocity.js';
 import { haveAllTheProjectilesLanded } from '../helpers.js';
-// State
-import state from '../../state.js';
 // Configs
 import {
   CANVAS,
   SIZES,
   SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
   PROJECTILE_SPEED_COEFFICIENT as P_S_C,
+  MERGING_VELOCITY as M_V,
 } from '../../config.js';
+// State
+import state from '../../state.js';
 
 let counter = 0;
 let isFirstOneToLand = true;
@@ -25,7 +26,6 @@ const shootProjectiles = () => {
   counter++;
 
   state.projectiles.forEach(projectile => {
-    console.log(projectile.id);
     const delay = Math.floor(
       ((projectile.id - 1) * SIZES.projectile.radius * 3) / P_S_C + 1
     );
@@ -103,11 +103,16 @@ const shootProjectiles = () => {
       if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_B)
         projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_B;
 
-      // Save the first one to land as the main projectile
+      // Save the first one to land as the main projectile and merge the res
       if (isFirstOneToLand) {
         state.projectile = projectile;
         isFirstOneToLand = false;
-      }
+      } else if (projectile.pos.x !== state.projectile.pos.x)
+        state.mergingProjectiles.push(projectile);
+      else
+        state.projectiles = state.projectiles.filter(
+          item => item.id !== projectile.id
+        );
     }
   });
 
