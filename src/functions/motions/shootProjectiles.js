@@ -19,7 +19,7 @@ import {
 } from '../../config.js';
 
 let counter = 0;
-let firstLand = true;
+let isFirstOneToLand = true;
 
 const shootProjectiles = () => {
   counter++;
@@ -103,16 +103,16 @@ const shootProjectiles = () => {
       if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_B)
         projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_B;
 
-      // Keep track of the first one to land
-      if (firstLand) {
-        state.mainProjectileID = projectile.id;
-        firstLand = false;
+      // Save the first one to land as the main projectile
+      if (isFirstOneToLand) {
+        state.projectile = projectile;
+        isFirstOneToLand = false;
       }
     }
   });
 
   if (haveAllTheProjectilesLanded() && !state.droppingBonuses.length) {
-    firstLand = true;
+    isFirstOneToLand = true;
     state.isMoving.projectiles = false;
     counter = 0;
     state.setLS({ projectile: state.projectile.pos.x });
@@ -124,6 +124,7 @@ const shootProjectiles = () => {
     }
 
     score.addOne();
+    state.projectile;
     if (record.count < score.count) record.addOne();
     genBaB();
     state.isMoving.BaB = true;
