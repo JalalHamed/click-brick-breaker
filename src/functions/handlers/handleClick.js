@@ -26,12 +26,6 @@ const handleClick = e => {
     state.projectiles.forEach(projectile => {
       projectile.velocity = velocity;
     });
-    if (state.projectiles.length < coefficient.count) {
-      const shortage = coefficient.count - state.projectiles.length;
-      for (let i = 0; i < shortage; i++) {
-        state.projectiles.push(new Projectile({ velocity }));
-      }
-    }
   }
 };
 

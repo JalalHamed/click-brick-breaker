@@ -19,9 +19,6 @@ const state = {
   innerWidth,
   counter: 0,
   mergingBonusesCount: 0,
-  brickID: 1,
-  bonusID: 1,
-  projectileID: 1,
   mainProjectileID: 1,
 
   getLS(data) {

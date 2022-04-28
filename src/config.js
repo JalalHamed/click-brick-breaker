@@ -49,4 +49,4 @@ export const MIN_ANGLE = 0.174533; // 0.174533 radiance = 10 degrees
 export const SAFE_MARGIN_FROM_BORDERS = 0.1; // so it won't get buggy and stuck.
 export const BRICK_AND_BONUS_BOUNCE_SIZE = 15;
 export const INCRESCENT_DISTANCE_TO_TAKE = 150;
-export const PROJECTILE_SPEED_COEFFICIENT = 5;
+export const PROJECTILE_SPEED_COEFFICIENT = 15;

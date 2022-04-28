@@ -1,4 +1,4 @@
-// Constructor Instance
+// Constructor Instances
 import bottomBorder from '../../classes/borders/bottomBorder.js';
 // Configs
 import { SIZES } from '../../config.js';
