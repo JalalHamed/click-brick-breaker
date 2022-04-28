@@ -16,7 +16,7 @@ const mergeBonuses = () => {
       bonus.pos.x += bonus.velocity.x;
     else {
       coefficient.increaseCount();
-      state.isIncrescentVisible = true;
+      state.motions.increscent = true;
       state.mergingBonuses = state.mergingBonuses.filter(
         item => item.id !== bonus.id
       ); // could even say `state.mergingBonuses = []` since all the bonuses arrive at the same time

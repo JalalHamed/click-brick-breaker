@@ -10,6 +10,7 @@ import {
 import state from '../../state.js';
 
 const displayIncrescent = () => {
+  increscent.draw();
   if (increscent.pos.y > bottomBorder.pos.y - I_D_T_T) {
     increscent.pos.y -= 5;
     increscent.transparency -= 0.05;
@@ -20,7 +21,7 @@ const displayIncrescent = () => {
     increscent.repoSize();
     increscent.transparency = 1;
     increscent.color = COLORS.projectile;
-    state.isIncrescentVisible = false;
+    state.motions.increscent = false;
     state.mergingBonusesCount = 0;
   }
 };

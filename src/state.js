@@ -1,13 +1,15 @@
 const state = {
   isMouseInBorder: false,
-  isProjectileMoving: false,
-  isIncrescentVisible: false,
-  areBricksAndBonusesMoving: true,
 
+  motions: {
+    projectiles: false,
+    bricks: true,
+    bonuses: true,
+    increscent: false,
+  },
   grid: { row: [], column: [] },
   mouseCoords: {},
 
-  motions: [],
   bricks: [],
   bonuses: [],
   projectiles: [],

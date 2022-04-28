@@ -45,8 +45,9 @@ export function getFontSize() {
 
 export function isAnythingMoving() {
   if (
-    state.isProjectileMoving ||
-    state.areBricksAndBonusesMoving ||
+    state.motions.projectiles ||
+    state.motions.bricks ||
+    state.motions.bonuses ||
     state.droppingBonuses.length ||
     state.mergingBonuses.length
   )
