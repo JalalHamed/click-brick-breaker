@@ -30,7 +30,11 @@ export const SIZES = {
   },
   bonus: {
     radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
-    maxRadius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200) * 3,
+    ring: {
+      min: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
+      max: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200) * 3,
+      radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
+    },
   },
   border: {
     margin: getBorderMargin(),

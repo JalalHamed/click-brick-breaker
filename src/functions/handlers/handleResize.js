@@ -34,9 +34,11 @@ const handleResize = () => {
 
     SIZES.projectile.radius =
       MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200);
-    SIZES.bonus.radius = MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200);
-    SIZES.bonus.maxRadius =
-      MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200) * 3;
+    SIZES.bonus.ring = {
+      min: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
+      max: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200) * 3,
+      radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
+    };
     SIZES.border.margin = getBorderMargin();
     SIZES.border.height = CANVAS.width / 150;
     SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 5) / 6;

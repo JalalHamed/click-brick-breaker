@@ -83,7 +83,7 @@ const shootProjectiles = () => {
         bonus.pos.y - projectile.pos.y
       );
 
-      if (dist - SIZES.bonus.maxRadius < 10) {
+      if (dist - SIZES.bonus.ring.max < 10) {
         bonus.displayRing = false;
         state.droppingBonuses.push(bonus);
         state.bonuses = state.bonuses.filter(item => item.id !== bonus.id);

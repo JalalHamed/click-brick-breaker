@@ -34,7 +34,7 @@ const draw = () => {
   if (collidedBonuses.length) collidedBonuses.forEach(bonus => bonus.draw());
 
   // Motions
-  if (state.counter % 3 === 0) swingBonusRing();
+  if (state.counter % 2 === 0) swingBonusRing();
   if (state.isMoving.projectiles) {
     state.projectiles.forEach(projectile => projectile.draw());
     shootProjectiles();
