@@ -18,7 +18,7 @@ export const COLORS = {
   pointer: {
     line: 'rgb(93, 167, 239, 0.5)',
     arrow: 'rgb(93, 167, 239, 0.5)',
-    ball: 'rgb(93, 167, 239, 0.5)',
+    particle: 'rgb(93, 167, 239, 0.5)',
   },
 };
 

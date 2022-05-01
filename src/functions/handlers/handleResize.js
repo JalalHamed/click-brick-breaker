@@ -51,8 +51,7 @@ const handleResize = () => {
     [bottomBorder, topBorder].forEach(item => item.repoSize()); // bottom border should repoSize before projectile
     state.projectile.repoSize(); // projectile should repoSize before coefficient
     [coefficient, record, score].forEach(item => item.repoSize());
-    state.bricks.forEach(brick => brick.repoSize());
-    state.bonuses.forEach(bonus => bonus.repoSize());
+    [...state.bricks, ...state.bonuses].forEach(item => item.repoSize());
   }
 };
 

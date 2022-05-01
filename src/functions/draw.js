@@ -28,8 +28,7 @@ const draw = () => {
 
   // prettier-ignore
   [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
-  state.bricks.forEach(brick => brick.draw());
-  state.bonuses.forEach(bonus => bonus.draw());
+  [...state.bricks, ...state.bonuses].forEach(item => item.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
   if (collidedBonuses.length) collidedBonuses.forEach(bonus => bonus.draw());
   if (state.isMoving.projectiles)

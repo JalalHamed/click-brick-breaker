@@ -36,7 +36,6 @@ const genBricksAndBonus = () => {
   state.bonuses.push(
     new Bonus({
       gridRowIndex: genRndUniqueGridRowIndex(gridRowIndexes),
-      ring: state.bonuses[0]?.ring,
     })
   );
 };

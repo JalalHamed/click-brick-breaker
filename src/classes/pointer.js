@@ -140,11 +140,11 @@ class Pointer {
     );
     C.stroke();
 
-    // Ball
+    // Particle
     C.beginPath();
     C.setLineDash([]);
     C.arc(...this.calcEndPoint.projectile, radius, 0, 2 * Math.PI);
-    C.fillStyle = COLORS.pointer.ball;
+    C.fillStyle = COLORS.pointer.particle;
     C.fill();
   }
 }

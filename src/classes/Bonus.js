@@ -44,25 +44,25 @@ export default class Bonus {
   }
 
   draw() {
-    // bonus
+    // bonus particle
     C.beginPath();
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, SIZES.bonus.radius, 0, 2 * Math.PI);
     C.fillStyle = this.color;
     C.fill();
 
-    // bonus' ring
+    // bonus ring
     if (this.displayRing) {
       C.beginPath();
       C.setLineDash([]);
       C.arc(
         this.pos.x,
         this.pos.y,
-        SIZES.bonus.ring.radius + 3,
+        SIZES.bonus.ring.radius + SIZES.border.height / 2, // ring's width will be drawn from the middle going half way in and half way out, so ring's radius plus half of it's width puts the ring right outside of the bonus particle.
         0,
         2 * Math.PI
       );
-      C.lineWidth = 5;
+      C.lineWidth = SIZES.border.height;
       C.strokeStyle = this.color;
       C.stroke();
     }
