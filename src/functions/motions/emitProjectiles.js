@@ -22,7 +22,7 @@ import state from '../../state.js';
 let counter = 0;
 let isFirstOneToLand = true;
 
-const shootProjectiles = () => {
+const emitProjectiles = () => {
   counter++;
 
   state.projectiles.forEach(projectile => {
@@ -40,7 +40,7 @@ const shootProjectiles = () => {
       projectile.velocity.x = -projectile.velocity.x;
     }
     // Reverse projectile's direction when hitting the top border
-    if (projectile.pos.y <= topBorder.heightFromTop + SIZES.projectile.radius) {
+    if (projectile.pos.y + SIZES.projectile.radius <= topBorder.heightFromTop) {
       projectile.velocity.y = -projectile.velocity.y;
     }
 
@@ -132,4 +132,4 @@ const shootProjectiles = () => {
   }
 };
 
-export default shootProjectiles;
+export default emitProjectiles;

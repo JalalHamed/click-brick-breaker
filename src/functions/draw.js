@@ -10,7 +10,7 @@ import fps from '../classes/fps.js';
 // Functions
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
-import shootProjectiles from './motions/shootProjectiles.js';
+import emitProjectiles from './motions/emitProjectiles.js';
 import dropBonuses from './motions/dropBonuses.js';
 import mergeBonuses from './motions/mergeBonuses.js';
 import displayIncrescent from './motions/displayIncrescent.js';
@@ -38,7 +38,7 @@ const draw = () => {
 
   // Motions
   if (state.counter % 2 === 0) swingBonusRing();
-  if (state.isMoving.projectiles) shootProjectiles();
+  if (state.isMoving.projectiles) emitProjectiles();
   if (state.isMoving.BaB) bringDownBaB();
   if (state.droppingBonuses.length) dropBonuses();
   if (haveAllTheProjectilesLanded() && state.mergingBonuses.length)

@@ -16,7 +16,7 @@ import {
 import {
   CANVAS,
   SIZES,
-  MIN_CIRCLE_RADIUS,
+  MIN_PARTICLE_RADIUS,
   CANVAS_MIN_WIDTH,
   CANVAS_MIN_HEIGHT,
 } from '../../config.js';
@@ -33,12 +33,12 @@ const handleResize = () => {
     CANVAS.height = innerHeight;
 
     SIZES.projectile.radius =
-      MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200);
-    SIZES.bonus.radius = MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200);
+      MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200);
+    SIZES.bonus.radius = MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200);
     SIZES.bonus.ring = {
-      min: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200),
-      max: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200) * 3,
-      radius: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200),
+      min: MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200),
+      max: MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200) * 3,
+      radius: MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200),
     };
     SIZES.border.margin = getBorderMargin();
     SIZES.border.height = CANVAS.width / 150;
