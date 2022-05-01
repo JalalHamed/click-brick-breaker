@@ -22,23 +22,15 @@ export const COLORS = {
   },
 };
 
-export const MIN_PROJECTILE_RADIUS = 7;
+export const MIN_CIRCLE_RADIUS = 6;
 
 export const SIZES = {
-  projectile: {
-    radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
-  },
-  bonus: {
-    radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
-    ring: {
-      min: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
-      max: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200) * 3,
-      radius: MIN_PROJECTILE_RADIUS + Math.round(CANVAS.width / 200),
-    },
-  },
   border: {
     margin: getBorderMargin(),
     height: CANVAS.width / 150,
+  },
+  projectile: {
+    radius: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200),
   },
   brick: {
     margin: 5,
@@ -46,14 +38,23 @@ export const SIZES = {
     height:
       (CANVAS.height - getBorderMargin() * 2 - CANVAS.width / 150 - 40) / 9, // 40 = SIZES.brick.margin * 8 (the maximum number of bricks in a column is 8)
   },
+  bonus: {
+    radius: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200),
+    ring: {
+      min: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200),
+      max: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200) * 2.5,
+      radius: MIN_CIRCLE_RADIUS + Math.round(CANVAS.width / 200),
+    },
+  },
   font: getFontSize(),
 };
 
 export const MAX_ANGLE = 2.96706; // 2.96706 radiance = 170 degrees
 export const MIN_ANGLE = 0.174533; // 0.174533 radiance = 10 degrees
-
 export const SAFE_MARGIN_FROM_BORDERS = 0.1; // so it won't get buggy and stuck.
 export const BRICK_AND_BONUS_BOUNCE_SIZE = 15;
 export const INCRESCENT_DISTANCE_TO_TAKE = 150;
 export const PROJECTILE_SPEED_COEFFICIENT = 15;
 export const MERGING_VELOCITY = 15;
+export const BONUS_RING_MIN_ADD = 0.4;
+export const BONUS_RING_WIDTH = 2;
