@@ -15,20 +15,21 @@ import state from '../../state.js';
 
 const handleClick = e => {
   if (isInBorder(e.y) && !isAnythingMoving()) {
-    state.isMoving.projectiles = true;
-    state.isMouseInBorder = false; // without this, the pointer will be drawn after the projectiles land on the same spot it was when the click event happened whether the mouse is inside or outside of the borders.
-
-    CANVAS.style.cursor = 'auto';
-
     const angle = getAngle(e);
     const velocity = {
       x: -Math.cos(angle) * P_S_C,
       y: -Math.sin(angle) * P_S_C,
     };
 
-    state.ids.projectile = 1;
-    for (let i = 0; i < coefficient.count; i++)
-      state.projectiles.push(new Projectile({ velocity }));
+    state.projectiles.forEach(projectile => {
+      projectile.velocity.x = velocity.x;
+      projectile.velocity.y = velocity.y;
+    });
+
+    state.isMoving.projectiles = true;
+    state.isMouseInBorder = false; // without this, the pointer will be drawn after the projectiles land on the same spot it was when the click event happened whether the mouse is inside or outside the borders.
+
+    CANVAS.style.cursor = 'auto';
   }
 };
 

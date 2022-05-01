@@ -10,10 +10,8 @@ const mergeProjectiles = () => {
     else if (projectile.pos.x < state.projectile.pos.x - M_V)
       projectile.pos.x += M_V;
     else {
+      projectile.pos.x = state.projectile.pos.x;
       state.mergingProjectiles = state.mergingProjectiles.filter(
-        item => item.id !== projectile.id
-      );
-      state.projectiles = state.projectiles.filter(
         item => item.id !== projectile.id
       );
     }

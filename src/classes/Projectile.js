@@ -16,10 +16,7 @@ export default class Projectile {
       y: bottomBorder.pos.y - SIZES.projectile.radius,
     };
 
-    this.velocity = {
-      x: props?.velocity?.x || 0,
-      y: props?.velocity?.y || 0,
-    };
+    this.velocity = { x: 0, y: 0 };
   }
 
   draw() {

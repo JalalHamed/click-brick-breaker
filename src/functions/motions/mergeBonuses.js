@@ -1,3 +1,5 @@
+// Classes
+import Projectile from '../../classes/Projectile.js';
 // Constructor Instances
 import coefficient from '../../classes/coefficient.js';
 // Functions
@@ -15,6 +17,7 @@ const mergeBonuses = () => {
     else {
       coefficient.increaseCount();
       state.isMoving.increscent = true;
+      state.projectiles.push(new Projectile());
       state.mergingBonuses = state.mergingBonuses.filter(
         item => item.id !== bonus.id
       ); // could even say `state.mergingBonuses = []` since all the bonuses arrive at the same time

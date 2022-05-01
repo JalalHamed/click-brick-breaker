@@ -103,16 +103,12 @@ const shootProjectiles = () => {
       if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_B)
         projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_B;
 
-      // Save the first one to land as the main projectile and merge the res
+      // Save the first one to land as the main projectile and merge the rest
       if (isFirstOneToLand) {
         state.projectile = projectile;
         isFirstOneToLand = false;
       } else if (projectile.pos.x !== state.projectile.pos.x)
         state.mergingProjectiles.push(projectile);
-      else
-        state.projectiles = state.projectiles.filter(
-          item => item.id !== projectile.id
-        );
     }
   });
 
@@ -120,7 +116,6 @@ const shootProjectiles = () => {
     isFirstOneToLand = true;
     state.isMoving.projectiles = false;
     counter = 0;
-    state.projectiles = [];
     state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 

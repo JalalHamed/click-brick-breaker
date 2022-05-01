@@ -32,13 +32,13 @@ const draw = () => {
   state.bonuses.forEach(bonus => bonus.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
   if (collidedBonuses.length) collidedBonuses.forEach(bonus => bonus.draw());
+  if (state.isMoving.projectiles)
+    state.projectiles.forEach(projectile => projectile.draw());
+  else state.projectile.draw();
 
   // Motions
   if (state.counter % 2 === 0) swingBonusRing();
-  if (state.isMoving.projectiles) {
-    state.projectiles.forEach(projectile => projectile.draw());
-    shootProjectiles();
-  } else state.projectile.draw();
+  if (state.isMoving.projectiles) shootProjectiles();
   if (state.isMoving.BaB) bringDownBaB();
   if (state.droppingBonuses.length) dropBonuses();
   if (haveAllTheProjectilesLanded() && state.mergingBonuses.length)

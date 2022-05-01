@@ -4,7 +4,9 @@ import Projectile from '../../classes/Projectile.js';
 import state from '../../state.js';
 
 const genFirstProjectile = () => {
-  state.projectile = new Projectile();
+  const firstProjectile = new Projectile();
+  state.projectile = firstProjectile;
+  state.projectiles.push(firstProjectile);
 };
 
 export default genFirstProjectile;
