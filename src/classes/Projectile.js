@@ -19,6 +19,21 @@ export default class Projectile {
     this.velocity = { x: 0, y: 0 };
   }
 
+  perimeter(sector) {
+    switch (sector) {
+      case 'left':
+        return this.pos.x - SIZES.projectile.radius;
+      case 'top':
+        return this.pos.y - SIZES.projectile.radius;
+      case 'right':
+        return this.pos.x + SIZES.projectile.radius;
+      case 'bottom':
+        return this.pos.y + SIZES.projectile.radius;
+      default:
+        return;
+    }
+  }
+
   draw() {
     C.beginPath();
     C.setLineDash([]);

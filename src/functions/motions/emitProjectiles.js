@@ -12,7 +12,7 @@ import { haveAllTheProjectilesLanded } from '../helpers.js';
 import {
   CANVAS,
   SIZES,
-  SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
+  SAFE_MARGIN_FROM_CANVAS_SIDES as S_M_F_C_S,
   PROJECTILE_VELOCITY_COEFFICIENT as P_V_C,
   MERGING_VELOCITY as M_V,
 } from '../../config.js';
@@ -32,26 +32,29 @@ const emitProjectiles = () => {
     if (delay <= counter) projectile.update();
     if (delay === counter) coefficient.decreaseCount();
 
-    // Reverse projectile's direction when hitting the left and right borders
-    if (
-      projectile.pos.x - SIZES.projectile.radius <= 0 ||
-      projectile.pos.x + SIZES.projectile.radius >= CANVAS.width
-    ) {
+    // Colliding with canvas' left side (projectile's x velocity is negative while it's going left)
+    if (projectile.perimeter('left') + projectile.velocity.x < 0) {
+      projectile.pos.x = SIZES.projectile.radius + S_M_F_C_S;
       projectile.velocity.x = -projectile.velocity.x;
     }
-    // Reverse projectile's direction when hitting the top border
-    const projectilePerimeter = projectile.pos.y - SIZES.projectile.radius;
-    const dist = projectilePerimeter - topBorder.heightFromTop;
-    const nextDist = dist + projectile.velocity.y; // projectile's y velocity is negative while it's going up, hence + instead of -
-    if (nextDist < 0) {
+
+    // Colliding with canvas' right side (projectile's x velocity is positive while it's going right)
+    if (projectile.perimeter('right') + projectile.velocity.y > CANVAS.width) {
+      projectile.pos.x = CANVAS.width - S_M_F_C_S;
+      projectile.velocity.x = -projectile.velocity.x;
+    }
+
+    // Colliding with top-border (projectile's y velocity is negative while it's going up)
+    // prettier-ignore
+    if (projectile.perimeter('top') - topBorder.heightFromTop + projectile.velocity.y < 0) { 
       projectile.pos.y = topBorder.heightFromTop + SIZES.projectile.radius;
       projectile.velocity.y = -projectile.velocity.y;
     }
 
-    // Change projectiles direction on colliding with bricks
+    // Colliding with brick
     const { width, height } = SIZES.brick;
     state.bricks.forEach(brick => {
-      // Hitting top and bottom sides
+      // Colliding with top and bottom sides
       if (
         ((projectile.pos.y - SIZES.projectile.radius <
           brick.pos.y + height + 0.001 &&
@@ -65,7 +68,7 @@ const emitProjectiles = () => {
         brick.collide();
       }
 
-      // Hitting left and right sides
+      // Colliding with left and right sides
       if (
         ((projectile.pos.x + SIZES.projectile.radius >
           brick.pos.x + width + 0.001 &&
@@ -80,7 +83,7 @@ const emitProjectiles = () => {
       }
     });
 
-    // Bonus collision
+    // Colliding with bonus
     state.bonuses.forEach(bonus => {
       const dist = Math.hypot(
         bonus.pos.x - projectile.pos.x,
@@ -94,18 +97,18 @@ const emitProjectiles = () => {
       }
     });
 
-    // Land projectile once hitting bottom border
-    if (projectile.pos.y > bottomBorder.pos.y - SIZES.projectile.radius) {
+    // Colliding with bottom-border
+    if (projectile.perimeter('bottom') > bottomBorder.pos.y) {
       projectile.velocity.x = 0;
       projectile.velocity.y = 0;
 
       projectile.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
 
-      // Prevent projectile from going over the canvas' left and right border when landing
-      if (projectile.pos.x < SIZES.projectile.radius + S_M_F_B)
-        projectile.pos.x = SIZES.projectile.radius + S_M_F_B;
-      if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_B)
-        projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_B;
+      // Prevent projectile from going over the canvas' left and right side when landing
+      if (projectile.pos.x < SIZES.projectile.radius + S_M_F_C_S)
+        projectile.pos.x = SIZES.projectile.radius + S_M_F_C_S;
+      if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_C_S)
+        projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_C_S;
 
       // Save the first one to land as the main projectile and merge the rest
       if (isFirstOneToLand) {
