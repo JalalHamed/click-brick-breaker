@@ -1,5 +1,7 @@
 // Configs
 import { SIZES, BONUS_RING_MIN_ADD as B_R_M_A } from '../../config.js';
+// State
+import state from '../../state.js';
 
 const numbers = [];
 const diff =
@@ -12,17 +14,17 @@ let isGoingDown = false;
 let counter = diff - 1;
 
 const swingBonusRing = () => {
-  if (SIZES.bonus.ring.radius < SIZES.bonus.ring.max && !isGoingDown) {
-    SIZES.bonus.ring.radius += numbers[counter];
+  if (state.bonusRingRadius < SIZES.bonus.ring.max && !isGoingDown) {
+    state.bonusRingRadius += numbers[counter];
     if (counter) counter--;
   }
-  if (SIZES.bonus.ring.radius > SIZES.bonus.ring.min && isGoingDown) {
-    SIZES.bonus.ring.radius -= numbers[counter];
+  if (state.bonusRingRadius > SIZES.bonus.ring.min && isGoingDown) {
+    state.bonusRingRadius -= numbers[counter];
     if (counter < diff - 1) counter++;
   }
 
-  if (SIZES.bonus.ring.radius <= SIZES.bonus.ring.min) isGoingDown = false;
-  if (SIZES.bonus.ring.radius >= SIZES.bonus.ring.max) isGoingDown = true;
+  if (state.bonusRingRadius <= SIZES.bonus.ring.min) isGoingDown = false;
+  if (state.bonusRingRadius >= SIZES.bonus.ring.max) isGoingDown = true;
 };
 
 export default swingBonusRing;

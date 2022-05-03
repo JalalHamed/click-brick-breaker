@@ -43,7 +43,6 @@ export const SIZES = {
     ring: {
       min: MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200),
       max: MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200) * 2.5,
-      radius: MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200),
     },
   },
   font: getFontSize(),

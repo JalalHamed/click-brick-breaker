@@ -58,7 +58,7 @@ export default class Bonus {
       C.arc(
         this.pos.x,
         this.pos.y,
-        SIZES.bonus.ring.radius + SIZES.border.height / 2, // ring's width will be drawn from the middle going half way in and half way out, so ring's radius plus half of it's width puts the ring right outside of the bonus particle.
+        state.bonusRingRadius + SIZES.border.height / 2, // ring's width will be drawn from the middle going half way in and half way out, so ring's radius plus half of it's width puts the ring right outside of the bonus particle.
         0,
         2 * Math.PI
       );
