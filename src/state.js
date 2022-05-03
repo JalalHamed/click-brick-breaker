@@ -3,11 +3,7 @@ import score from './classes/statistics/score.js';
 
 const state = {
   isMouseInBorder: false,
-  isMoving: {
-    BaB: true, // Bricks and Bonuses
-    projectiles: false,
-    increscent: false,
-  },
+  isMoving: { BaB: true, projectiles: false, increscent: false },
 
   projectile: {},
   grid: { row: [], column: [] },
@@ -22,12 +18,8 @@ const state = {
 
   innerWidth,
   counter: 0,
+  ids: { projectile: 1, bonus: 1, brick: 1 },
   mergingBonusesCount: 0,
-  ids: {
-    projectile: 1,
-    bonus: 1,
-    brick: 1,
-  },
 
   getLS(data) {
     const storage = JSON.parse(localStorage.getItem('cbb-state'));

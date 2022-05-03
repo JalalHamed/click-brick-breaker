@@ -13,7 +13,7 @@ import {
   CANVAS,
   SIZES,
   SAFE_MARGIN_FROM_BORDERS as S_M_F_B,
-  PROJECTILE_SPEED_COEFFICIENT as P_S_C,
+  PROJECTILE_VELOCITY_COEFFICIENT as P_V_C,
   MERGING_VELOCITY as M_V,
 } from '../../config.js';
 // State
@@ -27,7 +27,7 @@ const emitProjectiles = () => {
 
   state.projectiles.forEach(projectile => {
     const delay = Math.floor(
-      ((projectile.id - 1) * SIZES.projectile.radius * 3) / P_S_C + 1
+      ((projectile.id - 1) * SIZES.projectile.radius * 3) / P_V_C + 1
     );
     if (delay <= counter) projectile.update();
     if (delay === counter) coefficient.decreaseCount();

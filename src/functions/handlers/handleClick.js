@@ -9,7 +9,10 @@ import {
   isInBorder,
 } from '../../functions/helpers.js';
 // Configs
-import { CANVAS, PROJECTILE_SPEED_COEFFICIENT as P_S_C } from '../../config.js';
+import {
+  CANVAS,
+  PROJECTILE_VELOCITY_COEFFICIENT as P_V_C,
+} from '../../config.js';
 // State
 import state from '../../state.js';
 
@@ -17,8 +20,8 @@ const handleClick = e => {
   if (isInBorder(e.y) && !isAnythingMoving()) {
     const angle = getAngle(e);
     const velocity = {
-      x: -Math.cos(angle) * P_S_C,
-      y: -Math.sin(angle) * P_S_C,
+      x: -Math.cos(angle) * P_V_C,
+      y: -Math.sin(angle) * P_V_C,
     };
 
     state.projectiles.forEach(projectile => {
