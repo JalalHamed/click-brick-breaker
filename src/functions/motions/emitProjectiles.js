@@ -40,7 +40,11 @@ const emitProjectiles = () => {
       projectile.velocity.x = -projectile.velocity.x;
     }
     // Reverse projectile's direction when hitting the top border
-    if (projectile.pos.y + SIZES.projectile.radius <= topBorder.heightFromTop) {
+    const projectilePerimeter = projectile.pos.y - SIZES.projectile.radius;
+    const dist = projectilePerimeter - topBorder.heightFromTop;
+    const nextDist = dist + projectile.velocity.y; // projectile's y velocity is negative while it's going up, hence + instead of -
+    if (nextDist < 0) {
+      projectile.pos.y = topBorder.heightFromTop + SIZES.projectile.radius;
       projectile.velocity.y = -projectile.velocity.y;
     }
 
