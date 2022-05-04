@@ -48,8 +48,12 @@ const handleResize = () => {
 
     [bottomBorder, topBorder].forEach(item => item.repoSize()); // bottom border should repoSize before projectile
     state.projectile.repoSize(); // projectile should repoSize before coefficient
+    // prettier-ignore
+    state.projectiles.filter(item => item.id !== state.projectile.id).forEach(projectile => projectile.repoSize());
     [coefficient, record, score].forEach(item => item.repoSize());
     [...state.bricks, ...state.bonuses].forEach(item => item.repoSize());
+
+    state.innerWidth = innerWidth;
   }
 };
 

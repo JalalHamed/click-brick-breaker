@@ -54,6 +54,5 @@ export default class Projectile {
     };
 
     state.setLS({ projectile: this.pos.x });
-    state.innerWidth = innerWidth;
   }
 }
