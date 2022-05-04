@@ -40,7 +40,7 @@ const emitProjectiles = () => {
 
     // Colliding with canvas' right side (projectile's x velocity is positive while it's going right)
     if (projectile.perimeter('right') + projectile.velocity.y > CANVAS.width) {
-      projectile.pos.x = CANVAS.width - S_M_F_C_S;
+      projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_C_S;
       projectile.velocity.x = -projectile.velocity.x;
     }
 
@@ -54,29 +54,42 @@ const emitProjectiles = () => {
     // Colliding with brick
     const { width, height } = SIZES.brick;
     state.bricks.forEach(brick => {
-      // Colliding with top and bottom sides
+      // Colliding with brick's bottom side (projectile's y velocity is negative while it's going up)
       if (
-        ((projectile.pos.y - SIZES.projectile.radius <
-          brick.pos.y + height + 0.001 &&
-          projectile.pos.y + SIZES.projectile.radius > brick.pos.y + height) ||
-          (projectile.pos.y - SIZES.projectile.radius < brick.pos.y + 0.001 &&
-            projectile.pos.y + SIZES.projectile.radius > brick.pos.y)) &&
-        projectile.pos.x > brick.pos.x &&
-        projectile.pos.x < brick.pos.x + width
+        // prettier-ignore
+        projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
+        projectile.perimeter('top') > brick.pos.y + height && // so it don't detect collision when it's above the brick but has not collided with the bottom side
+        projectile.perimeter('right') > brick.pos.x &&
+        projectile.perimeter('left') < brick.pos.x + width
       ) {
+        console.log('bottom');
+        projectile.pos.y = brick.pos.y + height + SIZES.projectile.radius;
+        projectile.velocity.y = -projectile.velocity.y;
+        brick.collide();
+      }
+
+      // Colliding with brick's top side (projectile's y velocity is positive while it's going down)
+      if (
+        // prettier-ignore
+        brick.pos.y - projectile.perimeter('bottom') - projectile.velocity.y < 0 &&
+        projectile.perimeter('bottom') < brick.pos.y && // so it don't detect collision when it's behind the brick but has not collided with the top side
+        projectile.perimeter('right') > brick.pos.x &&
+        projectile.perimeter('left') < brick.pos.x + width
+      ) {
+        console.log('top');
+        projectile.pos.y = brick.pos.y - SIZES.projectile.radius;
         projectile.velocity.y = -projectile.velocity.y;
         brick.collide();
       }
 
       // Colliding with left and right sides
       if (
-        ((projectile.pos.x + SIZES.projectile.radius >
-          brick.pos.x + width + 0.001 &&
-          projectile.pos.x - SIZES.projectile.radius < brick.pos.x + width) ||
-          (projectile.pos.x + SIZES.projectile.radius > brick.pos.x + 0.001 &&
-            projectile.pos.x - SIZES.projectile.radius < brick.pos.x)) &&
-        projectile.pos.y < brick.pos.y + height &&
-        projectile.pos.y > brick.pos.y
+        ((projectile.perimeter('right') > brick.pos.x + width + 0.001 &&
+          projectile.perimeter('left') < brick.pos.x + width) ||
+          (projectile.perimeter('right') > brick.pos.x + 0.001 &&
+            projectile.perimeter('left') < brick.pos.x)) &&
+        projectile.perimeter('bottom') < brick.pos.y + height &&
+        projectile.perimeter('top') > brick.pos.y
       ) {
         projectile.velocity.x = -projectile.velocity.x;
         brick.collide();
@@ -90,7 +103,8 @@ const emitProjectiles = () => {
         bonus.pos.y - projectile.pos.y
       );
 
-      if (dist - SIZES.bonus.ring.max < 10) {
+      // prettier-ignore
+      if (dist - SIZES.bonus.ring.max < 10) { // Why the hell 10? Look into this...
         bonus.displayRing = false;
         state.droppingBonuses.push(bonus);
         state.bonuses = state.bonuses.filter(item => item.id !== bonus.id);
