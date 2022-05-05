@@ -62,6 +62,7 @@ const emitProjectiles = () => {
         projectile.perimeter('right') > brick.pos.x &&
         projectile.perimeter('left') < brick.pos.x + width
       ) {
+        console.log('bottom');
         projectile.pos.y = brick.pos.y + height + SIZES.projectile.radius;
         projectile.velocity.y = -projectile.velocity.y;
         brick.collide();
@@ -75,6 +76,7 @@ const emitProjectiles = () => {
         projectile.perimeter('right') > brick.pos.x &&
         projectile.perimeter('left') < brick.pos.x + width
       ) {
+        console.log('top');
         projectile.pos.y = brick.pos.y - SIZES.projectile.radius;
         projectile.velocity.y = -projectile.velocity.y;
         brick.collide();
@@ -88,6 +90,7 @@ const emitProjectiles = () => {
         projectile.perimeter('bottom') > brick.pos.y &&
         projectile.perimeter('top') < brick.pos.y + height
       ) {
+        console.log('left');
         projectile.velocity.x = -projectile.velocity.x;
         brick.collide();
       }
@@ -100,13 +103,28 @@ const emitProjectiles = () => {
         projectile.perimeter('bottom') > brick.pos.y &&
         projectile.perimeter('top') < brick.pos.y + height
       ) {
+        console.log('right');
         projectile.velocity.x = -projectile.velocity.x;
         brick.collide();
       }
 
-      // Brick's corners
+      // --- Corners
       // Bottom-left corner
-      // if (projectile.pos.x + projectile.perimeter('bottom-left') + projectile.velocity) {}
+      if (
+        // prettier-ignore
+        brick.pos.x - projectile.perimeter('right') - projectile.velocity.x < 0 && 
+        projectile.perimeter('top') > brick.pos.y + height &&
+        projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
+        projectile.perimeter('right') < brick.pos.x
+      ) {
+        console.log('bottom-left');
+        projectile.pos.x = brick.pos.x - SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.y =
+          brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.velocity.x = -projectile.velocity.x;
+        projectile.velocity.y = -projectile.velocity.y;
+        brick.collide();
+      }
     });
 
     // Colliding with bonus
@@ -150,7 +168,7 @@ const emitProjectiles = () => {
     isFirstOneToLand = true;
     state.isMoving.projectiles = false;
     counter = 0;
-    state.setLS({ projectile: state.projectile.pos.x });
+    // state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 
     if (state.mergingBonuses.length) {

@@ -99,12 +99,12 @@ class Pointer {
   draw() {
     // Dashed line
     C.beginPath();
-    C.setLineDash([15, 10]);
+    // C.setLineDash([15, 10]);
     C.moveTo(state.projectile.pos.x, state.projectile.pos.y);
     C.lineTo(...this.calcEndPoint.dashedLine);
     C.lineDashOffset = -state.counter;
     C.strokeStyle = COLORS.pointer.line;
-    C.lineWidth = radius / 2.5;
+    C.lineWidth = 2;
     C.stroke();
 
     // Arrow

@@ -5,13 +5,12 @@ import { SIZES } from '../../config.js';
 // State
 import state from '../../state.js';
 
-const { radius } = SIZES.projectile;
-
 const dropBonuses = () => {
   state.droppingBonuses.forEach(bonus => {
-    if (bonus.pos.y < bottomBorder.pos.y - radius) bonus.pos.y += 10;
+    if (bonus.pos.y < bottomBorder.pos.y - SIZES.projectile.radius)
+      bonus.pos.y += 10;
     else {
-      bonus.pos.y = bottomBorder.pos.y - radius;
+      bonus.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
       state.mergingBonuses.push(bonus);
       state.mergingBonusesCount++;
       state.droppingBonuses = state.droppingBonuses.filter(
