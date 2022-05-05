@@ -125,6 +125,24 @@ const emitProjectiles = () => {
         projectile.velocity.y = -projectile.velocity.y;
         brick.collide();
       }
+
+      // Bottom-right corner
+      if (
+        // prettier-ignore
+        projectile.perimeter('left') - (brick.pos.x + width) + projectile.velocity.x < 0 && 
+        projectile.perimeter('top') > brick.pos.y + height &&
+        projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
+        projectile.perimeter('left') > brick.pos.x + width
+      ) {
+        console.log('bottom-right');
+        projectile.pos.x =
+          brick.pos.x + width + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.y =
+          brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.velocity.x = -projectile.velocity.x;
+        projectile.velocity.y = -projectile.velocity.y;
+        brick.collide();
+      }
     });
 
     // Colliding with bonus
