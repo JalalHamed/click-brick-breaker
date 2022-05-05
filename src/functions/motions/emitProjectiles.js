@@ -30,21 +30,19 @@ const emitProjectiles = () => {
     if (delay <= counter) projectile.update();
     if (delay === counter) coefficient.decreaseCount();
 
-    // Colliding with canvas' left side (projectile's x velocity is negative while it's going left)
-    // prettier-ignore
+    // Colliding with canvas' left side
     if (projectile.perimeter('left') + projectile.velocity.x < 0) {
       projectile.pos.x = SIZES.projectile.radius + S_M_F_C_S;
       projectile.velocity.x = -projectile.velocity.x;
     }
 
-    // Colliding with canvas' right side (projectile's x velocity is positive while it's going right)
-    // prettier-ignore
+    // Colliding with canvas' right side
     if (projectile.perimeter('right') + projectile.velocity.x > CANVAS.width) {
       projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_C_S;
       projectile.velocity.x = -projectile.velocity.x;
     }
 
-    // Colliding with top-border (projectile's y velocity is negative while it's going up)
+    // Colliding with top-border
     // prettier-ignore
     if (projectile.perimeter('top') - topBorder.heightFromTop + projectile.velocity.y < 0) { 
       projectile.pos.y = topBorder.heightFromTop + SIZES.projectile.radius;
@@ -54,70 +52,66 @@ const emitProjectiles = () => {
     // Colliding with brick
     const { width, height } = SIZES.brick;
     state.bricks.forEach(brick => {
-      // Brick's bottom side (projectile's y velocity is negative while it's going up)
+      // Bottom side
       if (
         // prettier-ignore
         projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
-        projectile.perimeter('top') > brick.pos.y + height && // so it don't detect collision when it's above the brick but has not collided with the bottom side
+        projectile.perimeter('top') > brick.pos.y + height &&
         projectile.perimeter('right') > brick.pos.x &&
         projectile.perimeter('left') < brick.pos.x + width
       ) {
-        console.log('bottom');
         projectile.pos.y = brick.pos.y + height + SIZES.projectile.radius;
         projectile.velocity.y = -projectile.velocity.y;
         brick.collide();
       }
 
-      // Brick's top side (projectile's y velocity is positive while it's going down)
+      // Top side
       if (
         // prettier-ignore
         brick.pos.y - projectile.perimeter('bottom') - projectile.velocity.y < 0 &&
-        projectile.perimeter('bottom') < brick.pos.y && // so it don't detect collision when it's behind the brick but has not collided with the top side
+        projectile.perimeter('bottom') < brick.pos.y &&
         projectile.perimeter('right') > brick.pos.x &&
         projectile.perimeter('left') < brick.pos.x + width
       ) {
-        console.log('top');
         projectile.pos.y = brick.pos.y - SIZES.projectile.radius;
         projectile.velocity.y = -projectile.velocity.y;
         brick.collide();
       }
 
-      // Brick's left side (projectile's x velocity is positive while it's going right)
+      // Left side
       if (
         // prettier-ignore
         brick.pos.x - projectile.perimeter('right') - projectile.velocity.x < 0 &&
-        projectile.perimeter('right') < brick.pos.x && // so it don't detect collision when it surpasses the brick's left side without colliding with
+        projectile.perimeter('right') < brick.pos.x &&
         projectile.perimeter('bottom') > brick.pos.y &&
         projectile.perimeter('top') < brick.pos.y + height
       ) {
-        console.log('left');
+        projectile.pos.x = brick.pos.x - SIZES.projectile.radius;
         projectile.velocity.x = -projectile.velocity.x;
         brick.collide();
       }
 
-      // Brick's right side (projectile's x velocity is negative while it's going left)
+      // Right side
       if (
         // prettier-ignore
         projectile.perimeter('left') - (brick.pos.x + width) + projectile.velocity.x < 0 &&
-        projectile.perimeter('left') > brick.pos.x + width && // so it don't detect collision when it surpasses the brick's right side without colliding with
+        projectile.perimeter('left') > brick.pos.x + width &&
         projectile.perimeter('bottom') > brick.pos.y &&
         projectile.perimeter('top') < brick.pos.y + height
       ) {
-        console.log('right');
+        projectile.pos.x = brick.pos.x + width + SIZES.projectile.radius;
         projectile.velocity.x = -projectile.velocity.x;
         brick.collide();
       }
 
-      // --- Corners
       // Bottom-left corner
       if (
         // prettier-ignore
         brick.pos.x - projectile.perimeter('right') - projectile.velocity.x < 0 && 
-        projectile.perimeter('top') > brick.pos.y + height &&
+        projectile.perimeter('right') < brick.pos.x &&
         projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
-        projectile.perimeter('right') < brick.pos.x
+        projectile.perimeter('top') > brick.pos.y + height
       ) {
-        console.log('bottom-left');
         projectile.pos.x = brick.pos.x - SIZES.projectile.radius / Math.sqrt(2);
         projectile.pos.y =
           brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
@@ -130,15 +124,45 @@ const emitProjectiles = () => {
       if (
         // prettier-ignore
         projectile.perimeter('left') - (brick.pos.x + width) + projectile.velocity.x < 0 && 
-        projectile.perimeter('top') > brick.pos.y + height &&
+        projectile.perimeter('left') > brick.pos.x + width &&
         projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
-        projectile.perimeter('left') > brick.pos.x + width
+        projectile.perimeter('top') > brick.pos.y + height
       ) {
-        console.log('bottom-right');
         projectile.pos.x =
           brick.pos.x + width + SIZES.projectile.radius / Math.sqrt(2);
         projectile.pos.y =
           brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.velocity.x = -projectile.velocity.x;
+        projectile.velocity.y = -projectile.velocity.y;
+        brick.collide();
+      }
+
+      // Top-right corner
+      if (
+        // prettier-ignore
+        projectile.perimeter('left') - (brick.pos.x + width) + projectile.velocity.x < 0 &&
+        projectile.perimeter('left') > brick.pos.x + width &&
+        brick.pos.y - projectile.perimeter('bottom') - projectile.velocity.y < 0 &&
+        projectile.perimeter('bottom') < brick.pos.y
+      ) {
+        projectile.pos.x =
+          brick.pos.x + width + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.y = brick.pos.y - SIZES.projectile.radius / Math.sqrt(2);
+        projectile.velocity.x = -projectile.velocity.x;
+        projectile.velocity.y = -projectile.velocity.y;
+        brick.collide();
+      }
+
+      // Top-left corner
+      if (
+        // prettier-ignore
+        brick.pos.x - projectile.perimeter('right') - projectile.velocity.x < 0 &&
+        projectile.perimeter('right') < brick.pos.x &&
+        brick.pos.y - projectile.perimeter('bottom') - projectile.velocity.y < 0 &&
+        projectile.perimeter('bottom') < brick.pos.y
+      ) {
+        projectile.pos.x = brick.pos.x + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.y = brick.pos.y - SIZES.projectile.radius / Math.sqrt(2);
         projectile.velocity.x = -projectile.velocity.x;
         projectile.velocity.y = -projectile.velocity.y;
         brick.collide();
@@ -186,7 +210,7 @@ const emitProjectiles = () => {
     isFirstOneToLand = true;
     state.isMoving.projectiles = false;
     counter = 0;
-    // state.setLS({ projectile: state.projectile.pos.x });
+    state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 
     if (state.mergingBonuses.length) {
