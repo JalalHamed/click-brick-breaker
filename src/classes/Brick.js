@@ -15,6 +15,7 @@ export default class Brick {
     this.props = props;
 
     this.id = genID('brick');
+    this.weight = score.count;
 
     this.gridColumnIndex = 0;
     this.gridRowIndex = props.gridRowIndex;
@@ -24,8 +25,6 @@ export default class Brick {
       y: calcYPos(this.gridColumnIndex),
       nextY: calcYPos(this.gridColumnIndex + 1),
     };
-
-    this.weight = score.count;
   }
 
   collide() {

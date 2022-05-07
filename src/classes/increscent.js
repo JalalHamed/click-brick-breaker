@@ -25,9 +25,8 @@ class Increscent {
       this.color = `${COLORS.projectile.slice(0, -1)}, ${this.transparency})`;
     } else {
       state.isMoving.increscent = false;
+      this.reset();
       this.repoSize();
-      this.transparency = 1;
-      state.mergingBonusesCount = 0;
     }
   }
 
@@ -43,6 +42,11 @@ class Increscent {
       state.projectile.pos.x,
       this.pos.y
     );
+  }
+
+  reset() {
+    this.transparency = 1;
+    state.mergingBonusesCount = 0;
   }
 
   repoSize() {
