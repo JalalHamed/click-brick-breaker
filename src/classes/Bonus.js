@@ -20,8 +20,8 @@ export default class Bonus {
   constructor(props) {
     this.props = props;
 
-    this.mode = 'regular';
     this.id = genID('bonus');
+    this.mode = 'regular';
     this.color = COLORS.bonus;
 
     this.velocity = { x: M_V, y: 10 };

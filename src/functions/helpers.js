@@ -81,9 +81,11 @@ export function isAnythingMoving() {
 export function haveAllTheProjectilesLanded() {
   if (
     state.projectiles.every(
-      projectile => projectile.velocity.x === 0 && projectile.velocity.y === 0
-    ) &&
-    !state.mergingProjectiles.length
+      projectile =>
+        projectile.velocity.x === 0 &&
+        projectile.velocity.y === 0 &&
+        projectile.mode !== 'merge'
+    )
   )
     return true;
   else return false;

@@ -12,7 +12,6 @@ import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import emitProjectiles from './motions/emitProjectiles.js';
 import displayIncrescent from './motions/displayIncrescent.js';
-import mergeProjectiles from './motions/mergeProjectiles.js';
 import { isAnythingMoving, haveAllTheProjectilesLanded } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -35,7 +34,6 @@ const draw = () => {
   if (state.isMoving.projectiles) emitProjectiles();
   if (state.isMoving.BaB) bringDownBaB();
   if (state.isMoving.increscent) displayIncrescent();
-  if (state.mergingProjectiles.length) mergeProjectiles();
 };
 
 export default draw;

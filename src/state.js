@@ -10,8 +10,6 @@ const state = {
   bonuses: [],
   projectiles: [],
 
-  mergingProjectiles: [],
-
   innerWidth,
   counter: 0,
   ids: { projectile: 1, bonus: 1, brick: 1 },
