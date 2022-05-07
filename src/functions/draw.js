@@ -11,7 +11,6 @@ import fps from '../classes/fps.js';
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import emitProjectiles from './motions/emitProjectiles.js';
-import displayIncrescent from './motions/displayIncrescent.js';
 import { isAnythingMoving, haveAllTheProjectilesLanded } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
@@ -28,12 +27,12 @@ const draw = () => {
   if (state.isMoving.projectiles)
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
+  if (state.isMoving.increscent) increscent.draw();
 
   // Motions
   if (state.counter % 2 === 0) swingBonusRing();
   if (state.isMoving.projectiles) emitProjectiles();
   if (state.isMoving.BaB) bringDownBaB();
-  if (state.isMoving.increscent) displayIncrescent();
 };
 
 export default draw;

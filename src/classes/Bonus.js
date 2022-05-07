@@ -59,6 +59,7 @@ export default class Bonus {
   }
 
   merge() {
+    if (!Number.isInteger(this.steps)) this.calcSteps();
     this.color = genBonusColor(this);
     if (this.pos.x - this.velocity.x > state.projectile.pos.x)
       this.pos.x -= this.velocity.x;
@@ -74,9 +75,7 @@ export default class Bonus {
 
   draw() {
     if (this.mode === 'drop') this.drop();
-    if (this.mode === 'merge' && haveAllTheProjectilesLanded())
-      if (Number.isInteger(this.steps)) this.merge();
-      else this.calcSteps();
+    if (this.mode === 'merge' && haveAllTheProjectilesLanded()) this.merge();
 
     // bonus particle
     C.beginPath();
