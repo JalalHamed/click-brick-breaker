@@ -19,6 +19,7 @@ import {
   MIN_PARTICLE_RADIUS,
   CANVAS_MIN_WIDTH,
   CANVAS_MIN_HEIGHT,
+  BRICKS_MARGIN,
 } from '../../config.js';
 // State
 import state from '../../state.js';
@@ -40,7 +41,7 @@ const handleResize = () => {
       MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200) * 3;
     SIZES.border.margin = getBorderMargin();
     SIZES.border.height = CANVAS.width / 150;
-    SIZES.brick.width = (CANVAS.width - SIZES.brick.margin * 5) / 6;
+    SIZES.brick.width = (CANVAS.width - BRICKS_MARGIN * 5) / 6;
     SIZES.brick.height =
       (CANVAS.height - getBorderMargin() * 2 - SIZES.border.height - 40) / 9;
     SIZES.font = getFontSize();

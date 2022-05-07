@@ -2,14 +2,21 @@
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 // Configs
-import { SIZES, MIN_ANGLE, MAX_ANGLE, CANVAS } from '../config.js';
+import {
+  SIZES,
+  MIN_ANGLE,
+  MAX_ANGLE,
+  CANVAS,
+  BRICKS_MARGIN,
+} from '../config.js';
 // State
 import state from '../state.js';
 
 export function calcGrid() {
-  const { width, height, margin } = SIZES.brick;
-  for (let i = 0; i < 6; i++) state.grid.row[i] = i * (width + margin);
-  for (let i = 0; i < 9; i++) state.grid.column[i] = i * (height + margin);
+  const { width, height } = SIZES.brick;
+  for (let i = 0; i < 6; i++) state.grid.row[i] = i * (width + BRICKS_MARGIN);
+  for (let i = 0; i < 9; i++)
+    state.grid.column[i] = i * (height + BRICKS_MARGIN);
 }
 
 export function isInBorder(y) {
