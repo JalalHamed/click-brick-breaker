@@ -89,3 +89,11 @@ export function haveAllTheProjectilesLanded() {
     return true;
   else return false;
 }
+
+export function genRndUniqueGridRowIndex(usedIndexes) {
+  let index;
+  do {
+    index = Math.floor(Math.random() * 6);
+  } while (usedIndexes.includes(index));
+  return index;
+}

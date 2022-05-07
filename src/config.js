@@ -40,23 +40,12 @@ export const COLORS = {
 };
 
 export const SIZES = {
-  border: {
-    margin: getBorderMargin(),
-    height: getBorderHeight(),
-  },
-  projectile: {
-    radius: getParticleRadius(),
-  },
-  brick: {
-    width: getBrickWidth(),
-    height: getBrickHeight(),
-  },
+  border: { margin: getBorderMargin(), height: getBorderHeight() },
+  projectile: { radius: getParticleRadius() },
+  brick: { width: getBrickWidth(), height: getBrickHeight() },
   bonus: {
     radius: getParticleRadius(),
-    ring: {
-      min: getParticleRadius(),
-      max: getParticleRadius() * 2.5,
-    },
+    ring: { min: getParticleRadius(), max: getParticleRadius() * 2.5 },
   },
   BaB_bounce: getBrickHeight() / 2,
   font: getFontSize(),

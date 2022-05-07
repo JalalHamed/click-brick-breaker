@@ -3,16 +3,10 @@ import Brick from '../../classes/Brick.js';
 import Bonus from '../../classes/Bonus.js';
 // Constructor Instances
 import score from '../../classes/statistics/score.js';
+// Functions
+import { genRndUniqueGridRowIndex } from '../helpers.js';
 // State
 import state from '../../state.js';
-
-function genRndUniqueGridRowIndex(usedIndexes) {
-  let index;
-  do {
-    index = Math.floor(Math.random() * 6);
-  } while (usedIndexes.includes(index));
-  return index;
-}
 
 const genBricksAndBonus = () => {
   let gridRowIndexes = [];

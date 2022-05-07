@@ -1,9 +1,6 @@
-// Constructor Instances
-import score from './classes/statistics/score.js';
-
 const state = {
   isMouseInBorder: false,
-  isMoving: { BaB: true, projectiles: false, increscent: false },
+  isMoving: { BaB: false, projectiles: false, increscent: false },
 
   projectile: {},
   grid: { row: [], column: [] },
@@ -12,6 +9,7 @@ const state = {
   bricks: [],
   bonuses: [],
   projectiles: [],
+
   mergingProjectiles: [],
   droppingBonuses: [],
   mergingBonuses: [],
