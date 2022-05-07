@@ -12,12 +12,10 @@ import state from '../state.js';
 
 class Increscent {
   constructor() {
-    this.pos = {
-      y: bottomBorder.pos.y - SIZES.projectile.radius * 3,
-    };
-
     this.transparency = 1;
     this.color = COLORS.projectile;
+
+    this.pos = { y: bottomBorder.pos.y - SIZES.projectile.radius * 3 };
   }
 
   goUp() {
@@ -26,10 +24,9 @@ class Increscent {
       this.transparency -= 0.05;
       this.color = `${COLORS.projectile.slice(0, -1)}, ${this.transparency})`;
     } else {
+      state.isMoving.increscent = false;
       this.repoSize();
       this.transparency = 1;
-      this.color = COLORS.projectile;
-      state.isMoving.increscent = false;
       state.mergingBonusesCount = 0;
     }
   }
