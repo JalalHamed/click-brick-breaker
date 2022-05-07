@@ -72,7 +72,7 @@ export function isAnythingMoving() {
   if (
     state.isMoving.projectiles ||
     state.isMoving.BaB ||
-    state.droppingBonuses.length ||
+    state.bonuses.some(bonus => bonus.mode === 'drop') ||
     state.mergingBonuses.length
   )
     return true;

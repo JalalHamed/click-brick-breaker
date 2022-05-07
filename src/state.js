@@ -1,6 +1,6 @@
 const state = {
   isMouseInBorder: false,
-  isMoving: { BaB: false, projectiles: false, increscent: false },
+  isMoving: { BaB: true, projectiles: false, increscent: false },
 
   projectile: {},
   grid: { row: [], column: [] },
@@ -11,7 +11,6 @@ const state = {
   projectiles: [],
 
   mergingProjectiles: [],
-  droppingBonuses: [],
   mergingBonuses: [],
 
   innerWidth,

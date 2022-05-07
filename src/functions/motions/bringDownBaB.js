@@ -6,7 +6,12 @@ import state from '../../state.js';
 let isGoingDown = true;
 
 const bringDownBricksAndBonuses = () => {
-  [...state.bricks, ...state.bonuses].forEach(item => {
+  const items = [
+    ...state.bricks,
+    ...state.bonuses.filter(bonus => bonus.mode === 'regular'),
+  ];
+
+  items.forEach(item => {
     const posY = Math.round(item.pos.y);
     const posNextY = Math.round(item.pos.nextY);
 
@@ -19,8 +24,7 @@ const bringDownBricksAndBonuses = () => {
     }
   });
 
-  if (!state.isMoving.BaB)
-    [...state.bricks, ...state.bonuses].forEach(item => item.updateYPos());
+  if (!state.isMoving.BaB) items.forEach(item => item.updateYPos());
 };
 
 export default bringDownBricksAndBonuses;

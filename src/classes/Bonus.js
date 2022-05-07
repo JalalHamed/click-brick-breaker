@@ -1,5 +1,6 @@
 // Constructor Instances
 import topBorder from './borders/topBorder.js';
+import bottomBorder from './borders/bottomBorder.js';
 // Functions
 import genID from '../functions/generators/genID.js';
 // Configs
@@ -14,10 +15,10 @@ export default class Bonus {
   constructor(props) {
     this.props = props;
 
+    this.mode = 'regular';
     this.id = genID('bonus');
-
+    this.steps = 0;
     this.color = COLORS.bonus;
-    this.displayRing = true;
 
     this.gridColumnIndex = 0;
     this.gridRowIndex = this.props.gridRowIndex;
@@ -43,7 +44,21 @@ export default class Bonus {
     this.pos.nextY = calcYPos(this.gridColumnIndex + 1);
   }
 
+  drop() {
+    if (this.pos.y < bottomBorder.pos.y - SIZES.projectile.radius)
+      this.pos.y += 10;
+    else {
+      this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
+      this.mode = 'merge';
+      state.mergingBonuses.push(this);
+      state.mergingBonusesCount++;
+      this.selfDestruct();
+    }
+  }
+
   draw() {
+    if (this.mode === 'drop') this.drop();
+
     // bonus particle
     C.beginPath();
     C.setLineDash([]);
@@ -52,7 +67,7 @@ export default class Bonus {
     C.fill();
 
     // bonus ring
-    if (this.displayRing) {
+    if (this.mode === 'regular') {
       C.beginPath();
       C.setLineDash([]);
       C.arc(
@@ -74,5 +89,9 @@ export default class Bonus {
       y: calcYPos(this.gridColumnIndex),
       nextY: calcYPos(this.props.gridColumnIndex + 1),
     };
+  }
+
+  selfDestruct() {
+    state.bonuses = state.bonuses.filter(item => item.id !== this.id);
   }
 }

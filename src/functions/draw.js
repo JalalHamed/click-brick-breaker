@@ -11,7 +11,6 @@ import fps from '../classes/fps.js';
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import emitProjectiles from './motions/emitProjectiles.js';
-import dropBonuses from './motions/dropBonuses.js';
 import mergeBonuses from './motions/mergeBonuses.js';
 import displayIncrescent from './motions/displayIncrescent.js';
 import mergeProjectiles from './motions/mergeProjectiles.js';
@@ -22,15 +21,14 @@ import { C, CANVAS } from '../config.js';
 import state from '../state.js';
 
 const draw = () => {
-  const collidedBonuses = [...state.droppingBonuses, ...state.mergingBonuses];
-
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
   // prettier-ignore
   [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
   [...state.bricks, ...state.bonuses].forEach(item => item.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
-  if (collidedBonuses.length) collidedBonuses.forEach(bonus => bonus.draw());
+  if (state.mergingBonuses.length)
+    state.mergingBonuses.forEach(bonus => bonus.draw());
   if (state.isMoving.projectiles)
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
@@ -39,7 +37,6 @@ const draw = () => {
   if (state.counter % 2 === 0) swingBonusRing();
   if (state.isMoving.projectiles) emitProjectiles();
   if (state.isMoving.BaB) bringDownBaB();
-  if (state.droppingBonuses.length) dropBonuses();
   if (haveAllTheProjectilesLanded() && state.mergingBonuses.length)
     mergeBonuses();
   if (state.isMoving.increscent) displayIncrescent();

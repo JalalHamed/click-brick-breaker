@@ -176,12 +176,8 @@ const emitProjectiles = () => {
         bonus.pos.y - projectile.pos.y
       );
 
-      // prettier-ignore
-      if (dist - SIZES.bonus.ring.max < 10) { // Why the hell 10? Look into this...
-        bonus.displayRing = false;
-        state.droppingBonuses.push(bonus);
-        state.bonuses = state.bonuses.filter(item => item.id !== bonus.id);
-      }
+      // Why the hell 10? Look into this...
+      if (dist - SIZES.bonus.ring.max < 10) bonus.mode = 'drop';
     });
 
     // Colliding with bottom-border
@@ -206,7 +202,10 @@ const emitProjectiles = () => {
     }
   });
 
-  if (haveAllTheProjectilesLanded() && !state.droppingBonuses.length) {
+  if (
+    haveAllTheProjectilesLanded() &&
+    state.bonuses.every(bonus => bonus.mode !== 'drop')
+  ) {
     isFirstOneToLand = true;
     state.isMoving.projectiles = false;
     counter = 0;
@@ -219,7 +218,6 @@ const emitProjectiles = () => {
     }
 
     score.addOne();
-    state.projectile;
     if (record.count < score.count) record.addOne();
     genBaB();
     state.isMoving.BaB = true;
