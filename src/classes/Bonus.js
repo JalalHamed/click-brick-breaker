@@ -75,7 +75,7 @@ export default class Bonus {
   draw() {
     if (this.mode === 'drop') this.drop();
     if (this.mode === 'merge' && haveAllTheProjectilesLanded())
-      if (this.steps) this.merge();
+      if (Number.isInteger(this.steps)) this.merge();
       else this.calcSteps();
 
     // bonus particle
