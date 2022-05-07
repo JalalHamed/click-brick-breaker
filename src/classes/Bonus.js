@@ -53,7 +53,6 @@ export default class Bonus {
       this.pos.y += this.velocity.y;
     else {
       this.mode = 'merge';
-      this.calcSteps();
       this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
       state.mergingBonusesCount++;
     }
@@ -75,7 +74,9 @@ export default class Bonus {
 
   draw() {
     if (this.mode === 'drop') this.drop();
-    if (this.mode === 'merge' && haveAllTheProjectilesLanded()) this.merge();
+    if (this.mode === 'merge' && haveAllTheProjectilesLanded())
+      if (this.steps) this.merge();
+      else this.calcSteps();
 
     // bonus particle
     C.beginPath();
@@ -105,7 +106,7 @@ export default class Bonus {
     this.pos = {
       x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
       y: calcYPos(this.gridIndex.column),
-      nextY: calcYPos(this.props.gridIndex.column + 1),
+      nextY: calcYPos(this.gridIndex.column + 1),
     };
   }
 

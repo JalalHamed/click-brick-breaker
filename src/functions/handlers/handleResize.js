@@ -41,7 +41,7 @@ const handleResize = () => {
     SIZES.brick.height = getBrickHeight();
     SIZES.bonus.radius = getParticleRadius();
     SIZES.bonus.ring.min = getParticleRadius();
-    SIZES.bonus.ring.max = getParticleRadius() * 2.5;
+    SIZES.bonus.ring.max = getParticleRadius() * 1.8;
     SIZES.BaB_bounce = getBrickHeight() / 2;
     SIZES.font = getFontSize();
 
