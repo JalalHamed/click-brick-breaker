@@ -8,6 +8,7 @@ import {
   MAX_ANGLE,
   CANVAS,
   BRICKS_MARGIN,
+  MIN_PARTICLE_RADIUS,
 } from '../config.js';
 // State
 import state from '../state.js';
@@ -44,9 +45,26 @@ export function getBorderMargin() {
   else return (height - width) / 2;
 }
 
+export function getBorderHeight() {
+  return CANVAS.width / 150;
+}
+
+export function getBrickHeight() {
+  const { height, width } = CANVAS;
+  return (height - getBorderMargin() * 2 - width / 150 - BRICKS_MARGIN * 8) / 9;
+}
+
+export function getBrickWidth() {
+  return (CANVAS.width - BRICKS_MARGIN * 5) / 6;
+}
+
+export function getParticleRadius() {
+  return MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200);
+}
+
 export function getFontSize() {
-  const width = (CANVAS.width - 30) / 7; // brick's width
-  const height = (CANVAS.height - getBorderMargin() * 2 - 40) / 9; // brick's height
+  const width = getBrickWidth();
+  const height = getBrickHeight();
   return width > height ? width / height : height / width;
 }
 

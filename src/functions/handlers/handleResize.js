@@ -1,5 +1,4 @@
 // Constructor Instances
-import Projectile from '../../classes/Projectile.js';
 import record from '../../classes/statistics/record.js';
 import score from '../../classes/statistics/score.js';
 import bottomBorder from '../../classes/borders/bottomBorder.js';
@@ -8,18 +7,20 @@ import coefficient from '../../classes/coefficient.js';
 // Functions
 import {
   calcGrid,
+  getBorderHeight,
   getBorderMargin,
+  getBrickHeight,
+  getBrickWidth,
   getFontSize,
+  getParticleRadius,
   isAnythingMoving,
 } from '../helpers.js';
 // Configs
 import {
   CANVAS,
   SIZES,
-  MIN_PARTICLE_RADIUS,
   CANVAS_MIN_WIDTH,
   CANVAS_MIN_HEIGHT,
-  BRICKS_MARGIN,
 } from '../../config.js';
 // State
 import state from '../../state.js';
@@ -33,24 +34,21 @@ const handleResize = () => {
     CANVAS.width = innerWidth;
     CANVAS.height = innerHeight;
 
-    SIZES.projectile.radius =
-      MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200);
-    SIZES.bonus.radius = MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200);
-    SIZES.bonus.ring.min = MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200);
-    SIZES.bonus.ring.max =
-      MIN_PARTICLE_RADIUS + Math.round(CANVAS.width / 200) * 3;
     SIZES.border.margin = getBorderMargin();
-    SIZES.border.height = CANVAS.width / 150;
-    SIZES.brick.width = (CANVAS.width - BRICKS_MARGIN * 5) / 6;
-    SIZES.brick.height =
-      (CANVAS.height - getBorderMargin() * 2 - SIZES.border.height - 40) / 9;
+    SIZES.border.height = getBorderHeight();
+    SIZES.projectile.radius = getParticleRadius();
+    SIZES.brick.width = getBrickWidth();
+    SIZES.brick.height = getBrickHeight();
+    SIZES.bonus.radius = getParticleRadius();
+    SIZES.bonus.ring.min = getParticleRadius();
+    SIZES.bonus.ring.max = getParticleRadius() * 2.5;
+    SIZES.BaB_bounce = getBrickHeight() / 2;
     SIZES.font = getFontSize();
+
     calcGrid();
 
     [bottomBorder, topBorder].forEach(item => item.repoSize()); // bottom border should repoSize before projectile
-    state.projectile.repoSize(); // projectile should repoSize before coefficient
-    // prettier-ignore
-    state.projectiles.filter(item => item.id !== state.projectile.id).forEach(projectile => projectile.repoSize());
+    state.projectiles.forEach(projectile => projectile.repoSize()); // projectiles should repoSize before coefficient
     [coefficient, record, score].forEach(item => item.repoSize());
     [...state.bricks, ...state.bonuses].forEach(item => item.repoSize());
 
