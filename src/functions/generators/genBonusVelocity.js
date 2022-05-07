@@ -10,14 +10,15 @@ function getDist(bonus) {
 }
 
 const genBonusVelocity = () => {
+  const bonuses = state.bonuses.filter(bonus => bonus.mode === 'merge');
   let closestBonus;
 
-  state.mergingBonuses.forEach(bonus => {
+  bonuses.forEach(bonus => {
     if (!closestBonus) closestBonus = bonus;
     else if (getDist(bonus) < getDist(closestBonus)) closestBonus = bonus;
   });
 
-  state.mergingBonuses.forEach(bonus => {
+  bonuses.forEach(bonus => {
     if (bonus.id !== closestBonus.id)
       bonus.velocity.x =
         (getDist(bonus) / getDist(closestBonus)) *

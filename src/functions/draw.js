@@ -11,7 +11,6 @@ import fps from '../classes/fps.js';
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import emitProjectiles from './motions/emitProjectiles.js';
-import mergeBonuses from './motions/mergeBonuses.js';
 import displayIncrescent from './motions/displayIncrescent.js';
 import mergeProjectiles from './motions/mergeProjectiles.js';
 import { isAnythingMoving, haveAllTheProjectilesLanded } from './helpers.js';
@@ -27,8 +26,6 @@ const draw = () => {
   [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
   [...state.bricks, ...state.bonuses].forEach(item => item.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
-  if (state.mergingBonuses.length)
-    state.mergingBonuses.forEach(bonus => bonus.draw());
   if (state.isMoving.projectiles)
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
@@ -37,8 +34,6 @@ const draw = () => {
   if (state.counter % 2 === 0) swingBonusRing();
   if (state.isMoving.projectiles) emitProjectiles();
   if (state.isMoving.BaB) bringDownBaB();
-  if (haveAllTheProjectilesLanded() && state.mergingBonuses.length)
-    mergeBonuses();
   if (state.isMoving.increscent) displayIncrescent();
   if (state.mergingProjectiles.length) mergeProjectiles();
 };

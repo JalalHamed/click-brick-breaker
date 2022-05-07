@@ -177,7 +177,8 @@ const emitProjectiles = () => {
       );
 
       // Why the hell 10? Look into this...
-      if (dist - SIZES.bonus.ring.max < 10) bonus.mode = 'drop';
+      if (dist - SIZES.bonus.ring.max < 10 && bonus.mode === 'regular')
+        bonus.mode = 'drop';
     });
 
     // Colliding with bottom-border
@@ -212,8 +213,7 @@ const emitProjectiles = () => {
     state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 
-    if (state.mergingBonuses.length) {
-      state.mergingBonuses.forEach(bonus => bonus.calcSteps());
+    if (state.bonuses.some(bonus => bonus.mode === 'merge')) {
       genBonusVelocity();
     }
 
