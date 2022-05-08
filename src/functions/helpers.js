@@ -71,7 +71,8 @@ export function getFontSize() {
 export function isAnythingMoving() {
   if (
     state.isMoving.projectiles ||
-    state.isMoving.BaB ||
+    state.isBringingDown.bricks ||
+    state.isBringingDown.bonuses ||
     state.bonuses.some(bonus => bonus.mode !== 'regular') ||
     state.bricks.some(brick => brick.mode !== 'regular')
   )

@@ -32,7 +32,8 @@ const draw = () => {
   // Motions
   if (state.counter % 2 === 0) swingBonusRing();
   if (state.isMoving.projectiles) emitProjectiles();
-  if (state.isMoving.BaB) bringDownBaB();
+  if (state.isBringingDown.bricks && state.isBringingDown.bonuses)
+    bringDownBaB();
 };
 
 export default draw;

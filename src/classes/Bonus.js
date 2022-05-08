@@ -57,7 +57,10 @@ export default class Bonus {
       isDone.ring = true;
     }
 
-    if (isDone.particle && isDone.ring) this.mode = 'regular';
+    if (isDone.particle && isDone.ring) {
+      this.mode = 'regular';
+      state.isBringingDown.bonuses = true;
+    }
   }
 
   calcSteps() {

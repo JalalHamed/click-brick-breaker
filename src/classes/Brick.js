@@ -55,7 +55,10 @@ export default class Brick {
       isDone.y = true;
     }
 
-    if (isDone.x && isDone.y) this.mode = 'regular';
+    if (isDone.x && isDone.y) {
+      this.mode = 'regular';
+      state.isBringingDown.bricks = true;
+    }
   }
 
   collide() {

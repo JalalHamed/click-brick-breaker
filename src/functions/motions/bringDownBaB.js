@@ -20,11 +20,13 @@ const bringDownBricksAndBonuses = () => {
     if (posY > posNextY && !isGoingDown) item.pos.y -= 1;
     if (posY === posNextY && !isGoingDown) {
       isGoingDown = true;
-      state.isMoving.BaB = false;
+      state.isBringingDown.bricks = false;
+      state.isBringingDown.bonuses = false;
     }
   });
 
-  if (!state.isMoving.BaB) items.forEach(item => item.updateYPos());
+  if (!state.isBringingDown.bricks && !state.isBringingDown.bonuses)
+    items.forEach(item => item.updateYPos());
 };
 
 export default bringDownBricksAndBonuses;
