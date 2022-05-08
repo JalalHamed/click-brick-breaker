@@ -5,7 +5,7 @@ import bottomBorder from '../../classes/borders/bottomBorder.js';
 import score from '../../classes/statistics/score.js';
 import record from '../../classes/statistics/record.js';
 // Functions
-import genBaB from '../generators/genBaB.js';
+import genBricksAndBonus from '../generators/genBricksAndBonus.js';
 import genBonusVelocity from '../generators/genBonusVelocity.js';
 import { haveAllTheProjectilesLanded } from '../helpers.js';
 // Configs
@@ -220,7 +220,7 @@ const emitProjectiles = () => {
 
     score.addOne();
     if (record.count < score.count) record.addOne();
-    genBaB();
+    genBricksAndBonus();
   }
 };
 

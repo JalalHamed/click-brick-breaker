@@ -1,12 +1,10 @@
-// Constructor Instances
-import coefficient from '../../classes/coefficient.js';
 // Configs
 import { SIZES } from '../../config.js';
 // State
 import state from '../../state.js';
 
 function getDist(bonus) {
-  return Math.abs(bonus.pos.x - coefficient.pos.x);
+  return Math.abs(bonus.pos.x - state.projectile.pos.x);
 }
 
 const genBonusVelocity = () => {

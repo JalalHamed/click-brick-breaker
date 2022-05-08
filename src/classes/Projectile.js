@@ -1,7 +1,7 @@
 // Constructor Instances
 import bottomBorder from './borders/bottomBorder.js';
 // Functions
-import genID from '../functions/generators/genID.js';
+import { getID } from '../functions/helpers.js';
 // Configs
 import {
   COLORS,
@@ -15,7 +15,7 @@ import state from '../state.js';
 
 export default class Projectile {
   constructor(props) {
-    this.id = genID('projectile');
+    this.id = getID('projectile');
     this.mode = 'regular';
 
     this.velocity = { x: 0, y: 0 };

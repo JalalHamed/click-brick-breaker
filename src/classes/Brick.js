@@ -2,7 +2,7 @@
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
 // Functions
-import genID from '../functions/generators/genID.js';
+import { getID } from '../functions/helpers.js';
 // Configs
 import { SIZES, C } from '../config.js';
 // State
@@ -12,16 +12,24 @@ const calcYPos = gCI => topBorder.heightFromTop + state.grid.column[gCI];
 
 export default class Brick {
   constructor(props) {
-    this.id = genID('brick');
-    this.mode = 'zoom-in';
+    this.id = getID('brick');
+    this.mode = props.mode || 'regular';
     this.weight = score.count;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
     this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
-    this.dimensions = { width: 0, height: 0 };
+
+    this.dimensions = {
+      width: this.mode === 'zoom-in' ? 0 : SIZES.brick.width,
+      height: this.mode === 'zoom-in' ? 0 : SIZES.brick.height,
+    };
     this.pos = {
-      x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-      y: calcYPos(this.gridIndex.column) + SIZES.brick.height / 2,
+      x:
+        state.grid.row[this.gridIndex.row] +
+        (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
+      y:
+        calcYPos(this.gridIndex.column) +
+        (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
       nextY: calcYPos(this.gridIndex.column + 1),
     };
   }
@@ -76,8 +84,9 @@ export default class Brick {
 
   get posY() {
     let posY = 0;
-    if (this.mode === 'zoom-in') posY = calcYPos(this.gridIndex.column);
-    else posY = this.pos.y;
+    if (this.mode === 'zoom-in')
+      posY = calcYPos(this.gridIndex.column) + SIZES.brick.height / 2;
+    else posY = this.pos.y + SIZES.brick.height / 2;
     return posY;
   }
 
@@ -98,7 +107,7 @@ export default class Brick {
     C.fillText(
       this.weight,
       state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-      this.posY + SIZES.brick.height / 2
+      this.posY
     );
   }
 

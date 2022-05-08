@@ -11,7 +11,7 @@ import state from '../../state.js';
 const genBricksAndBonus = () => {
   let gridRowIndexes = [];
 
-  // Generate bricks
+  // Generate brick(s)
   const maxBricksCount =
     score.count > 3
       ? score.count < 25
@@ -23,13 +23,14 @@ const genBricksAndBonus = () => {
   for (let i = 0; i < bricksCount; i++) {
     const gridRowIndex = genRndUniqueGridRowIndex(gridRowIndexes);
     gridRowIndexes.push(gridRowIndex);
-    state.bricks.push(new Brick({ gridRowIndex }));
+    state.bricks.push(new Brick({ gridRowIndex, mode: 'zoom-in' }));
   }
 
   // Generate bonus
   state.bonuses.push(
     new Bonus({
       gridRowIndex: genRndUniqueGridRowIndex(gridRowIndexes),
+      // mode: 'zoom-in',
     })
   );
 };

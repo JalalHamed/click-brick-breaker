@@ -11,7 +11,6 @@ class Record extends Statistics {
   constructor() {
     super();
     this.status = 'Record';
-    this.pos.x = CANVAS.width / 2;
     this.count = 1;
   }
 

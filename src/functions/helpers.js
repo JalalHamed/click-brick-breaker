@@ -99,3 +99,16 @@ export function genRndUniqueGridRowIndex(usedIndexes) {
   } while (usedIndexes.includes(index));
   return index;
 }
+
+export function getID(status) {
+  switch (status) {
+    case 'projectile':
+      return state.ids.projectile++;
+    case 'bonus':
+      return state.ids.bonus++;
+    case 'brick':
+      return state.ids.brick++;
+    default:
+      return;
+  }
+}

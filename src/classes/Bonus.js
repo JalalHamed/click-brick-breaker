@@ -5,9 +5,8 @@ import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
 import coefficient from './coefficient.js';
 // Functions
-import genID from '../functions/generators/genID.js';
 import genBonusColor from '../functions/generators/genBonusColor.js';
-import { haveAllTheProjectilesLanded } from '../functions/helpers.js';
+import { haveAllTheProjectilesLanded, getID } from '../functions/helpers.js';
 // Configs
 import { COLORS, SIZES, C, MERGING_VELOCITY as M_V } from '../config.js';
 // State
@@ -20,8 +19,8 @@ export default class Bonus {
   constructor(props) {
     this.props = props;
 
-    this.id = genID('bonus');
-    this.mode = 'regular';
+    this.id = getID('bonus');
+    this.mode = props.mode || 'regular';
     this.color = COLORS.bonus;
 
     this.velocity = { x: M_V, y: 10 };
@@ -32,6 +31,8 @@ export default class Bonus {
       nextY: calcYPos(this.gridIndex.column + 1),
     };
   }
+
+  zoomIn() {}
 
   calcSteps() {
     this.steps = Math.floor(
@@ -74,6 +75,7 @@ export default class Bonus {
   }
 
   draw() {
+    if (this.mode === 'zoom-in') this.zoomIn();
     if (this.mode === 'drop') this.drop();
     if (this.mode === 'merge' && haveAllTheProjectilesLanded()) this.merge();
 
