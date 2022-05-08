@@ -30,7 +30,7 @@ const genBricksAndBonus = () => {
   state.bonuses.push(
     new Bonus({
       gridRowIndex: genRndUniqueGridRowIndex(gridRowIndexes),
-      // mode: 'zoom-in',
+      mode: 'zoom-in',
     })
   );
 };

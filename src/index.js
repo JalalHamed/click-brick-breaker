@@ -4,7 +4,7 @@ import handleMouseMove from './functions/handlers/handleMouseMove.js';
 import handleResize from './functions/handlers/handleResize.js';
 import handleClick from './functions/handlers/handleClick.js';
 // Functions
-import genBricksAndBonus from './functions/generators/genBricksAndBonus.js';
+import genBaB from './functions/generators/genBaB.js';
 import genFirstProjectile from './functions/generators/genFirstProjectile.js';
 import draw from './functions/draw.js';
 import { calcGrid } from './functions/helpers.js';
@@ -23,7 +23,7 @@ const init = () => {
   calcGrid();
   if (!state.getLS('record') || state.getLS('record') === 1) {
     // show game introductions
-    genBricksAndBonus();
+    genBaB();
   }
   animate();
 };

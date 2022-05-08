@@ -23,6 +23,11 @@ export default class Bonus {
     this.mode = props.mode || 'regular';
     this.color = COLORS.bonus;
 
+    this.particleRadius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
+    // prettier-ignore
+    this.ringRadius = this.mode === 'zoom-in' ? 0 : state.bonusRingRadius + SIZES.border.height / 2; // ring's width will be drawn from the middle going half way in and half way out, so ring's radius plus half of it's width puts the ring right outside of the bonus particle.
+
+    this.radiusVelocity = 0.5;
     this.velocity = { x: M_V, y: 10 };
     this.gridIndex = { row: this.props.gridRowIndex, column: 0 };
     this.pos = {
@@ -32,7 +37,28 @@ export default class Bonus {
     };
   }
 
-  zoomIn() {}
+  zoomIn() {
+    const isDone = { particle: false, ring: false };
+
+    if (this.particleRadius + this.radiusVelocity < SIZES.projectile.radius)
+      this.particleRadius += this.radiusVelocity;
+    else {
+      this.particleRadius = SIZES.projectile.radius;
+      isDone.particle = true;
+    }
+
+    if (
+      this.ringRadius + this.radiusVelocity <
+      state.bonusRingRadius + SIZES.border.height / 2
+    ) {
+      this.ringRadius += this.radiusVelocity;
+    } else {
+      this.ringRadius = state.bonusRingRadius + SIZES.border.height / 2;
+      isDone.ring = true;
+    }
+
+    if (isDone.particle && isDone.ring) this.mode = 'regular';
+  }
 
   calcSteps() {
     this.steps = Math.floor(
@@ -82,7 +108,7 @@ export default class Bonus {
     // bonus particle
     C.beginPath();
     C.setLineDash([]);
-    C.arc(this.pos.x, this.pos.y, SIZES.bonus.radius, 0, 2 * Math.PI);
+    C.arc(this.pos.x, this.pos.y, this.particleRadius, 0, 2 * Math.PI);
     C.fillStyle = this.color;
     C.fill();
 
@@ -90,13 +116,7 @@ export default class Bonus {
     if (this.mode === 'regular') {
       C.beginPath();
       C.setLineDash([]);
-      C.arc(
-        this.pos.x,
-        this.pos.y,
-        state.bonusRingRadius + SIZES.border.height / 2, // ring's width will be drawn from the middle going half way in and half way out, so ring's radius plus half of it's width puts the ring right outside of the bonus particle.
-        0,
-        2 * Math.PI
-      );
+      C.arc(this.pos.x, this.pos.y, this.ringRadius, 0, 2 * Math.PI);
       C.lineWidth = SIZES.border.height;
       C.strokeStyle = this.color;
       C.stroke();

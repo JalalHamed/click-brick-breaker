@@ -55,10 +55,7 @@ export default class Brick {
       isDone.y = true;
     }
 
-    if (isDone.x && isDone.y) {
-      this.mode = 'regular';
-      state.isMoving.BaB = true;
-    }
+    if (isDone.x && isDone.y) this.mode = 'regular';
   }
 
   collide() {
