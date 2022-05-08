@@ -45,7 +45,7 @@ const emitProjectiles = () => {
 
     // Colliding with top-border
     // prettier-ignore
-    if (projectile.perimeter('top') - topBorder.heightFromTop + projectile.velocity.y < 0) { 
+    if (projectile.perimeter('top') + projectile.velocity.y < topBorder.heightFromTop) { 
       projectile.pos.y = topBorder.heightFromTop + SIZES.projectile.radius;
       projectile.velocity.y = -projectile.velocity.y;
     }
@@ -56,7 +56,7 @@ const emitProjectiles = () => {
       // Bottom side
       if (
         // prettier-ignore
-        projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
+        projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
         projectile.perimeter('top') > brick.pos.y + height &&
         projectile.perimeter('right') > brick.pos.x &&
         projectile.perimeter('left') < brick.pos.x + width
@@ -69,7 +69,7 @@ const emitProjectiles = () => {
       // Top side
       if (
         // prettier-ignore
-        brick.pos.y - projectile.perimeter('bottom') - projectile.velocity.y < 0 &&
+        projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
         projectile.perimeter('bottom') < brick.pos.y &&
         projectile.perimeter('right') > brick.pos.x &&
         projectile.perimeter('left') < brick.pos.x + width
@@ -82,7 +82,7 @@ const emitProjectiles = () => {
       // Left side
       if (
         // prettier-ignore
-        brick.pos.x - projectile.perimeter('right') - projectile.velocity.x < 0 &&
+        projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
         projectile.perimeter('right') < brick.pos.x &&
         projectile.perimeter('bottom') > brick.pos.y &&
         projectile.perimeter('top') < brick.pos.y + height
@@ -95,7 +95,7 @@ const emitProjectiles = () => {
       // Right side
       if (
         // prettier-ignore
-        projectile.perimeter('left') - (brick.pos.x + width) + projectile.velocity.x < 0 &&
+        projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
         projectile.perimeter('left') > brick.pos.x + width &&
         projectile.perimeter('bottom') > brick.pos.y &&
         projectile.perimeter('top') < brick.pos.y + height
@@ -108,9 +108,9 @@ const emitProjectiles = () => {
       // Bottom-left corner
       if (
         // prettier-ignore
-        brick.pos.x - projectile.perimeter('right') - projectile.velocity.x < 0 && 
+        projectile.perimeter('right') + projectile.velocity.x > brick.pos.x && 
         projectile.perimeter('right') < brick.pos.x &&
-        projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
+        projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
         projectile.perimeter('top') > brick.pos.y + height
       ) {
         projectile.pos.x = brick.pos.x - SIZES.projectile.radius / Math.sqrt(2);
@@ -124,9 +124,9 @@ const emitProjectiles = () => {
       // Bottom-right corner
       if (
         // prettier-ignore
-        projectile.perimeter('left') - (brick.pos.x + width) + projectile.velocity.x < 0 && 
+        projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
         projectile.perimeter('left') > brick.pos.x + width &&
-        projectile.perimeter('top') - (brick.pos.y + height) + projectile.velocity.y < 0 &&
+        projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
         projectile.perimeter('top') > brick.pos.y + height
       ) {
         projectile.pos.x =
@@ -141,9 +141,9 @@ const emitProjectiles = () => {
       // Top-right corner
       if (
         // prettier-ignore
-        projectile.perimeter('left') - (brick.pos.x + width) + projectile.velocity.x < 0 &&
+        projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
         projectile.perimeter('left') > brick.pos.x + width &&
-        brick.pos.y - projectile.perimeter('bottom') - projectile.velocity.y < 0 &&
+        projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
         projectile.perimeter('bottom') < brick.pos.y
       ) {
         projectile.pos.x =
@@ -157,9 +157,9 @@ const emitProjectiles = () => {
       // Top-left corner
       if (
         // prettier-ignore
-        brick.pos.x - projectile.perimeter('right') - projectile.velocity.x < 0 &&
+        projectile.perimeter('right') + projectile.velocity.x > brick.pos.x && 
         projectile.perimeter('right') < brick.pos.x &&
-        brick.pos.y - projectile.perimeter('bottom') - projectile.velocity.y < 0 &&
+        projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
         projectile.perimeter('bottom') < brick.pos.y
       ) {
         projectile.pos.x = brick.pos.x + SIZES.projectile.radius / Math.sqrt(2);
