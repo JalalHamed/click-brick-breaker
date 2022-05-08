@@ -221,7 +221,6 @@ const emitProjectiles = () => {
     score.addOne();
     if (record.count < score.count) record.addOne();
     genBaB();
-    state.isMoving.BaB = true;
   }
 };
 

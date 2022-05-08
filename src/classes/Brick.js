@@ -12,19 +12,51 @@ const calcYPos = gCI => topBorder.heightFromTop + state.grid.column[gCI];
 
 export default class Brick {
   constructor(props) {
-    this.props = props;
-
     this.id = genID('brick');
+    this.mode = 'zoom-in';
     this.weight = score.count;
 
-    this.gridColumnIndex = 0;
-    this.gridRowIndex = props.gridRowIndex;
-
+    this.gridIndex = { row: props.gridRowIndex, column: 0 };
+    this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
+    this.dimensions = { width: 0, height: 0 };
     this.pos = {
-      x: state.grid.row[this.gridRowIndex],
-      y: calcYPos(this.gridColumnIndex),
-      nextY: calcYPos(this.gridColumnIndex + 1),
+      x:
+        this.mode === 'zoom-in'
+          ? state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2
+          : state.grid.row[this.gridIndex.row],
+      y:
+        this.mode === 'zoom-in'
+          ? calcYPos(this.gridIndex.column) + SIZES.brick.height / 2
+          : calcYPos(this.gridIndex.column),
+      nextY: calcYPos(this.gridIndex.column + 1),
     };
+  }
+
+  zoomIn() {
+    const isDone = { x: false, y: false };
+
+    if (this.pos.x - this.velocity.x > state.grid.row[this.gridIndex.row]) {
+      this.pos.x -= this.velocity.x;
+      this.dimensions.width += this.velocity.x * 2;
+    } else {
+      this.pos.x = state.grid.row[this.gridIndex.row];
+      this.dimensions.width = SIZES.brick.width;
+      isDone.x = true;
+    }
+
+    if (this.pos.y - this.velocity.y > calcYPos(this.gridIndex.column)) {
+      this.pos.y -= this.velocity.y;
+      this.dimensions.height += this.velocity.y * 2;
+    } else {
+      this.pos.y = calcYPos(this.gridIndex.column);
+      this.dimensions.height = SIZES.brick.height;
+      isDone.y = true;
+    }
+
+    if (isDone.x && isDone.y) {
+      this.mode = 'regular';
+      state.isMoving.BaB = true;
+    }
   }
 
   collide() {
@@ -34,9 +66,9 @@ export default class Brick {
   }
 
   updateYPos() {
-    this.gridColumnIndex++;
-    this.pos.y = calcYPos(this.gridColumnIndex);
-    this.pos.nextY = calcYPos(this.gridColumnIndex + 1);
+    this.gridIndex.column++;
+    this.pos.y = calcYPos(this.gridIndex.column);
+    this.pos.nextY = calcYPos(this.gridIndex.column + 1);
   }
 
   getRGB(color) {
@@ -48,22 +80,39 @@ export default class Brick {
     else return 80;
   }
 
+  get posY() {
+    let posY = 0;
+    if (this.mode === 'zoom-in') posY = calcYPos(this.gridIndex.column);
+    else posY = this.pos.y;
+    return posY;
+  }
+
   draw() {
-    const { width, height } = SIZES.brick;
+    if (this.mode === 'zoom-in') this.zoomIn();
+
     C.fillStyle = `rgb(240, ${this.getRGB('green')}, ${this.getRGB('red')})`;
-    C.fillRect(this.pos.x, this.pos.y, width, height);
+    C.fillRect(
+      this.pos.x,
+      this.pos.y,
+      this.dimensions.width,
+      this.dimensions.height
+    );
     C.font = `${SIZES.font}rem play`;
     C.fillStyle = '#fff';
     C.textAlign = 'center';
     C.textBaseline = 'middle';
-    C.fillText(this.weight, this.pos.x + width / 2, this.pos.y + height / 2);
+    C.fillText(
+      this.weight,
+      state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
+      this.posY + SIZES.brick.height / 2
+    );
   }
 
   repoSize() {
     this.pos = {
-      x: state.grid.row[this.gridRowIndex],
-      y: calcYPos(this.gridColumnIndex),
-      nextY: calcYPos(this.props.gridColumnIndex + 1),
+      x: state.grid.row[this.gridIndex.row],
+      y: calcYPos(this.gridIndex.column),
+      nextY: calcYPos(this.gridIndex.column + 1),
     };
   }
 }
