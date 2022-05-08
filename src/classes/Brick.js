@@ -20,14 +20,8 @@ export default class Brick {
     this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
     this.dimensions = { width: 0, height: 0 };
     this.pos = {
-      x:
-        this.mode === 'zoom-in'
-          ? state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2
-          : state.grid.row[this.gridIndex.row],
-      y:
-        this.mode === 'zoom-in'
-          ? calcYPos(this.gridIndex.column) + SIZES.brick.height / 2
-          : calcYPos(this.gridIndex.column),
+      x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
+      y: calcYPos(this.gridIndex.column) + SIZES.brick.height / 2,
       nextY: calcYPos(this.gridIndex.column + 1),
     };
   }

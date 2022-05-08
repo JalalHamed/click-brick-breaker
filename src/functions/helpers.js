@@ -72,7 +72,8 @@ export function isAnythingMoving() {
   if (
     state.isMoving.projectiles ||
     state.isMoving.BaB ||
-    state.bonuses.some(bonus => bonus.mode !== 'regular')
+    state.bonuses.some(bonus => bonus.mode !== 'regular') ||
+    state.bricks.some(brick => brick.mode !== 'regular')
   )
     return true;
   else return false;
