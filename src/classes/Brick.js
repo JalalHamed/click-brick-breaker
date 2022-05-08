@@ -23,12 +23,15 @@ export default class Brick {
       width: this.mode === 'zoom-in' ? 0 : SIZES.brick.width,
       height: this.mode === 'zoom-in' ? 0 : SIZES.brick.height,
     };
+    this.endPoint = {
+      x: state.grid.row[this.gridIndex.row],
+      y: calcYPos(this.gridIndex.column),
+    };
     this.pos = {
       x:
-        state.grid.row[this.gridIndex.row] +
-        (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
+        this.endPoint.x + (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
       y:
-        calcYPos(this.gridIndex.column) +
+        this.endPoint.y +
         (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
       nextY: calcYPos(this.gridIndex.column + 1),
     };
@@ -37,20 +40,21 @@ export default class Brick {
   zoomIn() {
     const isDone = { x: false, y: false };
 
-    if (this.pos.x - this.velocity.x > state.grid.row[this.gridIndex.row]) {
+    if (this.pos.x - this.velocity.x > this.endPoint.x) {
       this.pos.x -= this.velocity.x;
       this.dimensions.width += this.velocity.x * 2;
     } else {
-      this.pos.x = state.grid.row[this.gridIndex.row];
+      this.pos.x = this.endPoint.x;
       this.dimensions.width = SIZES.brick.width;
       isDone.x = true;
     }
 
-    if (this.pos.y - this.velocity.y > calcYPos(this.gridIndex.column)) {
+    if (this.pos.y - this.velocity.y > this.endPoint.y) {
+      // console.log('y', this.pos.y);
       this.pos.y -= this.velocity.y;
       this.dimensions.height += this.velocity.y * 2;
     } else {
-      this.pos.y = calcYPos(this.gridIndex.column);
+      this.pos.y = this.endPoint.y;
       this.dimensions.height = SIZES.brick.height;
       isDone.y = true;
     }
@@ -117,5 +121,8 @@ export default class Brick {
       y: calcYPos(this.gridIndex.column),
       nextY: calcYPos(this.gridIndex.column + 1),
     };
+
+    this.dimensions.width = SIZES.brick.width;
+    this.dimensions.height = SIZES.brick.height;
   }
 }

@@ -25,7 +25,7 @@ export default class Bonus {
 
     this.particleRadius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 
-    this.radiusVelocity = 0.5;
+    this.radiusVelocity = SIZES.bonus.radius / 20;
     this.velocity = { x: M_V, y: 10 };
     this.gridIndex = { row: this.props.gridRowIndex, column: 0 };
     this.pos = {
