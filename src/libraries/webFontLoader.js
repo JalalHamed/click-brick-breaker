@@ -630,7 +630,7 @@
       ultralight: '2',
       'ultra-light': '2',
       light: '3',
-      regular: '4',
+      stable: '4',
       book: '4',
       medium: '5',
       'semi-bold': '6',
@@ -650,7 +650,7 @@
     },
     Ca = { i: 'i', italic: 'i', n: 'n', normal: 'n' },
     Da =
-      /^(thin|(?:(?:extra|ultra)-?)?light|regular|book|medium|(?:(?:semi|demi|extra|ultra)-?)?bold|black|heavy|l|r|b|[1-9]00)?(n|i|normal|italic)?$/;
+      /^(thin|(?:(?:extra|ultra)-?)?light|stable|book|medium|(?:(?:semi|demi|extra|ultra)-?)?bold|black|heavy|l|r|b|[1-9]00)?(n|i|normal|italic)?$/;
   function Ea(a) {
     for (var b = a.f.length, c = 0; c < b; c++) {
       var d = a.f[c].split(':'),

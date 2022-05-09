@@ -8,7 +8,7 @@ let isGoingDown = true;
 const bringDownBricksAndBonuses = () => {
   const items = [
     ...state.bricks,
-    ...state.bonuses.filter(bonus => bonus.mode === 'regular'),
+    ...state.bonuses.filter(bonus => bonus.mode === 'stable'),
   ];
 
   items.forEach(item => {

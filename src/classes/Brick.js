@@ -15,7 +15,7 @@ const calcYPos = gCI => topBorder.heightFromTop + state.grid.column[gCI];
 export default class Brick {
   constructor(props) {
     this.id = getID('brick');
-    this.mode = props.mode || 'regular';
+    this.mode = props.mode || 'stable';
     this.weight = score.count;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
@@ -61,7 +61,7 @@ export default class Brick {
     }
 
     if (isDone.x && isDone.y) {
-      this.mode = 'regular';
+      this.mode = 'stable';
       state.isBringingDown.bricks = true;
     }
   }

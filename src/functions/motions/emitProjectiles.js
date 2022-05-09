@@ -178,7 +178,7 @@ const emitProjectiles = () => {
       );
 
       // Why the hell 10? Look into this...
-      if (dist - SIZES.bonus.ring.max < 10 && bonus.mode === 'regular')
+      if (dist - SIZES.bonus.ring.max < 10 && bonus.mode === 'stable')
         bonus.mode = 'drop';
     });
 

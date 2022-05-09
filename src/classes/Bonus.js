@@ -20,7 +20,7 @@ export default class Bonus {
     this.props = props;
 
     this.id = getID('bonus');
-    this.mode = props.mode || 'regular';
+    this.mode = props.mode || 'stable';
     this.color = COLORS.bonus;
 
     this.particleRadius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
@@ -40,7 +40,7 @@ export default class Bonus {
       this.particleRadius += this.radiusVelocity;
     else {
       this.particleRadius = SIZES.projectile.radius;
-      this.mode = 'regular';
+      this.mode = 'stable';
       state.isBringingDown.bonuses = true;
     }
   }
@@ -98,7 +98,7 @@ export default class Bonus {
     C.fill();
 
     // bonus ring
-    if (this.mode === 'regular') {
+    if (this.mode === 'stable') {
       C.beginPath();
       C.setLineDash([]);
       C.arc(
