@@ -1,10 +1,5 @@
 // Functions
-import {
-  decrease,
-  getID,
-  getPieceColumn,
-  getPieceRow,
-} from '../functions/helpers.js';
+import { decrease, getPiecePos } from '../functions/helpers.js';
 // Configs
 import {
   C,
@@ -20,15 +15,17 @@ class Piece {
   constructor(props) {
     this.props = props;
 
-    this.id = getID('piece');
+    this.id = props.id;
     this.transparency = 1;
     this.D_T_T_B_F = P_D_T_T_B_F; // distance to take before fade
 
     this.velocity = { x: Math.random() - 0.5, y: 5 };
     this.pos = {
-      x: props.pos.x + getPieceRow(props.index),
-      y: props.pos.y + getPieceColumn(props.index),
+      x: props.pos.x + getPiecePos(props.index).x,
+      y: props.pos.y + getPiecePos(props.index).y,
     };
+
+    console.log(this.id);
   }
 
   update() {

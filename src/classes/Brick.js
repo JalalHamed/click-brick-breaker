@@ -70,7 +70,7 @@ export default class Brick {
     this.weight--;
     if (this.weight === 0) {
       for (let i = 0; i < 24; i++)
-        state.pieces.push(new Piece({ index: i, pos: this.pos }));
+        state.pieces.push(new Piece({ index: i, id: this.id, pos: this.pos }));
       state.bricks = state.bricks.filter(brick => brick.id !== this.id);
     }
   }

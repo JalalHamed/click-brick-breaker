@@ -7,13 +7,12 @@ import handleClick from './functions/handlers/handleClick.js';
 import genBaB from './functions/generators/genBaB.js';
 import genFirstProjectile from './functions/generators/genFirstProjectile.js';
 import draw from './functions/draw.js';
-import { calcGrid } from './functions/helpers.js';
+import { calcGrid, increase } from './functions/helpers.js';
 // State
 import state from './state.js';
 
 const animate = () => {
-  state.counter++;
-  if (state.counter > 999) state.counter = 1;
+  state.counter = increase(state.counter, 1, 999, 0);
   draw();
   requestAnimationFrame(animate);
 };
