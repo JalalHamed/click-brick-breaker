@@ -15,15 +15,6 @@ export const CANVAS_MIN_WIDTH = 350;
 export const CANVAS_MIN_HEIGHT = 600;
 export const MIN_PARTICLE_RADIUS = 6;
 export const BRICKS_MARGIN = 3;
-export const MAX_ANGLE = 2.96706; // 2.96706 radiance = 170 degrees
-export const MIN_ANGLE = 0.174533; // 0.174533 radiance = 10 degrees
-export const SAFE_MARGIN_FROM_CANVAS_SIDES = 0.1; // so it won't get buggy and stuck.
-export const INCRESCENT_DISTANCE_TO_TAKE = 150;
-export const PROJECTILE_VELOCITY_COEFFICIENT = 15;
-export const MERGING_VELOCITY = 20;
-export const BONUS_RING_MIN_ADD = 0.4;
-export const EMITTED_PROJECTILES_MARGIN = innerWidth < 700 ? 2 : 3;
-export const PIECE_DISTANCE_TO_TAKE_BEFORE_FADE = getBorderMargin() * 2;
 
 CANVAS.height =
   innerHeight >= CANVAS_MIN_HEIGHT ? innerHeight : CANVAS_MIN_HEIGHT;
@@ -49,6 +40,16 @@ export const SIZES = {
     ring: { min: getParticleRadius(), max: getParticleRadius() * 1.8 },
   },
   piece: { width: getBrickWidth() / 6, height: getBrickHeight() / 4 },
-  BaB_bounce: getBrickHeight() / 2,
   font: getFontSize(),
 };
+
+export const MAX_ANGLE = 2.96706; // 2.96706 radiance = 170 degrees
+export const MIN_ANGLE = 0.174533; // 0.174533 radiance = 10 degrees
+export const SAFE_MARGIN_FROM_CANVAS_SIDES = 0.1; // so it won't get buggy and stuck.
+export const INCRESCENT_DISTANCE_TO_TAKE = 150;
+export const PROJECTILE_VELOCITY_COEFFICIENT = 15;
+export const MERGING_VELOCITY = 20;
+export const BONUS_RING_MIN_ADD = 0.4;
+export const EMITTED_PROJECTILES_MARGIN = innerWidth < 700 ? 2 : 3;
+export const PIECE_DISTANCE_TO_TAKE_BEFORE_FADE = getBorderMargin() * 2;
+export const BRICKS_AND_BONUSES_BOUNCE_SIZE = getBrickHeight() / 2;
