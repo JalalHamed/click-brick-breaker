@@ -23,6 +23,7 @@ export const PROJECTILE_VELOCITY_COEFFICIENT = 15;
 export const MERGING_VELOCITY = 20;
 export const BONUS_RING_MIN_ADD = 0.4;
 export const EMITTED_PROJECTILES_MARGIN = innerWidth < 700 ? 2 : 3;
+export const PIECE_DISTANCE_TO_TAKE_BEFORE_FADE = getBorderMargin() * 2;
 
 CANVAS.height =
   innerHeight >= CANVAS_MIN_HEIGHT ? innerHeight : CANVAS_MIN_HEIGHT;

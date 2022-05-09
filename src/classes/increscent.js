@@ -1,5 +1,7 @@
 // Classes
 import bottomBorder from './borders/bottomBorder.js';
+// Functions
+import { decrease } from '../functions/helpers.js';
 // Configs
 import {
   C,
@@ -18,10 +20,10 @@ class Increscent {
     this.pos = { y: bottomBorder.pos.y - SIZES.projectile.radius * 3 };
   }
 
-  goUp() {
+  update() {
     if (this.pos.y > bottomBorder.pos.y - I_D_T_T) {
       this.pos.y -= 5;
-      this.transparency -= 0.05;
+      this.transparency = decrease(this.transparency, 0.05, 0);
       this.color = `${COLORS.projectile.slice(0, -1)}, ${this.transparency})`;
     } else {
       state.isMoving.increscent = false;
@@ -31,7 +33,7 @@ class Increscent {
   }
 
   draw() {
-    this.goUp();
+    this.update();
 
     C.font = `${SIZES.font * 1.5}rem play`;
     C.fillStyle = this.color;

@@ -129,3 +129,8 @@ export function getPieceRow(index) {
   if (index < 18) return (index - 12) * SIZES.piece.width;
   else return (index - 18) * SIZES.piece.width;
 }
+
+export function decrease(variable, value, target) {
+  if (variable - value > target) return variable - value;
+  else return target;
+}
