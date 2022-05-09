@@ -1,5 +1,5 @@
 // Configs
-import { SIZES } from '../../config.js';
+import { SIZES, MERGING_VELOCITY as M_V } from '../../config.js';
 // State
 import state from '../../state.js';
 
@@ -9,19 +9,16 @@ function getDist(bonus) {
 
 const genBonusVelocity = () => {
   const bonuses = state.bonuses.filter(bonus => bonus.mode === 'merge');
-  let closestBonus;
+  let furthestBonus;
 
   bonuses.forEach(bonus => {
-    if (!closestBonus) closestBonus = bonus;
-    else if (getDist(bonus) < getDist(closestBonus)) closestBonus = bonus;
+    if (!furthestBonus) furthestBonus = bonus;
+    else if (getDist(bonus) > getDist(furthestBonus)) furthestBonus = bonus;
   });
 
   bonuses.forEach(bonus => {
-    if (bonus.id !== closestBonus.id)
-      bonus.velocity.x =
-        (getDist(bonus) / getDist(closestBonus)) *
-        SIZES.projectile.radius *
-        1.3;
+    if (bonus.id !== furthestBonus.id)
+      bonus.velocity.x /= getDist(furthestBonus) / getDist(bonus);
   });
 };
 

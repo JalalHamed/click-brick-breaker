@@ -24,8 +24,6 @@ class Piece {
       x: props.pos.x + getPiecePos(props.index).x,
       y: props.pos.y + getPiecePos(props.index).y,
     };
-
-    console.log(this.id);
   }
 
   update() {
