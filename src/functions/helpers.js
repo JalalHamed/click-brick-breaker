@@ -109,7 +109,23 @@ export function getID(status) {
       return state.ids.bonus++;
     case 'brick':
       return state.ids.brick++;
+    case 'piece':
+      return state.ids.piece++;
     default:
       return;
   }
+}
+
+export function getPieceColumn(index) {
+  if (index < 6) return 0;
+  if (index < 12) return SIZES.piece.height;
+  if (index < 18) return SIZES.piece.height * 2;
+  else return SIZES.piece.height * 3;
+}
+
+export function getPieceRow(index) {
+  if (index < 6) return index * SIZES.piece.width;
+  if (index < 12) return (index - 6) * SIZES.piece.width;
+  if (index < 18) return (index - 12) * SIZES.piece.width;
+  else return (index - 18) * SIZES.piece.width;
 }

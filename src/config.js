@@ -47,6 +47,7 @@ export const SIZES = {
     radius: getParticleRadius(),
     ring: { min: getParticleRadius(), max: getParticleRadius() * 1.8 },
   },
+  piece: { width: getBrickWidth() / 6, height: getBrickHeight() / 4 },
   BaB_bounce: getBrickHeight() / 2,
   font: getFontSize(),
 };

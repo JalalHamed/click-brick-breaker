@@ -1,3 +1,5 @@
+// Classes
+import Piece from './Piece.js';
 // Constructor Instances
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
@@ -50,7 +52,6 @@ export default class Brick {
     }
 
     if (this.pos.y - this.velocity.y > this.endPoint.y) {
-      // console.log('y', this.pos.y);
       this.pos.y -= this.velocity.y;
       this.dimensions.height += this.velocity.y * 2;
     } else {
@@ -67,8 +68,11 @@ export default class Brick {
 
   collide() {
     this.weight--;
-    if (this.weight === 0)
+    if (this.weight === 0) {
+      for (let i = 0; i < 24; i++)
+        state.pieces.push(new Piece({ index: i, pos: this.pos }));
       state.bricks = state.bricks.filter(brick => brick.id !== this.id);
+    }
   }
 
   updateYPos() {

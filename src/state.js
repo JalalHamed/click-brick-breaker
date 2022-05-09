@@ -10,10 +10,11 @@ const state = {
   bricks: [],
   bonuses: [],
   projectiles: [],
+  pieces: [],
 
   innerWidth,
   counter: 0,
-  ids: { projectile: 1, bonus: 1, brick: 1 },
+  ids: { projectile: 1, bonus: 1, brick: 1, piece: 1 },
   mergingBonusesCount: 0,
   bonusRingRadius: 0,
 

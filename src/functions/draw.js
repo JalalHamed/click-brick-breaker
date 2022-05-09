@@ -28,6 +28,7 @@ const draw = () => {
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
   if (state.isMoving.increscent) increscent.draw();
+  if (state.pieces.length) state.pieces.forEach(piece => piece.draw());
 
   // Motions
   if (state.counter % 2 === 0) swingBonusRing();
