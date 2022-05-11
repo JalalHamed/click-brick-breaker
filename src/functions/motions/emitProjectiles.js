@@ -177,8 +177,10 @@ const emitProjectiles = () => {
         bonus.pos.y - projectile.pos.y
       );
 
-      // Why the hell 10? Look into this...
-      if (dist - SIZES.bonus.ring.max < 10 && bonus.mode === 'stable')
+      if (
+        dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0 &&
+        bonus.mode === 'stable'
+      )
         bonus.mode = 'drop';
     });
 

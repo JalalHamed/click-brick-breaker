@@ -32,13 +32,13 @@ class Piece {
 
     this.D_T_T_B_F = decrease(this.D_T_T_B_F, 1, 0);
 
-    if (this.D_T_T_B_F <= 0)
+    if (this.D_T_T_B_F === 0)
       this.transparency = decrease(this.transparency, 0.02, 0);
   }
 
   draw() {
     this.update();
-    if (this.pos.y > CANVAS.height) this.selfDestruct();
+    if (this.transparency === 0) this.selfDestruct();
 
     C.fillStyle = `rgb(240, 160, 120, ${this.transparency})`;
     C.fillRect(this.pos.x, this.pos.y, SIZES.piece.width, SIZES.piece.height);
