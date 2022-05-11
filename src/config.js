@@ -39,6 +39,7 @@ export const COLORS = {
     arrow: 'rgb(93, 167, 239, 0.5)',
     particle: 'rgb(93, 167, 239, 0.5)',
   },
+  brick: { heaviest: 'rgb(255, 80, 80)', lightest: 'rgb(255, 160, 120)' },
 };
 
 export const SIZES = {

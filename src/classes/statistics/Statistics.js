@@ -15,7 +15,7 @@ export default class Statistics {
     C.textAlign = 'center';
     C.textBaseline = 'middle';
     C.fillText(
-      `${this.status.toUpperCase()} : ${this.count}`,
+      `${this.name.toUpperCase()} : ${this.count}`,
       this.pos.x,
       this.pos.y
     );

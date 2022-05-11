@@ -6,7 +6,7 @@ import topBorder from './borders/topBorder.js';
 // Functions
 import { getID } from '../functions/helpers.js';
 // Configs
-import { SIZES, C } from '../config.js';
+import { SIZES, C, COLORS } from '../config.js';
 // State
 import state from '../state.js';
 
@@ -15,15 +15,17 @@ const calcYPos = gCI => topBorder.heightFromTop + state.grid.column[gCI];
 export default class Brick {
   constructor(props) {
     this.id = getID('brick');
-    this.mode = props.mode || 'stable';
+    this.status = props.status || 'stable';
     this.weight = score.count;
+    this.color = COLORS.brick.heaviest;
+    this.goingDownStepsCount = 0;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
     this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
 
     this.dimensions = {
-      width: this.mode === 'zoom-in' ? 0 : SIZES.brick.width,
-      height: this.mode === 'zoom-in' ? 0 : SIZES.brick.height,
+      width: this.status === 'zoom-in' ? 0 : SIZES.brick.width,
+      height: this.status === 'zoom-in' ? 0 : SIZES.brick.height,
     };
     this.endPoint = {
       x: state.grid.row[this.gridIndex.row],
@@ -31,10 +33,11 @@ export default class Brick {
     };
     this.pos = {
       x:
-        this.endPoint.x + (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
+        this.endPoint.x +
+        (this.status === 'zoom-in' ? SIZES.brick.width / 2 : 0),
       y:
         this.endPoint.y +
-        (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
+        (this.status === 'zoom-in' ? SIZES.brick.height / 2 : 0),
       nextY: calcYPos(this.gridIndex.column + 1),
     };
   }
@@ -61,13 +64,14 @@ export default class Brick {
     }
 
     if (isDone.x && isDone.y) {
-      this.mode = 'stable';
+      this.status = 'stable';
       state.isBringingDown.bricks = true;
     }
   }
 
   collide() {
     this.weight--;
+    this.updateColor();
     if (this.weight === 0) {
       for (let i = 0; i < 24; i++)
         state.pieces.push(new Piece({ index: i, id: this.id, pos: this.pos }));
@@ -81,27 +85,21 @@ export default class Brick {
     this.pos.nextY = calcYPos(this.gridIndex.column + 1);
   }
 
-  getRGB(color) {
-    // heaviest: 'rgb(240, 80, 80)' & lightest: 'rgb(240, 160, 120)'
+  updateColor() {
     const difference = score.count - this.weight;
-    const LightestMinusHeaviest = color === 'green' ? 80 : 40;
-    const x = LightestMinusHeaviest / (score.count - 1);
-    if (difference > 0) return 80 + difference * x;
-    else return 80;
-  }
-
-  get posY() {
-    let posY = 0;
-    if (this.mode === 'zoom-in')
-      posY = calcYPos(this.gridIndex.column) + SIZES.brick.height / 2;
-    else posY = this.pos.y + SIZES.brick.height / 2;
-    return posY;
+    const GreenLightestMinusHeaviest = 80;
+    const BlueLightestMinusHeaviest = 40;
+    const g = GreenLightestMinusHeaviest / (score.count - 1);
+    const b = BlueLightestMinusHeaviest / (score.count - 1);
+    if (difference > 0)
+      this.color = `rgb(255, ${80 + difference * g}, ${80 + difference * b})`;
+    else this.color = COLORS.brick.heaviest;
   }
 
   draw() {
-    if (this.mode === 'zoom-in') this.zoomIn();
+    if (this.status === 'zoom-in') this.zoomIn();
 
-    C.fillStyle = `rgb(240, ${this.getRGB('green')}, ${this.getRGB('red')})`;
+    C.fillStyle = this.color;
     C.fillRect(
       this.pos.x,
       this.pos.y,
@@ -115,7 +113,9 @@ export default class Brick {
     C.fillText(
       this.weight,
       state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-      this.posY
+      this.status === 'zoom-in'
+        ? calcYPos(this.gridIndex.column) + SIZES.brick.height / 2
+        : this.pos.y + SIZES.brick.height / 2
     );
   }
 

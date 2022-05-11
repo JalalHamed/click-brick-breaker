@@ -23,14 +23,14 @@ const genBricksAndBonus = () => {
   for (let i = 0; i < bricksCount; i++) {
     const gridRowIndex = genRndUniqueGridRowIndex(gridRowIndexes);
     gridRowIndexes.push(gridRowIndex);
-    state.bricks.push(new Brick({ gridRowIndex, mode: 'zoom-in' }));
+    state.bricks.push(new Brick({ gridRowIndex, status: 'zoom-in' }));
   }
 
   // Generate bonus
   state.bonuses.push(
     new Bonus({
       gridRowIndex: genRndUniqueGridRowIndex(gridRowIndexes),
-      mode: 'zoom-in',
+      status: 'zoom-in',
     })
   );
 };

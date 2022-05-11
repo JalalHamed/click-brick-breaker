@@ -6,10 +6,10 @@ import state from '../../state.js';
 let isGoingDown = true;
 
 const bringDownBricksAndBonuses = () => {
-  const velocity = 5;
+  const velocity = 7;
   const BricksAndBonuses = [
     ...state.bricks,
-    ...state.bonuses.filter(bonus => bonus.mode === 'stable'),
+    ...state.bonuses.filter(bonus => bonus.status === 'stable'),
   ];
 
   BricksAndBonuses.forEach(item => {

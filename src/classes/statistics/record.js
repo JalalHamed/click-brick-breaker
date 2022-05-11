@@ -10,7 +10,7 @@ import state from '../../state.js';
 class Record extends Statistics {
   constructor() {
     super();
-    this.status = 'Record';
+    this.name = 'Record';
     this.count = 1;
   }
 

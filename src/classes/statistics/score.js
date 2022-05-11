@@ -10,7 +10,7 @@ import state from '../../state.js';
 class Score extends Statistics {
   constructor() {
     super();
-    this.status = 'Score';
+    this.name = 'Score';
     this.pos.y = record.pos.y + 15 * SIZES.font;
     this.count = 1;
   }

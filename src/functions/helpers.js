@@ -73,8 +73,8 @@ export function isAnythingMoving() {
     state.isMoving.projectiles ||
     state.isBringingDown.bricks ||
     state.isBringingDown.bonuses ||
-    state.bonuses.some(bonus => bonus.mode !== 'stable') ||
-    state.bricks.some(brick => brick.mode !== 'stable')
+    state.bonuses.some(bonus => bonus.status !== 'stable') ||
+    state.bricks.some(brick => brick.status !== 'stable')
   )
     return true;
   else return false;
@@ -86,7 +86,7 @@ export function haveAllTheProjectilesLanded() {
       projectile =>
         projectile.velocity.x === 0 &&
         projectile.velocity.y === 0 &&
-        projectile.mode !== 'merge'
+        projectile.status !== 'merge'
     )
   )
     return true;
@@ -101,8 +101,8 @@ export function genRndUniqueGridRowIndex(usedIndexes) {
   return index;
 }
 
-export function getID(status) {
-  switch (status) {
+export function getID(object) {
+  switch (object) {
     case 'projectile':
       return state.ids.projectile++;
     case 'bonus':
