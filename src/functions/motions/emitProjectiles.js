@@ -216,9 +216,7 @@ const emitProjectiles = () => {
     state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 
-    if (state.bonuses.some(bonus => bonus.mode === 'merge')) {
-      genBonusVelocity();
-    }
+    if (state.bonuses.some(bonus => bonus.mode === 'merge')) genBonusVelocity();
 
     score.addOne();
     if (record.count < score.count) record.addOne();

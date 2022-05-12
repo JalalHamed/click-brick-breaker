@@ -1,5 +1,4 @@
 // Handlers
-import handleLoad from './functions/handlers/handleLoad.js';
 import handleMouseMove from './functions/handlers/handleMouseMove.js';
 import handleResize from './functions/handlers/handleResize.js';
 import handleClick from './functions/handlers/handleClick.js';
@@ -18,13 +17,11 @@ const animate = () => {
 };
 
 const init = () => {
-  spawnProjectile();
-  calcGrid();
-  spawnBaB();
-  animate();
+  document.querySelector('.loading').style.display = 'none';
+  [spawnProjectile, calcGrid, spawnBaB, animate].forEach(item => item());
 };
 
-addEventListener('load', () => handleLoad(init));
+addEventListener('load', init);
 addEventListener('resize', handleResize);
 addEventListener('mousemove', handleMouseMove);
 addEventListener('click', handleClick);

@@ -26,6 +26,7 @@ export default class Bonus {
     this.id = getID('bonus');
     this.mode = props.mode || 'stable';
     this.color = COLORS.bonus;
+    this.steps = null;
 
     this.particleRadius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 
