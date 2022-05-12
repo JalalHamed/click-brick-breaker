@@ -11,7 +11,7 @@ import fps from '../classes/fps.js';
 import swingBonusRing from './motions/swingBonusRing.js';
 import bringDownBaB from './motions/bringDownBaB.js';
 import emitProjectiles from './motions/emitProjectiles.js';
-import { isAnythingMoving, haveAllTheProjectilesLanded } from './helpers.js';
+import { isAnythingMoving } from './helpers.js';
 // Configs
 import { C, CANVAS } from '../config.js';
 // State

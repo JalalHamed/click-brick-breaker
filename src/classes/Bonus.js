@@ -6,7 +6,6 @@ import bottomBorder from './borders/bottomBorder.js';
 import coefficient from './coefficient.js';
 // Functions
 import {
-  haveAllTheProjectilesLanded,
   getID,
   convertRGBtoArr,
   getColorsDifferences,
@@ -101,7 +100,11 @@ export default class Bonus {
   draw() {
     if (this.mode === 'zoom-in') this.zoomIn();
     if (this.mode === 'drop') this.drop();
-    if (this.mode === 'merge' && haveAllTheProjectilesLanded()) this.merge();
+    if (
+      this.mode === 'merge' &&
+      state.projectiles.every(projectile => projectile.mode === 'stable')
+    )
+      this.merge();
 
     // bonus particle
     C.beginPath();

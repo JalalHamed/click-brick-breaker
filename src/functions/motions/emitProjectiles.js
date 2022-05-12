@@ -7,7 +7,6 @@ import record from '../../classes/statistics/record.js';
 // Functions
 import spawnBaB from '../spawns/spawnBaB.js';
 import genBonusVelocity from '../generators/genBonusVelocity.js';
-import { haveAllTheProjectilesLanded } from '../helpers.js';
 // Configs
 import {
   CANVAS,
@@ -199,15 +198,17 @@ const emitProjectiles = () => {
 
       // Save the first one to land as the main projectile and merge the rest
       if (isFirstOneToLand) {
+        projectile.mode = 'stable';
         state.projectile = projectile;
         isFirstOneToLand = false;
       } else if (projectile.pos.x !== state.projectile.pos.x)
         projectile.mode = 'merge';
+      else projectile.mode = 'stable';
     }
   });
 
   if (
-    haveAllTheProjectilesLanded() &&
+    state.projectiles.every(projectile => projectile.mode === 'stable') &&
     state.bonuses.every(bonus => bonus.mode !== 'drop')
   ) {
     isFirstOneToLand = true;

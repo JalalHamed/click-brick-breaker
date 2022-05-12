@@ -25,6 +25,7 @@ const handleClick = e => {
     };
 
     state.projectiles.forEach(projectile => {
+      projectile.mode = 'emit';
       projectile.velocity.x = velocity.x;
       projectile.velocity.y = velocity.y;
     });

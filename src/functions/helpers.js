@@ -80,18 +80,6 @@ export function isAnythingMoving() {
   else return false;
 }
 
-export function haveAllTheProjectilesLanded() {
-  if (
-    state.projectiles.every(
-      projectile =>
-        projectile.velocity.x === 0 &&
-        projectile.velocity.y === 0 &&
-        projectile.mode !== 'merge'
-    )
-  )
-    return true;
-  else return false;
-}
 
 export function genRndUniqueGridRowIndex(usedIndexes) {
   let index;
@@ -157,4 +145,8 @@ export function getBonusYPos(gridColumnIndex) {
     SIZES.brick.height / 2 +
     state.grid.column[gridColumnIndex]
   );
+}
+
+export function getXDist(obj1, obj2) {
+  return Math.abs(obj1.pos.x - obj2.pos.x);
 }
