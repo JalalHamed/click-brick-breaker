@@ -8,7 +8,7 @@ import { genRndUniqueGridRowIndex } from '../helpers.js';
 // State
 import state from '../../state.js';
 
-const genBricksAndBonus = () => {
+const spawnBricksAndBonus = () => {
   let gridRowIndexes = [];
 
   // Spawn brick(s)
@@ -35,4 +35,4 @@ const genBricksAndBonus = () => {
   );
 };
 
-export default genBricksAndBonus;
+export default spawnBricksAndBonus;

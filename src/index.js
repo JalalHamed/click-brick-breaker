@@ -4,8 +4,8 @@ import handleMouseMove from './functions/handlers/handleMouseMove.js';
 import handleResize from './functions/handlers/handleResize.js';
 import handleClick from './functions/handlers/handleClick.js';
 // Functions
-import spawnBaB from './functions/motions/spawnBaB.js';
-import genFirstProjectile from './functions/generators/genFirstProjectile.js';
+import spawnBaB from './functions/spawns/spawnBaB.js';
+import spawnProjectile from './functions/spawns/spawnProjectile.js';
 import draw from './functions/draw.js';
 import { calcGrid, increase } from './functions/helpers.js';
 // State
@@ -18,12 +18,9 @@ const animate = () => {
 };
 
 const init = () => {
-  genFirstProjectile();
+  spawnProjectile();
   calcGrid();
-  if (!state.getLS('record') || state.getLS('record') === 1) {
-    // show game introductions
-    spawnBaB();
-  }
+  spawnBaB();
   animate();
 };
 

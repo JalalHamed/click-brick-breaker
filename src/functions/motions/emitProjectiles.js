@@ -5,7 +5,7 @@ import bottomBorder from '../../classes/borders/bottomBorder.js';
 import score from '../../classes/statistics/score.js';
 import record from '../../classes/statistics/record.js';
 // Functions
-import spawnBaB from '../motions/spawnBaB.js';
+import spawnBaB from '../spawns/spawnBaB.js';
 import genBonusVelocity from '../generators/genBonusVelocity.js';
 import { haveAllTheProjectilesLanded } from '../helpers.js';
 // Configs
