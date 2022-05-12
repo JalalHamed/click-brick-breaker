@@ -5,15 +5,19 @@ import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
 import coefficient from './coefficient.js';
 // Functions
-import genBonusColor from '../functions/generators/genBonusColor.js';
-import { haveAllTheProjectilesLanded, getID } from '../functions/helpers.js';
+import {
+  haveAllTheProjectilesLanded,
+  getID,
+  convertRGBtoArr,
+  getColorsDifferences,
+  getBonusYPos,
+} from '../functions/helpers.js';
 // Configs
 import { COLORS, SIZES, C, MERGING_VELOCITY as M_V } from '../config.js';
 // State
 import state from '../state.js';
 
-const calcYPos = gCI =>
-  topBorder.heightFromTop + SIZES.brick.height / 2 + state.grid.column[gCI];
+const colorsDifference = getColorsDifferences(COLORS.bonus, COLORS.projectile);
 
 export default class Bonus {
   constructor(props) {
@@ -30,8 +34,8 @@ export default class Bonus {
     this.gridIndex = { row: this.props.gridRowIndex, column: 0 };
     this.pos = {
       x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-      y: calcYPos(this.gridIndex.column),
-      nextY: calcYPos(this.gridIndex.column + 1),
+      y: getBonusYPos(this.gridIndex.column),
+      nextY: getBonusYPos(this.gridIndex.column + 1),
     };
   }
 
@@ -53,8 +57,16 @@ export default class Bonus {
 
   updateYPos() {
     this.gridIndex.column++;
-    this.pos.y = calcYPos(this.gridIndex.column);
-    this.pos.nextY = calcYPos(this.gridIndex.column + 1);
+    this.pos.y = getBonusYPos(this.gridIndex.column);
+    this.pos.nextY = getBonusYPos(this.gridIndex.column + 1);
+  }
+
+  getColor() {
+    const cBC = convertRGBtoArr(this.color);
+    const getRGB = index => +cBC[index] + colorsDifference[index] / this.steps;
+    return `rgb(${getRGB(0)}, ${
+      +cBC[1] - colorsDifference[1] / this.steps
+    }, ${getRGB(2)})`;
   }
 
   drop() {
@@ -72,7 +84,7 @@ export default class Bonus {
 
   merge() {
     if (!Number.isInteger(this.steps)) this.calcSteps();
-    this.color = genBonusColor(this);
+    this.color = this.getColor();
     if (this.pos.x - this.velocity.x > state.projectile.pos.x)
       this.pos.x -= this.velocity.x;
     else if (this.pos.x + this.velocity.x < state.projectile.pos.x)
@@ -117,8 +129,8 @@ export default class Bonus {
   repoSize() {
     this.pos = {
       x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-      y: calcYPos(this.gridIndex.column),
-      nextY: calcYPos(this.gridIndex.column + 1),
+      y: getBonusYPos(this.gridIndex.column),
+      nextY: getBonusYPos(this.gridIndex.column + 1),
     };
   }
 

@@ -137,3 +137,24 @@ export function increase(variable, value, target, fallback) {
 export function getBrickYPos(gridColumnIndex) {
   return topBorder.heightFromTop + state.grid.column[gridColumnIndex];
 }
+
+export function convertRGBtoArr(rgb) {
+  return rgb.slice(4, -1).split(',');
+}
+
+export function getColorsDifferences(color1, color2) {
+  let differences = [];
+  for (let i = 0; i < 3; i++)
+    differences.push(
+      Math.abs(convertRGBtoArr(color1)[i] - convertRGBtoArr(color2)[i])
+    );
+  return differences;
+}
+
+export function getBonusYPos(gridColumnIndex) {
+  return (
+    topBorder.heightFromTop +
+    SIZES.brick.height / 2 +
+    state.grid.column[gridColumnIndex]
+  );
+}
