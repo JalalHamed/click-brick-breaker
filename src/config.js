@@ -31,7 +31,7 @@ export const PIECE_DISTANCE_TO_TAKE_BEFORE_FADE = getBorderMargin() / 3;
 export const BRICKS_AND_BONUSES_BOUNCE_SIZE = getBrickHeight() / 2;
 
 // NOTE: colors MUST be in RGB format
-export const COLORS = {
+export const COLORS = Object.freeze({
   projectile: 'rgb(93, 167, 239)',
   bonus: 'rgb(79, 234, 115)',
   pointer: {
@@ -40,7 +40,7 @@ export const COLORS = {
     particle: 'rgb(93, 167, 239, 0.5)',
   },
   brick: { heaviest: 'rgb(255, 80, 80)', lightest: 'rgb(255, 160, 120)' },
-};
+});
 
 export const SIZES = {
   border: { margin: getBorderMargin(), height: getBorderHeight() },

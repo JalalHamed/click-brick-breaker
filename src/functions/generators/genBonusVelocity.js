@@ -8,7 +8,7 @@ function getDist(bonus) {
 }
 
 const genBonusVelocity = () => {
-  const bonuses = state.bonuses.filter(bonus => bonus.status === 'merge');
+  const bonuses = state.bonuses.filter(bonus => bonus.mode === 'merge');
   let furthestBonus;
 
   bonuses.forEach(bonus => {

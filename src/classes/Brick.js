@@ -4,67 +4,56 @@ import Piece from './Piece.js';
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
 // Functions
-import { getID } from '../functions/helpers.js';
+import { getID, getBrickYPos } from '../functions/helpers.js';
 // Configs
 import { SIZES, C, COLORS } from '../config.js';
 // State
 import state from '../state.js';
 
-const calcYPos = gCI => topBorder.heightFromTop + state.grid.column[gCI];
-
 export default class Brick {
   constructor(props) {
     this.id = getID('brick');
-    this.status = props.status || 'stable';
+    this.mode = props.mode || 'stable';
     this.weight = score.count;
     this.color = COLORS.brick.heaviest;
-    this.goingDownStepsCount = 0;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
     this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
 
     this.dimensions = {
-      width: this.status === 'zoom-in' ? 0 : SIZES.brick.width,
-      height: this.status === 'zoom-in' ? 0 : SIZES.brick.height,
+      width: this.mode === 'zoom-in' ? 0 : SIZES.brick.width,
+      height: this.mode === 'zoom-in' ? 0 : SIZES.brick.height,
     };
-    this.endPoint = {
+    this.endPos = {
       x: state.grid.row[this.gridIndex.row],
-      y: calcYPos(this.gridIndex.column),
+      y: getBrickYPos(this.gridIndex.column),
     };
     this.pos = {
-      x:
-        this.endPoint.x +
-        (this.status === 'zoom-in' ? SIZES.brick.width / 2 : 0),
-      y:
-        this.endPoint.y +
-        (this.status === 'zoom-in' ? SIZES.brick.height / 2 : 0),
-      nextY: calcYPos(this.gridIndex.column + 1),
+      x: this.endPos.x + (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
+      y: this.endPos.y + (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
+      nextY: getBrickYPos(this.gridIndex.column + 1),
     };
   }
 
   zoomIn() {
     const isDone = { x: false, y: false };
 
-    if (this.pos.x - this.velocity.x > this.endPoint.x) {
-      this.pos.x -= this.velocity.x;
-      this.dimensions.width += this.velocity.x * 2;
-    } else {
-      this.pos.x = this.endPoint.x;
-      this.dimensions.width = SIZES.brick.width;
-      isDone.x = true;
-    }
+    const update = (coord, dimension) => {
+      if (this.pos[coord] - this.velocity[coord] > this.endPos[coord]) {
+        this.pos[coord] -= this.velocity[coord];
+        this.dimensions[dimension] += this.velocity[coord] * 2;
+      } else {
+        this.pos[coord] = this.endPos[coord];
+        this.dimensions[dimension] = SIZES.brick[dimension];
+        isDone[coord] = true;
+      }
+    };
 
-    if (this.pos.y - this.velocity.y > this.endPoint.y) {
-      this.pos.y -= this.velocity.y;
-      this.dimensions.height += this.velocity.y * 2;
-    } else {
-      this.pos.y = this.endPoint.y;
-      this.dimensions.height = SIZES.brick.height;
-      isDone.y = true;
-    }
+    update('x', 'width');
+    update('y', 'height');
 
     if (isDone.x && isDone.y) {
-      this.status = 'stable';
+      this.mode = 'stable';
       state.isBringingDown.bricks = true;
     }
   }
@@ -80,9 +69,10 @@ export default class Brick {
   }
 
   updateYPos() {
+    this.updateColor();
     this.gridIndex.column++;
-    this.pos.y = calcYPos(this.gridIndex.column);
-    this.pos.nextY = calcYPos(this.gridIndex.column + 1);
+    this.pos.y = getBrickYPos(this.gridIndex.column);
+    this.pos.nextY = getBrickYPos(this.gridIndex.column + 1);
   }
 
   updateColor() {
@@ -97,7 +87,7 @@ export default class Brick {
   }
 
   draw() {
-    if (this.status === 'zoom-in') this.zoomIn();
+    if (this.mode === 'zoom-in') this.zoomIn();
 
     C.fillStyle = this.color;
     C.fillRect(
@@ -113,8 +103,8 @@ export default class Brick {
     C.fillText(
       this.weight,
       state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-      this.status === 'zoom-in'
-        ? calcYPos(this.gridIndex.column) + SIZES.brick.height / 2
+      this.mode === 'zoom-in'
+        ? getBrickYPos(this.gridIndex.column) + SIZES.brick.height / 2
         : this.pos.y + SIZES.brick.height / 2
     );
   }
@@ -122,8 +112,8 @@ export default class Brick {
   repoSize() {
     this.pos = {
       x: state.grid.row[this.gridIndex.row],
-      y: calcYPos(this.gridIndex.column),
-      nextY: calcYPos(this.gridIndex.column + 1),
+      y: getBrickYPos(this.gridIndex.column),
+      nextY: getBrickYPos(this.gridIndex.column + 1),
     };
 
     this.dimensions.width = SIZES.brick.width;

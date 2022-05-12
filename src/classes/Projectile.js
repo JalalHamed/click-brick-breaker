@@ -16,7 +16,7 @@ import state from '../state.js';
 export default class Projectile {
   constructor(props) {
     this.id = getID('projectile');
-    this.status = 'stable';
+    this.mode = 'stable';
 
     this.velocity = { x: 0, y: 0 };
     this.pos = {
@@ -45,12 +45,12 @@ export default class Projectile {
     else if (this.pos.x - M_V > state.projectile.pos.x) this.pos.x -= M_V;
     else {
       this.pos.x = state.projectile.pos.x;
-      this.status = 'stable';
+      this.mode = 'stable';
     }
   }
 
   draw() {
-    if (this.status === 'merge') this.merge();
+    if (this.mode === 'merge') this.merge();
 
     C.beginPath();
     C.setLineDash([]);

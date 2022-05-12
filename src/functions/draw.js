@@ -36,7 +36,7 @@ const draw = () => {
   if (
     state.isBringingDown.bricks &&
     state.isBringingDown.bonuses &&
-    state.bricks.every(brick => brick.status === 'stable')
+    state.bricks.every(brick => brick.mode === 'stable')
   )
     bringDownBaB();
 };

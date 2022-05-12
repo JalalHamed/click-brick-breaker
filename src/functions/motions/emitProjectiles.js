@@ -179,9 +179,9 @@ const emitProjectiles = () => {
 
       if (
         dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0 &&
-        bonus.status === 'stable'
+        bonus.mode === 'stable'
       )
-        bonus.status = 'drop';
+        bonus.mode = 'drop';
     });
 
     // Colliding with bottom-border
@@ -202,13 +202,13 @@ const emitProjectiles = () => {
         state.projectile = projectile;
         isFirstOneToLand = false;
       } else if (projectile.pos.x !== state.projectile.pos.x)
-        projectile.status = 'merge';
+        projectile.mode = 'merge';
     }
   });
 
   if (
     haveAllTheProjectilesLanded() &&
-    state.bonuses.every(bonus => bonus.status !== 'drop')
+    state.bonuses.every(bonus => bonus.mode !== 'drop')
   ) {
     isFirstOneToLand = true;
     state.isMoving.projectiles = false;
@@ -216,7 +216,7 @@ const emitProjectiles = () => {
     state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 
-    if (state.bonuses.some(bonus => bonus.status === 'merge')) {
+    if (state.bonuses.some(bonus => bonus.mode === 'merge')) {
       genBonusVelocity();
     }
 

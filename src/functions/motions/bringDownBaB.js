@@ -4,12 +4,13 @@ import { BRICKS_AND_BONUSES_BOUNCE_SIZE as B_A_B_B_S } from '../../config.js';
 import state from '../../state.js';
 
 let isGoingDown = true;
+let hasCalculatedSteps = false;
 
 const bringDownBricksAndBonuses = () => {
   const velocity = 7;
   const BricksAndBonuses = [
     ...state.bricks,
-    ...state.bonuses.filter(bonus => bonus.status === 'stable'),
+    ...state.bonuses.filter(bonus => bonus.mode === 'stable'),
   ];
 
   BricksAndBonuses.forEach(item => {
@@ -20,6 +21,7 @@ const bringDownBricksAndBonuses = () => {
       isGoingDown = false;
     } else {
       isGoingDown = true;
+      hasCalculatedSteps = false;
       state.isBringingDown.bricks = false;
       state.isBringingDown.bonuses = false;
     }

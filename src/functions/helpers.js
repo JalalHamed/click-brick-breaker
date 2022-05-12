@@ -73,8 +73,8 @@ export function isAnythingMoving() {
     state.isMoving.projectiles ||
     state.isBringingDown.bricks ||
     state.isBringingDown.bonuses ||
-    state.bonuses.some(bonus => bonus.status !== 'stable') ||
-    state.bricks.some(brick => brick.status !== 'stable')
+    state.bonuses.some(bonus => bonus.mode !== 'stable') ||
+    state.bricks.some(brick => brick.mode !== 'stable')
   )
     return true;
   else return false;
@@ -86,7 +86,7 @@ export function haveAllTheProjectilesLanded() {
       projectile =>
         projectile.velocity.x === 0 &&
         projectile.velocity.y === 0 &&
-        projectile.status !== 'merge'
+        projectile.mode !== 'merge'
     )
   )
     return true;
@@ -132,4 +132,8 @@ export function decrease(variable, value, target) {
 export function increase(variable, value, target, fallback) {
   if (variable + value < target) return variable + value;
   else return fallback;
+}
+
+export function getBrickYPos(gridColumnIndex) {
+  return topBorder.heightFromTop + state.grid.column[gridColumnIndex];
 }

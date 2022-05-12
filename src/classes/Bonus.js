@@ -20,11 +20,10 @@ export default class Bonus {
     this.props = props;
 
     this.id = getID('bonus');
-    this.status = props.status || 'stable';
+    this.mode = props.mode || 'stable';
     this.color = COLORS.bonus;
 
-    this.particleRadius =
-      this.status === 'zoom-in' ? 0 : SIZES.projectile.radius;
+    this.particleRadius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 
     this.radiusVelocity = SIZES.bonus.radius / 20;
     this.velocity = { x: M_V, y: 10 };
@@ -41,7 +40,7 @@ export default class Bonus {
       this.particleRadius += this.radiusVelocity;
     else {
       this.particleRadius = SIZES.projectile.radius;
-      this.status = 'stable';
+      this.mode = 'stable';
       state.isBringingDown.bonuses = true;
     }
   }
@@ -65,7 +64,7 @@ export default class Bonus {
     )
       this.pos.y += this.velocity.y;
     else {
-      this.status = 'merge';
+      this.mode = 'merge';
       this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
       state.mergingBonusesCount++;
     }
@@ -87,9 +86,9 @@ export default class Bonus {
   }
 
   draw() {
-    if (this.status === 'zoom-in') this.zoomIn();
-    if (this.status === 'drop') this.drop();
-    if (this.status === 'merge' && haveAllTheProjectilesLanded()) this.merge();
+    if (this.mode === 'zoom-in') this.zoomIn();
+    if (this.mode === 'drop') this.drop();
+    if (this.mode === 'merge' && haveAllTheProjectilesLanded()) this.merge();
 
     // bonus particle
     C.beginPath();
@@ -99,7 +98,7 @@ export default class Bonus {
     C.fill();
 
     // bonus ring
-    if (this.status === 'stable') {
+    if (this.mode === 'stable') {
       C.beginPath();
       C.setLineDash([]);
       C.arc(
