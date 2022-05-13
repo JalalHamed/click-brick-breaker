@@ -1,7 +1,7 @@
-// Class
+// Classes
 import Projectile from './Projectile.js';
 import increscent from './increscent.js';
-// Constructor Instances
+// Objects
 import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
 import coefficient from './coefficient.js';
@@ -47,19 +47,6 @@ export default class Bonus {
     };
   }
 
-  zoomIn() {
-    if (this.particleRadius + this.radiusVelocity < SIZES.projectile.radius)
-      this.particleRadius += this.radiusVelocity;
-    else {
-      this.particleRadius = SIZES.projectile.radius;
-      this.mode = 'lower';
-      if (state.bonuses.some(bonus => bonus.mode === 'stable'))
-        state.bonuses
-          .filter(bonus => bonus.mode === 'stable')
-          .forEach(bonus => (bonus.mode = 'lower'));
-    }
-  }
-
   calcSteps() {
     this.steps = Math.floor(
       Math.abs(this.pos.x - state.projectile.pos.x) / this.velocity.x
@@ -85,6 +72,19 @@ export default class Bonus {
     return `rgb(${getRGB(0)}, ${
       +cBC[1] - colorsDifference[1] / this.steps
     }, ${getRGB(2)})`;
+  }
+
+  zoomIn() {
+    if (this.particleRadius + this.radiusVelocity < SIZES.projectile.radius)
+      this.particleRadius += this.radiusVelocity;
+    else {
+      this.particleRadius = SIZES.projectile.radius;
+      this.mode = 'lower';
+      if (state.bonuses.some(bonus => bonus.mode === 'stable'))
+        state.bonuses
+          .filter(bonus => bonus.mode === 'stable')
+          .forEach(bonus => (bonus.mode = 'lower'));
+    }
   }
 
   drop() {

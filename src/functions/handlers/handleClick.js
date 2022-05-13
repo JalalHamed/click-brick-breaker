@@ -1,6 +1,6 @@
 // Classes
 import Projectile from '../../classes/Projectile.js';
-// Constructor Instances
+// Objects
 import coefficient from '../../classes/coefficient.js';
 // Functions
 import {

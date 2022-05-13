@@ -1,4 +1,4 @@
-// Constructor Instances
+// Objects
 import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Functions

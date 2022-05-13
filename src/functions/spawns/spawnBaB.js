@@ -1,7 +1,7 @@
 // Classes
 import Brick from '../../classes/Brick.js';
 import Bonus from '../../classes/Bonus.js';
-// Constructor Instances
+// Objects
 import score from '../../classes/statistics/score.js';
 // Functions
 import { genRndUniqueGridRowIndex } from '../helpers.js';

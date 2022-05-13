@@ -1,4 +1,4 @@
-// Constructor Instances
+// Objects
 import bottomBorder from './borders/bottomBorder.js';
 // Configs
 import { C, COLORS, SIZES, CANVAS } from '../config.js';

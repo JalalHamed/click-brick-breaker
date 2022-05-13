@@ -1,4 +1,4 @@
-// Constructor Instances
+// Objects
 import record from '../../classes/statistics/record.js';
 import score from '../../classes/statistics/score.js';
 import bottomBorder from '../../classes/borders/bottomBorder.js';

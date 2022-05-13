@@ -1,4 +1,4 @@
-// Constructor Instances
+// Objects
 import topBorder from '../classes/borders/topBorder.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 // Configs
@@ -69,13 +69,9 @@ export function getFontSize() {
 }
 
 export function isAnythingMoving() {
-  if (
-    [...state.projectiles, ...state.bonuses, ...state.bricks].some(
-      item => item.mode !== 'stable'
-    )
-  )
-    return true;
-  else return false;
+  return [...state.projectiles, ...state.bonuses, ...state.bricks].some(
+    item => item.mode !== 'stable'
+  );
 }
 
 export function genRndUniqueGridRowIndex(usedIndexes) {

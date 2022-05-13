@@ -1,4 +1,4 @@
-// Constructor Instances
+// Objects
 import bottomBorder from './borders/bottomBorder.js';
 // Functions
 import { getID } from '../functions/helpers.js';

@@ -1,4 +1,4 @@
-// Constructor Instances
+// Objects
 import coefficient from '../../classes/coefficient.js';
 import topBorder from '../../classes/borders/topBorder.js';
 import bottomBorder from '../../classes/borders/bottomBorder.js';

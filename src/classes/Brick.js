@@ -1,6 +1,6 @@
 // Classes
 import Piece from './Piece.js';
-// Constructor Instances
+// Objects
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
 // Functions
