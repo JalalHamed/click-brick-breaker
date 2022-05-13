@@ -2,7 +2,7 @@
 import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
 // Functions
-import { getAngle } from '../functions/helpers.js';
+import { getAngle } from '../helpers.js';
 // Configs
 import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
 // State

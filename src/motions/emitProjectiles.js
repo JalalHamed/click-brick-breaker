@@ -1,9 +1,9 @@
 // Objects
-import coefficient from '../../classes/coefficient.js';
-import topBorder from '../../classes/borders/topBorder.js';
-import bottomBorder from '../../classes/borders/bottomBorder.js';
-import score from '../../classes/statistics/score.js';
-import record from '../../classes/statistics/record.js';
+import coefficient from '../classes/coefficient.js';
+import topBorder from '../classes/borders/topBorder.js';
+import bottomBorder from '../classes/borders/bottomBorder.js';
+import score from '../classes/statistics/score.js';
+import record from '../classes/statistics/record.js';
 // Functions
 import spawnBaB from '../spawns/spawnBaB.js';
 import { getXDist } from '../helpers.js';
@@ -15,9 +15,9 @@ import {
   PROJECTILE_VELOCITY_COEFFICIENT as P_V_C,
   EMITTED_PROJECTILES_MARGIN as E_P_M,
   MERGING_VELOCITY as M_V,
-} from '../../config.js';
+} from '../config.js';
 // State
-import state from '../../state.js';
+import state from '../state.js';
 
 let counter = 0;
 let isFirstOneToLand = true;

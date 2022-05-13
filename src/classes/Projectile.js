@@ -1,7 +1,7 @@
 // Objects
 import bottomBorder from './borders/bottomBorder.js';
 // Functions
-import { getID } from '../functions/helpers.js';
+import { getID } from '../helpers.js';
 // Configs
 import {
   COLORS,

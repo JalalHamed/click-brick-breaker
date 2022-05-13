@@ -6,7 +6,7 @@ import {
   getBrickWidth,
   getFontSize,
   getParticleRadius,
-} from './functions/helpers.js';
+} from './helpers.js';
 
 export const CANVAS = document.querySelector('CANVAS');
 export const C = CANVAS.getContext('2d');

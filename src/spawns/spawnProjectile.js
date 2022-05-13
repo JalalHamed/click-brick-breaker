@@ -1,7 +1,7 @@
 // Classes
-import Projectile from '../../classes/Projectile.js';
+import Projectile from '../classes/Projectile.js';
 // State
-import state from '../../state.js';
+import state from '../state.js';
 
 const spawnProjectile = () => {
   const projectile = new Projectile();

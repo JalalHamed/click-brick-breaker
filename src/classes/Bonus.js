@@ -12,7 +12,7 @@ import {
   getColorsDifferences,
   getBonusYPos,
   getXDist,
-} from '../functions/helpers.js';
+} from '../helpers.js';
 // Configs
 import {
   COLORS,

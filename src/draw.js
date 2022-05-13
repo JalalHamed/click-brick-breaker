@@ -1,21 +1,21 @@
 // Objects
-import pointer from '../classes/pointer.js';
-import topBorder from '../classes/borders/topBorder.js';
-import bottomBorder from '../classes/borders/bottomBorder.js';
-import record from '../classes/statistics/record.js';
-import score from '../classes/statistics/score.js';
-import increscent from '../classes/increscent.js';
-import coefficient from '../classes/coefficient.js';
-import fps from '../classes/fps.js';
+import pointer from './classes/pointer.js';
+import topBorder from './classes/borders/topBorder.js';
+import bottomBorder from './classes/borders/bottomBorder.js';
+import record from './classes/statistics/record.js';
+import score from './classes/statistics/score.js';
+import increscent from './classes/increscent.js';
+import coefficient from './classes/coefficient.js';
+import fps from './classes/fps.js';
 // Functions
 import swingBonusRing from './motions/swingBonusRing.js';
 import loweringBaB from './motions/loweringBaB.js';
 import emitProjectiles from './motions/emitProjectiles.js';
 import { isAnythingMoving } from './helpers.js';
 // Configs
-import { C, CANVAS } from '../config.js';
+import { C, CANVAS } from './config.js';
 // State
-import state from '../state.js';
+import state from './state.js';
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);

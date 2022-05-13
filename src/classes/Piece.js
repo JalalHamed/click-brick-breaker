@@ -1,5 +1,5 @@
 // Functions
-import { decrease, getPiecePos } from '../functions/helpers.js';
+import { decrease, getPiecePos } from '../helpers.js';
 // Configs
 import {
   C,

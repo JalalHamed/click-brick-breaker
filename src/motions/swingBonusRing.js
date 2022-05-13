@@ -1,7 +1,7 @@
 // Configs
-import { SIZES, BONUS_RING_MIN_ADD as B_R_M_A } from '../../config.js';
+import { SIZES, BONUS_RING_MIN_ADD as B_R_M_A } from '../config.js';
 // State
-import state from '../../state.js';
+import state from '../state.js';
 
 const { min, max } = SIZES.bonus.ring;
 const numbers = [];

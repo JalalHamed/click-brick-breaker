@@ -4,7 +4,7 @@ import Piece from './Piece.js';
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
 // Functions
-import { getID, getBrickYPos } from '../functions/helpers.js';
+import { getID, getBrickYPos } from '../helpers.js';
 // Configs
 import { SIZES, C, COLORS } from '../config.js';
 // State

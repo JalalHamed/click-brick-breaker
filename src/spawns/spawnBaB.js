@@ -1,12 +1,12 @@
 // Classes
-import Brick from '../../classes/Brick.js';
-import Bonus from '../../classes/Bonus.js';
+import Brick from '../classes/Brick.js';
+import Bonus from '../classes/Bonus.js';
 // Objects
-import score from '../../classes/statistics/score.js';
+import score from '../classes/statistics/score.js';
 // Functions
 import { genRndUniqueGridRowIndex } from '../helpers.js';
 // State
-import state from '../../state.js';
+import state from '../state.js';
 
 const spawnBricksAndBonus = () => {
   let gridRowIndexes = [];

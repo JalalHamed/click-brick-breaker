@@ -1,6 +1,6 @@
 // Objects
-import topBorder from '../classes/borders/topBorder.js';
-import bottomBorder from '../classes/borders/bottomBorder.js';
+import topBorder from './classes/borders/topBorder.js';
+import bottomBorder from './classes/borders/bottomBorder.js';
 // Configs
 import {
   SIZES,
@@ -9,9 +9,9 @@ import {
   CANVAS,
   BRICKS_MARGIN,
   MIN_PARTICLE_RADIUS,
-} from '../config.js';
+} from './config.js';
 // State
-import state from '../state.js';
+import state from './state.js';
 
 export function calcGrid() {
   const { width, height } = SIZES.brick;

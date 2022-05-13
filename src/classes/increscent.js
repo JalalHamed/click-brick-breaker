@@ -1,7 +1,7 @@
 // Classes
 import bottomBorder from './borders/bottomBorder.js';
 // Functions
-import { decrease } from '../functions/helpers.js';
+import { decrease } from '../helpers.js';
 // Configs
 import {
   C,

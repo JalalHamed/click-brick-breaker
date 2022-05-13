@@ -1,20 +1,13 @@
 // Classes
-import Projectile from '../../classes/Projectile.js';
+import Projectile from '../classes/Projectile.js';
 // Objects
-import coefficient from '../../classes/coefficient.js';
+import coefficient from '../classes/coefficient.js';
 // Functions
-import {
-  getAngle,
-  isAnythingMoving,
-  isInBorder,
-} from '../../functions/helpers.js';
+import { getAngle, isAnythingMoving, isInBorder } from '../helpers.js';
 // Configs
-import {
-  CANVAS,
-  PROJECTILE_VELOCITY_COEFFICIENT as P_V_C,
-} from '../../config.js';
+import { CANVAS, PROJECTILE_VELOCITY_COEFFICIENT as P_V_C } from '../config.js';
 // State
-import state from '../../state.js';
+import state from '../state.js';
 
 const handleClick = e => {
   if (isInBorder(e.y) && !isAnythingMoving()) {

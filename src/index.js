@@ -1,12 +1,12 @@
 // Handlers
-import handleMouseMove from './functions/handlers/handleMouseMove.js';
-import handleResize from './functions/handlers/handleResize.js';
-import handleClick from './functions/handlers/handleClick.js';
+import handleMouseMove from './handlers/handleMouseMove.js';
+import handleResize from './handlers/handleResize.js';
+import handleClick from './handlers/handleClick.js';
 // Functions
-import spawnBaB from './functions/spawns/spawnBaB.js';
-import spawnProjectile from './functions/spawns/spawnProjectile.js';
-import draw from './functions/draw.js';
-import { calcGrid, increase } from './functions/helpers.js';
+import spawnBaB from './spawns/spawnBaB.js';
+import spawnProjectile from './spawns/spawnProjectile.js';
+import draw from './draw.js';
+import { calcGrid, increase } from './helpers.js';
 // State
 import state from './state.js';
 

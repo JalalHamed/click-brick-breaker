@@ -1,7 +1,7 @@
 // Configs
-import { BRICKS_AND_BONUSES_BOUNCE_SIZE as B_A_B_B_S } from '../../config.js';
+import { BRICKS_AND_BONUSES_BOUNCE_SIZE as B_A_B_B_S } from '../config.js';
 // State
-import state from '../../state.js';
+import state from '../state.js';
 
 let isGoingDown = true;
 let hasCalculatedSteps = false;
