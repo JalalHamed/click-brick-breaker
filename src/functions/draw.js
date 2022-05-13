@@ -24,7 +24,7 @@ const draw = () => {
   [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
   [...state.bricks, ...state.bonuses].forEach(item => item.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
-  if (state.isMoving.projectiles)
+  if (state.projectiles.some(projectile => projectile.mode !== 'stable'))
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
   if (state.isMoving.increscent) increscent.draw();
@@ -32,7 +32,8 @@ const draw = () => {
 
   // Motions
   if (state.counter % 2 === 0) swingBonusRing();
-  if (state.isMoving.projectiles) emitProjectiles();
+  if (state.projectiles.some(projectile => projectile.mode === 'emit'))
+    emitProjectiles();
   if (
     state.isBringingDown.bricks &&
     state.isBringingDown.bonuses &&

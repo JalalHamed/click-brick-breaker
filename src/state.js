@@ -1,7 +1,7 @@
 const state = {
   isMouseInBorder: false,
   isBringingDown: { bonuses: false, bricks: false },
-  isMoving: { projectiles: false, increscent: false },
+  isMoving: { increscent: false },
 
   projectile: {},
   grid: { row: [], column: [] },

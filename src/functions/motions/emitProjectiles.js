@@ -207,12 +207,8 @@ const emitProjectiles = () => {
     }
   });
 
-  if (
-    state.projectiles.every(projectile => projectile.mode === 'stable') &&
-    state.bonuses.every(bonus => bonus.mode !== 'drop')
-  ) {
+  if (state.projectiles.every(projectile => projectile.mode !== 'emit')) {
     isFirstOneToLand = true;
-    state.isMoving.projectiles = false;
     counter = 0;
     state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();

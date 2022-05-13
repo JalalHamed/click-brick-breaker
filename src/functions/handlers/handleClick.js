@@ -30,9 +30,7 @@ const handleClick = e => {
       projectile.velocity.y = velocity.y;
     });
 
-    state.isMoving.projectiles = true;
     state.isMouseInBorder = false; // without this, the pointer will be drawn after the projectiles land on the same spot it was when the click event happened whether the mouse is inside or outside the borders.
-
     CANVAS.style.cursor = 'auto';
   }
 };

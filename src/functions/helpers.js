@@ -70,7 +70,7 @@ export function getFontSize() {
 
 export function isAnythingMoving() {
   if (
-    state.isMoving.projectiles ||
+    state.projectiles.some(projectile => projectile.mode !== 'stable') ||
     state.isBringingDown.bricks ||
     state.isBringingDown.bonuses ||
     state.bonuses.some(bonus => bonus.mode !== 'stable') ||
@@ -79,7 +79,6 @@ export function isAnythingMoving() {
     return true;
   else return false;
 }
-
 
 export function genRndUniqueGridRowIndex(usedIndexes) {
   let index;
