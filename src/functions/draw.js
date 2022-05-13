@@ -27,7 +27,7 @@ const draw = () => {
   if (state.projectiles.some(projectile => projectile.mode !== 'stable'))
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
-  if (state.isMoving.increscent) increscent.draw();
+  if (increscent.mode === 'rise') increscent.draw();
   if (state.pieces.length) state.pieces.forEach(piece => piece.draw());
 
   // Motions

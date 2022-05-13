@@ -1,5 +1,6 @@
 // Class
 import Projectile from './Projectile.js';
+import increscent from './increscent.js';
 // Constructor Instances
 import topBorder from './borders/topBorder.js';
 import bottomBorder from './borders/bottomBorder.js';
@@ -97,7 +98,7 @@ export default class Bonus {
       this.pos.x += this.velocity.x;
     else {
       coefficient.increaseCount();
-      state.isMoving.increscent = true;
+      increscent.mode = 'rise';
       state.projectiles.push(new Projectile());
       this.selfDestruct();
     }

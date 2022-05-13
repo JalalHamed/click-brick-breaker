@@ -14,6 +14,7 @@ import state from '../state.js';
 
 class Increscent {
   constructor() {
+    this.mode = 'hide';
     this.transparency = 1;
     this.color = COLORS.projectile;
 
@@ -26,7 +27,7 @@ class Increscent {
       this.transparency = decrease(this.transparency, 0.05, 0);
       this.color = `${COLORS.projectile.slice(0, -1)}, ${this.transparency})`;
     } else {
-      state.isMoving.increscent = false;
+      this.mode = 'hide';
       this.reset();
       this.repoSize();
     }
