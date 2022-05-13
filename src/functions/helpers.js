@@ -70,11 +70,9 @@ export function getFontSize() {
 
 export function isAnythingMoving() {
   if (
-    state.projectiles.some(projectile => projectile.mode !== 'stable') ||
-    state.isBringingDown.bricks ||
-    state.isBringingDown.bonuses ||
-    state.bonuses.some(bonus => bonus.mode !== 'stable') ||
-    state.bricks.some(brick => brick.mode !== 'stable')
+    [...state.projectiles, ...state.bonuses, ...state.bricks].some(
+      item => item.mode !== 'stable'
+    )
   )
     return true;
   else return false;

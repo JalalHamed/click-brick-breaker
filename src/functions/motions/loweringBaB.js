@@ -6,14 +6,13 @@ import state from '../../state.js';
 let isGoingDown = true;
 let hasCalculatedSteps = false;
 
-const bringDownBricksAndBonuses = () => {
+const loweringBricksAndBonuses = () => {
   const velocity = 7;
-  const BricksAndBonuses = [
-    ...state.bricks,
-    ...state.bonuses.filter(bonus => bonus.mode === 'stable'),
-  ];
+  const bricksAndBonuses = [...state.bricks, ...state.bonuses].filter(
+    item => item.mode === 'lower'
+  );
 
-  BricksAndBonuses.forEach(item => {
+  bricksAndBonuses.forEach(item => {
     if (item.pos.y < item.pos.nextY + B_A_B_B_S && isGoingDown)
       item.pos.y += velocity;
     else if (item.pos.y - velocity > item.pos.nextY) {
@@ -22,13 +21,12 @@ const bringDownBricksAndBonuses = () => {
     } else {
       isGoingDown = true;
       hasCalculatedSteps = false;
-      state.isBringingDown.bricks = false;
-      state.isBringingDown.bonuses = false;
+      bricksAndBonuses.forEach(item => (item.mode = 'stable'));
     }
   });
 
-  if (!state.isBringingDown.bricks && !state.isBringingDown.bonuses)
-    BricksAndBonuses.forEach(item => item.updateYPos());
+  if (bricksAndBonuses.every(item => item.mode === 'stable'))
+    bricksAndBonuses.forEach(item => item.updateYPos());
 };
 
-export default bringDownBricksAndBonuses;
+export default loweringBricksAndBonuses;

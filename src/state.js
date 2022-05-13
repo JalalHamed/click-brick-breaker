@@ -1,6 +1,5 @@
 const state = {
   isMouseInBorder: false,
-  isBringingDown: { bonuses: false, bricks: false },
 
   projectile: {},
   grid: { row: [], column: [] },

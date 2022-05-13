@@ -53,8 +53,11 @@ export default class Brick {
     update('y', 'height');
 
     if (isDone.x && isDone.y) {
-      this.mode = 'stable';
-      state.isBringingDown.bricks = true;
+      this.mode = 'lower';
+      if (state.bricks.some(brick => brick.mode === 'stable'))
+        state.bricks
+          .filter(brick => brick.mode === 'stable')
+          .forEach(brick => (brick.mode = 'lower'));
     }
   }
 

@@ -9,7 +9,7 @@ import coefficient from '../classes/coefficient.js';
 import fps from '../classes/fps.js';
 // Functions
 import swingBonusRing from './motions/swingBonusRing.js';
-import bringDownBaB from './motions/bringDownBaB.js';
+import loweringBaB from './motions/loweringBaB.js';
 import emitProjectiles from './motions/emitProjectiles.js';
 import { isAnythingMoving } from './helpers.js';
 // Configs
@@ -19,6 +19,7 @@ import state from '../state.js';
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
+  const bricksAndBonuses = [...state.bonuses, ...state.bricks];
 
   // prettier-ignore
   [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
@@ -35,11 +36,10 @@ const draw = () => {
   if (state.projectiles.some(projectile => projectile.mode === 'emit'))
     emitProjectiles();
   if (
-    state.isBringingDown.bricks &&
-    state.isBringingDown.bonuses &&
-    state.bricks.every(brick => brick.mode === 'stable')
+    bricksAndBonuses.every(item => item.mode !== 'zoom-in') &&
+    bricksAndBonuses.some(item => item.mode === 'lower')
   )
-    bringDownBaB();
+    loweringBaB();
 };
 
 export default draw;

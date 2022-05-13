@@ -51,8 +51,11 @@ export default class Bonus {
       this.particleRadius += this.radiusVelocity;
     else {
       this.particleRadius = SIZES.projectile.radius;
-      this.mode = 'stable';
-      state.isBringingDown.bonuses = true;
+      this.mode = 'lower';
+      if (state.bonuses.some(bonus => bonus.mode === 'stable'))
+        state.bonuses
+          .filter(bonus => bonus.mode === 'stable')
+          .forEach(bonus => (bonus.mode = 'lower'));
     }
   }
 
@@ -121,7 +124,7 @@ export default class Bonus {
     C.fill();
 
     // bonus ring
-    if (this.mode === 'stable') {
+    if (this.mode !== 'drop' && this.mode !== 'merge') {
       C.beginPath();
       C.setLineDash([]);
       C.arc(
