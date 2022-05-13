@@ -2,8 +2,9 @@ const state = {
   isMouseInBorder: false,
 
   projectile: {},
-  grid: { row: [], column: [] },
   mouseCoords: {},
+  grid: { row: [], column: [] },
+  furthestBonus: {},
 
   bricks: [],
   bonuses: [],

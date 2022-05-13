@@ -11,6 +11,7 @@ import {
   convertRGBtoArr,
   getColorsDifferences,
   getBonusYPos,
+  getXDist,
 } from '../functions/helpers.js';
 // Configs
 import {
@@ -65,6 +66,13 @@ export default class Bonus {
     );
   }
 
+  calcXVelocity() {
+    if (this.id !== state.furthestBonus.id)
+      this.velocity.x /=
+        getXDist(state.furthestBonus, state.projectile) /
+        getXDist(this, state.projectile);
+  }
+
   updateYPos() {
     this.gridIndex.column++;
     this.pos.y = getBonusYPos(this.gridIndex.column);
@@ -102,6 +110,7 @@ export default class Bonus {
     else {
       coefficient.increaseCount();
       increscent.mode = 'rise';
+      state.furthestBonus = {};
       state.projectiles.push(new Projectile());
       this.selfDestruct();
     }

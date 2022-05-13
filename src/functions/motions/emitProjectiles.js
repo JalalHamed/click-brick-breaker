@@ -6,7 +6,7 @@ import score from '../../classes/statistics/score.js';
 import record from '../../classes/statistics/record.js';
 // Functions
 import spawnBaB from '../spawns/spawnBaB.js';
-import genBonusVelocity from '../generators/genBonusVelocity.js';
+import { getXDist } from '../helpers.js';
 // Configs
 import {
   CANVAS,
@@ -213,7 +213,18 @@ const emitProjectiles = () => {
     state.setLS({ projectile: state.projectile.pos.x });
     coefficient.regainCount();
 
-    if (state.bonuses.some(bonus => bonus.mode === 'merge')) genBonusVelocity();
+    if (state.bonuses.some(bonus => bonus.mode === 'merge')) {
+      const bonuses = state.bonuses.filter(bonus => bonus.mode === 'merge');
+      bonuses.forEach(bonus => {
+        if (!state.furthestBonus.id) state.furthestBonus = bonus;
+        else if (
+          getXDist(bonus, state.projectile) >
+          getXDist(state.furthestBonus, state.projectile)
+        )
+          state.furthestBonus = bonus;
+      });
+      bonuses.forEach(bonus => bonus.calcXVelocity());
+    }
 
     score.addOne();
     if (record.count < score.count) record.addOne();
