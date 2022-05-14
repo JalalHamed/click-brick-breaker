@@ -35,6 +35,33 @@ export default class Brick {
     };
   }
 
+  updateYPos() {
+    this.gridIndex.column++;
+    this.pos.y = getBrickYPos(this.gridIndex.column);
+    this.pos.nextY = getBrickYPos(this.gridIndex.column + 1);
+  }
+
+  updateColor() {
+    const difference = score.count - this.weight;
+    const GreenLightestMinusHeaviest = 80;
+    const BlueLightestMinusHeaviest = 40;
+    const g = GreenLightestMinusHeaviest / (score.count - 1);
+    const b = BlueLightestMinusHeaviest / (score.count - 1);
+    if (difference > 0)
+      return `rgb(255, ${80 + difference * g}, ${80 + difference * b})`;
+    else return COLORS.brick.heaviest;
+  }
+
+  collide() {
+    this.weight--;
+    this.color = this.updateColor();
+    if (this.weight === 0) {
+      for (let i = 0; i < 24; i++)
+        state.pieces.push(new Piece({ index: i, id: this.id, pos: this.pos }));
+      state.bricks = state.bricks.filter(brick => brick.id !== this.id);
+    }
+  }
+
   zoomIn() {
     const isDone = { x: false, y: false };
 
@@ -59,34 +86,6 @@ export default class Brick {
           .filter(brick => brick.mode === 'stable')
           .forEach(brick => (brick.mode = 'lower'));
     }
-  }
-
-  collide() {
-    this.weight--;
-    this.updateColor();
-    if (this.weight === 0) {
-      for (let i = 0; i < 24; i++)
-        state.pieces.push(new Piece({ index: i, id: this.id, pos: this.pos }));
-      state.bricks = state.bricks.filter(brick => brick.id !== this.id);
-    }
-  }
-
-  updateYPos() {
-    this.updateColor();
-    this.gridIndex.column++;
-    this.pos.y = getBrickYPos(this.gridIndex.column);
-    this.pos.nextY = getBrickYPos(this.gridIndex.column + 1);
-  }
-
-  updateColor() {
-    const difference = score.count - this.weight;
-    const GreenLightestMinusHeaviest = 80;
-    const BlueLightestMinusHeaviest = 40;
-    const g = GreenLightestMinusHeaviest / (score.count - 1);
-    const b = BlueLightestMinusHeaviest / (score.count - 1);
-    if (difference > 0)
-      this.color = `rgb(255, ${80 + difference * g}, ${80 + difference * b})`;
-    else this.color = COLORS.brick.heaviest;
   }
 
   draw() {

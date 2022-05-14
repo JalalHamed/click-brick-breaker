@@ -68,9 +68,9 @@ export default class Bonus {
 
   getColor() {
     const cBC = convertRGBtoArr(this.color);
-    const getRGB = index => +cBC[index] + colorsDifference[index] / this.steps;
+    const getRGB = index => cBC[index] + colorsDifference[index] / this.steps;
     return `rgb(${getRGB(0)}, ${
-      +cBC[1] - colorsDifference[1] / this.steps
+      cBC[1] - colorsDifference[1] / this.steps
     }, ${getRGB(2)})`;
   }
 

@@ -120,7 +120,7 @@ export function getBrickYPos(gridColumnIndex) {
 }
 
 export function convertRGBtoArr(rgb) {
-  return rgb.slice(4, -1).split(',');
+  return rgb.slice(4, -1).split(',').map(Number);
 }
 
 export function getColorsDifferences(color1, color2) {
