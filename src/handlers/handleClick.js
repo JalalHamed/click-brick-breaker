@@ -13,8 +13,8 @@ const handleClick = e => {
   if (isInBorder(e.y) && !isAnythingMoving()) {
     const angle = getAngle(e);
     const velocity = {
-      x: -Math.cos(angle) * VELOCITY.projectileCoefficient,
-      y: -Math.sin(angle) * VELOCITY.projectileCoefficient,
+      x: -Math.cos(angle) * VELOCITY.projectile,
+      y: -Math.sin(angle) * VELOCITY.projectile,
     };
 
     state.projectiles.forEach(projectile => {

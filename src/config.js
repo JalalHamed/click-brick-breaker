@@ -31,7 +31,7 @@ export const PIECE_DISTANCE_TO_TAKE_BEFORE_FADE = getBorderMargin() / 3;
 export const BRICKS_AND_BONUSES_BOUNCE_SIZE = getBrickHeight() / 2;
 
 export const VELOCITY = Object.freeze({
-  projectileCoefficient: 15,
+  projectile: 15,
   merging: 20,
   dropping: 20,
 });

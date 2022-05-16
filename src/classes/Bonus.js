@@ -22,18 +22,20 @@ const colorsDifference = getColorsDifferences(COLORS.bonus, COLORS.projectile);
 
 export default class Bonus {
   constructor(props) {
-    this.props = props;
-
     this.id = getID('bonus');
     this.mode = props.mode || 'stable';
     this.color = COLORS.bonus;
     this.steps = null;
+    this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
+    this.hasCollapsed = false;
 
-    this.particleRadius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
+    this.gridIndex = { row: props.gridRowIndex, column: 0 };
+    this.velocity = {
+      x: VELOCITY.merging,
+      y: VELOCITY.dropping,
+      radius: SIZES.bonus.radius / 20,
+    };
 
-    this.radiusVelocity = SIZES.bonus.radius / 20;
-    this.velocity = { x: VELOCITY.merging, y: VELOCITY.dropping };
-    this.gridIndex = { row: this.props.gridRowIndex, column: 0 };
     this.pos = {
       x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
       y: getBonusYPos(this.gridIndex.column),
@@ -69,10 +71,10 @@ export default class Bonus {
   }
 
   zoomIn() {
-    if (this.particleRadius + this.radiusVelocity < SIZES.projectile.radius)
-      this.particleRadius += this.radiusVelocity;
+    if (this.radius + this.velocity.radius < SIZES.projectile.radius)
+      this.radius += this.velocity.radius;
     else {
-      this.particleRadius = SIZES.projectile.radius;
+      this.radius = SIZES.projectile.radius;
       this.mode = 'lower';
       if (state.bonuses.some(bonus => bonus.mode === 'stable'))
         state.bonuses
@@ -82,6 +84,11 @@ export default class Bonus {
   }
 
   collide() {
+    this.collapse();
+    this.mode = 'drop';
+  }
+
+  collapse() {
     for (let i = 0; i < 24; i++)
       state.pieces.bonuses.push(
         new BonusPiece({ index: i, id: this.id, pos: this.pos })
@@ -117,6 +124,41 @@ export default class Bonus {
     }
   }
 
+  straightMerge() {
+    if (!this.hasCollapsed) {
+      this.collapse();
+      this.hasCollapsed = true;
+    }
+
+    const angle = Math.atan2(
+      state.projectile.pos.y - this.pos.y,
+      state.projectile.pos.x - this.pos.x
+    );
+    this.velocity.x = Math.cos(angle) * VELOCITY.merging;
+    this.velocity.y = Math.sin(angle) * VELOCITY.merging;
+
+    if (this.pos.y + this.velocity.y < state.projectile.pos.y)
+      this.pos.y += this.velocity.y;
+    else this.pos.y = state.projectile.pos.y;
+    if (
+      this.pos.x + this.velocity.x < state.projectile.pos.x ||
+      this.pos.x + this.velocity.x > state.projectile.pos.x + SIZES.bonus.radius
+    )
+      this.pos.x += this.velocity.x;
+    else this.pos.x = state.projectile.pos.x;
+
+    if (
+      this.pos.y === state.projectile.pos.y &&
+      this.pos.x === state.projectile.pos.x
+    ) {
+      coefficient.increaseCount();
+      state.mergingBonusesCount++;
+      increscent.mode = 'rise';
+      state.projectiles.push(new Projectile());
+      this.selfDestruct();
+    }
+  }
+
   draw() {
     if (this.mode === 'zoom-in') this.zoomIn();
     if (this.mode === 'drop') this.drop();
@@ -125,16 +167,21 @@ export default class Bonus {
       state.projectiles.every(projectile => projectile.mode === 'stable')
     )
       this.merge();
+    if (this.mode === 'straight-merge') this.straightMerge();
 
     // Particle
     C.beginPath();
     C.setLineDash([]);
-    C.arc(this.pos.x, this.pos.y, this.particleRadius, 0, 2 * Math.PI);
+    C.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
     C.fillStyle = this.color;
     C.fill();
 
     // Ring
-    if (this.mode !== 'drop' && this.mode !== 'merge') {
+    if (
+      this.mode !== 'drop' &&
+      this.mode !== 'merge' &&
+      this.mode !== 'straight-merge'
+    ) {
       C.beginPath();
       C.setLineDash([]);
       C.arc(

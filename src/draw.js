@@ -19,7 +19,6 @@ import state from './state.js';
 
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
-  const bricksAndBonuses = [...state.bonuses, ...state.bricks];
 
   // prettier-ignore
   [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
@@ -39,10 +38,15 @@ const draw = () => {
   if (state.projectiles.some(projectile => projectile.mode === 'emit'))
     emitProjectiles();
   if (
-    bricksAndBonuses.every(item => item.mode !== 'zoom-in') &&
-    bricksAndBonuses.some(item => item.mode === 'lower')
-  )
+    state.bricks.every(item => item.mode === 'lower') &&
+    state.bonuses.some(item => item.mode === 'lower') // some bonuses might be in drop/merge mode
+  ) {
+    if (state.bonuses.some(bonus => bonus.gridIndex.column === 7))
+      state.bonuses
+        .filter(bonus => bonus.gridIndex.column === 7)
+        .forEach(bonus => (bonus.mode = 'straight-merge'));
     loweringBaB();
+  }
 };
 
 export default draw;

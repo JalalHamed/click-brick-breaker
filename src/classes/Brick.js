@@ -35,6 +35,7 @@ export default class Brick {
       x: state.grid.row[this.gridIndex.row],
       y: getBrickYPos(this.gridIndex.column),
     };
+
     this.pos = {
       x: this.endPos.x + (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
       y: this.endPos.y + (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
@@ -67,18 +68,23 @@ export default class Brick {
   collide() {
     this.weight--;
 
-    if (!convertRGBtoArr(this.color)[3]) {
+    // Change color displaying the hit
+    if (!convertRGBtoArr(this.color)[3] && state.counter < G_C_M_V - B_C_R_D) {
       this.color = `${this.color.slice(0, -1)}, 0.6)`;
-      this.counter = state.counter < G_C_M_V - B_C_R_D ? state.counter : 0;
+      this.counter = state.counter;
     }
 
     if (this.weight === 0) {
-      for (let i = 0; i < 24; i++)
-        state.pieces.bricks.push(
-          new BreakPiece({ index: i, id: this.id, pos: this.pos })
-        );
+      this.collapse();
       this.selfDestruct();
     }
+  }
+
+  collapse() {
+    for (let i = 0; i < 24; i++)
+      state.pieces.bricks.push(
+        new BreakPiece({ index: i, id: this.id, pos: this.pos })
+      );
   }
 
   zoomIn() {
