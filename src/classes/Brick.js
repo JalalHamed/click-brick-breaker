@@ -4,7 +4,7 @@ import Piece from './Piece.js';
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
 // Functions
-import { getID, getBrickYPos } from '../helpers.js';
+import { getID, getBrickYPos, convertRGBtoArr } from '../helpers.js';
 // Configs
 import { SIZES, C, COLORS } from '../config.js';
 // State
@@ -54,7 +54,6 @@ export default class Brick {
 
   collide() {
     this.weight--;
-    this.color = this.updateColor();
     if (this.weight === 0) {
       for (let i = 0; i < 24; i++)
         state.pieces.push(new Piece({ index: i, id: this.id, pos: this.pos }));

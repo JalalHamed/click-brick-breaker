@@ -3,13 +3,7 @@ import bottomBorder from './borders/bottomBorder.js';
 // Functions
 import { getID } from '../helpers.js';
 // Configs
-import {
-  COLORS,
-  SIZES,
-  CANVAS,
-  C,
-  MERGING_VELOCITY as M_V,
-} from '../config.js';
+import { COLORS, SIZES, CANVAS, C, VELOCITY } from '../config.js';
 // State
 import state from '../state.js';
 
@@ -41,8 +35,10 @@ export default class Projectile {
   }
 
   merge() {
-    if (this.pos.x + M_V < state.projectile.pos.x) this.pos.x += M_V;
-    else if (this.pos.x - M_V > state.projectile.pos.x) this.pos.x -= M_V;
+    if (this.pos.x + VELOCITY.merging < state.projectile.pos.x)
+      this.pos.x += VELOCITY.merging;
+    else if (this.pos.x - VELOCITY.merging > state.projectile.pos.x)
+      this.pos.x -= VELOCITY.merging;
     else {
       this.pos.x = state.projectile.pos.x;
       this.mode = 'stable';

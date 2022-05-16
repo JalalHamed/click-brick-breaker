@@ -12,9 +12,7 @@ import {
   CANVAS,
   SIZES,
   SAFE_MARGIN_FROM_CANVAS_SIDES as S_M_F_C_S,
-  PROJECTILE_VELOCITY_COEFFICIENT as P_V_C,
   EMITTED_PROJECTILES_MARGIN as E_P_M,
-  MERGING_VELOCITY as M_V,
 } from '../config.js';
 // State
 import state from '../state.js';

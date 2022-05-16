@@ -14,13 +14,7 @@ import {
   getXDist,
 } from '../helpers.js';
 // Configs
-import {
-  COLORS,
-  SIZES,
-  C,
-  MERGING_VELOCITY as M_V,
-  DROPPING_VELOCITY as D_V,
-} from '../config.js';
+import { COLORS, SIZES, C, VELOCITY } from '../config.js';
 // State
 import state from '../state.js';
 
@@ -38,7 +32,7 @@ export default class Bonus {
     this.particleRadius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 
     this.radiusVelocity = SIZES.bonus.radius / 20;
-    this.velocity = { x: M_V, y: D_V };
+    this.velocity = { x: VELOCITY.merging, y: VELOCITY.dropping };
     this.gridIndex = { row: this.props.gridRowIndex, column: 0 };
     this.pos = {
       x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
