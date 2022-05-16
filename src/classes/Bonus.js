@@ -1,8 +1,8 @@
 // Classes
 import Projectile from './Projectile.js';
-import increscent from './increscent.js';
+import BonusPiece from './pieces/BonusPiece.js';
 // Objects
-import topBorder from './borders/topBorder.js';
+import increscent from './increscent.js';
 import bottomBorder from './borders/bottomBorder.js';
 import coefficient from './coefficient.js';
 // Functions
@@ -81,6 +81,13 @@ export default class Bonus {
     }
   }
 
+  collide() {
+    for (let i = 0; i < 24; i++)
+      state.pieces.bonuses.push(
+        new BonusPiece({ index: i, id: this.id, pos: this.pos })
+      );
+  }
+
   drop() {
     if (
       this.pos.y + SIZES.projectile.radius + this.velocity.y <
@@ -119,25 +126,25 @@ export default class Bonus {
     )
       this.merge();
 
-    // bonus particle
+    // Particle
     C.beginPath();
     C.setLineDash([]);
     C.arc(this.pos.x, this.pos.y, this.particleRadius, 0, 2 * Math.PI);
     C.fillStyle = this.color;
     C.fill();
 
-    // bonus ring
+    // Ring
     if (this.mode !== 'drop' && this.mode !== 'merge') {
       C.beginPath();
       C.setLineDash([]);
       C.arc(
         this.pos.x,
         this.pos.y,
-        state.bonusRingRadius + SIZES.border.height / 2,
+        state.bonusRingRadius + SIZES.bonus.ring.lineWidth / 2,
         0,
         2 * Math.PI
       );
-      C.lineWidth = SIZES.border.height;
+      C.lineWidth = SIZES.bonus.ring.lineWidth;
       C.strokeStyle = this.color;
       C.stroke();
     }

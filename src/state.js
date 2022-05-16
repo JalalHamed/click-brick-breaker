@@ -9,7 +9,8 @@ const state = {
   bricks: [],
   bonuses: [],
   projectiles: [],
-  pieces: [],
+
+  pieces: { bricks: [], bonuses: [] },
 
   innerWidth,
   counter: 0,

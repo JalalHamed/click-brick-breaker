@@ -54,8 +54,15 @@ export const SIZES = {
   brick: { width: getBrickWidth(), height: getBrickHeight() },
   bonus: {
     radius: getParticleRadius(),
-    ring: { min: getParticleRadius(), max: getParticleRadius() * 1.8 },
+    ring: {
+      min: getParticleRadius(),
+      max: getParticleRadius() * 1.8,
+      lineWidth: getBorderHeight(),
+    },
   },
-  piece: { width: getBrickWidth() / 6, height: getBrickHeight() / 4 },
+  pieces: {
+    brick: { width: getBrickWidth() / 6, height: getBrickHeight() / 4 },
+    bonus: { width: getBorderHeight() * 1.5, height: getBorderHeight() * 1.5 },
+  },
   font: getFontSize(),
 };

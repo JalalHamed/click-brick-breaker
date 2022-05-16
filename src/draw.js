@@ -29,7 +29,10 @@ const draw = () => {
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
   if (increscent.mode === 'rise') increscent.draw();
-  if (state.pieces.length) state.pieces.forEach(piece => piece.draw());
+  if (state.pieces.bricks.length)
+    state.pieces.bricks.forEach(piece => piece.draw());
+  if (state.pieces.bonuses.length)
+    state.pieces.bonuses.forEach(piece => piece.draw());
 
   // Motions
   if (state.counter % 2 === 0) swingBonusRing();

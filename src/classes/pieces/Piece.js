@@ -2,8 +2,6 @@
 import { decrease } from '../../helpers.js';
 // Configs
 import { PIECE_DISTANCE_TO_TAKE_BEFORE_FADE as P_D_T_T_B_F } from '../../config.js';
-// State
-import state from '../../state.js';
 
 class Piece {
   constructor(props) {
@@ -25,10 +23,6 @@ class Piece {
 
     if (this.D_T_T_B_F === 0)
       this.transparency = decrease(this.transparency, 0.02, 0);
-  }
-
-  selfDestruct() {
-    state.pieces = state.pieces.filter(piece => piece.id !== this.id);
   }
 }
 

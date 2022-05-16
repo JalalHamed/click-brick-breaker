@@ -74,7 +74,7 @@ export default class Brick {
 
     if (this.weight === 0) {
       for (let i = 0; i < 24; i++)
-        state.pieces.push(
+        state.pieces.bricks.push(
           new BreakPiece({ index: i, id: this.id, pos: this.pos })
         );
       this.selfDestruct();

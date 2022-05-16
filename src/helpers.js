@@ -96,13 +96,11 @@ export function getID(object) {
 }
 
 export function getBrickPiecePos(index) {
-  if (index < 6) return { x: index * SIZES.piece.width, y: 0 };
-  if (index < 12)
-    return { x: (index - 6) * SIZES.piece.width, y: SIZES.piece.height };
-  if (index < 18)
-    return { x: (index - 12) * SIZES.piece.width, y: SIZES.piece.height * 2 };
-  else
-    return { x: (index - 18) * SIZES.piece.width, y: SIZES.piece.height * 3 };
+  const { height, width } = SIZES.pieces.brick;
+  if (index < 6) return { x: index * width, y: 0 };
+  if (index < 12) return { x: (index - 6) * width, y: height };
+  if (index < 18) return { x: (index - 12) * width, y: height * 2 };
+  else return { x: (index - 18) * width, y: height * 3 };
 }
 
 export function decrease(variable, value, target) {
@@ -142,4 +140,25 @@ export function getBonusYPos(gridColumnIndex) {
 
 export function getXDist(obj1, obj2) {
   return Math.abs(obj1.pos.x - obj2.pos.x);
+}
+
+export function getBonusPiecePos(index) {
+  const r = Math.floor(state.bonusRingRadius);
+  const { width, height } = SIZES.pieces.bonus;
+  if (index < 6) return { x: index * (r / 6) - width, y: index * (r / 6) - r };
+  if (index < 12)
+    return {
+      x: r - (index - 6) * (r / 6),
+      y: (index - 6) * (r / 6) - height / 2,
+    };
+  if (index < 18)
+    return {
+      x: -(index - 12) * (r / 6) - width / 2,
+      y: r - (index - 12) * (r / 6),
+    };
+  else
+    return {
+      x: -r + ((index - 18) * r) / 6,
+      y: -height / 2 - ((index - 18) * r) / 6,
+    };
 }

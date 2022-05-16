@@ -177,8 +177,10 @@ const emitProjectiles = () => {
       if (
         dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0 &&
         bonus.mode === 'stable'
-      )
+      ) {
+        bonus.collide();
         bonus.mode = 'drop';
+      }
     });
 
     // Colliding with bottom-border
