@@ -7,11 +7,13 @@ import spawnBaB from './spawns/spawnBaB.js';
 import spawnProjectile from './spawns/spawnProjectile.js';
 import draw from './draw.js';
 import { calcGrid, increase } from './helpers.js';
+// Configs
+import { GAME_COUNTER_MAX_VALUE as G_C_M_V } from './config.js';
 // State
 import state from './state.js';
 
 const animate = () => {
-  state.counter = increase(state.counter, 1, 999, 0);
+  state.counter = increase(state.counter, 1, G_C_M_V, 0);
   draw();
   requestAnimationFrame(animate);
 };

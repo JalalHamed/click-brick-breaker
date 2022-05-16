@@ -6,7 +6,13 @@ import topBorder from './borders/topBorder.js';
 // Functions
 import { getID, getBrickYPos, convertRGBtoArr } from '../helpers.js';
 // Configs
-import { SIZES, C, COLORS } from '../config.js';
+import {
+  SIZES,
+  C,
+  COLORS,
+  BRICK_COLOR_RETRIEVE_DELAY as B_C_R_D,
+  GAME_COUNTER_MAX_VALUE as G_C_M_V,
+} from '../config.js';
 // State
 import state from '../state.js';
 
@@ -16,6 +22,7 @@ export default class Brick {
     this.mode = props.mode || 'stable';
     this.weight = score.count;
     this.color = COLORS.brick.heaviest;
+    this.counter = 0;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
     this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
@@ -52,12 +59,23 @@ export default class Brick {
     else return COLORS.brick.heaviest;
   }
 
+  retrieveColor() {
+    this.color = this.updateColor();
+    this.counter = 0;
+  }
+
   collide() {
     this.weight--;
+
+    if (!convertRGBtoArr(this.color)[3]) {
+      this.color = `${this.color.slice(0, -1)}, 0.6)`;
+      this.counter = state.counter < G_C_M_V - B_C_R_D ? state.counter : 0;
+    }
+
     if (this.weight === 0) {
       for (let i = 0; i < 24; i++)
         state.pieces.push(new Piece({ index: i, id: this.id, pos: this.pos }));
-      state.bricks = state.bricks.filter(brick => brick.id !== this.id);
+      this.selfDestruct();
     }
   }
 
@@ -89,6 +107,8 @@ export default class Brick {
 
   draw() {
     if (this.mode === 'zoom-in') this.zoomIn();
+    if (this.counter && this.counter + B_C_R_D < state.counter)
+      this.retrieveColor();
 
     C.fillStyle = this.color;
     C.fillRect(
@@ -119,5 +139,9 @@ export default class Brick {
 
     this.dimensions.width = SIZES.brick.width;
     this.dimensions.height = SIZES.brick.height;
+  }
+
+  selfDestruct() {
+    state.bricks = state.bricks.filter(brick => brick.id !== this.id);
   }
 }
