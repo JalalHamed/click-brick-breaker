@@ -95,7 +95,7 @@ export function getID(object) {
   }
 }
 
-export function getPiecePos(index) {
+export function getBrickPiecePos(index) {
   if (index < 6) return { x: index * SIZES.piece.width, y: 0 };
   if (index < 12)
     return { x: (index - 6) * SIZES.piece.width, y: SIZES.piece.height };

@@ -1,5 +1,5 @@
 // Classes
-import Piece from './Piece.js';
+import BreakPiece from './pieces/BreakPiece.js';
 // Objects
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
@@ -74,7 +74,9 @@ export default class Brick {
 
     if (this.weight === 0) {
       for (let i = 0; i < 24; i++)
-        state.pieces.push(new Piece({ index: i, id: this.id, pos: this.pos }));
+        state.pieces.push(
+          new BreakPiece({ index: i, id: this.id, pos: this.pos })
+        );
       this.selfDestruct();
     }
   }
