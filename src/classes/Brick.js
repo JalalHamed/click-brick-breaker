@@ -83,7 +83,12 @@ export default class Brick {
   collapse() {
     for (let i = 0; i < 24; i++)
       state.pieces.bricks.push(
-        new BreakPiece({ index: i, id: this.id, pos: this.pos })
+        new BreakPiece({
+          index: i,
+          id: this.id,
+          pos: this.pos,
+          color: this.color,
+        })
       );
   }
 

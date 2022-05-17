@@ -162,3 +162,9 @@ export function getBonusPiecePos(index) {
       y: -height / 2 - ((index - 18) * r) / 6,
     };
 }
+
+export function getStandardColor(color) {
+  const rgbArr = convertRGBtoArr(color);
+  if (rgbArr.length === 3) return color;
+  else return `rgb(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]})`;
+}

@@ -27,7 +27,7 @@ export default class Bonus {
     this.color = COLORS.bonus;
     this.steps = null;
     this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
-    this.hasCollapsed = false;
+    this.hasRingCollapsed = false;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
     this.velocity = {
@@ -84,11 +84,11 @@ export default class Bonus {
   }
 
   collide() {
-    this.collapse();
+    this.collapseRing();
     this.mode = 'drop';
   }
 
-  collapse() {
+  collapseRing() {
     for (let i = 0; i < 24; i++)
       state.pieces.bonuses.push(
         new BonusPiece({ index: i, id: this.id, pos: this.pos })
@@ -125,9 +125,9 @@ export default class Bonus {
   }
 
   straightMerge() {
-    if (!this.hasCollapsed) {
-      this.collapse();
-      this.hasCollapsed = true;
+    if (!this.hasRingCollapsed) {
+      this.collapseRing();
+      this.hasRingCollapsed = true;
     }
 
     const angle = Math.atan2(

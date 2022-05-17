@@ -31,10 +31,10 @@ const loweringBricksAndBonuses = () => {
 
       // Update color
       if (item.constructor.name === 'Brick') {
-        const currColor = convertRGBtoArr(item.color);
-        item.color = `rgb(255, ${
-          currColor[1] + differences[item.id][1] / steps
-        }, ${currColor[2] + differences[item.id][2] / steps})`;
+        const [red, green, blue] = convertRGBtoArr(item.color);
+        item.color = `rgb(${red}, ${green + differences[item.id][1] / steps}, ${
+          blue + differences[item.id][2] / steps
+        })`;
       }
     } else if (item.pos.y - velocity > item.pos.nextY) {
       item.pos.y -= velocity;
