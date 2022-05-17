@@ -1,5 +1,6 @@
 const state = {
   isMouseInBorder: false,
+  isFirstRound: true,
 
   projectile: {},
   mouseCoords: {},

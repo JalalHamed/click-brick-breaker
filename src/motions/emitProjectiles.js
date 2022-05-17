@@ -224,8 +224,6 @@ const emitProjectiles = () => {
       bonuses.forEach(bonus => bonus.calcXVelocity());
     }
 
-    score.addOne();
-    if (record.count < score.count) record.addOne();
     spawnBaB();
   }
 };

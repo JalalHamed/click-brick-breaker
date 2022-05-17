@@ -22,7 +22,7 @@ class BreakPiece extends Piece {
     super(props);
     this.color = getStandardColor(props.color);
     this.isGoingUp = this.color === COLORS.brick.heaviest ? true : false;
-    this.steps = Math.floor(this.D_T_T_B_F) + 1 / 0.02;
+    this.steps = Math.floor(this.D_T_T_B_F) + 1 / 0.02; // distance to take before fade + distance to take after fade
 
     this.pos = {
       x: props.pos.x + getBrickPiecePos(props.index).x,

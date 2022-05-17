@@ -25,6 +25,8 @@ const handleClick = e => {
 
     state.isMouseInBorder = false; // without this, the pointer will be drawn after the projectiles land on the same spot it was when the click event happened whether the mouse is inside or outside the borders.
     CANVAS.style.cursor = 'auto';
+
+    if (state.isFirstRound) state.isFirstRound = false;
   }
 };
 

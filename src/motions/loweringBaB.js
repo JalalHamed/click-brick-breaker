@@ -1,3 +1,6 @@
+// Objects
+import score from '../classes/statistics/score.js';
+import record from '../classes/statistics/record.js';
 // Configs
 import { BRICKS_AND_BONUSES_BOUNCE_SIZE as B_A_B_B_S } from '../config.js';
 import { convertRGBtoArr, getColorsDifferences } from '../helpers.js';
@@ -48,6 +51,11 @@ const loweringBricksAndBonuses = () => {
     isGoingDown = true;
     steps = null;
     differences = {};
+
+    if (!state.isFirstRound) {
+      score.addOne();
+      if (record.count < score.count) record.addOne();
+    }
   }
 };
 

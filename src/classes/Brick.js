@@ -20,7 +20,7 @@ export default class Brick {
   constructor(props) {
     this.id = getID('brick');
     this.mode = props.mode || 'stable';
-    this.weight = score.count;
+    this.weight = state.isFirstRound ? score.count : score.count + 1;
     this.color = COLORS.brick.heaviest;
     this.counter = 0;
 
