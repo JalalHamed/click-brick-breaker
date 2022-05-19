@@ -20,14 +20,16 @@ import state from './state.js';
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
-  // prettier-ignore
-  [fps, score, record, topBorder, bottomBorder, coefficient].forEach(item => item.draw());
+  [fps, score, record, coefficient].forEach(item => item.draw());
   [...state.bricks, ...state.bonuses].forEach(item => item.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
   if (state.projectiles.some(projectile => projectile.mode !== 'stable'))
     state.projectiles.forEach(projectile => projectile.draw());
   else state.projectile.draw();
   if (increscent.mode === 'rise') increscent.draw();
+  if (state.pieces.borders.length)
+    state.pieces.borders.forEach(piece => piece.draw());
+  else [topBorder, bottomBorder].forEach(border => border.draw());
   if (state.pieces.bricks.length)
     state.pieces.bricks.forEach(piece => piece.draw());
   if (state.pieces.bonuses.length)

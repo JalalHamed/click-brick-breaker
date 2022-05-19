@@ -47,6 +47,8 @@ const handleResize = () => {
     SIZES.pieces.brick.height = getBrickHeight() / 4;
     SIZES.pieces.bonus.width = getBorderHeight() * 1.5;
     SIZES.pieces.bonus.height = getBorderHeight() * 1.5;
+    SIZES.pieces.borders.width = CANVAS.width / 40;
+    SIZES.pieces.borders.height = getBorderHeight();
     SIZES.font = getFontSize();
 
     calcGrid();

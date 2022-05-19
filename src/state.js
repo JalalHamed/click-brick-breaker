@@ -11,7 +11,7 @@ const state = {
   bonuses: [],
   projectiles: [],
 
-  pieces: { bricks: [], bonuses: [] },
+  pieces: { bricks: [], bonuses: [], borders: [] },
 
   innerWidth,
   counter: 0,

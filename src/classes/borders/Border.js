@@ -1,5 +1,5 @@
 // Configs
-import { SIZES, CANVAS, C } from '../../config.js';
+import { SIZES, CANVAS, C, COLORS } from '../../config.js';
 
 export default class Border {
   constructor() {
@@ -13,7 +13,7 @@ export default class Border {
 
   draw() {
     this.width = CANVAS.width;
-    C.fillStyle = '#000';
+    C.fillStyle = COLORS.border;
     C.fillRect(this.pos.x, this.pos.y, this.width, this.height);
   }
 }

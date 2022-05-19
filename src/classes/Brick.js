@@ -4,7 +4,12 @@ import BreakPiece from './pieces/BreakPiece.js';
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
 // Functions
-import { getID, getBrickYPos, convertRGBtoArr } from '../helpers.js';
+import {
+  getID,
+  getBrickYPos,
+  convertRGBtoArr,
+  getColorsDifferences,
+} from '../helpers.js';
 // Configs
 import {
   SIZES,
@@ -50,13 +55,16 @@ export default class Brick {
   }
 
   updateColor() {
-    const difference = score.count - this.weight;
-    const GreenLightestMinusHeaviest = 80;
-    const BlueLightestMinusHeaviest = 40;
-    const g = GreenLightestMinusHeaviest / (score.count - 1);
-    const b = BlueLightestMinusHeaviest / (score.count - 1);
+    const scoreCount = state.isFirstRound ? 1 : score.count + 1;
+    const difference = scoreCount - this.weight;
+    const brickColorDifferences = getColorsDifferences(
+      COLORS.brick.heaviest,
+      COLORS.brick.lightest
+    );
+    const green = brickColorDifferences[1] / (scoreCount - 1);
+    const blue = brickColorDifferences[2] / (scoreCount - 1);
     if (difference > 0)
-      return `rgb(255, ${80 + difference * g}, ${80 + difference * b})`;
+      return `rgb(255, ${80 + difference * green}, ${80 + difference * blue})`;
     else return COLORS.brick.heaviest;
   }
 
