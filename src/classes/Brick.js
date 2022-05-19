@@ -55,14 +55,13 @@ export default class Brick {
   }
 
   updateColor() {
-    const scoreCount = state.isFirstRound ? 1 : score.count + 1;
-    const difference = scoreCount - this.weight;
+    const difference = (state.isFirstRound ? 1 : score.count + 1) - this.weight;
     const brickColorDifferences = getColorsDifferences(
       COLORS.brick.heaviest,
       COLORS.brick.lightest
     );
-    const green = brickColorDifferences[1] / (scoreCount - 1);
-    const blue = brickColorDifferences[2] / (scoreCount - 1);
+    const green = brickColorDifferences[1] / score.count;
+    const blue = brickColorDifferences[2] / score.count;
     if (difference > 0)
       return `rgb(255, ${80 + difference * green}, ${80 + difference * blue})`;
     else return COLORS.brick.heaviest;
