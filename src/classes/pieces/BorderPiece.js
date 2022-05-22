@@ -13,7 +13,7 @@ class BorderPiece extends Piece {
     this.border = props.location === 'top' ? topBorder : bottomBorder;
 
     this.pos = {
-      x: props.index * SIZES.pieces.border.width + Math.random() * 50 - 25,
+      x: props.index * SIZES.pieces.border.width + Math.random() * 100 - 50,
       y: this.border.pos.y + SIZES.brick.height * 1.5 + Math.random() * 50,
     };
 
@@ -22,18 +22,22 @@ class BorderPiece extends Piece {
         Math.cos(
           Math.atan2(topBorder.pos.y - this.pos.y, topBorder.pos.x - this.pos.x)
         ) * VELOCITY.placing,
-      y: VELOCITY.placing,
+      y: -VELOCITY.placing,
     };
   }
 
   update() {
-    // this.pos.x += this.velocity.x;
-    if (this.pos.y - this.velocity.y > this.border.pos.y)
-      this.pos.y -= this.velocity.y;
-    else {
-      this.pos.y = this.border.pos.y;
-      // this.selfDestruct('borders', props.index);
-    }
+    const xEndPoint = this.props.index * SIZES.pieces.border.width;
+    if (
+      (this.velocity.x > 0 && this.pos.x + this.velocity.x < xEndPoint) ||
+      (this.velocity.x < 0 && this.pos.x + this.velocity.x > xEndPoint)
+    )
+      this.pos.x += this.velocity.x;
+    else this.pos.x = xEndPoint;
+
+    if (this.pos.y + this.velocity.y > this.border.pos.y)
+      this.pos.y += this.velocity.y;
+    else this.pos.y = this.border.pos.y;
   }
 
   draw() {
