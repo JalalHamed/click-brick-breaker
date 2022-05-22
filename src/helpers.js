@@ -169,4 +169,14 @@ export function getStandardColor(color) {
   else return `rgb(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]})`;
 }
 
-export function getBorderPiecePos(index) {}
+export function getBorderRndYPos(highest) {
+  const rndInt = SIZES.brick.height * 1.5 + Math.random() * 50;
+  if (rndInt > highest.y) highest.y = rndInt;
+  return rndInt;
+}
+
+export function getBorderRndXPos(highest) {
+  const rndInt = Math.random() * 50 - 25;
+  if (rndInt > highest.x) highest.x = rndInt;
+  return rndInt;
+}
