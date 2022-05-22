@@ -21,7 +21,7 @@ const animate = () => {
 
 const init = () => {
   document.querySelector('.loading').style.display = 'none';
-  [spawnProjectile, calcGrid, spawnBorderPieces, spawnBaB, animate].forEach(
+  [calcGrid, spawnProjectile, spawnBorderPieces, spawnBaB, animate].forEach(
     item => item()
   );
 };

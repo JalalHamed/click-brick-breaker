@@ -12,9 +12,14 @@ class BorderPiece extends Piece {
     this.props = props;
     this.border = props.location === 'top' ? topBorder : bottomBorder;
 
+    this.endpoint = {
+      x: this.props.index * SIZES.pieces.border.width,
+      y: this.border.pos.y,
+    };
+
     this.pos = {
       x: props.index * SIZES.pieces.border.width + Math.random() * 100 - 50,
-      y: this.border.pos.y + SIZES.brick.height * 1.5 + Math.random() * 50,
+      y: this.border.pos.y + props.rndInt,
     };
 
     this.velocity = {
@@ -26,18 +31,26 @@ class BorderPiece extends Piece {
     };
   }
 
+  calcYVelocity(furthestDist) {
+    if (furthestDist !== this.props.rndInt) {
+      this.velocity.y = -(
+        (VELOCITY.placing * this.props.rndInt) /
+        furthestDist
+      );
+    }
+  }
+
   update() {
-    const xEndPoint = this.props.index * SIZES.pieces.border.width;
     if (
-      (this.velocity.x > 0 && this.pos.x + this.velocity.x < xEndPoint) ||
-      (this.velocity.x < 0 && this.pos.x + this.velocity.x > xEndPoint)
+      (this.velocity.x > 0 && this.pos.x + this.velocity.x < this.endpoint.x) ||
+      (this.velocity.x < 0 && this.pos.x + this.velocity.x > this.endpoint.x)
     )
       this.pos.x += this.velocity.x;
-    else this.pos.x = xEndPoint;
+    else this.pos.x = this.endpoint.x;
 
-    if (this.pos.y + this.velocity.y > this.border.pos.y)
+    if (this.pos.y + this.velocity.y > this.endpoint.y)
       this.pos.y += this.velocity.y;
-    else this.pos.y = this.border.pos.y;
+    else this.pos.y = this.endpoint.y;
   }
 
   draw() {

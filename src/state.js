@@ -2,9 +2,16 @@ const state = {
   isMouseInBorder: false,
   isFirstRound: true,
 
-  projectile: {},
   mouseCoords: {},
-  furthestBonus: {},
+
+  projectile: {},
+  furthest: {
+    bonus: {},
+    borderPiece: {
+      topBorder: { x: {}, y: {} },
+      bottomBorder: { x: {}, y: {} },
+    },
+  },
 
   bricks: [],
   bonuses: [],

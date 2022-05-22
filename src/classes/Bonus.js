@@ -50,9 +50,9 @@ export default class Bonus {
   }
 
   calcXVelocity() {
-    if (this.id !== state.furthestBonus.id)
+    if (this.id !== state.furthest.bonus.id)
       this.velocity.x /=
-        getXDist(state.furthestBonus, state.projectile) /
+        getXDist(state.furthest.bonus, state.projectile) /
         getXDist(this, state.projectile);
   }
 
@@ -128,7 +128,7 @@ export default class Bonus {
     else {
       coefficient.increaseCount();
       increscent.mode = 'rise';
-      state.furthestBonus = {};
+      state.furthest.bonus = {};
       state.projectiles.push(new Projectile());
       this.selfDestruct();
     }

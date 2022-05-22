@@ -214,12 +214,12 @@ const emitProjectiles = () => {
     if (state.bonuses.some(bonus => bonus.mode === 'merge')) {
       const bonuses = state.bonuses.filter(bonus => bonus.mode === 'merge');
       bonuses.forEach(bonus => {
-        if (!state.furthestBonus.id) state.furthestBonus = bonus;
+        if (!state.furthest.bonus.id) state.furthest.bonus = bonus;
         else if (
           getXDist(bonus, state.projectile) >
-          getXDist(state.furthestBonus, state.projectile)
+          getXDist(state.furthest.bonus, state.projectile)
         )
-          state.furthestBonus = bonus;
+          state.furthest.bonus = bonus;
       });
       bonuses.forEach(bonus => bonus.calcXVelocity());
     }

@@ -71,7 +71,7 @@ class Pointer {
       if (axis === 'y') endpoint = [getX(value), value];
     };
 
-    // At 90 degree, slope is Infinite
+    // At 90 degree, slope is Infinite (or -Infinite)
     if (slope === Infinity || slope === -Infinity)
       endpoint = [state.projectile.pos.x, topBorder.heightFromTop + radius];
     // Pointer projectile touches top border
