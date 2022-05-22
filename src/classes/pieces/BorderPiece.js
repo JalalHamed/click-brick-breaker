@@ -1,21 +1,43 @@
 // Classes
 import Piece from './Piece.js';
+// Objects
+import topBorder from '../borders/topBorder.js';
+import bottomBorder from '../borders/bottomBorder.js';
 // Configs
-import { C, COLORS } from '../../config.js';
+import { C, COLORS, SIZES, VELOCITY } from '../../config.js';
 
 class BorderPiece extends Piece {
   constructor(props) {
     super(props);
+    this.props = props;
+    this.border = props.location === 'top' ? topBorder : bottomBorder;
 
-    this.pos = { x: 0, y: 0 };
+    this.pos = {
+      x: props.index * SIZES.pieces.border.width + Math.random() * 50 - 25,
+      y: this.border.pos.y + SIZES.brick.height * 1.5 + Math.random() * 50,
+    };
+
+    this.velocity = {
+      x:
+        Math.cos(
+          Math.atan2(topBorder.pos.y - this.pos.y, topBorder.pos.x - this.pos.x)
+        ) * VELOCITY.placing,
+      y: VELOCITY.placing,
+    };
   }
 
   update() {
-    this.pos.y -= 1;
+    // this.pos.x += this.velocity.x;
+    if (this.pos.y - this.velocity.y > this.border.pos.y)
+      this.pos.y -= this.velocity.y;
+    else {
+      this.pos.y = this.border.pos.y;
+      // this.selfDestruct('borders', props.index);
+    }
   }
 
   draw() {
-    // this.update();
+    this.update();
 
     C.fillStyle = COLORS.border;
     C.fillRect(

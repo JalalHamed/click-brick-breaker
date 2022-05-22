@@ -168,3 +168,5 @@ export function getStandardColor(color) {
   if (rgbArr.length === 3) return color;
   else return `rgb(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]})`;
 }
+
+export function getBorderPiecePos(index) {}

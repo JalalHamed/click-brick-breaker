@@ -9,15 +9,13 @@ import {
 } from '../../helpers.js';
 // Configs
 import { C, CANVAS, COLORS, SIZES } from '../../config.js';
-// State
-import state from '../../state.js';
 
 const diffs = getColorsDifferences(
   COLORS.brick.heaviest,
   COLORS.brick.lightest
 );
 
-class BreakPiece extends Piece {
+class BrickPiece extends Piece {
   constructor(props) {
     super(props);
     this.color = getStandardColor(props.color);
@@ -42,7 +40,7 @@ class BreakPiece extends Piece {
   draw() {
     this.update();
     this.updateColor();
-    if (this.transparency === 0) this.selfDestruct();
+    if (this.transparency === 0) this.selfDestruct('bricks', this.id);
 
     C.fillStyle = `${this.color.slice(0, -1)}, ${this.transparency})`;
     C.fillRect(
@@ -52,12 +50,6 @@ class BreakPiece extends Piece {
       SIZES.pieces.brick.height
     );
   }
-
-  selfDestruct() {
-    state.pieces.bricks = state.pieces.bricks.filter(
-      piece => piece.id !== this.id
-    );
-  }
 }
 
-export default BreakPiece;
+export default BrickPiece;

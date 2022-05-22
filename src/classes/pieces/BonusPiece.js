@@ -4,8 +4,6 @@ import Piece from './Piece.js';
 import { getBonusPiecePos } from '../../helpers.js';
 // Configs
 import { C, CANVAS, COLORS, SIZES } from '../../config.js';
-// State
-import state from '../../state.js';
 
 class BonusPiece extends Piece {
   constructor(props) {
@@ -19,7 +17,7 @@ class BonusPiece extends Piece {
 
   draw() {
     this.update();
-    if (this.transparency === 0) this.selfDestruct();
+    if (this.transparency === 0) this.selfDestruct('bonuses', this.id);
 
     C.fillStyle = `${COLORS.bonus.slice(0, -1)}, ${this.transparency})`;
     C.fillRect(
@@ -27,12 +25,6 @@ class BonusPiece extends Piece {
       this.pos.y,
       SIZES.pieces.bonus.width,
       SIZES.pieces.bonus.height
-    );
-  }
-
-  selfDestruct() {
-    state.pieces.bonuses = state.pieces.bonuses.filter(
-      piece => piece.id !== this.id
     );
   }
 }

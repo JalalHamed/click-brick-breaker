@@ -4,13 +4,13 @@ const state = {
 
   projectile: {},
   mouseCoords: {},
-  grid: { row: [], column: [] },
   furthestBonus: {},
 
   bricks: [],
   bonuses: [],
   projectiles: [],
 
+  grid: { row: [], column: [] },
   pieces: { bricks: [], bonuses: [], borders: [] },
 
   innerWidth,

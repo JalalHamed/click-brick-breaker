@@ -34,6 +34,7 @@ export const VELOCITY = Object.freeze({
   projectile: 15,
   merging: 20,
   dropping: 20,
+  placing: 1,
 });
 
 // NOTE: colors MUST be in RGB format
@@ -64,7 +65,7 @@ export const SIZES = {
   pieces: {
     brick: { width: getBrickWidth() / 6, height: getBrickHeight() / 4 },
     bonus: { width: getBorderHeight() * 1.5, height: getBorderHeight() * 1.5 },
-    borders: { width: CANVAS.width / 40, height: getBorderHeight() },
+    border: { width: CANVAS.width / 40, height: getBorderHeight() },
   },
   font: getFontSize(),
 };

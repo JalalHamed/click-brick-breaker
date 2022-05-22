@@ -70,6 +70,16 @@ export default class Bonus {
     }, ${getRGB(2)})`;
   }
 
+  calcVelocity() {
+    const angle = Math.atan2(
+      state.projectile.pos.y - this.pos.y,
+      state.projectile.pos.x - this.pos.x
+    );
+
+    this.velocity.x = Math.cos(angle) * VELOCITY.merging;
+    this.velocity.y = Math.sin(angle) * VELOCITY.merging;
+  }
+
   zoomIn() {
     if (this.radius + this.velocity.radius < SIZES.projectile.radius)
       this.radius += this.velocity.radius;
@@ -130,12 +140,7 @@ export default class Bonus {
       this.hasRingCollapsed = true;
     }
 
-    const angle = Math.atan2(
-      state.projectile.pos.y - this.pos.y,
-      state.projectile.pos.x - this.pos.x
-    );
-    this.velocity.x = Math.cos(angle) * VELOCITY.merging;
-    this.velocity.y = Math.sin(angle) * VELOCITY.merging;
+    this.calcVelocity();
 
     if (this.pos.y + this.velocity.y < state.projectile.pos.y)
       this.pos.y += this.velocity.y;

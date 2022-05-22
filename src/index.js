@@ -5,6 +5,7 @@ import handleClick from './handlers/handleClick.js';
 // Functions
 import spawnBaB from './spawns/spawnBaB.js';
 import spawnProjectile from './spawns/spawnProjectile.js';
+import spawnBorderPieces from './spawns/spawnBorderPieces.js';
 import draw from './draw.js';
 import { calcGrid, increase } from './helpers.js';
 // Configs
@@ -20,7 +21,9 @@ const animate = () => {
 
 const init = () => {
   document.querySelector('.loading').style.display = 'none';
-  [spawnProjectile, calcGrid, spawnBaB, animate].forEach(item => item());
+  [spawnProjectile, calcGrid, spawnBorderPieces, spawnBaB, animate].forEach(
+    item => item()
+  );
 };
 
 addEventListener('load', init);

@@ -1,5 +1,5 @@
 // Classes
-import BreakPiece from './pieces/BreakPiece.js';
+import BrickPiece from './pieces/BrickPiece.js';
 // Objects
 import score from './statistics/score.js';
 import topBorder from './borders/topBorder.js';
@@ -90,7 +90,7 @@ export default class Brick {
   collapse() {
     for (let i = 0; i < 24; i++)
       state.pieces.bricks.push(
-        new BreakPiece({
+        new BrickPiece({
           index: i,
           id: this.id,
           pos: this.pos,
