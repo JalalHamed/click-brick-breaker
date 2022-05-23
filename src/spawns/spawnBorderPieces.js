@@ -1,7 +1,6 @@
 // Classes
 import BorderPiece from '../classes/pieces/BorderPiece.js';
-// Configs
-import { SIZES } from '../config.js';
+// Functions
 import { getBorderRndXPos, getBorderRndYPos } from '../helpers.js';
 // State
 import state from '../state.js';

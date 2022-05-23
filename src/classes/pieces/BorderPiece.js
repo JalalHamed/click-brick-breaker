@@ -55,6 +55,8 @@ class BorderPiece extends Piece {
 
   draw() {
     this.update();
+    if (this.pos.x === this.endpoint.x && this.pos.y === this.endpoint.y)
+      this.selfDestruct('borders', this.id);
 
     C.fillStyle = COLORS.border;
     C.fillRect(
