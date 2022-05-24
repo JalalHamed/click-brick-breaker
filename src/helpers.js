@@ -180,3 +180,37 @@ export function getBorderRndXPos(highest) {
   if (rndInt > highest.x) highest.x = rndInt;
   return rndInt;
 }
+
+export function getPointerXPos(basedOn, { slope, b, radius }) {
+  const x = (basedOn - b) / slope;
+  if (x > radius && x < CANVAS.width - radius) return x;
+  // Prevent particle from going over the CANVAS' width in the left corner
+  if (x < radius) return radius;
+  // Prevent particle from going over the CANVAS' width in the right corner
+  if (x > CANVAS.width - radius) return CANVAS.width - radius;
+}
+
+export function getPointerYPos(basedOn, { slope, b, angle, radius }) {
+  const y = basedOn * slope + b;
+  if (angle > MIN_ANGLE && angle < MAX_ANGLE) {
+    if (y > topBorder.heightFromTop + radius) return y;
+    // Prevent particle from going over top border in the corners
+    if (y < topBorder.heightFromTop + radius)
+      return topBorder.heightFromTop + radius;
+  }
+  // Prevent particle from going lower than 10 degrees
+  if (angle === MIN_ANGLE)
+    return (
+      bottomBorder.pos.y -
+      bottomBorder.height -
+      Math.tan(angle) * (state.projectile.pos.x + radius)
+    );
+  // Prevent particle from surpassing 170 degrees
+  if (angle === MAX_ANGLE)
+    return (
+      bottomBorder.pos.y -
+      bottomBorder.height -
+      Math.tan(Math.PI - angle) *
+        (CANVAS.width - state.projectile.pos.x + radius)
+    );
+}

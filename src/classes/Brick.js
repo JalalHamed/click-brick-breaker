@@ -36,14 +36,18 @@ export default class Brick {
       width: this.mode === 'zoom-in' ? 0 : SIZES.brick.width,
       height: this.mode === 'zoom-in' ? 0 : SIZES.brick.height,
     };
-    this.endPos = {
+
+    this.endpoint = {
       x: state.grid.row[this.gridIndex.row],
       y: getBrickYPos(this.gridIndex.column),
     };
 
     this.pos = {
-      x: this.endPos.x + (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
-      y: this.endPos.y + (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
+      x:
+        this.endpoint.x + (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
+      y:
+        this.endpoint.y +
+        (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
       nextY: getBrickYPos(this.gridIndex.column + 1),
     };
   }
@@ -103,11 +107,11 @@ export default class Brick {
     const isDone = { x: false, y: false };
 
     const update = (coord, dimension) => {
-      if (this.pos[coord] - this.velocity[coord] > this.endPos[coord]) {
+      if (this.pos[coord] - this.velocity[coord] > this.endpoint[coord]) {
         this.pos[coord] -= this.velocity[coord];
         this.dimensions[dimension] += this.velocity[coord] * 2;
       } else {
-        this.pos[coord] = this.endPos[coord];
+        this.pos[coord] = this.endpoint[coord];
         this.dimensions[dimension] = SIZES.brick[dimension];
         isDone[coord] = true;
       }
