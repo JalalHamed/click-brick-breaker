@@ -208,6 +208,8 @@ export default class Bonus {
       y: getBonusYPos(this.gridIndex.column),
       nextY: getBonusYPos(this.gridIndex.column + 1),
     };
+
+    this.radius = SIZES.projectile.radius;
   }
 
   selfDestruct() {

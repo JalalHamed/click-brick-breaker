@@ -8,9 +8,11 @@ import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
 import state from '../state.js';
 
-const { radius } = SIZES.projectile;
-
 class Pointer {
+  constructor() {
+    this.radius = SIZES.projectile.radius;
+  }
+
   get calcEndPoint() {
     const arrowLength = (CANVAS.height - topBorder.heightFromTop * 2) / 4;
     let endpoint = [];
@@ -35,34 +37,34 @@ class Pointer {
 
     const getX = basedOn => {
       const x = (basedOn - b) / slope;
-      if (x > radius && x < CANVAS.width - radius) return x;
+      if (x > this.radius && x < CANVAS.width - this.radius) return x;
       // Prevent projectile from going over the CANVAS' width in the left corner
-      if (x < radius) return radius;
+      if (x < this.radius) return this.radius;
       // Prevent projectile from going over the CANVAS' width in the right corner
-      if (x > CANVAS.width - radius) return CANVAS.width - radius;
+      if (x > CANVAS.width - this.radius) return CANVAS.width - this.radius;
     };
 
     const getY = basedOn => {
       const y = basedOn * slope + b;
       if (angle > MIN_ANGLE && angle < MAX_ANGLE) {
-        if (y > topBorder.heightFromTop + radius) return y;
+        if (y > topBorder.heightFromTop + this.radius) return y;
         // Prevent projectile from going over top border in the corners
-        if (y < topBorder.heightFromTop + radius)
-          return topBorder.heightFromTop + radius;
+        if (y < topBorder.heightFromTop + this.radius)
+          return topBorder.heightFromTop + this.radius;
       }
       // Prevent projectile from going lower than 10 degrees
       if (angle === MIN_ANGLE)
         return (
           bottomBorder.pos.y -
           bottomBorder.height -
-          Math.tan(angle) * (pointA[0] + radius)
+          Math.tan(angle) * (pointA[0] + this.radius)
         );
       // Prevent projectile from surpassing 170 degrees
       if (angle === MAX_ANGLE)
         return (
           bottomBorder.pos.y -
           bottomBorder.height -
-          Math.tan(Math.PI - angle) * (CANVAS.width - pointA[0] + radius)
+          Math.tan(Math.PI - angle) * (CANVAS.width - pointA[0] + this.radius)
         );
     };
 
@@ -73,21 +75,24 @@ class Pointer {
 
     // At 90 degree, slope is Infinite (or -Infinite)
     if (slope === Infinity || slope === -Infinity)
-      endpoint = [state.projectile.pos.x, topBorder.heightFromTop + radius];
+      endpoint = [
+        state.projectile.pos.x,
+        topBorder.heightFromTop + this.radius,
+      ];
     // Pointer projectile touches top border
     if (x > 0 && x < CANVAS.width)
-      setEndPoint('y', topBorder.heightFromTop + radius);
+      setEndPoint('y', topBorder.heightFromTop + this.radius);
     // Pointer projectile touches left side of CANVAS
-    if (x < 0) setEndPoint('x', radius);
+    if (x < 0) setEndPoint('x', this.radius);
     // Pointer projectile touches right side of CANVAS
-    if (x > CANVAS.width) setEndPoint('x', CANVAS.width - radius);
+    if (x > CANVAS.width) setEndPoint('x', CANVAS.width - this.radius);
     // TODO: Change end point on colliding with bricks
 
     return {
       projectile: endpoint,
       dashedLine: [
-        endpoint[0] + Math.cos(angle) * radius * 2,
-        endpoint[1] + Math.sin(angle) * radius * 2,
+        endpoint[0] + Math.cos(angle) * this.radius * 2,
+        endpoint[1] + Math.sin(angle) * this.radius * 2,
       ],
       arrow: [
         pointA[0] - Math.cos(angle) * arrowLength,
@@ -104,7 +109,7 @@ class Pointer {
     C.lineTo(...this.calcEndPoint.dashedLine);
     C.lineDashOffset = -state.counter;
     C.strokeStyle = COLORS.pointer.line;
-    C.lineWidth = radius / 2.5;
+    C.lineWidth = this.radius / 2.5;
     C.stroke();
 
     // Arrow
@@ -113,7 +118,7 @@ class Pointer {
     C.moveTo(state.projectile.pos.x, state.projectile.pos.y);
     C.lineTo(...this.calcEndPoint.arrow);
     C.strokeStyle = COLORS.pointer.arrow;
-    C.lineWidth = radius;
+    C.lineWidth = this.radius;
     C.stroke();
     // Arrow Head
     const [endpointX, endpointY] = this.calcEndPoint.arrow;
@@ -121,31 +126,35 @@ class Pointer {
       endpointY - state.projectile.pos.y,
       endpointX - state.projectile.pos.x
     );
-    const x = endpointX + Math.cos(angle) * radius * 1.4;
-    const y = endpointY + Math.sin(angle) * radius * 1.4;
+    const x = endpointX + Math.cos(angle) * this.radius * 1.4;
+    const y = endpointY + Math.sin(angle) * this.radius * 1.4;
     C.beginPath();
     C.moveTo(x, y);
     C.lineTo(
-      x - radius * Math.cos(angle - Math.PI / 7),
-      y - radius * Math.sin(angle - Math.PI / 7)
+      x - this.radius * Math.cos(angle - Math.PI / 7),
+      y - this.radius * Math.sin(angle - Math.PI / 7)
     );
     C.lineTo(
-      x - radius * Math.cos(angle + Math.PI / 7),
-      y - radius * Math.sin(angle + Math.PI / 7)
+      x - this.radius * Math.cos(angle + Math.PI / 7),
+      y - this.radius * Math.sin(angle + Math.PI / 7)
     );
     C.lineTo(x, y);
     C.lineTo(
-      x - radius * Math.cos(angle - Math.PI / 7),
-      y - radius * Math.sin(angle - Math.PI / 7)
+      x - this.radius * Math.cos(angle - Math.PI / 7),
+      y - this.radius * Math.sin(angle - Math.PI / 7)
     );
     C.stroke();
 
     // Particle
     C.beginPath();
     C.setLineDash([]);
-    C.arc(...this.calcEndPoint.projectile, radius, 0, 2 * Math.PI);
+    C.arc(...this.calcEndPoint.projectile, this.radius, 0, 2 * Math.PI);
     C.fillStyle = COLORS.pointer.particle;
     C.fill();
+  }
+
+  repoSize() {
+    this.radius = SIZES.projectile.radius;
   }
 }
 

@@ -4,6 +4,7 @@ import score from '../classes/statistics/score.js';
 import bottomBorder from '../classes/borders/bottomBorder.js';
 import topBorder from '../classes/borders/topBorder.js';
 import coefficient from '../classes/coefficient.js';
+import pointer from '../classes/pointer.js';
 // Functions
 import {
   calcGrid,
@@ -55,7 +56,7 @@ const handleResize = () => {
 
     [bottomBorder, topBorder].forEach(item => item.repoSize()); // bottom border should repoSize before projectile
     state.projectiles.forEach(projectile => projectile.repoSize()); // projectiles should repoSize before coefficient
-    [coefficient, record, score].forEach(item => item.repoSize());
+    [coefficient, record, score, pointer].forEach(item => item.repoSize());
     [...state.bricks, ...state.bonuses].forEach(item => item.repoSize());
 
     state.innerWidth = innerWidth;

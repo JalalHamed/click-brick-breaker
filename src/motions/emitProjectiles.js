@@ -31,20 +31,20 @@ const emitProjectiles = () => {
     // Colliding with canvas' left side
     if (projectile.perimeter('left') + projectile.velocity.x < 0) {
       projectile.pos.x = SIZES.projectile.radius + S_M_F_C_S;
-      projectile.velocity.x = -projectile.velocity.x;
+      projectile.velocity.x *= -1;
     }
 
     // Colliding with canvas' right side
     if (projectile.perimeter('right') + projectile.velocity.x > CANVAS.width) {
       projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_C_S;
-      projectile.velocity.x = -projectile.velocity.x;
+      projectile.velocity.x *= -1;
     }
 
     // Colliding with top-border
     // prettier-ignore
     if (projectile.perimeter('top') + projectile.velocity.y < topBorder.heightFromTop) { 
       projectile.pos.y = topBorder.heightFromTop + SIZES.projectile.radius;
-      projectile.velocity.y = -projectile.velocity.y;
+      projectile.velocity.y *= -1;
     }
 
     // Colliding with brick
@@ -59,7 +59,7 @@ const emitProjectiles = () => {
         projectile.perimeter('left') < brick.pos.x + width
       ) {
         projectile.pos.y = brick.pos.y + height + SIZES.projectile.radius;
-        projectile.velocity.y = -projectile.velocity.y;
+        projectile.velocity.y *= -1;
         brick.collide();
       }
 
@@ -72,7 +72,7 @@ const emitProjectiles = () => {
         projectile.perimeter('left') < brick.pos.x + width
       ) {
         projectile.pos.y = brick.pos.y - SIZES.projectile.radius;
-        projectile.velocity.y = -projectile.velocity.y;
+        projectile.velocity.y *= -1;
         brick.collide();
       }
 
@@ -85,7 +85,7 @@ const emitProjectiles = () => {
         projectile.perimeter('top') < brick.pos.y + height
       ) {
         projectile.pos.x = brick.pos.x - SIZES.projectile.radius;
-        projectile.velocity.x = -projectile.velocity.x;
+        projectile.velocity.x *= -1;
         brick.collide();
       }
 
@@ -98,7 +98,7 @@ const emitProjectiles = () => {
         projectile.perimeter('top') < brick.pos.y + height
       ) {
         projectile.pos.x = brick.pos.x + width + SIZES.projectile.radius;
-        projectile.velocity.x = -projectile.velocity.x;
+        projectile.velocity.x *= -1;
         brick.collide();
       }
 
@@ -113,8 +113,8 @@ const emitProjectiles = () => {
         projectile.pos.x = brick.pos.x - SIZES.projectile.radius / Math.sqrt(2);
         projectile.pos.y =
           brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
-        projectile.velocity.x = -projectile.velocity.x;
-        projectile.velocity.y = -projectile.velocity.y;
+        projectile.velocity.x *= -1;
+        projectile.velocity.y *= -1;
         brick.collide();
       }
 
@@ -130,8 +130,8 @@ const emitProjectiles = () => {
           brick.pos.x + width + SIZES.projectile.radius / Math.sqrt(2);
         projectile.pos.y =
           brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
-        projectile.velocity.x = -projectile.velocity.x;
-        projectile.velocity.y = -projectile.velocity.y;
+        projectile.velocity.x *= -1;
+        projectile.velocity.y *= -1;
         brick.collide();
       }
 
@@ -146,8 +146,8 @@ const emitProjectiles = () => {
         projectile.pos.x =
           brick.pos.x + width + SIZES.projectile.radius / Math.sqrt(2);
         projectile.pos.y = brick.pos.y - SIZES.projectile.radius / Math.sqrt(2);
-        projectile.velocity.x = -projectile.velocity.x;
-        projectile.velocity.y = -projectile.velocity.y;
+        projectile.velocity.x *= -1;
+        projectile.velocity.y *= -1;
         brick.collide();
       }
 
@@ -161,8 +161,8 @@ const emitProjectiles = () => {
       ) {
         projectile.pos.x = brick.pos.x + SIZES.projectile.radius / Math.sqrt(2);
         projectile.pos.y = brick.pos.y - SIZES.projectile.radius / Math.sqrt(2);
-        projectile.velocity.x = -projectile.velocity.x;
-        projectile.velocity.y = -projectile.velocity.y;
+        projectile.velocity.x *= -1;
+        projectile.velocity.y *= -1;
         brick.collide();
       }
     });
