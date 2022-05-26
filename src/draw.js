@@ -20,7 +20,7 @@ import state from './state.js';
 const draw = () => {
   C.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
-  [fps, score, record, coefficient].forEach(item => item.draw());
+  [fps, score, record].forEach(item => item.draw());
   [...state.bricks, ...state.bonuses].forEach(item => item.draw());
   if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
   if (state.projectiles.some(projectile => projectile.mode !== 'stable'))

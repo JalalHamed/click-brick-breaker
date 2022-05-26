@@ -1,10 +1,14 @@
 // Objects
 import topBorder from './borders/topBorder.js';
-import bottomBorder from './borders/bottomBorder.js';
 // Functions
-import { getAngle, getPointerXPos, getPointerYPos } from '../helpers.js';
+import {
+  getAngle,
+  getPointerXPos,
+  getPointerYPos,
+  getLineProps,
+} from '../helpers.js';
 // Configs
-import { MAX_ANGLE, MIN_ANGLE, COLORS, SIZES, CANVAS, C } from '../config.js';
+import { COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
 import state from '../state.js';
 
@@ -14,19 +18,13 @@ class Pointer {
   }
 
   get calcEndPoint() {
-    const arrowLength = (CANVAS.height - topBorder.heightFromTop * 2) / 4;
     let endpoint = [];
 
     const pointA = [state.projectile.pos.x, state.projectile.pos.y];
     const pointB = [state.mouseCoords.x, state.mouseCoords.y];
 
-    // Calculate slope, y intercept (b) & the angle
-    let slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
-    const b = pointB[1] - slope * pointB[0];
+    const [x, slope, b] = getLineProps(pointA, pointB);
     const angle = getAngle(state.mouseCoords);
-
-    // Calculate x given the top border's height as y
-    const x = (topBorder.heightFromTop - b) / slope;
 
     const setEndPoint = (axis, value) => {
       const props = { slope, b, angle, radius: this.radius };
@@ -36,7 +34,10 @@ class Pointer {
 
     // At 90 degree, slope is Infinite (or -Infinite)
     if (slope === Infinity || slope === -Infinity)
-      endpoint = [state.particle.pos.x, topBorder.heightFromTop + this.radius];
+      endpoint = [
+        state.projectile.pos.x,
+        topBorder.heightFromTop + this.radius,
+      ];
     // Pointer particle touches top border
     if (x > 0 && x < CANVAS.width)
       setEndPoint('y', topBorder.heightFromTop + this.radius);
@@ -45,15 +46,41 @@ class Pointer {
     // Pointer particle touches right side of CANVAS
     if (x > CANVAS.width) setEndPoint('x', CANVAS.width - this.radius);
 
+    let particleEndPoint = endpoint;
+    const diagonalRadius = this.radius / Math.sqrt(2);
+
+    // Pointer particle collide with bricks
+    state.bricks.forEach(brick => {
+      // Left-side
+      // Brick top left corner x pos reflection on top border
+      const [bTLC_XPos] = getLineProps(pointA, [
+        brick.pos.x - diagonalRadius,
+        brick.pos.y - diagonalRadius,
+      ]);
+      // Brick bottom left corner x pos reflection on top border
+      const [bBLC_XPos] = getLineProps(pointA, [
+        brick.pos.x - diagonalRadius,
+        brick.pos.y + SIZES.brick.height + diagonalRadius,
+      ]);
+
+      const ratio = Math.abs(bTLC_XPos - bBLC_XPos) / SIZES.brick.height;
+      if (x >= bTLC_XPos && x <= bBLC_XPos) {
+        particleEndPoint = [
+          brick.pos.x - this.radius,
+          brick.pos.y + (x - bTLC_XPos) / ratio,
+        ];
+      }
+    });
+
     return {
-      particle: endpoint,
+      particle: particleEndPoint,
       dashedLine: [
         endpoint[0] + Math.cos(angle) * this.radius * 2,
         endpoint[1] + Math.sin(angle) * this.radius * 2,
       ],
       arrow: [
-        pointA[0] - Math.cos(angle) * arrowLength,
-        pointA[1] - Math.sin(angle) * arrowLength,
+        pointA[0] - Math.cos(angle) * SIZES.pointer.arrow.length,
+        pointA[1] - Math.sin(angle) * SIZES.pointer.arrow.length,
       ],
     };
   }

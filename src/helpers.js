@@ -214,3 +214,14 @@ export function getPointerYPos(basedOn, { slope, b, angle, radius }) {
         (CANVAS.width - state.projectile.pos.x + radius)
     );
 }
+
+export function getLineProps(pointA, pointB) {
+  const slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
+  const b = pointB[1] - slope * pointB[0];
+  const x = (topBorder.heightFromTop - b) / slope;
+  return [x, slope, b];
+}
+
+export function getPointerArrowLength() {
+  return (CANVAS.height - (getBorderMargin() + getBorderHeight()) * 2) / 4;
+}

@@ -6,6 +6,7 @@ import {
   getBrickWidth,
   getFontSize,
   getParticleRadius,
+  getPointerArrowLength,
 } from './helpers.js';
 
 export const CANVAS = document.querySelector('CANVAS');
@@ -31,7 +32,7 @@ export const PIECE_DISTANCE_TO_TAKE_BEFORE_FADE = getBorderMargin() / 3;
 export const BRICKS_AND_BONUSES_BOUNCE_SIZE = getBrickHeight() / 2;
 
 export const VELOCITY = Object.freeze({
-  projectile: 15,
+  projectile: 5,
   merging: 20,
   dropping: 20,
   placing: 2,
@@ -67,5 +68,6 @@ export const SIZES = {
     bonus: { width: getBorderHeight() * 1.5, height: getBorderHeight() * 1.5 },
     border: { width: CANVAS.width / 40, height: getBorderHeight() },
   },
+  pointer: { arrow: { length: getPointerArrowLength() } },
   font: getFontSize(),
 };

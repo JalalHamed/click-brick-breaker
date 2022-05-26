@@ -49,6 +49,7 @@ const emitProjectiles = () => {
 
     // Colliding with brick
     const { width, height } = SIZES.brick;
+    const diagonalRadius = SIZES.projectile.radius / Math.sqrt(2);
     state.bricks.forEach(brick => {
       // Bottom side
       if (
@@ -110,9 +111,8 @@ const emitProjectiles = () => {
         projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
         projectile.perimeter('top') > brick.pos.y + height
       ) {
-        projectile.pos.x = brick.pos.x - SIZES.projectile.radius / Math.sqrt(2);
-        projectile.pos.y =
-          brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.x = brick.pos.x - diagonalRadius;
+        projectile.pos.y = brick.pos.y + height + diagonalRadius;
         projectile.velocity.x *= -1;
         projectile.velocity.y *= -1;
         brick.collide();
@@ -126,10 +126,8 @@ const emitProjectiles = () => {
         projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
         projectile.perimeter('top') > brick.pos.y + height
       ) {
-        projectile.pos.x =
-          brick.pos.x + width + SIZES.projectile.radius / Math.sqrt(2);
-        projectile.pos.y =
-          brick.pos.y + height + SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.x = brick.pos.x + width + diagonalRadius;
+        projectile.pos.y = brick.pos.y + height + diagonalRadius;
         projectile.velocity.x *= -1;
         projectile.velocity.y *= -1;
         brick.collide();
@@ -143,9 +141,8 @@ const emitProjectiles = () => {
         projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
         projectile.perimeter('bottom') < brick.pos.y
       ) {
-        projectile.pos.x =
-          brick.pos.x + width + SIZES.projectile.radius / Math.sqrt(2);
-        projectile.pos.y = brick.pos.y - SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.x = brick.pos.x + width + diagonalRadius;
+        projectile.pos.y = brick.pos.y - diagonalRadius;
         projectile.velocity.x *= -1;
         projectile.velocity.y *= -1;
         brick.collide();
@@ -159,8 +156,8 @@ const emitProjectiles = () => {
         projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
         projectile.perimeter('bottom') < brick.pos.y
       ) {
-        projectile.pos.x = brick.pos.x + SIZES.projectile.radius / Math.sqrt(2);
-        projectile.pos.y = brick.pos.y - SIZES.projectile.radius / Math.sqrt(2);
+        projectile.pos.x = brick.pos.x + diagonalRadius;
+        projectile.pos.y = brick.pos.y - diagonalRadius;
         projectile.velocity.x *= -1;
         projectile.velocity.y *= -1;
         brick.collide();

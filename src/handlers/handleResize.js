@@ -14,6 +14,7 @@ import {
   getBrickWidth,
   getFontSize,
   getParticleRadius,
+  getPointerArrowLength,
   isAnythingMoving,
 } from '../helpers.js';
 // Configs
@@ -50,6 +51,7 @@ const handleResize = () => {
     SIZES.pieces.bonus.height = getBorderHeight() * 1.5;
     SIZES.pieces.border.width = CANVAS.width / 40;
     SIZES.pieces.border.height = getBorderHeight();
+    SIZES.pointer.arrow.length = getPointerArrowLength();
     SIZES.font = getFontSize();
 
     calcGrid();
