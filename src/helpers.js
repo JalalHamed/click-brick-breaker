@@ -181,8 +181,8 @@ export function getBorderRndXPos(highest) {
   return rndInt;
 }
 
-export function getPointerXPos(basedOn, { slope, b, radius }) {
-  const x = (basedOn - b) / slope;
+export function getPointerXPos(basedOn, { gradient, YAxisIntercept, radius }) {
+  const x = (basedOn - YAxisIntercept) / gradient;
   if (x > radius && x < CANVAS.width - radius) return x;
   // Prevent particle from going over the CANVAS' width in the left corner
   if (x < radius) return radius;
@@ -190,8 +190,11 @@ export function getPointerXPos(basedOn, { slope, b, radius }) {
   if (x > CANVAS.width - radius) return CANVAS.width - radius;
 }
 
-export function getPointerYPos(basedOn, { slope, b, angle, radius }) {
-  const y = basedOn * slope + b;
+export function getPointerYPos(
+  basedOn,
+  { gradient, YAxisIntercept, angle, radius }
+) {
+  const y = basedOn * gradient + YAxisIntercept;
   if (angle > MIN_ANGLE && angle < MAX_ANGLE) {
     if (y > topBorder.heightFromTop + radius) return y;
     // Prevent particle from going over top border in the corners
@@ -216,10 +219,10 @@ export function getPointerYPos(basedOn, { slope, b, angle, radius }) {
 }
 
 export function getLineProps(pointA, pointB) {
-  const slope = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
-  const b = pointB[1] - slope * pointB[0];
-  const x = (topBorder.heightFromTop - b) / slope;
-  return [x, slope, b];
+  const gradient = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0]);
+  const YAxisIntercept = pointB[1] - gradient * pointB[0];
+  const x = (topBorder.heightFromTop - YAxisIntercept) / gradient;
+  return [x, gradient, YAxisIntercept];
 }
 
 export function getPointerArrowLength() {

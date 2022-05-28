@@ -23,17 +23,18 @@ class Pointer {
     const pointA = [state.projectile.pos.x, state.projectile.pos.y];
     const pointB = [state.mouseCoords.x, state.mouseCoords.y];
 
-    const [x, slope, b] = getLineProps(pointA, pointB);
+    const [x, gradient, YAxisIntercept] = getLineProps(pointA, pointB);
     const angle = getAngle(state.mouseCoords);
+    this.angle = angle;
 
     const setEndPoint = (axis, value) => {
-      const props = { slope, b, angle, radius: this.radius };
+      const props = { gradient, YAxisIntercept, angle, radius: this.radius };
       if (axis === 'x') endpoint = [value, getPointerYPos(value, props)];
       if (axis === 'y') endpoint = [getPointerXPos(value, props), value];
     };
 
-    // At 90 degree, slope is Infinite (or -Infinite)
-    if (slope === Infinity || slope === -Infinity)
+    // At 90 degree, gradient is Infinite (or -Infinite)
+    if (gradient === Infinity || gradient === -Infinity)
       endpoint = [
         state.projectile.pos.x,
         topBorder.heightFromTop + this.radius,
@@ -47,28 +48,25 @@ class Pointer {
     if (x > CANVAS.width) setEndPoint('x', CANVAS.width - this.radius);
 
     let particleEndPoint = endpoint;
-    const diagonalRadius = this.radius / Math.sqrt(2);
 
     // Pointer particle collide with bricks
     state.bricks.forEach(brick => {
       // Left-side
       // Brick top left corner x pos reflection on top border
       const [bTLC_XPos] = getLineProps(pointA, [
-        brick.pos.x - diagonalRadius,
-        brick.pos.y - diagonalRadius,
+        brick.pos.x - this.radius,
+        brick.pos.y,
       ]);
       // Brick bottom left corner x pos reflection on top border
       const [bBLC_XPos] = getLineProps(pointA, [
-        brick.pos.x - diagonalRadius,
-        brick.pos.y + SIZES.brick.height + diagonalRadius,
+        brick.pos.x - this.radius,
+        brick.pos.y + SIZES.brick.height,
       ]);
 
-      const ratio = Math.abs(bTLC_XPos - bBLC_XPos) / SIZES.brick.height;
-      if (x >= bTLC_XPos && x <= bBLC_XPos) {
-        particleEndPoint = [
-          brick.pos.x - this.radius,
-          brick.pos.y + (x - bTLC_XPos) / ratio,
-        ];
+      if (x >= bTLC_XPos && x < bBLC_XPos) {
+        const x = brick.pos.x - this.radius;
+        const y = gradient * x + YAxisIntercept;
+        particleEndPoint = [x, y];
       }
     });
 
