@@ -29,12 +29,12 @@ export default class Bonus {
 		this.hasRingCollapsed = false;
 		this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 
-		this.gridIndex = { row: props.gridRowIndex, column: 0 };
+		this.gridIndex = { row: 0, column: props.gridColumnIndex };
 
 		this.pos = {
-			x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-			y: getBonusYPos(this.gridIndex.column),
-			nextY: getBonusYPos(this.gridIndex.column + 1),
+			x: state.grid.column[this.gridIndex.column] + SIZES.brick.width / 2,
+			y: getBonusYPos(this.gridIndex.row),
+			nextY: getBonusYPos(this.gridIndex.row + 1),
 		};
 
 		this.velocity = {
@@ -58,9 +58,9 @@ export default class Bonus {
 	}
 
 	updateYPos() {
-		this.gridIndex.column++;
-		this.pos.y = getBonusYPos(this.gridIndex.column);
-		this.pos.nextY = getBonusYPos(this.gridIndex.column + 1);
+		this.gridIndex.row++;
+		this.pos.y = getBonusYPos(this.gridIndex.row);
+		this.pos.nextY = getBonusYPos(this.gridIndex.row + 1);
 	}
 
 	getColor() {
@@ -193,9 +193,9 @@ export default class Bonus {
 
 	repoSize() {
 		this.pos = {
-			x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
-			y: getBonusYPos(this.gridIndex.column),
-			nextY: getBonusYPos(this.gridIndex.column + 1),
+			x: state.grid.column[this.gridIndex.column] + SIZES.brick.width / 2,
+			y: getBonusYPos(this.gridIndex.row),
+			nextY: getBonusYPos(this.gridIndex.row + 1),
 		};
 
 		this.radius = SIZES.projectile.radius;

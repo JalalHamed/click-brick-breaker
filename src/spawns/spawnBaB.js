@@ -4,12 +4,12 @@ import Bonus from '../classes/Bonus.js';
 // Objects
 import score from '../classes/statistics/score.js';
 // Functions
-import { genRndUniqueGridRowIndex } from '../helpers.js';
+import { genRndUniqueGridColumnIndex } from '../helpers.js';
 // State
 import state from '../state.js';
 
 const spawnBricksAndBonus = () => {
-	let gridRowIndexes = [];
+	let gridColumnIndexes = [];
 
 	// Spawn brick(s)
 	const maxBricksCount =
@@ -17,15 +17,15 @@ const spawnBricksAndBonus = () => {
 	const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
 
 	for (let i = 0; i < bricksCount; i++) {
-		const gridRowIndex = genRndUniqueGridRowIndex(gridRowIndexes);
-		gridRowIndexes.push(gridRowIndex);
-		state.bricks.push(new Brick({ gridRowIndex, mode: 'zoom-in' }));
+		const gridColumnIndex = genRndUniqueGridColumnIndex(gridColumnIndexes);
+		gridColumnIndexes.push(gridColumnIndex);
+		state.bricks.push(new Brick({ gridColumnIndex, mode: 'zoom-in' }));
 	}
 
 	// Spawn bonus
 	state.bonuses.push(
 		new Bonus({
-			gridRowIndex: genRndUniqueGridRowIndex(gridRowIndexes),
+			gridColumnIndex: genRndUniqueGridColumnIndex(gridColumnIndexes),
 			mode: 'zoom-in',
 		})
 	);

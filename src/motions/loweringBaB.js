@@ -37,6 +37,7 @@ const loweringBricksAndBonuses = () => {
 				})`;
 			}
 		} else if (item.pos.y - velocity > item.pos.nextY) {
+			console.log('in');
 			item.pos.y -= velocity;
 			isGoingDown = false;
 			state.bricks.forEach(brick => (brick.color = brick.updateColor()));
@@ -49,11 +50,11 @@ const loweringBricksAndBonuses = () => {
 		steps = null;
 		differences = {};
 
-		const bricksGridIndexes = state.bricks.map(brick => ({
-			id: brick.id,
-			...brick.gridIndex,
-		}));
-		console.log(bricksGridIndexes);
+		// const bricksGridIndexes = state.bricks.map(brick => ({
+		// 	id: brick.id,
+		// 	...brick.gridIndex,
+		// }));
+		// console.log(bricksGridIndexes);
 
 		if (!state.isFirstRound) {
 			score.addOne();

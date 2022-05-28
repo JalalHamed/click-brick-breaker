@@ -29,7 +29,7 @@ export default class Brick {
 		this.color = COLORS.brick.heaviest;
 		this.counter = 0;
 
-		this.gridIndex = { row: props.gridRowIndex, column: 0 };
+		this.gridIndex = { row: 0, column: props.gridColumnIndex };
 
 		this.couldCollide = { bottom: true, left: true, right: true };
 
@@ -39,14 +39,14 @@ export default class Brick {
 		};
 
 		this.endpoint = {
-			x: state.grid.row[this.gridIndex.row],
-			y: getBrickYPos(this.gridIndex.column),
+			x: state.grid.column[this.gridIndex.column],
+			y: getBrickYPos(this.gridIndex.row),
 		};
 
 		this.pos = {
 			x: this.endpoint.x + (this.mode === 'zoom-in' ? SIZES.brick.width / 2 : 0),
 			y: this.endpoint.y + (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
-			nextY: getBrickYPos(this.gridIndex.column + 1),
+			nextY: getBrickYPos(this.gridIndex.row + 1),
 		};
 
 		this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
@@ -68,9 +68,9 @@ export default class Brick {
 	}
 
 	updateYPos() {
-		this.gridIndex.column++;
-		this.pos.y = getBrickYPos(this.gridIndex.column);
-		this.pos.nextY = getBrickYPos(this.gridIndex.column + 1);
+		this.gridIndex.row++;
+		this.pos.y = getBrickYPos(this.gridIndex.row);
+		this.pos.nextY = getBrickYPos(this.gridIndex.row + 1);
 	}
 
 	updateColor() {
@@ -156,18 +156,18 @@ export default class Brick {
 		C.textBaseline = 'middle';
 		C.fillText(
 			this.weight,
-			state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
+			state.grid.column[this.gridIndex.column] + SIZES.brick.width / 2,
 			this.mode === 'zoom-in'
-				? getBrickYPos(this.gridIndex.column) + SIZES.brick.height / 2
+				? getBrickYPos(this.gridIndex.row) + SIZES.brick.height / 2
 				: this.pos.y + SIZES.brick.height / 2
 		);
 	}
 
 	repoSize() {
 		this.pos = {
-			x: state.grid.row[this.gridIndex.row],
-			y: getBrickYPos(this.gridIndex.column),
-			nextY: getBrickYPos(this.gridIndex.column + 1),
+			x: state.grid.column[this.gridIndex.column],
+			y: getBrickYPos(this.gridIndex.row),
+			nextY: getBrickYPos(this.gridIndex.row + 1),
 		};
 
 		this.size.width = SIZES.brick.width;

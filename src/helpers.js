@@ -15,8 +15,8 @@ import state from './state.js';
 
 export function calcGrid() {
 	const { width, height } = SIZES.brick;
-	for (let i = 0; i < 6; i++) state.grid.row[i] = i * (width + BRICKS_MARGIN);
-	for (let i = 0; i < 9; i++) state.grid.column[i] = i * (height + BRICKS_MARGIN);
+	for (let i = 0; i < 6; i++) state.grid.column[i] = i * (width + BRICKS_MARGIN);
+	for (let i = 0; i < 9; i++) state.grid.row[i] = i * (height + BRICKS_MARGIN);
 }
 
 export function isInBorder(y) {
@@ -70,7 +70,7 @@ export function isAnythingMoving() {
 	);
 }
 
-export function genRndUniqueGridRowIndex(usedIndexes) {
+export function genRndUniqueGridColumnIndex(usedIndexes) {
 	let index;
 	do {
 		index = Math.floor(Math.random() * 6);
@@ -109,8 +109,8 @@ export function increase(variable, value, target, fallback) {
 	else return fallback;
 }
 
-export function getBrickYPos(gridColumnIndex) {
-	return topBorder.heightFromTop + state.grid.column[gridColumnIndex];
+export function getBrickYPos(gridRowIndex) {
+	return topBorder.heightFromTop + state.grid.row[gridRowIndex];
 }
 
 export function convertRGBtoArr(rgb) {
@@ -124,10 +124,8 @@ export function getColorsDifferences(color1, color2) {
 	return differences;
 }
 
-export function getBonusYPos(gridColumnIndex) {
-	return (
-		topBorder.heightFromTop + SIZES.brick.height / 2 + state.grid.column[gridColumnIndex]
-	);
+export function getBonusYPos(gridRowIndex) {
+	return topBorder.heightFromTop + SIZES.brick.height / 2 + state.grid.row[gridRowIndex];
 }
 
 export function getXDist(obj1, obj2) {
