@@ -21,7 +21,7 @@ class Pointer {
 		const [x, gradient, YAxisIntercept] = getLineProps(pointA, pointB);
 		const angle = getAngle(state.mouseCoords);
 
-		// Pointer particle colliding with borders
+		/* Pointer (general endpoint) colliding with borders */
 		const setEndPoint = (axis, value) => {
 			const props = { gradient, YAxisIntercept, angle };
 			if (axis === 'x') endpoint = [value, getPointerYPos(value, props)];
@@ -39,7 +39,7 @@ class Pointer {
 		// Right side of CANVAS
 		if (x > CANVAS.width) setEndPoint('x', CANVAS.width - this.radius);
 
-		// Pointer particle colliding with bricks
+		/* Pointer particle colliding with bricks */
 		let particleEndPoint = endpoint;
 		const setParticleEndPoint = (axis, value) => {
 			if (axis === 'x') particleEndPoint = [value, gradient * value + YAxisIntercept];

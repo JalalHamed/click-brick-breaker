@@ -3,7 +3,7 @@ import score from '../classes/statistics/score.js';
 import record from '../classes/statistics/record.js';
 // Configs
 import { BRICKS_AND_BONUSES_BOUNCE_SIZE as B_A_B_B_S } from '../config.js';
-import { convertRGBtoArr, getColorsDifferences } from '../helpers.js';
+import { convertRGBtoArr, findDuplicates, getColorsDifferences } from '../helpers.js';
 // State
 import state from '../state.js';
 
@@ -48,6 +48,12 @@ const loweringBricksAndBonuses = () => {
 		isGoingDown = true;
 		steps = null;
 		differences = {};
+
+		const bricksGridIndexes = state.bricks.map(brick => ({
+			id: brick.id,
+			...brick.gridIndex,
+		}));
+		console.log(bricksGridIndexes);
 
 		if (!state.isFirstRound) {
 			score.addOne();

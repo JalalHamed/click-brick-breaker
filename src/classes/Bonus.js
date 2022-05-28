@@ -26,8 +26,8 @@ export default class Bonus {
 		this.mode = props.mode || 'stable';
 		this.color = COLORS.bonus;
 		this.steps = null;
-		this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 		this.hasRingCollapsed = false;
+		this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 
 		this.gridIndex = { row: props.gridRowIndex, column: 0 };
 

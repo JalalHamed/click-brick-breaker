@@ -31,7 +31,9 @@ export default class Brick {
 
 		this.gridIndex = { row: props.gridRowIndex, column: 0 };
 
-		this.dimensions = {
+		this.couldCollide = { bottom: true, left: true, right: true };
+
+		this.size = {
 			width: this.mode === 'zoom-in' ? 0 : SIZES.brick.width,
 			height: this.mode === 'zoom-in' ? 0 : SIZES.brick.height,
 		};
@@ -122,10 +124,10 @@ export default class Brick {
 		const update = (coord, dimension) => {
 			if (this.pos[coord] - this.velocity[coord] > this.endpoint[coord]) {
 				this.pos[coord] -= this.velocity[coord];
-				this.dimensions[dimension] += this.velocity[coord] * 2;
+				this.size[dimension] += this.velocity[coord] * 2;
 			} else {
 				this.pos[coord] = this.endpoint[coord];
-				this.dimensions[dimension] = SIZES.brick[dimension];
+				this.size[dimension] = SIZES.brick[dimension];
 				isDone[coord] = true;
 			}
 		};
@@ -147,7 +149,7 @@ export default class Brick {
 		if (this.counter && this.counter + B_C_R_D < state.counter) this.retrieveColor();
 
 		C.fillStyle = this.color;
-		C.fillRect(this.pos.x, this.pos.y, this.dimensions.width, this.dimensions.height);
+		C.fillRect(this.pos.x, this.pos.y, this.size.width, this.size.height);
 		C.font = `${SIZES.font}rem play`;
 		C.fillStyle = '#fff';
 		C.textAlign = 'center';
@@ -168,8 +170,8 @@ export default class Brick {
 			nextY: getBrickYPos(this.gridIndex.column + 1),
 		};
 
-		this.dimensions.width = SIZES.brick.width;
-		this.dimensions.height = SIZES.brick.height;
+		this.size.width = SIZES.brick.width;
+		this.size.height = SIZES.brick.height;
 	}
 
 	selfDestruct() {

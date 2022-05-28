@@ -217,3 +217,7 @@ export function getLineProps(pointA, pointB) {
 export function getPointerArrowLength() {
 	return (CANVAS.height - (getBorderMargin() + getBorderHeight()) * 2) / 4;
 }
+
+export function findDuplicates(arr) {
+	return [...new Set(arr.filter((item, index) => arr.indexOf(item) !== index))];
+}
