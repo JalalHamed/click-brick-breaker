@@ -8,15 +8,15 @@ import { C, CANVAS } from '../../config.js';
 import state from '../../state.js';
 
 class Record extends Statistics {
-  constructor() {
-    super();
-    this.name = 'Record';
-    this.count = 1;
-  }
+	constructor() {
+		super();
+		this.name = 'Record';
+		this.count = 1;
+	}
 
-  repoSize() {
-    this.pos.x = CANVAS.width / 2;
-  }
+	repoSize() {
+		this.pos.x = CANVAS.width / 2;
+	}
 }
 
 export default new Record();

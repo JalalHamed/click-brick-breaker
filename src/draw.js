@@ -18,37 +18,33 @@ import { C, CANVAS } from './config.js';
 import state from './state.js';
 
 const draw = () => {
-  C.clearRect(0, 0, CANVAS.width, CANVAS.height);
+	C.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
-  [fps, score, record].forEach(item => item.draw());
-  [...state.bricks, ...state.bonuses].forEach(item => item.draw());
-  if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
-  if (state.projectiles.some(projectile => projectile.mode !== 'stable'))
-    state.projectiles.forEach(projectile => projectile.draw());
-  else state.projectile.draw();
-  if (increscent.mode === 'rise') increscent.draw();
-  if (state.pieces.borders.length)
-    state.pieces.borders.forEach(piece => piece.draw());
-  else [topBorder, bottomBorder].forEach(border => border.draw());
-  if (state.pieces.bricks.length)
-    state.pieces.bricks.forEach(piece => piece.draw());
-  if (state.pieces.bonuses.length)
-    state.pieces.bonuses.forEach(piece => piece.draw());
+	[fps, score, record].forEach(item => item.draw());
+	[...state.bricks, ...state.bonuses].forEach(item => item.draw());
+	if (state.isMouseInBorder && !isAnythingMoving()) pointer.draw();
+	if (state.projectiles.some(projectile => projectile.mode !== 'stable'))
+		state.projectiles.forEach(projectile => projectile.draw());
+	else state.projectile.draw();
+	if (increscent.mode === 'rise') increscent.draw();
+	if (state.pieces.borders.length) state.pieces.borders.forEach(piece => piece.draw());
+	else [topBorder, bottomBorder].forEach(border => border.draw());
+	if (state.pieces.bricks.length) state.pieces.bricks.forEach(piece => piece.draw());
+	if (state.pieces.bonuses.length) state.pieces.bonuses.forEach(piece => piece.draw());
 
-  // Motions
-  if (state.counter % 2 === 0) swingBonusRing();
-  if (state.projectiles.some(projectile => projectile.mode === 'emit'))
-    emitProjectiles();
-  if (
-    state.bricks.every(item => item.mode === 'lower') &&
-    state.bonuses.some(item => item.mode === 'lower') // some bonuses might be in drop/merge mode
-  ) {
-    if (state.bonuses.some(bonus => bonus.gridIndex.column === 7))
-      state.bonuses
-        .filter(bonus => bonus.gridIndex.column === 7)
-        .forEach(bonus => (bonus.mode = 'straight-merge'));
-    loweringBaB();
-  }
+	// Motions
+	if (state.counter % 2 === 0) swingBonusRing();
+	if (state.projectiles.some(projectile => projectile.mode === 'emit')) emitProjectiles();
+	if (
+		state.bricks.every(item => item.mode === 'lower') &&
+		state.bonuses.some(item => item.mode === 'lower') // some bonuses might be in drop/merge mode
+	) {
+		if (state.bonuses.some(bonus => bonus.gridIndex.column === 7))
+			state.bonuses
+				.filter(bonus => bonus.gridIndex.column === 7)
+				.forEach(bonus => (bonus.mode = 'straight-merge'));
+		loweringBaB();
+	}
 };
 
 export default draw;

@@ -14,17 +14,17 @@ let isGoingDown = false;
 let counter = diff - 1;
 
 const swingBonusRing = () => {
-  if (state.bonusRingRadius < max && !isGoingDown) {
-    state.bonusRingRadius += numbers[counter];
-    if (counter) counter--;
-  }
-  if (state.bonusRingRadius > min && isGoingDown) {
-    state.bonusRingRadius -= numbers[counter];
-    if (counter < diff - 1) counter++;
-  }
+	if (state.bonusRingRadius < max && !isGoingDown) {
+		state.bonusRingRadius += numbers[counter];
+		if (counter) counter--;
+	}
+	if (state.bonusRingRadius > min && isGoingDown) {
+		state.bonusRingRadius -= numbers[counter];
+		if (counter < diff - 1) counter++;
+	}
 
-  if (state.bonusRingRadius <= min) isGoingDown = false;
-  if (state.bonusRingRadius >= max) isGoingDown = true;
+	if (state.bonusRingRadius <= min) isGoingDown = false;
+	if (state.bonusRingRadius >= max) isGoingDown = true;
 };
 
 export default swingBonusRing;

@@ -1,82 +1,82 @@
 @font-face {
-  font-family: 'play';
-  src: url('./assets/fonts/play.woff2');
+	font-family: 'play';
+	src: url('./assets/fonts/play.woff2');
 }
 
 body {
-  margin: 0;
-  height: 100vh;
-  overflow-y: hidden;
-  overflow-x: auto;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
+	margin: 0;
+	height: 100vh;
+	overflow-y: hidden;
+	overflow-x: auto;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 .loading {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	display: inline-block;
+	position: relative;
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .loading div {
-  position: absolute;
-  top: 33px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: rgb(93, 167, 239);
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+	position: absolute;
+	top: 33px;
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	background: rgb(93, 167, 239);
+	animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
 .loading div:nth-child(1) {
-  left: 8px;
-  animation: loading1 0.6s infinite;
+	left: 8px;
+	animation: loading1 0.6s infinite;
 }
 
 .loading div:nth-child(2) {
-  left: 8px;
-  animation: loading2 0.6s infinite;
+	left: 8px;
+	animation: loading2 0.6s infinite;
 }
 
 .loading div:nth-child(3) {
-  left: 32px;
-  animation: loading2 0.6s infinite;
+	left: 32px;
+	animation: loading2 0.6s infinite;
 }
 
 .loading div:nth-child(4) {
-  left: 56px;
-  animation: loading3 0.6s infinite;
+	left: 56px;
+	animation: loading3 0.6s infinite;
 }
 
 @keyframes loading1 {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 
 @keyframes loading2 {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(24px, 0);
-  }
+	0% {
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translate(24px, 0);
+	}
 }
 
 @keyframes loading3 {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
+	}
 }

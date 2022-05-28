@@ -14,16 +14,16 @@ import { GAME_COUNTER_MAX_VALUE as G_C_M_V } from './config.js';
 import state from './state.js';
 
 const animate = () => {
-  state.counter = increase(state.counter, 1, G_C_M_V, 0);
-  draw();
-  requestAnimationFrame(animate);
+	state.counter = increase(state.counter, 1, G_C_M_V, 0);
+	draw();
+	requestAnimationFrame(animate);
 };
 
 const init = () => {
-  document.querySelector('.loading').style.display = 'none';
-  [calcGrid, spawnProjectile, spawnBorderPieces, spawnBaB, animate].forEach(
-    item => item()
-  );
+	document.querySelector('.loading').style.display = 'none';
+	[calcGrid, spawnProjectile, spawnBorderPieces, spawnBaB, animate].forEach(item =>
+		item()
+	);
 };
 
 addEventListener('load', init);

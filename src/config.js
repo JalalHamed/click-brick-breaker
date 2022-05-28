@@ -1,12 +1,12 @@
 // Functions
 import {
-  getBorderHeight,
-  getBorderMargin,
-  getBrickHeight,
-  getBrickWidth,
-  getFontSize,
-  getParticleRadius,
-  getPointerArrowLength,
+	getBorderHeight,
+	getBorderMargin,
+	getBrickHeight,
+	getBrickWidth,
+	getFontSize,
+	getParticleRadius,
+	getPointerArrowLength,
 } from './helpers.js';
 
 export const CANVAS = document.querySelector('CANVAS');
@@ -14,8 +14,7 @@ export const C = CANVAS.getContext('2d');
 
 export const CANVAS_MIN_WIDTH = 350;
 export const CANVAS_MIN_HEIGHT = 600;
-CANVAS.height =
-  innerHeight >= CANVAS_MIN_HEIGHT ? innerHeight : CANVAS_MIN_HEIGHT;
+CANVAS.height = innerHeight >= CANVAS_MIN_HEIGHT ? innerHeight : CANVAS_MIN_HEIGHT;
 CANVAS.width = innerWidth >= CANVAS_MIN_WIDTH ? innerWidth : CANVAS_MIN_WIDTH;
 
 export const MIN_PARTICLE_RADIUS = 6;
@@ -32,42 +31,42 @@ export const PIECE_DISTANCE_TO_TAKE_BEFORE_FADE = getBorderMargin() / 3;
 export const BRICKS_AND_BONUSES_BOUNCE_SIZE = getBrickHeight() / 2;
 
 export const VELOCITY = Object.freeze({
-  projectile: 15,
-  merging: 20,
-  dropping: 20,
-  placing: 2,
+	projectile: 15,
+	merging: 20,
+	dropping: 20,
+	placing: 2,
 });
 
 // NOTE: colors MUST be in RGB format
 export const COLORS = Object.freeze({
-  border: 'rgb(0, 0, 0)',
-  projectile: 'rgb(93, 167, 239)',
-  bonus: 'rgb(79, 234, 115)',
-  pointer: {
-    line: 'rgb(93, 167, 239, 0.5)',
-    arrow: 'rgb(93, 167, 239, 0.5)',
-    particle: 'rgb(93, 167, 239, 0.5)',
-  },
-  brick: { heaviest: 'rgb(255, 80, 80)', lightest: 'rgb(255, 160, 120)' },
+	border: 'rgb(0, 0, 0)',
+	projectile: 'rgb(93, 167, 239)',
+	bonus: 'rgb(79, 234, 115)',
+	pointer: {
+		line: 'rgb(93, 167, 239, 0.5)',
+		arrow: 'rgb(93, 167, 239, 0.5)',
+		particle: 'rgb(93, 167, 239, 0.5)',
+	},
+	brick: { heaviest: 'rgb(255, 80, 80)', lightest: 'rgb(255, 160, 120)' },
 });
 
 export const SIZES = {
-  border: { margin: getBorderMargin(), height: getBorderHeight() },
-  projectile: { radius: getParticleRadius() },
-  brick: { width: getBrickWidth(), height: getBrickHeight() },
-  bonus: {
-    radius: getParticleRadius(),
-    ring: {
-      min: getParticleRadius(),
-      max: getParticleRadius() * 1.8,
-      lineWidth: getBorderHeight(),
-    },
-  },
-  pieces: {
-    brick: { width: getBrickWidth() / 6, height: getBrickHeight() / 4 },
-    bonus: { width: getBorderHeight() * 1.5, height: getBorderHeight() * 1.5 },
-    border: { width: CANVAS.width / 40, height: getBorderHeight() },
-  },
-  pointer: { arrow: { length: getPointerArrowLength() } },
-  font: getFontSize(),
+	border: { margin: getBorderMargin(), height: getBorderHeight() },
+	projectile: { radius: getParticleRadius() },
+	brick: { width: getBrickWidth(), height: getBrickHeight() },
+	bonus: {
+		radius: getParticleRadius(),
+		ring: {
+			min: getParticleRadius(),
+			max: getParticleRadius() * 1.8,
+			lineWidth: getBorderHeight(),
+		},
+	},
+	pieces: {
+		brick: { width: getBrickWidth() / 6, height: getBrickHeight() / 4 },
+		bonus: { width: getBorderHeight() * 1.5, height: getBorderHeight() * 1.5 },
+		border: { width: CANVAS.width / 40, height: getBorderHeight() },
+	},
+	pointer: { arrow: { length: getPointerArrowLength() } },
+	font: getFontSize(),
 };

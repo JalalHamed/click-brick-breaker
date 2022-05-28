@@ -4,20 +4,20 @@ import Border from './Border.js';
 import { SIZES, CANVAS } from '../../config.js';
 
 class TobBorder extends Border {
-  constructor() {
-    super();
-    this.pos.y = SIZES.border.margin;
-  }
+	constructor() {
+		super();
+		this.pos.y = SIZES.border.margin;
+	}
 
-  get heightFromTop() {
-    return this.pos.y + this.height;
-  }
+	get heightFromTop() {
+		return this.pos.y + this.height;
+	}
 
-  repoSize() {
-    this.width = CANVAS.width;
-    this.height = SIZES.border.height;
-    this.pos.y = SIZES.border.margin;
-  }
+	repoSize() {
+		this.width = CANVAS.width;
+		this.height = SIZES.border.height;
+		this.pos.y = SIZES.border.margin;
+	}
 }
 
 export default new TobBorder();

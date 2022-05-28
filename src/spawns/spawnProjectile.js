@@ -4,9 +4,9 @@ import Projectile from '../classes/Projectile.js';
 import state from '../state.js';
 
 const spawnProjectile = () => {
-  const projectile = new Projectile();
-  state.projectile = projectile;
-  state.projectiles.push(projectile);
+	const projectile = new Projectile();
+	state.projectile = projectile;
+	state.projectiles.push(projectile);
 };
 
 export default spawnProjectile;
