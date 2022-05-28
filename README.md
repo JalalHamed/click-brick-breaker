@@ -1,6 +1,6 @@
-### TODO
+## TODO
 
-# GAME LOGIC AND DESIGN
+### GAME LOGIC AND DESIGN
 
 - change pointer particle to brick's borders on collision.
 - particles radius should have a fixed scale with bricks widths.
@@ -9,12 +9,12 @@
 - record and score should be aligned to right.
 - pointer dashes are smaller and closer to each other in the original game.
 
-# GAME START AND GAME OVER
+### GAME START AND GAME OVER
 
 - game start borders pixels animation. (still not quit right)
 - game over animation and new game card.
 
-# GAME OPTIONS
+### GAME OPTIONS
 
 - 3 lines icon (just like the original game) with the additional option of controlling the game speed.
 - emit projectile margin should depend on the projectile velocity coefficient, cause if we lower velocity, it'll break.
@@ -23,7 +23,7 @@
 - add sounds.
 - control the thickness of pointer or wether it being dashed or not in the settings as a bonus to the features this version has compared to the original.
 
-# GAME RESIZE AND REPOSITION
+### GAME RESIZE AND REPOSITION
 
 - prevent the top-border from colliding with score and record by not decreasing it's value once reaches a certain amount.
 - makes sure the projectile will never leave the screen under no circumstances.
@@ -34,13 +34,13 @@
 - the wider the screen width is, the higher the velocities should be.
 - the wider the screen width is, the less the min-angle and the more the max-angle should be (or should it?).
 
-# GAME STATE (LOCALSTORAGE)
+### GAME STATE (LOCALSTORAGE)
 
 - save everything in LocalStorage.
 - display game introduction if it's the first time one is playing it (swipe for mobile and click for desktop, detect from screen width).
 - check for memory leaks and clear them through out the whole app.
 
-# GAME DEPLOYMENT
+### GAME DEPLOYMENT
 
 - add 'keywords' and 'description' and 'author' meta tags.
 - represent myself as game's developer in some cool way (show JALAL HAMED in console or something).
@@ -50,7 +50,7 @@
 
 ---
 
-### BUGS
+## BUGS
 
 - bonus straight merge bug.
 - bricks pieces color on collapse bug.
