@@ -20,10 +20,10 @@ const spawnBricksAndBonus = () => {
       : 2; // Gradually increase the maximum number of bricks that can be spawned (up to 5, need at least one free spot for the bonus) starting at 2.
   const bricksCount = Math.floor(Math.random() * maxBricksCount) + 1;
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < bricksCount; i++) {
     const gridRowIndex = genRndUniqueGridRowIndex(gridRowIndexes);
     gridRowIndexes.push(gridRowIndex);
-    state.bricks.push(new Brick({ gridRowIndex: 3, mode: 'zoom-in' }));
+    state.bricks.push(new Brick({ gridRowIndex, mode: 'zoom-in' }));
   }
 
   // Spawn bonus
