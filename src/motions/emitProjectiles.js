@@ -196,8 +196,7 @@ const emitProjectiles = () => {
         projectile.mode = 'stable';
         state.projectile = projectile;
         isFirstOneToLand = false;
-      } else if (projectile.pos.x !== state.projectile.pos.x)
-        projectile.mode = 'merge';
+      } else if (projectile.pos.x !== state.projectile.pos.x) projectile.mode = 'merge';
       else projectile.mode = 'stable';
     }
   });

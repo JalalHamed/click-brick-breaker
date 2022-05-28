@@ -1,12 +1,7 @@
 // Objects
 import topBorder from './borders/topBorder.js';
 // Functions
-import {
-  getAngle,
-  getPointerXPos,
-  getPointerYPos,
-  getLineProps,
-} from '../helpers.js';
+import { getAngle, getPointerXPos, getPointerYPos, getLineProps } from '../helpers.js';
 // Configs
 import { COLORS, SIZES, CANVAS, C } from '../config.js';
 // State
@@ -35,10 +30,7 @@ class Pointer {
 
     // At 90 degree, gradient is Infinite (or -Infinite)
     if (gradient === Infinity || gradient === -Infinity)
-      endpoint = [
-        state.projectile.pos.x,
-        topBorder.heightFromTop + this.radius,
-      ];
+      endpoint = [state.projectile.pos.x, topBorder.heightFromTop + this.radius];
     // Top border
     if (x > 0 && x < CANVAS.width)
       setEndPoint('y', topBorder.heightFromTop + this.radius);
@@ -50,10 +42,8 @@ class Pointer {
     // Pointer particle colliding with bricks
     let particleEndPoint = endpoint;
     const setParticleEndPoint = (axis, value) => {
-      if (axis === 'x')
-        particleEndPoint = [value, gradient * value + YAxisIntercept];
-      if (axis === 'y')
-        particleEndPoint = [(value - YAxisIntercept) / gradient, value];
+      if (axis === 'x') particleEndPoint = [value, gradient * value + YAxisIntercept];
+      if (axis === 'y') particleEndPoint = [(value - YAxisIntercept) / gradient, value];
     };
 
     state.bricks.forEach(brick => {
@@ -64,8 +54,7 @@ class Pointer {
       const [bBLC_x, bBLC_y] = brick.corner('bottom-left');
       const [bBLC_XPos] = getLineProps(pointA, [bBLC_x - this.radius, bBLC_y]);
 
-      if (x >= bTLC_XPos && x < bBLC_XPos)
-        setParticleEndPoint('x', bTLC_x - this.radius);
+      if (x >= bTLC_XPos && x < bBLC_XPos) setParticleEndPoint('x', bTLC_x - this.radius);
 
       // Right side
       const [bTRC_x, bTRC_y] = brick.corner('top-right');
@@ -74,18 +63,14 @@ class Pointer {
       const [bBRC_x, bBRC_y] = brick.corner('bottom-right');
       const [bBRC_XPos] = getLineProps(pointA, [bBRC_x + this.radius, bBRC_y]);
 
-      if (x <= bTRC_XPos && x > bBRC_XPos)
-        setParticleEndPoint('x', bTRC_x + this.radius);
+      if (x <= bTRC_XPos && x > bBRC_XPos) setParticleEndPoint('x', bTRC_x + this.radius);
 
       // Bottom side
       const [bBLC_XPos2] = getLineProps(pointA, brick.corner('bottom-left'));
       const [bBRC_XPos2] = getLineProps(pointA, brick.corner('bottom-right'));
 
       if (x > bBLC_XPos2 && x < bBRC_XPos2)
-        setParticleEndPoint(
-          'y',
-          brick.pos.y + SIZES.brick.height + this.radius
-        );
+        setParticleEndPoint('y', brick.pos.y + SIZES.brick.height + this.radius);
     });
 
     return {
