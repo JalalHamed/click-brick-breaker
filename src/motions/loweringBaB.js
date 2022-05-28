@@ -37,7 +37,6 @@ const loweringBricksAndBonuses = () => {
 				})`;
 			}
 		} else if (item.pos.y - velocity > item.pos.nextY) {
-			console.log('in');
 			item.pos.y -= velocity;
 			isGoingDown = false;
 			state.bricks.forEach(brick => (brick.color = brick.updateColor()));
@@ -50,11 +49,18 @@ const loweringBricksAndBonuses = () => {
 		steps = null;
 		differences = {};
 
-		// const bricksGridIndexes = state.bricks.map(brick => ({
-		// 	id: brick.id,
-		// 	...brick.gridIndex,
-		// }));
-		// console.log(bricksGridIndexes);
+		/* Check which brick's which side could collide */
+		const columns = findDuplicates(state.bricks.map(brick => brick.gridIndex.column));
+		// Bottom side
+		if (columns.length) {
+			columns.forEach(column => {
+				const bricks = state.bricks.filter(brick => brick.gridIndex.column === column);
+				for (let i = 0; i < bricks.length - 1; i++) {
+					if (bricks[i].gridIndex.row - bricks[i + 1].gridIndex.row === 1)
+						bricks[i + 1].couldCollide.bottom = false;
+				}
+			});
+		}
 
 		if (!state.isFirstRound) {
 			score.addOne();

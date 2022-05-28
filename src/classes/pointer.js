@@ -69,7 +69,7 @@ class Pointer {
 			const [bBLC_XPos2] = getLineProps(pointA, brick.corner('bottom-left'));
 			const [bBRC_XPos2] = getLineProps(pointA, brick.corner('bottom-right'));
 
-			if (x > bBLC_XPos2 && x < bBRC_XPos2)
+			if (x > bBLC_XPos2 && x < bBRC_XPos2 && brick.couldCollide.bottom)
 				setParticleEndPoint('y', brick.pos.y + SIZES.brick.height + this.radius);
 		});
 
