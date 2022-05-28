@@ -49,9 +49,11 @@ class Pointer {
 
     // Pointer particle colliding with bricks
     let particleEndPoint = endpoint;
-    const setParticleEndPoint = x => {
-      const y = gradient * x + YAxisIntercept;
-      particleEndPoint = [x, y];
+    const setParticleEndPoint = (axis, value) => {
+      if (axis === 'x')
+        particleEndPoint = [value, gradient * value + YAxisIntercept];
+      if (axis === 'y')
+        particleEndPoint = [(value - YAxisIntercept) / gradient, value];
     };
 
     state.bricks.forEach(brick => {
@@ -63,7 +65,7 @@ class Pointer {
       const [bBLC_XPos] = getLineProps(pointA, [bBLC_x - this.radius, bBLC_y]);
 
       if (x >= bTLC_XPos && x < bBLC_XPos)
-        setParticleEndPoint(bTLC_x - this.radius);
+        setParticleEndPoint('x', bTLC_x - this.radius);
 
       // Right side
       const [bTRC_x, bTRC_y] = brick.corner('top-right');
@@ -73,7 +75,17 @@ class Pointer {
       const [bBRC_XPos] = getLineProps(pointA, [bBRC_x + this.radius, bBRC_y]);
 
       if (x <= bTRC_XPos && x > bBRC_XPos)
-        setParticleEndPoint(bTRC_x + this.radius);
+        setParticleEndPoint('x', bTRC_x + this.radius);
+
+      // Bottom side
+      const [bBLC_XPos2] = getLineProps(pointA, brick.corner('bottom-left'));
+      const [bBRC_XPos2] = getLineProps(pointA, brick.corner('bottom-right'));
+
+      if (x > bBLC_XPos2 && x < bBRC_XPos2)
+        setParticleEndPoint(
+          'y',
+          brick.pos.y + SIZES.brick.height + this.radius
+        );
     });
 
     return {
