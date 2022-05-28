@@ -14,7 +14,7 @@ export default class Projectile {
 
     this.velocity = { x: 0, y: 0 };
     this.pos = {
-      x: 100,
+      x: state.getLS('projectile') || CANVAS.width / 2,
       y: bottomBorder.pos.y - SIZES.projectile.radius,
     };
   }
