@@ -26,8 +26,9 @@ class Pointer {
     const [x, gradient, YAxisIntercept] = getLineProps(pointA, pointB);
     const angle = getAngle(state.mouseCoords);
 
+    // Pointer particle colliding with borders
     const setEndPoint = (axis, value) => {
-      const props = { gradient, YAxisIntercept, angle, radius: this.radius };
+      const props = { gradient, YAxisIntercept, angle };
       if (axis === 'x') endpoint = [value, getPointerYPos(value, props)];
       if (axis === 'y') endpoint = [getPointerXPos(value, props), value];
     };
@@ -38,49 +39,41 @@ class Pointer {
         state.projectile.pos.x,
         topBorder.heightFromTop + this.radius,
       ];
-    // Pointer particle touches top border
+    // Top border
     if (x > 0 && x < CANVAS.width)
       setEndPoint('y', topBorder.heightFromTop + this.radius);
-    // Pointer particle touches left side of CANVAS
+    // Left side of CANVAS
     if (x < 0) setEndPoint('x', this.radius);
-    // Pointer particle touches right side of CANVAS
+    // Right side of CANVAS
     if (x > CANVAS.width) setEndPoint('x', CANVAS.width - this.radius);
 
+    // Pointer particle colliding with bricks
     let particleEndPoint = endpoint;
+    const setParticleEndPoint = x => {
+      const y = gradient * x + YAxisIntercept;
+      particleEndPoint = [x, y];
+    };
 
-    // Pointer particle collide with bricks
     state.bricks.forEach(brick => {
       // Left side
-      const [bTLC_XPos] = getLineProps(pointA, [
-        brick.pos.x - this.radius,
-        brick.pos.y,
-      ]);
-      const [bBLC_XPos] = getLineProps(pointA, [
-        brick.pos.x - this.radius,
-        brick.pos.y + SIZES.brick.height,
-      ]);
+      const [bTLC_x, bTLC_y] = brick.corner('top-left');
+      const [bTLC_XPos] = getLineProps(pointA, [bTLC_x - this.radius, bTLC_y]);
 
-      if (x >= bTLC_XPos && x < bBLC_XPos) {
-        const x = brick.pos.x - this.radius;
-        const y = gradient * x + YAxisIntercept;
-        particleEndPoint = [x, y];
-      }
+      const [bBLC_x, bBLC_y] = brick.corner('bottom-left');
+      const [bBLC_XPos] = getLineProps(pointA, [bBLC_x - this.radius, bBLC_y]);
+
+      if (x >= bTLC_XPos && x < bBLC_XPos)
+        setParticleEndPoint(bTLC_x - this.radius);
 
       // Right side
-      const [bTRC_XPos] = getLineProps(pointA, [
-        brick.pos.x + SIZES.brick.width + this.radius,
-        brick.pos.y,
-      ]);
-      const [bBRC_XPos] = getLineProps(pointA, [
-        brick.pos.x + SIZES.brick.width + this.radius,
-        brick.pos.y + SIZES.brick.height,
-      ]);
+      const [bTRC_x, bTRC_y] = brick.corner('top-right');
+      const [bTRC_XPos] = getLineProps(pointA, [bTRC_x + this.radius, bTRC_y]);
 
-      if (x <= bTRC_XPos && x > bBRC_XPos) {
-        const x = brick.pos.x + SIZES.brick.width + this.radius;
-        const y = gradient * x + YAxisIntercept;
-        particleEndPoint = [x, y];
-      }
+      const [bBRC_x, bBRC_y] = brick.corner('bottom-right');
+      const [bBRC_XPos] = getLineProps(pointA, [bBRC_x + this.radius, bBRC_y]);
+
+      if (x <= bTRC_XPos && x > bBRC_XPos)
+        setParticleEndPoint(bTRC_x + this.radius);
     });
 
     return {

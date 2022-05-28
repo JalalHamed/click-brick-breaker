@@ -181,7 +181,8 @@ export function getBorderRndXPos(highest) {
   return rndInt;
 }
 
-export function getPointerXPos(basedOn, { gradient, YAxisIntercept, radius }) {
+export function getPointerXPos(basedOn, { gradient, YAxisIntercept }) {
+  const radius = SIZES.projectile.radius;
   const x = (basedOn - YAxisIntercept) / gradient;
   if (x > radius && x < CANVAS.width - radius) return x;
   // Prevent particle from going over the CANVAS' width in the left corner
@@ -190,10 +191,8 @@ export function getPointerXPos(basedOn, { gradient, YAxisIntercept, radius }) {
   if (x > CANVAS.width - radius) return CANVAS.width - radius;
 }
 
-export function getPointerYPos(
-  basedOn,
-  { gradient, YAxisIntercept, angle, radius }
-) {
+export function getPointerYPos(basedOn, { gradient, YAxisIntercept, angle }) {
+  const radius = SIZES.projectile.radius;
   const y = basedOn * gradient + YAxisIntercept;
   if (angle > MIN_ANGLE && angle < MAX_ANGLE) {
     if (y > topBorder.heightFromTop + radius) return y;

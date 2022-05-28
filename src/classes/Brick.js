@@ -55,12 +55,19 @@ export default class Brick {
 
   corner(corner) {
     switch (corner) {
-      case 'right':
-        return this.pos.x + SIZES;
-        break;
-
+      case 'top-left':
+        return [this.pos.x, this.pos.y];
+      case 'top-right':
+        return [this.pos.x + SIZES.brick.width, this.pos.y];
+      case 'bottom-left':
+        return [this.pos.x, this.pos.y + SIZES.brick.height];
+      case 'bottom-right':
+        return [
+          this.pos.x + SIZES.brick.width,
+          this.pos.y + SIZES.brick.height,
+        ];
       default:
-        break;
+        return;
     }
   }
 
