@@ -7,14 +7,13 @@ import state from '../../state.js';
 
 class Piece {
   constructor(props) {
-    this.props = props;
-
     this.id = props.id;
     this.transparency = 1;
     this.D_T_T_B_F = P_D_T_T_B_F; // distance to take before fade
 
-    this.velocity = { x: Math.random() * 2 - 1, y: Math.random() * 3 + 2 };
     this.pos = { x: 0, y: 0 };
+
+    this.velocity = { x: Math.random() * 2 - 1, y: Math.random() * 3 + 2 };
   }
 
   update() {

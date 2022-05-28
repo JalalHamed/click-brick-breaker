@@ -30,16 +30,17 @@ export default class Bonus {
     this.hasRingCollapsed = false;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
-    this.velocity = {
-      x: VELOCITY.merging,
-      y: VELOCITY.dropping,
-      radius: SIZES.bonus.radius / 20,
-    };
 
     this.pos = {
       x: state.grid.row[this.gridIndex.row] + SIZES.brick.width / 2,
       y: getBonusYPos(this.gridIndex.column),
       nextY: getBonusYPos(this.gridIndex.column + 1),
+    };
+
+    this.velocity = {
+      x: VELOCITY.merging,
+      y: VELOCITY.dropping,
+      radius: SIZES.bonus.radius / 20,
     };
   }
 

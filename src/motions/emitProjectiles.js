@@ -95,8 +95,8 @@ const emitProjectiles = () => {
         // prettier-ignore
         projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
         projectile.perimeter('left') > brick.pos.x + width &&
-        projectile.perimeter('bottom') > brick.pos.y &&
-        projectile.perimeter('top') < brick.pos.y + height
+        projectile.pos.y > brick.pos.y &&
+        projectile.pos.y < brick.pos.y + height
       ) {
         projectile.pos.x = brick.pos.x + width + SIZES.projectile.radius;
         projectile.velocity.x *= -1;

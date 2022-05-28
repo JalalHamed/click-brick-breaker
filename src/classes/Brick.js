@@ -12,9 +12,9 @@ import {
 } from '../helpers.js';
 // Configs
 import {
-  SIZES,
   C,
   COLORS,
+  SIZES,
   BRICK_COLOR_RETRIEVE_DELAY as B_C_R_D,
   GAME_COUNTER_MAX_VALUE as G_C_M_V,
 } from '../config.js';
@@ -30,7 +30,6 @@ export default class Brick {
     this.counter = 0;
 
     this.gridIndex = { row: props.gridRowIndex, column: 0 };
-    this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
 
     this.dimensions = {
       width: this.mode === 'zoom-in' ? 0 : SIZES.brick.width,
@@ -50,6 +49,19 @@ export default class Brick {
         (this.mode === 'zoom-in' ? SIZES.brick.height / 2 : 0),
       nextY: getBrickYPos(this.gridIndex.column + 1),
     };
+
+    this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
+  }
+
+  corner(corner) {
+    switch (corner) {
+      case 'right':
+        return this.pos.x + SIZES;
+        break;
+
+      default:
+        break;
+    }
   }
 
   updateYPos() {
