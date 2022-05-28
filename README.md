@@ -48,8 +48,6 @@
 - add statistic reports to see how many people play the game daily and where are they from and...
 - github README (define used abbreviations too. e.g. BaB => Brick(s) and Bonus(es), calc => calculate)
 
----
-
 ## BUGS
 
 - bonus straight merge bug.
