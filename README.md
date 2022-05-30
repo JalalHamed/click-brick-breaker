@@ -54,4 +54,3 @@
 - bricks pieces color on collapse bug.
 - brick's color would sometimes stuck onto fade from the projectile hit (related to the 999 max value of the game's counter)
 - still projectiles find a way through inside of the bricks!
-- projectile hits the exact target shown by the pointer only and only if it's velocities coefficient is 1. in another words the velocity alters the end destination of projectiles.

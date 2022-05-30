@@ -25,167 +25,58 @@ const emitProjectiles = () => {
 
 	state.projectiles.forEach(projectile => {
 		const delay = projectile.id * E_P_M;
+		const ratio = {
+			XtoY: Math.abs(projectile.velocity.x / projectile.velocity.y),
+			YtoX: Math.abs(projectile.velocity.y / projectile.velocity.x),
+		};
+
 		if (delay <= counter) projectile.update();
 		if (delay === counter) coefficient.decreaseCount();
 
-		// Colliding with canvas' left side
+		/* Colliding with borders */
+		// Canvas' left side
 		if (projectile.perimeter('left') + projectile.velocity.x < 0) {
-			projectile.pos.x = SIZES.projectile.radius + S_M_F_C_S;
+			const shortage = projectile.perimeter('left');
+
+			projectile.pos.x -= shortage;
+			if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
+			else projectile.pos.y += shortage * ratio.YtoX;
+
 			projectile.velocity.x *= -1;
 		}
 
-		// Colliding with canvas' right side
+		// Canvas' right side
 		if (projectile.perimeter('right') + projectile.velocity.x > CANVAS.width) {
-			projectile.pos.x = CANVAS.width - SIZES.projectile.radius - S_M_F_C_S;
+			const shortage = CANVAS.width - projectile.perimeter('right');
+
+			projectile.pos.x += shortage;
+			if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
+			else projectile.pos.y += shortage * ratio.YtoX;
+
 			projectile.velocity.x *= -1;
 		}
 
-		// Colliding with top-border
-		// prettier-ignore
-		if (projectile.perimeter('top') + projectile.velocity.y < topBorder.heightFromTop) { 
-      projectile.pos.y = topBorder.heightFromTop + SIZES.projectile.radius;
-      projectile.velocity.y *= -1;
-    }
+		// Top-border
+		if (projectile.perimeter('top') + projectile.velocity.y < topBorder.heightFromTop) {
+			const shortage = projectile.perimeter('top') - topBorder.heightFromTop;
 
-		// Colliding with brick
-		const { width, height } = SIZES.brick;
-		const diagonalRadius = SIZES.projectile.radius / Math.sqrt(2);
-		state.bricks.forEach(brick => {
-			// Bottom side
-			if (
-				// prettier-ignore
-				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
-        projectile.perimeter('top') > brick.pos.y + height &&
-        projectile.pos.x > brick.pos.x &&
-        projectile.pos.x < brick.pos.x + width
-			) {
-				projectile.pos.y = brick.pos.y + height + SIZES.projectile.radius;
-				projectile.velocity.y *= -1;
-				brick.collide();
-			}
+			projectile.pos.y -= shortage;
+			if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
+			else projectile.pos.x -= shortage * ratio.XtoY;
 
-			// Top side
-			if (
-				// prettier-ignore
-				projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
-        projectile.perimeter('bottom') < brick.pos.y &&
-        projectile.pos.x > brick.pos.x &&
-        projectile.pos.x < brick.pos.x + width
-			) {
-				projectile.pos.y = brick.pos.y - SIZES.projectile.radius;
-				projectile.velocity.y *= -1;
-				brick.collide();
-			}
+			projectile.velocity.y *= -1;
+		}
 
-			// Left side
-			if (
-				// prettier-ignore
-				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
-        projectile.perimeter('right') < brick.pos.x &&
-        projectile.pos.y > brick.pos.y &&
-        projectile.pos.y < brick.pos.y + height
-			) {
-				projectile.pos.x = brick.pos.x - SIZES.projectile.radius;
-				projectile.velocity.x *= -1;
-				brick.collide();
-			}
+		// Bottom-border
+		if (projectile.perimeter('bottom') + projectile.velocity.y > bottomBorder.pos.y) {
+			const shortage = bottomBorder.pos.y - projectile.perimeter('bottom');
+			projectile.pos.y += shortage;
+			if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
+			else projectile.pos.x -= shortage * ratio.XtoY;
 
-			// Right side
-			if (
-				// prettier-ignore
-				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
-        projectile.perimeter('left') > brick.pos.x + width &&
-        projectile.pos.y > brick.pos.y &&
-        projectile.pos.y < brick.pos.y + height
-			) {
-				projectile.pos.x = brick.pos.x + width + SIZES.projectile.radius;
-				projectile.velocity.x *= -1;
-				brick.collide();
-			}
+			projectile.velocity.x = projectile.velocity.y = 0;
 
-			// Bottom-left corner
-			if (
-				// prettier-ignore
-				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x && 
-        projectile.perimeter('right') < brick.pos.x &&
-        projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
-        projectile.perimeter('top') > brick.pos.y + height
-			) {
-				projectile.pos.x = brick.pos.x - diagonalRadius;
-				projectile.pos.y = brick.pos.y + height + diagonalRadius;
-				projectile.velocity.x *= -1;
-				projectile.velocity.y *= -1;
-				brick.collide();
-			}
-
-			// Bottom-right corner
-			if (
-				// prettier-ignore
-				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
-        projectile.perimeter('left') > brick.pos.x + width &&
-        projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
-        projectile.perimeter('top') > brick.pos.y + height
-			) {
-				projectile.pos.x = brick.pos.x + width + diagonalRadius;
-				projectile.pos.y = brick.pos.y + height + diagonalRadius;
-				projectile.velocity.x *= -1;
-				projectile.velocity.y *= -1;
-				brick.collide();
-			}
-
-			// Top-right corner
-			if (
-				// prettier-ignore
-				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
-        projectile.perimeter('left') > brick.pos.x + width &&
-        projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
-        projectile.perimeter('bottom') < brick.pos.y
-			) {
-				projectile.pos.x = brick.pos.x + width + diagonalRadius;
-				projectile.pos.y = brick.pos.y - diagonalRadius;
-				projectile.velocity.x *= -1;
-				projectile.velocity.y *= -1;
-				brick.collide();
-			}
-
-			// Top-left corner
-			if (
-				// prettier-ignore
-				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x && 
-        projectile.perimeter('right') < brick.pos.x &&
-        projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
-        projectile.perimeter('bottom') < brick.pos.y
-			) {
-				projectile.pos.x = brick.pos.x + diagonalRadius;
-				projectile.pos.y = brick.pos.y - diagonalRadius;
-				projectile.velocity.x *= -1;
-				projectile.velocity.y *= -1;
-				brick.collide();
-			}
-		});
-
-		// Colliding with bonus
-		state.bonuses.forEach(bonus => {
-			const dist = Math.hypot(
-				bonus.pos.x - projectile.pos.x,
-				bonus.pos.y - projectile.pos.y
-			);
-
-			if (
-				dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0 &&
-				bonus.mode === 'stable'
-			)
-				bonus.collide();
-		});
-
-		// Colliding with bottom-border
-		if (projectile.perimeter('bottom') > bottomBorder.pos.y) {
-			projectile.velocity.x = 0;
-			projectile.velocity.y = 0;
-
-			projectile.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
-
-			// Prevent projectile from going over the canvas' left and right side when landing
+			// Prevent projectile from going over the canvas' left and right side on land
 			if (projectile.pos.x < SIZES.projectile.radius + S_M_F_C_S)
 				projectile.pos.x = SIZES.projectile.radius + S_M_F_C_S;
 			if (projectile.pos.x > CANVAS.width - SIZES.projectile.radius - S_M_F_C_S)
@@ -199,6 +90,162 @@ const emitProjectiles = () => {
 			} else if (projectile.pos.x !== state.projectile.pos.x) projectile.mode = 'merge';
 			else projectile.mode = 'stable';
 		}
+
+		/* Colliding with brick */
+		const { width, height } = SIZES.brick;
+		const diagonalRadius = SIZES.projectile.radius / Math.sqrt(2);
+
+		state.bricks.forEach(brick => {
+			// Bottom side
+			if (
+				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.perimeter('top') > brick.pos.y + height &&
+				projectile.pos.x > brick.pos.x &&
+				projectile.pos.x < brick.pos.x + width
+			) {
+				const shortage = projectile.perimeter('top') - (brick.pos.y + height);
+
+				projectile.pos.y -= shortage;
+				if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
+				else projectile.pos.x -= shortage * ratio.XtoY;
+
+				projectile.velocity.y *= -1;
+
+				brick.collide();
+			}
+
+			// Top side
+			if (
+				projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
+				projectile.perimeter('bottom') < brick.pos.y &&
+				projectile.pos.x > brick.pos.x &&
+				projectile.pos.x < brick.pos.x + width
+			) {
+				const shortage = brick.pos.y - projectile.perimeter('bottom');
+
+				projectile.pos.y += shortage;
+				if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
+				else projectile.pos.x -= shortage * ratio.XtoY;
+
+				projectile.velocity.y *= -1;
+
+				brick.collide();
+			}
+
+			// Left side
+			if (
+				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.perimeter('right') < brick.pos.x &&
+				projectile.pos.y > brick.pos.y &&
+				projectile.pos.y < brick.pos.y + height
+			) {
+				const shortage = brick.pos.x - projectile.perimeter('right');
+
+				projectile.pos.x += shortage;
+				if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
+				else projectile.pos.y += shortage * ratio.YtoX;
+
+				projectile.velocity.x *= -1;
+
+				brick.collide();
+			}
+
+			// Right side
+			if (
+				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
+				projectile.perimeter('left') > brick.pos.x + width &&
+				projectile.pos.y > brick.pos.y &&
+				projectile.pos.y < brick.pos.y + height
+			) {
+				const shortage = projectile.perimeter('left') - (brick.pos.x + width);
+
+				projectile.pos.x -= shortage;
+				if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
+				else projectile.pos.y += shortage * ratio.YtoX;
+
+				projectile.velocity.x *= -1;
+
+				brick.collide();
+			}
+
+			// Bottom-left corner
+			if (
+				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.perimeter('right') < brick.pos.x &&
+				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.perimeter('top') > brick.pos.y + height
+			) {
+				projectile.pos.x = brick.pos.x - diagonalRadius;
+				projectile.pos.y = brick.pos.y + height + diagonalRadius;
+
+				projectile.velocity.x *= -1;
+				projectile.velocity.y *= -1;
+
+				brick.collide();
+			}
+
+			// Bottom-right corner
+			if (
+				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
+				projectile.perimeter('left') > brick.pos.x + width &&
+				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.perimeter('top') > brick.pos.y + height
+			) {
+				projectile.pos.x = brick.pos.x + width + diagonalRadius;
+				projectile.pos.y = brick.pos.y + height + diagonalRadius;
+
+				projectile.velocity.x *= -1;
+				projectile.velocity.y *= -1;
+
+				brick.collide();
+			}
+
+			// Top-right corner
+			if (
+				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
+				projectile.perimeter('left') > brick.pos.x + width &&
+				projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
+				projectile.perimeter('bottom') < brick.pos.y
+			) {
+				projectile.pos.x = brick.pos.x + width + diagonalRadius;
+				projectile.pos.y = brick.pos.y - diagonalRadius;
+
+				projectile.velocity.x *= -1;
+				projectile.velocity.y *= -1;
+
+				brick.collide();
+			}
+
+			// Top-left corner
+			if (
+				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.perimeter('right') < brick.pos.x &&
+				projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
+				projectile.perimeter('bottom') < brick.pos.y
+			) {
+				projectile.pos.x = brick.pos.x + diagonalRadius;
+				projectile.pos.y = brick.pos.y - diagonalRadius;
+
+				projectile.velocity.x *= -1;
+				projectile.velocity.y *= -1;
+
+				brick.collide();
+			}
+		});
+
+		/* Colliding with bonus */
+		state.bonuses.forEach(bonus => {
+			const dist = Math.hypot(
+				bonus.pos.x - projectile.pos.x,
+				bonus.pos.y - projectile.pos.y
+			);
+
+			if (
+				dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0 &&
+				bonus.mode === 'stable'
+			)
+				bonus.collide();
+		});
 	});
 
 	if (state.projectiles.every(projectile => projectile.mode !== 'emit')) {
