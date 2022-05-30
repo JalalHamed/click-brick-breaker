@@ -51,8 +51,9 @@ const loweringBricksAndBonuses = () => {
 
 		/* Check which brick's which side could collide */
 		const columns = findDuplicates(state.bricks.map(brick => brick.gridIndex.column));
+
 		// Bottom side
-		if (columns.length) {
+		if (columns.length)
 			columns.forEach(column => {
 				const bricks = state.bricks.filter(brick => brick.gridIndex.column === column);
 				for (let i = 0; i < bricks.length - 1; i++) {
@@ -60,7 +61,6 @@ const loweringBricksAndBonuses = () => {
 						bricks[i + 1].couldCollide.bottom = false;
 				}
 			});
-		}
 
 		if (!state.isFirstRound) {
 			score.addOne();

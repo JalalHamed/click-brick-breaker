@@ -12,7 +12,7 @@ class Pointer {
 		this.radius = SIZES.projectile.radius;
 	}
 
-	get calcEndPoint() {
+	get getEndPoint() {
 		let endpoint = [];
 
 		const pointA = [state.projectile.pos.x, state.projectile.pos.y];
@@ -47,28 +47,24 @@ class Pointer {
 		};
 
 		state.bricks.forEach(brick => {
-			// Left side
 			const [bTLC_x, bTLC_y] = brick.corner('top-left');
-			const [bTLC_XPos] = getLineProps(pointA, [bTLC_x - this.radius, bTLC_y]);
-
 			const [bBLC_x, bBLC_y] = brick.corner('bottom-left');
-			const [bBLC_XPos] = getLineProps(pointA, [bBLC_x - this.radius, bBLC_y]);
+			const [bTRC_x, bTRC_y] = brick.corner('top-right');
+			const [bBRC_x, bBRC_y] = brick.corner('bottom-right');
 
+			// Left side
+			const [bTLC_XPos] = getLineProps(pointA, [bTLC_x - this.radius, bTLC_y]);
+			const [bBLC_XPos] = getLineProps(pointA, [bBLC_x - this.radius, bBLC_y]);
 			if (x >= bTLC_XPos && x < bBLC_XPos) setParticleEndPoint('x', bTLC_x - this.radius);
 
 			// Right side
-			const [bTRC_x, bTRC_y] = brick.corner('top-right');
 			const [bTRC_XPos] = getLineProps(pointA, [bTRC_x + this.radius, bTRC_y]);
-
-			const [bBRC_x, bBRC_y] = brick.corner('bottom-right');
 			const [bBRC_XPos] = getLineProps(pointA, [bBRC_x + this.radius, bBRC_y]);
-
 			if (x <= bTRC_XPos && x > bBRC_XPos) setParticleEndPoint('x', bTRC_x + this.radius);
 
 			// Bottom side
-			const [bBLC_XPos2] = getLineProps(pointA, brick.corner('bottom-left'));
-			const [bBRC_XPos2] = getLineProps(pointA, brick.corner('bottom-right'));
-
+			const [bBLC_XPos2] = getLineProps(pointA, [bBLC_x, bBLC_y]);
+			const [bBRC_XPos2] = getLineProps(pointA, [bBRC_x, bBRC_y]);
 			if (x > bBLC_XPos2 && x < bBRC_XPos2 && brick.couldCollide.bottom)
 				setParticleEndPoint('y', brick.pos.y + SIZES.brick.height + this.radius);
 		});
@@ -91,7 +87,7 @@ class Pointer {
 		C.beginPath();
 		C.setLineDash([15, 10]);
 		C.moveTo(state.projectile.pos.x, state.projectile.pos.y);
-		C.lineTo(...this.calcEndPoint.dashedLine);
+		C.lineTo(...this.getEndPoint.dashedLine);
 		C.lineDashOffset = -state.counter;
 		C.strokeStyle = COLORS.pointer.line;
 		C.lineWidth = this.radius / 2.5;
@@ -101,12 +97,12 @@ class Pointer {
 		C.beginPath();
 		C.setLineDash([]);
 		C.moveTo(state.projectile.pos.x, state.projectile.pos.y);
-		C.lineTo(...this.calcEndPoint.arrow);
+		C.lineTo(...this.getEndPoint.arrow);
 		C.strokeStyle = COLORS.pointer.arrow;
 		C.lineWidth = this.radius;
 		C.stroke();
 		// Arrowhead
-		const [endpointX, endpointY] = this.calcEndPoint.arrow;
+		const [endpointX, endpointY] = this.getEndPoint.arrow;
 		const angle = Math.atan2(
 			endpointY - state.projectile.pos.y,
 			endpointX - state.projectile.pos.x
@@ -133,7 +129,7 @@ class Pointer {
 		// Particle
 		C.beginPath();
 		C.setLineDash([]);
-		C.arc(...this.calcEndPoint.particle, this.radius, 0, 2 * Math.PI);
+		C.arc(...this.getEndPoint.particle, this.radius, 0, 2 * Math.PI);
 		C.fillStyle = COLORS.pointer.particle;
 		C.fill();
 	}
