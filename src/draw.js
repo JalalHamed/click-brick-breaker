@@ -38,16 +38,8 @@ const draw = () => {
 	if (
 		state.bricks.every(item => item.mode === 'lower') &&
 		state.bonuses.some(item => item.mode === 'lower') // some bonuses might be in drop/merge mode
-	) {
-		if (state.bonuses.some(bonus => bonus.gridIndex.row === 7))
-			state.bonuses
-				.filter(bonus => bonus.gridIndex.row === 7)
-				.forEach(bonus => {
-					bonus.calcVelocity();
-					bonus.mode = 'straight-merge';
-				});
+	)
 		loweringBaB();
-	}
 };
 
 export default draw;

@@ -252,9 +252,17 @@ const emitProjectiles = () => {
 		state.setLS({ projectile: state.projectile.pos.x });
 		coefficient.regainCount();
 
-		if (state.bonuses.some(bonus => bonus.mode === 'merge')) {
-			const bonuses = state.bonuses.filter(bonus => bonus.mode === 'merge');
-			bonuses.forEach(bonus => {
+		// Change the mode of the bonus on the 7th row to merge
+		if (state.bonuses.some(bonus => bonus.gridIndex.row === 7))
+			state.bonuses
+				.filter(bonus => bonus.gridIndex.row === 7)
+				.forEach(bonus => (bonus.mode = 'merge'));
+
+		// Set furthest bonus from projectile and calculate merging bonuses velocities
+		const mergingBonuses = [...state.bonuses.filter(bonus => bonus.mode === 'merge')];
+		if (mergingBonuses.length) {
+			state.mergingBonusesCount = mergingBonuses.length;
+			mergingBonuses.forEach(bonus => {
 				if (!state.furthest.bonus.id) state.furthest.bonus = bonus;
 				else if (
 					getXDist(bonus, state.projectile) >
@@ -262,7 +270,7 @@ const emitProjectiles = () => {
 				)
 					state.furthest.bonus = bonus;
 			});
-			bonuses.forEach(bonus => bonus.calcXVelocity());
+			mergingBonuses.forEach(bonus => bonus.calcVelocity());
 		}
 
 		spawnBaB();

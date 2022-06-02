@@ -2,6 +2,7 @@
 
 ### GAME LOGIC AND DESIGN
 
+- change coefficient count logic to display the actual length of the state.projectiles array instead of some arbitrary manipulative number.
 - change pointer particle to brick's borders on collision.
 - particles radius should have a fixed scale with bricks widths.
 - on projectile collision with the middle of the bricks, both should decrease weight and projectile shouldn't detect collision on corners (which it does at the moment).
@@ -34,7 +35,7 @@
 - the wider the screen width is, the higher the velocities should be.
 - the wider the screen width is, the less the min-angle and the more the max-angle should be (or should it?).
 
-### GAME STATE (LOCALSTORAGE)
+### GAME STATE (LOCAL STORAGE)
 
 - save everything in LocalStorage.
 - display game introduction if it's the first time one is playing it (swipe for mobile and click for desktop, detect from screen width).
@@ -50,7 +51,6 @@
 
 ## BUGS
 
-- what to do when there are merging and straightMerging bonuses?
 - bricks pieces color on collapse bug.
 - brick's color would sometimes stuck onto fade from the projectile hit (related to the 999 max value of the game's counter)
 - still projectiles find a way through inside of the bricks!

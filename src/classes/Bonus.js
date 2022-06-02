@@ -28,7 +28,6 @@ export default class Bonus {
 		this.steps = null;
 		this.hasRingCollapsed = false;
 		this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
-		this.straightMergeDirection = null;
 
 		this.gridIndex = { row: 0, column: props.gridColumnIndex };
 
@@ -51,11 +50,19 @@ export default class Bonus {
 		);
 	}
 
-	calcXVelocity() {
+	calcVelocity() {
+		// X Velocity
 		if (this.id !== state.furthest.bonus.id)
 			this.velocity.x /=
 				getXDist(state.furthest.bonus, state.projectile) /
 				getXDist(this, state.projectile);
+
+		// Y Velocity
+		const angle = Math.atan2(
+			state.projectile.pos.y - this.pos.y,
+			state.projectile.pos.x - this.pos.x
+		);
+		this.velocity.y = Math.sin(angle) * VELOCITY.merging;
 	}
 
 	updateYPos() {
@@ -70,16 +77,6 @@ export default class Bonus {
 		return `rgb(${getRGB(0)}, ${cBC[1] - colorsDifference[1] / this.steps}, ${getRGB(
 			2
 		)})`;
-	}
-
-	calcVelocity() {
-		const angle = Math.atan2(
-			state.projectile.pos.y - this.pos.y,
-			state.projectile.pos.x - this.pos.x
-		);
-
-		this.velocity.x = Math.cos(angle) * VELOCITY.merging;
-		this.velocity.y = Math.sin(angle) * VELOCITY.merging;
 	}
 
 	zoomIn() {
@@ -103,6 +100,7 @@ export default class Bonus {
 	collapseRing() {
 		for (let i = 0; i < 24; i++)
 			state.pieces.bonuses.push(new BonusPiece({ index: i, id: this.id, pos: this.pos }));
+		this.hasRingCollapsed = true;
 	}
 
 	drop() {
@@ -111,13 +109,19 @@ export default class Bonus {
 		else {
 			this.mode = 'merge';
 			this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
-			state.mergingBonusesCount++;
 		}
 	}
 
 	merge() {
 		if (!Number.isInteger(this.steps)) this.calcSteps();
+		if (!this.hasRingCollapsed) this.collapseRing();
+
+		// Update color
 		this.color = this.getColor();
+
+		// Update pos
+		if (this.pos.y < state.projectile.pos.y) this.pos.y += this.velocity.y;
+
 		if (this.pos.x - this.velocity.x > state.projectile.pos.x)
 			this.pos.x -= this.velocity.x;
 		else if (this.pos.x + this.velocity.x < state.projectile.pos.x)
@@ -132,25 +136,12 @@ export default class Bonus {
 	}
 
 	straightMerge() {
-		if (!this.hasRingCollapsed) {
-			this.collapseRing();
-			this.hasRingCollapsed = true;
-		}
-
 		if (this.pos.y + this.velocity.y < state.projectile.pos.y) {
 			this.pos.y += this.velocity.y;
 			this.pos.x += this.velocity.x;
 		} else {
 			this.pos.y = state.projectile.pos.y;
 			this.pos.x = state.projectile.pos.x;
-		}
-
-		if (this.pos.y === state.projectile.pos.y && this.pos.x === state.projectile.pos.x) {
-			coefficient.increaseCount();
-			state.mergingBonusesCount++;
-			increscent.mode = 'rise';
-			state.projectiles.push(new Projectile());
-			this.selfDestruct();
 		}
 	}
 
@@ -162,7 +153,6 @@ export default class Bonus {
 			state.projectiles.every(projectile => projectile.mode === 'stable')
 		)
 			this.merge();
-		if (this.mode === 'straight-merge') this.straightMerge();
 
 		// Particle
 		C.beginPath();
@@ -172,7 +162,7 @@ export default class Bonus {
 		C.fill();
 
 		// Ring
-		if (this.mode !== 'drop' && this.mode !== 'merge' && this.mode !== 'straight-merge') {
+		if (!this.hasRingCollapsed) {
 			C.beginPath();
 			C.setLineDash([]);
 			C.arc(

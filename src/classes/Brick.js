@@ -49,7 +49,7 @@ export default class Brick {
 			nextY: getBrickYPos(this.gridIndex.row + 1),
 		};
 
-		this.velocity = { x: SIZES.brick.width / 50, y: SIZES.brick.height / 50 };
+		this.velocity = { x: SIZES.brick.width / 25, y: SIZES.brick.height / 25 };
 	}
 
 	corner(corner) {
