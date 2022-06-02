@@ -54,3 +54,5 @@
 - bricks pieces color on collapse bug.
 - brick's color would sometimes stuck onto fade from the projectile hit (related to the 999 max value of the game's counter)
 - still projectiles find a way through inside of the bricks!
+- pointer particle acts unpredictably when there is a brick in the 7th row.
+- pointer particle should detect the closest brick border to change position to.

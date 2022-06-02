@@ -12,13 +12,13 @@ const state = {
 			bottomBorder: { x: {}, y: {} },
 		},
 	},
+	pieces: { bricks: [], bonuses: [], borders: [] },
 
 	bricks: [],
 	bonuses: [],
 	projectiles: [],
 
 	grid: { row: [], column: [] },
-	pieces: { bricks: [], bonuses: [], borders: [] },
 
 	innerWidth,
 	counter: 0,
