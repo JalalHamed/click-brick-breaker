@@ -50,7 +50,7 @@
 
 ## BUGS
 
-- bonus straight merge bug.
+- what to do when there are merging and straightMerging bonuses?
 - bricks pieces color on collapse bug.
 - brick's color would sometimes stuck onto fade from the projectile hit (related to the 999 max value of the game's counter)
 - still projectiles find a way through inside of the bricks!

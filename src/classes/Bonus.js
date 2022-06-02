@@ -28,6 +28,7 @@ export default class Bonus {
 		this.steps = null;
 		this.hasRingCollapsed = false;
 		this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
+		this.straightMergeDirection = null;
 
 		this.gridIndex = { row: 0, column: props.gridColumnIndex };
 
@@ -136,17 +137,13 @@ export default class Bonus {
 			this.hasRingCollapsed = true;
 		}
 
-		this.calcVelocity();
-
-		if (this.pos.y + this.velocity.y < state.projectile.pos.y)
+		if (this.pos.y + this.velocity.y < state.projectile.pos.y) {
 			this.pos.y += this.velocity.y;
-		else this.pos.y = state.projectile.pos.y;
-		if (
-			this.pos.x + this.velocity.x < state.projectile.pos.x ||
-			this.pos.x + this.velocity.x > state.projectile.pos.x + SIZES.bonus.radius
-		)
 			this.pos.x += this.velocity.x;
-		else this.pos.x = state.projectile.pos.x;
+		} else {
+			this.pos.y = state.projectile.pos.y;
+			this.pos.x = state.projectile.pos.x;
+		}
 
 		if (this.pos.y === state.projectile.pos.y && this.pos.x === state.projectile.pos.x) {
 			coefficient.increaseCount();

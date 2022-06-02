@@ -42,7 +42,10 @@ const draw = () => {
 		if (state.bonuses.some(bonus => bonus.gridIndex.row === 7))
 			state.bonuses
 				.filter(bonus => bonus.gridIndex.row === 7)
-				.forEach(bonus => (bonus.mode = 'straight-merge'));
+				.forEach(bonus => {
+					bonus.calcVelocity();
+					bonus.mode = 'straight-merge';
+				});
 		loweringBaB();
 	}
 };
