@@ -24,7 +24,7 @@ class Increscent {
 		} else {
 			this.mode = 'hide';
 			this.reset();
-			this.repoSize();
+			this.rePoSize();
 		}
 	}
 
@@ -43,7 +43,7 @@ class Increscent {
 		state.mergingBonusesCount = 0;
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius * 3;
 	}
 }

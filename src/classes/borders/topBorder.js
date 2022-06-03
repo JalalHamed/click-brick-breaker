@@ -13,7 +13,7 @@ class TobBorder extends Border {
 		return this.pos.y + this.height;
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.width = CANVAS.width;
 		this.height = SIZES.border.height;
 		this.pos.y = SIZES.border.margin;

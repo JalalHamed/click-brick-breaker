@@ -94,7 +94,7 @@ export default class Brick {
 	collide() {
 		this.weight--;
 
-		// Change color displaying the hit
+		// Change the color, displaying the hit
 		if (!convertRGBtoArr(this.color)[3] && state.counter < G_C_M_V - B_C_R_D) {
 			this.color = `${this.color.slice(0, -1)}, 0.6)`;
 			this.counter = state.counter;
@@ -163,7 +163,7 @@ export default class Brick {
 		);
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.pos = {
 			x: state.grid.column[this.gridIndex.column],
 			y: getBrickYPos(this.gridIndex.row),

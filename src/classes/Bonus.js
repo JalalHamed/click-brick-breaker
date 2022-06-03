@@ -71,12 +71,15 @@ export default class Bonus {
 		this.pos.nextY = getBonusYPos(this.gridIndex.row + 1);
 	}
 
-	getColor() {
-		const cBC = convertRGBtoArr(this.color);
-		const getRGB = index => cBC[index] + colorsDifference[index] / this.steps;
-		return `rgb(${getRGB(0)}, ${cBC[1] - colorsDifference[1] / this.steps}, ${getRGB(
-			2
-		)})`;
+	updateColor() {
+		if (!Number.isInteger(this.steps)) this.calcSteps();
+
+		const colors = convertRGBtoArr(this.color); // [Red, Green, Blue]
+
+		const getRGB_Plus = index => colors[index] + colorsDifference[index] / this.steps;
+		const getRGB_Minus = index => colors[index] - colorsDifference[index] / this.steps;
+
+		this.color = `rgb(${getRGB_Plus(0)}, ${getRGB_Minus(1)}, ${getRGB_Plus(2)})`;
 	}
 
 	zoomIn() {
@@ -90,11 +93,6 @@ export default class Bonus {
 					.filter(bonus => bonus.mode === 'stable')
 					.forEach(bonus => (bonus.mode = 'lower'));
 		}
-	}
-
-	collide() {
-		this.collapseRing();
-		this.mode = 'drop';
 	}
 
 	collapseRing() {
@@ -113,11 +111,9 @@ export default class Bonus {
 	}
 
 	merge() {
-		if (!Number.isInteger(this.steps)) this.calcSteps();
 		if (!this.hasRingCollapsed) this.collapseRing();
 
-		// Update color
-		this.color = this.getColor();
+		this.updateColor();
 
 		// Update pos
 		if (this.pos.y < state.projectile.pos.y) this.pos.y += this.velocity.y;
@@ -132,16 +128,6 @@ export default class Bonus {
 			state.furthest.bonus = {};
 			state.projectiles.push(new Projectile());
 			this.selfDestruct();
-		}
-	}
-
-	straightMerge() {
-		if (this.pos.y + this.velocity.y < state.projectile.pos.y) {
-			this.pos.y += this.velocity.y;
-			this.pos.x += this.velocity.x;
-		} else {
-			this.pos.y = state.projectile.pos.y;
-			this.pos.x = state.projectile.pos.x;
 		}
 	}
 
@@ -178,7 +164,7 @@ export default class Bonus {
 		}
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.pos = {
 			x: state.grid.column[this.gridIndex.column] + SIZES.brick.width / 2,
 			y: getBonusYPos(this.gridIndex.row),

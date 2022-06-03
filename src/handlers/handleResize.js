@@ -51,10 +51,10 @@ const handleResize = () => {
 
 		calcGrid();
 
-		[bottomBorder, topBorder].forEach(item => item.repoSize()); // bottom border should repoSize before projectile
-		state.projectiles.forEach(projectile => projectile.repoSize()); // projectiles should repoSize before coefficient
-		[coefficient, record, score, pointer].forEach(item => item.repoSize());
-		[...state.bricks, ...state.bonuses].forEach(item => item.repoSize());
+		[bottomBorder, topBorder].forEach(item => item.rePoSize()); // bottom border should rePoSize before projectile
+		state.projectiles.forEach(projectile => projectile.rePoSize()); // projectiles should rePoSize before coefficient
+		[coefficient, record, score, pointer].forEach(item => item.rePoSize());
+		[...state.bricks, ...state.bonuses].forEach(item => item.rePoSize());
 
 		state.innerWidth = innerWidth;
 	}

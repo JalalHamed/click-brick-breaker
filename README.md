@@ -2,7 +2,6 @@
 
 ### GAME LOGIC AND DESIGN
 
-- change coefficient count logic to display the actual length of the state.projectiles array instead of some arbitrary manipulative number.
 - change pointer particle to brick's borders on collision.
 - particles radius should have a fixed scale with bricks widths.
 - on projectile collision with the middle of the bricks, both should decrease weight and projectile shouldn't detect collision on corners (which it does at the moment).
@@ -29,9 +28,9 @@
 - prevent the top-border from colliding with score and record by not decreasing it's value once reaches a certain amount.
 - makes sure the projectile will never leave the screen under no circumstances.
 - change to swipe mode when width is lower than certain amounts, and go back to click mode when higher than that.
-- repoSize on tab movement (dropped into another screen and etc).
+- rePoSize on tab movement (dropped into another screen and etc).
 - change projectile velocity based on canvas width.
-- repoSize at any given circumstances (whether anything is moving or not).
+- rePoSize at any given circumstances (whether anything is moving or not).
 - the wider the screen width is, the higher the velocities should be.
 - the wider the screen width is, the less the min-angle and the more the max-angle should be (or should it?).
 

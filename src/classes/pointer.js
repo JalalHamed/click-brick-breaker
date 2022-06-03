@@ -134,7 +134,7 @@ class Pointer {
 		C.fill();
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.radius = SIZES.projectile.radius;
 	}
 }

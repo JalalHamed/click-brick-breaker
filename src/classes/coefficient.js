@@ -35,10 +35,10 @@ class Coefficient {
 
 	regainCount() {
 		this.displayCount = this.count;
-		this.repoSize();
+		this.rePoSize();
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.pos = {
 			x: state.getLS('projectile') || CANVAS.width / 2,
 			y: bottomBorder.pos.y + SIZES.projectile.radius * 2.5,

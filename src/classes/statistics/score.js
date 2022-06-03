@@ -15,7 +15,7 @@ class Score extends Statistics {
 		this.count = 1;
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.pos = {
 			x: CANVAS.width / 2,
 			y: record.pos.y + 15 * SIZES.font,

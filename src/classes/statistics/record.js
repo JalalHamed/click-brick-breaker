@@ -14,7 +14,7 @@ class Record extends Statistics {
 		this.count = 1;
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.pos.x = CANVAS.width / 2;
 	}
 }

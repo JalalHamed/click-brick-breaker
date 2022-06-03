@@ -61,7 +61,7 @@ export default class Projectile {
 		this.pos.y += this.velocity.y;
 	}
 
-	repoSize() {
+	rePoSize() {
 		this.pos = {
 			x: (this.pos.x * innerWidth) / state.innerWidth,
 			y: bottomBorder.pos.y - SIZES.projectile.radius,

@@ -239,10 +239,12 @@ const emitProjectiles = () => {
 			);
 
 			if (
-				dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0 &&
-				bonus.mode === 'stable'
-			)
-				bonus.collide();
+				bonus.mode === 'stable' &&
+				dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0
+			) {
+				bonus.collapseRing();
+				bonus.mode = 'drop';
+			}
 		});
 	});
 
