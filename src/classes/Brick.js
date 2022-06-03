@@ -67,7 +67,7 @@ export default class Brick {
 		}
 	}
 
-	updateYPos() {
+	lower() {
 		this.gridIndex.row++;
 		this.pos.y = getBrickYPos(this.gridIndex.row);
 		this.pos.nextY = getBrickYPos(this.gridIndex.row + 1);

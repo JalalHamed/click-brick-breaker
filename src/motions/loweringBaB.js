@@ -44,7 +44,7 @@ const loweringBricksAndBonuses = () => {
 	});
 
 	if (bricksAndBonuses.every(item => item.mode === 'stable')) {
-		bricksAndBonuses.forEach(item => item.updateYPos());
+		bricksAndBonuses.forEach(item => item.lower());
 		isGoingDown = true;
 		steps = null;
 		differences = {};

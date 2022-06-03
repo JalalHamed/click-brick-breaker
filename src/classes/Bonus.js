@@ -65,7 +65,7 @@ export default class Bonus {
 		this.velocity.y = Math.sin(angle) * VELOCITY.merging;
 	}
 
-	updateYPos() {
+	lower() {
 		this.gridIndex.row++;
 		this.pos.y = getBonusYPos(this.gridIndex.row);
 		this.pos.nextY = getBonusYPos(this.gridIndex.row + 1);
