@@ -133,7 +133,7 @@ export default class Brick {
 
 	draw() {
 		if (this.mode === 'zoom-in') this.zoomIn();
-		if (this.counter && this.counter + B_C_R_D < state.counter) this.retrieveColor();
+		if (this.counter && this.counter + B_C_R_D <= state.counter) this.retrieveColor();
 
 		C.fillStyle = this.color;
 		C.fillRect(this.pos.x, this.pos.y, this.size.width, this.size.height);

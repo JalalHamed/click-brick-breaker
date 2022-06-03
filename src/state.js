@@ -21,7 +21,7 @@ const state = {
 	grid: { row: [], column: [] },
 
 	innerWidth,
-	counter: 0,
+	counter: 1,
 	ids: { projectile: 1, bonus: 1, brick: 1, piece: 1 },
 	mergingBonusesCount: 0,
 	bonusRingRadius: 0,

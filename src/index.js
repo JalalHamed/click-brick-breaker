@@ -9,12 +9,15 @@ import spawnBorderPieces from './spawns/spawnBorderPieces.js';
 import draw from './draw.js';
 import { calcGrid, increase } from './helpers.js';
 // Configs
-import { GAME_COUNTER_MAX_VALUE as G_C_M_V } from './config.js';
+import {
+	GAME_COUNTER_MIN_VALUE as G_C_MIN_V,
+	GAME_COUNTER_MAX_VALUE as G_C_MAX_V,
+} from './config.js';
 // State
 import state from './state.js';
 
 const animate = () => {
-	state.counter = increase(state.counter, 1, G_C_M_V, 0);
+	state.counter = increase(state.counter, 1, G_C_MAX_V, G_C_MIN_V);
 	draw();
 	requestAnimationFrame(animate);
 };

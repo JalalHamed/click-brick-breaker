@@ -21,8 +21,6 @@ class BrickPiece extends Piece {
 		this.isGoingUp = state.isFirstRound ? true : false;
 		this.steps = Math.floor(this.D_T_T_B_F) + 1 / 0.02; // distance to take before fade + distance to take after fade
 
-		console.log(this.color, state.isFirstRound);
-
 		this.pos = {
 			x: props.pos.x + getBrickPiecePos(props.index).x,
 			y: props.pos.y + getBrickPiecePos(props.index).y,
