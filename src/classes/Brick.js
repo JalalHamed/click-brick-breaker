@@ -67,6 +67,23 @@ export default class Brick {
 		}
 	}
 
+	retrieveColor() {
+		this.color = this.updateColor();
+		this.counter = 0;
+	}
+
+	collide() {
+		this.weight--;
+
+		// Change the color, displaying the hit
+		if (!convertRGBtoArr(this.color)[3] && state.counter < G_C_M_V - B_C_R_D) {
+			this.color = `${this.color.slice(0, -1)}, 0.6)`;
+			this.counter = state.counter;
+		}
+
+		if (this.weight === 0) this.burst();
+	}
+
 	lower() {
 		this.gridIndex.row++;
 		this.pos.y = getBrickYPos(this.gridIndex.row);
@@ -84,38 +101,6 @@ export default class Brick {
 		if (difference > 0)
 			return `rgb(255, ${80 + difference * green}, ${80 + difference * blue})`;
 		else return COLORS.brick.heaviest;
-	}
-
-	retrieveColor() {
-		this.color = this.updateColor();
-		this.counter = 0;
-	}
-
-	collide() {
-		this.weight--;
-
-		// Change the color, displaying the hit
-		if (!convertRGBtoArr(this.color)[3] && state.counter < G_C_M_V - B_C_R_D) {
-			this.color = `${this.color.slice(0, -1)}, 0.6)`;
-			this.counter = state.counter;
-		}
-
-		if (this.weight === 0) {
-			this.collapse();
-			this.selfDestruct();
-		}
-	}
-
-	collapse() {
-		for (let i = 0; i < 24; i++)
-			state.pieces.bricks.push(
-				new BrickPiece({
-					index: i,
-					id: this.id,
-					pos: this.pos,
-					color: this.color,
-				})
-			);
 	}
 
 	zoomIn() {
@@ -174,7 +159,16 @@ export default class Brick {
 		this.size.height = SIZES.brick.height;
 	}
 
-	selfDestruct() {
+	burst() {
 		state.bricks = state.bricks.filter(brick => brick.id !== this.id);
+		for (let i = 0; i < 24; i++)
+			state.pieces.bricks.push(
+				new BrickPiece({
+					index: i,
+					id: this.id,
+					pos: this.pos,
+					color: this.color,
+				})
+			);
 	}
 }

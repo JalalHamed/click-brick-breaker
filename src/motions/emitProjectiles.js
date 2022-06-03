@@ -241,10 +241,8 @@ const emitProjectiles = () => {
 			if (
 				bonus.mode === 'stable' &&
 				dist - SIZES.projectile.radius - SIZES.bonus.ring.max < 0
-			) {
-				bonus.collapseRing();
+			)
 				bonus.mode = 'drop';
-			}
 		});
 	});
 
@@ -260,7 +258,7 @@ const emitProjectiles = () => {
 				.filter(bonus => bonus.gridIndex.row === 7)
 				.forEach(bonus => (bonus.mode = 'merge'));
 
-		// Set furthest bonus from projectile and calculate merging bonuses velocities
+		// Set furthest bonus from projectile and set merging bonuses velocities
 		const mergingBonuses = [...state.bonuses.filter(bonus => bonus.mode === 'merge')];
 		if (mergingBonuses.length) {
 			state.mergingBonusesCount = mergingBonuses.length;
@@ -272,7 +270,7 @@ const emitProjectiles = () => {
 				)
 					state.furthest.bonus = bonus;
 			});
-			mergingBonuses.forEach(bonus => bonus.calcVelocity());
+			mergingBonuses.forEach(bonus => bonus.setVelocity());
 		}
 
 		spawnBaB();

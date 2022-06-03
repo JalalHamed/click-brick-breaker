@@ -1,5 +1,13 @@
 ## TODO
 
+## BUGS
+
+- bricks pieces color on collapse bug.
+- brick's color would sometimes stuck onto fade from the projectile hit (related to the 999 max value of the game's counter)
+- still projectiles find a way through inside of the bricks!
+- pointer particle acts unpredictably when there is a brick in the 7th row.
+- pointer particle should detect the closest brick border to change position to.
+
 ### GAME LOGIC AND DESIGN
 
 - change pointer particle to brick's borders on collision.
@@ -47,11 +55,3 @@
 - go through all the game's structure again and try to make the best possible protocol for every module and shit. (refactoring method's names and functionality, re-thinking motions directory maybe.. see for yourself if this is the best version of the game structure that you would want to show the world as an open source project. see if it is your kind of piece of art. specially take another look at the games flow which is currently mostly handled with object's modes).
 - add statistic reports to see how many people play the game daily and where are they from and...
 - github README (define used abbreviations too. e.g. BaB => Brick(s) and Bonus(es), calc => calculate)
-
-## BUGS
-
-- bricks pieces color on collapse bug.
-- brick's color would sometimes stuck onto fade from the projectile hit (related to the 999 max value of the game's counter)
-- still projectiles find a way through inside of the bricks!
-- pointer particle acts unpredictably when there is a brick in the 7th row.
-- pointer particle should detect the closest brick border to change position to.

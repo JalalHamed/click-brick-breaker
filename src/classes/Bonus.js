@@ -26,7 +26,7 @@ export default class Bonus {
 		this.mode = props.mode || 'stable';
 		this.color = COLORS.bonus;
 		this.steps = null;
-		this.hasRingCollapsed = false;
+		this.hasRingBurst = false;
 		this.radius = this.mode === 'zoom-in' ? 0 : SIZES.projectile.radius;
 
 		this.gridIndex = { row: 0, column: props.gridColumnIndex };
@@ -44,13 +44,7 @@ export default class Bonus {
 		};
 	}
 
-	calcSteps() {
-		this.steps = Math.floor(
-			Math.abs(this.pos.x - state.projectile.pos.x) / this.velocity.x
-		);
-	}
-
-	calcVelocity() {
+	setVelocity() {
 		// X Velocity
 		if (this.id !== state.furthest.bonus.id)
 			this.velocity.x /=
@@ -65,6 +59,44 @@ export default class Bonus {
 		this.velocity.y = Math.sin(angle) * VELOCITY.merging;
 	}
 
+	burstRing() {
+		for (let i = 0; i < 24; i++)
+			state.pieces.bonuses.push(new BonusPiece({ index: i, id: this.id, pos: this.pos }));
+		this.hasRingBurst = true;
+	}
+
+	drop() {
+		if (!this.hasRingBurst) this.burstRing();
+
+		if (this.pos.y + SIZES.projectile.radius + this.velocity.y < bottomBorder.pos.y)
+			this.pos.y += this.velocity.y;
+		else {
+			this.mode = 'merge';
+			this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
+		}
+	}
+
+	merge() {
+		if (!this.hasRingBurst) this.burstRing();
+
+		this.updateColor();
+
+		// Update pos
+		if (this.pos.y < state.projectile.pos.y) this.pos.y += this.velocity.y;
+
+		if (this.pos.x - this.velocity.x > state.projectile.pos.x)
+			this.pos.x -= this.velocity.x;
+		else if (this.pos.x + this.velocity.x < state.projectile.pos.x)
+			this.pos.x += this.velocity.x;
+		else {
+			coefficient.increaseCount();
+			increscent.mode = 'rise';
+			state.furthest.bonus = {};
+			state.projectiles.push(new Projectile());
+			this.selfDestruct();
+		}
+	}
+
 	lower() {
 		this.gridIndex.row++;
 		this.pos.y = getBonusYPos(this.gridIndex.row);
@@ -72,7 +104,10 @@ export default class Bonus {
 	}
 
 	updateColor() {
-		if (!Number.isInteger(this.steps)) this.calcSteps();
+		if (!Number.isInteger(this.steps))
+			this.steps = Math.floor(
+				Math.abs(this.pos.x - state.projectile.pos.x) / this.velocity.x
+			);
 
 		const colors = convertRGBtoArr(this.color); // [Red, Green, Blue]
 
@@ -95,42 +130,6 @@ export default class Bonus {
 		}
 	}
 
-	collapseRing() {
-		for (let i = 0; i < 24; i++)
-			state.pieces.bonuses.push(new BonusPiece({ index: i, id: this.id, pos: this.pos }));
-		this.hasRingCollapsed = true;
-	}
-
-	drop() {
-		if (this.pos.y + SIZES.projectile.radius + this.velocity.y < bottomBorder.pos.y)
-			this.pos.y += this.velocity.y;
-		else {
-			this.mode = 'merge';
-			this.pos.y = bottomBorder.pos.y - SIZES.projectile.radius;
-		}
-	}
-
-	merge() {
-		if (!this.hasRingCollapsed) this.collapseRing();
-
-		this.updateColor();
-
-		// Update pos
-		if (this.pos.y < state.projectile.pos.y) this.pos.y += this.velocity.y;
-
-		if (this.pos.x - this.velocity.x > state.projectile.pos.x)
-			this.pos.x -= this.velocity.x;
-		else if (this.pos.x + this.velocity.x < state.projectile.pos.x)
-			this.pos.x += this.velocity.x;
-		else {
-			coefficient.increaseCount();
-			increscent.mode = 'rise';
-			state.furthest.bonus = {};
-			state.projectiles.push(new Projectile());
-			this.selfDestruct();
-		}
-	}
-
 	draw() {
 		if (this.mode === 'zoom-in') this.zoomIn();
 		if (this.mode === 'drop') this.drop();
@@ -148,7 +147,7 @@ export default class Bonus {
 		C.fill();
 
 		// Ring
-		if (!this.hasRingCollapsed) {
+		if (!this.hasRingBurst) {
 			C.beginPath();
 			C.setLineDash([]);
 			C.arc(
