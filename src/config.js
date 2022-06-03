@@ -37,7 +37,7 @@ export const VELOCITY = Object.freeze({
 	placing: 2,
 });
 
-// NOTE: colors MUST be in RGB format
+/* NOTE: colors MUST be in RGB format */
 export const COLORS = Object.freeze({
 	border: 'rgb(0, 0, 0)',
 	projectile: 'rgb(93, 167, 239)',

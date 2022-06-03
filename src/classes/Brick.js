@@ -67,6 +67,21 @@ export default class Brick {
 		}
 	}
 
+	updateColor() {
+		const difference = (state.isFirstRound ? 1 : score.count + 1) - this.weight;
+		const brickColorDifferences = getColorsDifferences(
+			COLORS.brick.heaviest,
+			COLORS.brick.lightest
+		);
+
+		const green = brickColorDifferences[1] / score.count;
+		const blue = brickColorDifferences[2] / score.count;
+
+		if (difference > 0)
+			return `rgb(255, ${80 + difference * green}, ${80 + difference * blue})`;
+		else return COLORS.brick.heaviest;
+	}
+
 	retrieveColor() {
 		this.color = this.updateColor();
 		this.counter = 0;
@@ -88,19 +103,6 @@ export default class Brick {
 		this.gridIndex.row++;
 		this.pos.y = getBrickYPos(this.gridIndex.row);
 		this.pos.nextY = getBrickYPos(this.gridIndex.row + 1);
-	}
-
-	updateColor() {
-		const difference = (state.isFirstRound ? 1 : score.count + 1) - this.weight;
-		const brickColorDifferences = getColorsDifferences(
-			COLORS.brick.heaviest,
-			COLORS.brick.lightest
-		);
-		const green = brickColorDifferences[1] / score.count;
-		const blue = brickColorDifferences[2] / score.count;
-		if (difference > 0)
-			return `rgb(255, ${80 + difference * green}, ${80 + difference * blue})`;
-		else return COLORS.brick.heaviest;
 	}
 
 	zoomIn() {
@@ -162,13 +164,6 @@ export default class Brick {
 	burst() {
 		state.bricks = state.bricks.filter(brick => brick.id !== this.id);
 		for (let i = 0; i < 24; i++)
-			state.pieces.bricks.push(
-				new BrickPiece({
-					index: i,
-					id: this.id,
-					pos: this.pos,
-					color: this.color,
-				})
-			);
+			state.pieces.bricks.push(new BrickPiece({ index: i, id: this.id, pos: this.pos }));
 	}
 }

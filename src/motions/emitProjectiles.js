@@ -273,6 +273,8 @@ const emitProjectiles = () => {
 			mergingBonuses.forEach(bonus => bonus.setVelocity());
 		}
 
+		if (state.isFirstRound) state.isFirstRound = false;
+
 		spawnBaB();
 	}
 };
