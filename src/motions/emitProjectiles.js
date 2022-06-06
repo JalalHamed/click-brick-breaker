@@ -229,6 +229,32 @@ const emitProjectiles = () => {
 
 				brick.collide();
 			}
+
+			// Bottom-left corner collide with projectile's upper-half of the top-right quarter
+			if (
+				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.perimeter('right') < brick.pos.x &&
+				projectile.pos.y > brick.pos.y &&
+				projectile.pos.y - SIZES.projectile.radius / Math.sqrt(2) < brick.pos.y + height
+			) {
+				projectile.velocity.x *= -1.2;
+				projectile.velocity.y /= 2;
+
+				brick.collide();
+			}
+
+			// Bottom-left corner collide with projectile's lower-half of the top-right quarter
+			if (
+				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.perimeter('top') > brick.pos.y + height &&
+				projectile.pos.x + SIZES.projectile.radius / Math.sqrt(2) > brick.pos.x &&
+				projectile.pos.x < brick.pos.x
+			) {
+				projectile.velocity.x /= 2;
+				projectile.velocity.y *= -1.2;
+
+				brick.collide();
+			}
 		});
 
 		/* Colliding with bonus */

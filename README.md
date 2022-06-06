@@ -10,10 +10,21 @@
 
 - change pointer particle to brick's borders on collision.
 - particles radius should have a fixed scale with bricks widths.
-- on projectile collision with the middle of the bricks, both should decrease weight and projectile shouldn't detect collision on corners (which it does at the moment).
+- on projectile collision with the middle of the border of 2 bricks, both should decrease weight and projectile shouldn't detect collision on corners (which it does at the moment).
 - draw emitted projectiles' tales when they are on the move.
 - record and score should be aligned to right.
 - pointer dashes are smaller and closer to each other in the original game.
+
+### GAME RESIZE AND REPOSITION
+
+- prevent the top-border from colliding with score and record by not decreasing it's value once reaches a certain amount.
+- makes sure the projectile will never leave the screen under no circumstances.
+- change to swipe mode when width is lower than certain amounts, and go back to click mode when higher than that.
+- rePoSize on tab movement (dropped into another screen and etc).
+- change projectile velocity based on canvas width.
+- rePoSize at any given circumstances (whether anything is moving or not).
+- the wider the screen width is, the higher the velocities should be.
+- the wider the screen width is, the less the min-angle and the more the max-angle should be (or should it?).
 
 ### GAME START AND GAME OVER
 
@@ -28,17 +39,6 @@
 - add swipe/click option in settings.
 - add sounds.
 - control the thickness of pointer or wether it being dashed or not in the settings as a bonus to the features this version has compared to the original.
-
-### GAME RESIZE AND REPOSITION
-
-- prevent the top-border from colliding with score and record by not decreasing it's value once reaches a certain amount.
-- makes sure the projectile will never leave the screen under no circumstances.
-- change to swipe mode when width is lower than certain amounts, and go back to click mode when higher than that.
-- rePoSize on tab movement (dropped into another screen and etc).
-- change projectile velocity based on canvas width.
-- rePoSize at any given circumstances (whether anything is moving or not).
-- the wider the screen width is, the higher the velocities should be.
-- the wider the screen width is, the less the min-angle and the more the max-angle should be (or should it?).
 
 ### GAME STATE (LOCAL STORAGE)
 
