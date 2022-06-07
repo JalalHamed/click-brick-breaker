@@ -20,8 +20,8 @@ export default class Projectile {
 		this.velocity = { x: 0, y: 0 };
 	}
 
-	perimeter(sector) {
-		switch (sector) {
+	side(side) {
+		switch (side) {
 			case 'left':
 				return this.pos.x - SIZES.projectile.radius;
 			case 'top':

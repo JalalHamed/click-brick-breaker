@@ -33,8 +33,8 @@ const emitProjectiles = () => {
 
 		/* Colliding with borders */
 		// Canvas' left side
-		if (projectile.perimeter('left') + projectile.velocity.x < 0) {
-			const shortage = projectile.perimeter('left');
+		if (projectile.side('left') + projectile.velocity.x < 0) {
+			const shortage = projectile.side('left');
 
 			projectile.pos.x -= shortage;
 			if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
@@ -44,8 +44,8 @@ const emitProjectiles = () => {
 		}
 
 		// Canvas' right side
-		if (projectile.perimeter('right') + projectile.velocity.x > CANVAS.width) {
-			const shortage = CANVAS.width - projectile.perimeter('right');
+		if (projectile.side('right') + projectile.velocity.x > CANVAS.width) {
+			const shortage = CANVAS.width - projectile.side('right');
 
 			projectile.pos.x += shortage;
 			if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
@@ -55,8 +55,8 @@ const emitProjectiles = () => {
 		}
 
 		// Top-border
-		if (projectile.perimeter('top') + projectile.velocity.y < topBorder.heightFromTop) {
-			const shortage = projectile.perimeter('top') - topBorder.heightFromTop;
+		if (projectile.side('top') + projectile.velocity.y < topBorder.heightFromTop) {
+			const shortage = projectile.side('top') - topBorder.heightFromTop;
 
 			projectile.pos.y -= shortage;
 			if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
@@ -66,8 +66,8 @@ const emitProjectiles = () => {
 		}
 
 		// Bottom-border
-		if (projectile.perimeter('bottom') + projectile.velocity.y > bottomBorder.pos.y) {
-			const shortage = bottomBorder.pos.y - projectile.perimeter('bottom');
+		if (projectile.side('bottom') + projectile.velocity.y > bottomBorder.pos.y) {
+			const shortage = bottomBorder.pos.y - projectile.side('bottom');
 			projectile.pos.y += shortage;
 			if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
 			else projectile.pos.x -= shortage * ratio.XtoY;
@@ -96,12 +96,12 @@ const emitProjectiles = () => {
 		state.bricks.forEach(brick => {
 			// Bottom side
 			if (
-				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
-				projectile.perimeter('top') > brick.pos.y + height &&
+				projectile.side('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.side('top') > brick.pos.y + height &&
 				projectile.pos.x > brick.pos.x &&
 				projectile.pos.x < brick.pos.x + width
 			) {
-				const shortage = projectile.perimeter('top') - (brick.pos.y + height);
+				const shortage = projectile.side('top') - (brick.pos.y + height);
 
 				projectile.pos.y -= shortage;
 				if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
@@ -114,12 +114,12 @@ const emitProjectiles = () => {
 
 			// Top side
 			if (
-				projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
-				projectile.perimeter('bottom') < brick.pos.y &&
+				projectile.side('bottom') + projectile.velocity.y > brick.pos.y &&
+				projectile.side('bottom') < brick.pos.y &&
 				projectile.pos.x > brick.pos.x &&
 				projectile.pos.x < brick.pos.x + width
 			) {
-				const shortage = brick.pos.y - projectile.perimeter('bottom');
+				const shortage = brick.pos.y - projectile.side('bottom');
 
 				projectile.pos.y += shortage;
 				if (projectile.velocity.x > 0) projectile.pos.x += shortage * ratio.XtoY;
@@ -132,12 +132,12 @@ const emitProjectiles = () => {
 
 			// Left side
 			if (
-				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
-				projectile.perimeter('right') < brick.pos.x &&
+				projectile.side('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.side('right') < brick.pos.x &&
 				projectile.pos.y > brick.pos.y &&
 				projectile.pos.y < brick.pos.y + height
 			) {
-				const shortage = brick.pos.x - projectile.perimeter('right');
+				const shortage = brick.pos.x - projectile.side('right');
 
 				projectile.pos.x += shortage;
 				if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
@@ -150,12 +150,12 @@ const emitProjectiles = () => {
 
 			// Right side
 			if (
-				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
-				projectile.perimeter('left') > brick.pos.x + width &&
+				projectile.side('left') + projectile.velocity.x < brick.pos.x + width &&
+				projectile.side('left') > brick.pos.x + width &&
 				projectile.pos.y > brick.pos.y &&
 				projectile.pos.y < brick.pos.y + height
 			) {
-				const shortage = projectile.perimeter('left') - (brick.pos.x + width);
+				const shortage = projectile.side('left') - (brick.pos.x + width);
 
 				projectile.pos.x -= shortage;
 				if (projectile.velocity.y < 0) projectile.pos.y -= shortage * ratio.YtoX;
@@ -168,10 +168,10 @@ const emitProjectiles = () => {
 
 			// Bottom-left corner
 			if (
-				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
-				projectile.perimeter('right') < brick.pos.x &&
-				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
-				projectile.perimeter('top') > brick.pos.y + height
+				projectile.side('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.side('right') < brick.pos.x &&
+				projectile.side('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.side('top') > brick.pos.y + height
 			) {
 				projectile.pos.x = brick.pos.x - diagonalRadius;
 				projectile.pos.y = brick.pos.y + height + diagonalRadius;
@@ -184,10 +184,10 @@ const emitProjectiles = () => {
 
 			// Bottom-right corner
 			if (
-				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
-				projectile.perimeter('left') > brick.pos.x + width &&
-				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
-				projectile.perimeter('top') > brick.pos.y + height
+				projectile.side('left') + projectile.velocity.x < brick.pos.x + width &&
+				projectile.side('left') > brick.pos.x + width &&
+				projectile.side('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.side('top') > brick.pos.y + height
 			) {
 				projectile.pos.x = brick.pos.x + width + diagonalRadius;
 				projectile.pos.y = brick.pos.y + height + diagonalRadius;
@@ -200,10 +200,10 @@ const emitProjectiles = () => {
 
 			// Top-right corner
 			if (
-				projectile.perimeter('left') + projectile.velocity.x < brick.pos.x + width &&
-				projectile.perimeter('left') > brick.pos.x + width &&
-				projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
-				projectile.perimeter('bottom') < brick.pos.y
+				projectile.side('left') + projectile.velocity.x < brick.pos.x + width &&
+				projectile.side('left') > brick.pos.x + width &&
+				projectile.side('bottom') + projectile.velocity.y > brick.pos.y &&
+				projectile.side('bottom') < brick.pos.y
 			) {
 				projectile.pos.x = brick.pos.x + width + diagonalRadius;
 				projectile.pos.y = brick.pos.y - diagonalRadius;
@@ -216,10 +216,10 @@ const emitProjectiles = () => {
 
 			// Top-left corner
 			if (
-				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
-				projectile.perimeter('right') < brick.pos.x &&
-				projectile.perimeter('bottom') + projectile.velocity.y > brick.pos.y &&
-				projectile.perimeter('bottom') < brick.pos.y
+				projectile.side('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.side('right') < brick.pos.x &&
+				projectile.side('bottom') + projectile.velocity.y > brick.pos.y &&
+				projectile.side('bottom') < brick.pos.y
 			) {
 				projectile.pos.x = brick.pos.x + diagonalRadius;
 				projectile.pos.y = brick.pos.y - diagonalRadius;
@@ -232,8 +232,8 @@ const emitProjectiles = () => {
 
 			// Bottom-left corner collide with projectile's upper-half of the top-right quarter
 			if (
-				projectile.perimeter('right') + projectile.velocity.x > brick.pos.x &&
-				projectile.perimeter('right') < brick.pos.x &&
+				projectile.side('right') + projectile.velocity.x > brick.pos.x &&
+				projectile.side('right') < brick.pos.x &&
 				projectile.pos.y > brick.pos.y &&
 				projectile.pos.y - SIZES.projectile.radius / Math.sqrt(2) < brick.pos.y + height
 			) {
@@ -245,8 +245,8 @@ const emitProjectiles = () => {
 
 			// Bottom-left corner collide with projectile's lower-half of the top-right quarter
 			if (
-				projectile.perimeter('top') + projectile.velocity.y < brick.pos.y + height &&
-				projectile.perimeter('top') > brick.pos.y + height &&
+				projectile.side('top') + projectile.velocity.y < brick.pos.y + height &&
+				projectile.side('top') > brick.pos.y + height &&
 				projectile.pos.x + SIZES.projectile.radius / Math.sqrt(2) > brick.pos.x &&
 				projectile.pos.x < brick.pos.x
 			) {
