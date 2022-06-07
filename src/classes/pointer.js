@@ -47,25 +47,23 @@ class Pointer {
 		};
 
 		state.bricks.forEach(brick => {
-			const [bTLC_x, bTLC_y] = brick.corner('top-left');
-			const [bBLC_x, bBLC_y] = brick.corner('bottom-left');
-			const [bTRC_x, bTRC_y] = brick.corner('top-right');
-			const [bBRC_x, bBRC_y] = brick.corner('bottom-right');
+			const [tl_x, tl_y] = brick.corner('top-left');
+			const [tr_x, tr_y] = brick.corner('top-right');
+			const [bl_x, bl_y] = brick.corner('bottom-left');
+			const [br_x, br_y] = brick.corner('bottom-right');
 
 			// Left side
-			const [bTLC_XPos] = getLineProps(pointA, [bTLC_x - this.radius, bTLC_y]);
-			const [bBLC_XPos] = getLineProps(pointA, [bBLC_x - this.radius, bBLC_y]);
-			if (x >= bTLC_XPos && x < bBLC_XPos) setParticleEndPoint('x', bTLC_x - this.radius);
+			const [tl_X] = getLineProps(pointA, [tl_x - this.radius, tl_y]);
+			const [bl_X] = getLineProps(pointA, [bl_x - this.radius, bl_y]);
+			if (x >= tl_X && x < bl_X) setParticleEndPoint('x', tl_x - this.radius);
 
 			// Right side
-			const [bTRC_XPos] = getLineProps(pointA, [bTRC_x + this.radius, bTRC_y]);
-			const [bBRC_XPos] = getLineProps(pointA, [bBRC_x + this.radius, bBRC_y]);
-			if (x <= bTRC_XPos && x > bBRC_XPos) setParticleEndPoint('x', bTRC_x + this.radius);
+			const [tr_X] = getLineProps(pointA, [tr_x + this.radius, tr_y]);
+			const [br_X] = getLineProps(pointA, [br_x + this.radius, br_y]);
+			if (x <= tr_X && x > br_X) setParticleEndPoint('x', tr_x + this.radius);
 
 			// Bottom side
-			const [bBLC_XPos2] = getLineProps(pointA, [bBLC_x, bBLC_y]);
-			const [bBRC_XPos2] = getLineProps(pointA, [bBRC_x, bBRC_y]);
-			if (x > bBLC_XPos2 && x < bBRC_XPos2 && brick.couldCollide.bottom)
+			if (x > bl_X && x < br_X && brick.couldCollide.bottom)
 				setParticleEndPoint('y', brick.pos.y + SIZES.brick.height + this.radius);
 		});
 

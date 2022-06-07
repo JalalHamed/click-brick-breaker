@@ -301,6 +301,14 @@ const emitProjectiles = () => {
 
 		if (state.isFirstRound) state.isFirstRound = false;
 
+		state.bricks.forEach(
+			brick =>
+				(brick.couldCollide.bottom =
+					brick.couldCollide.left =
+					brick.couldCollide.right =
+						true)
+		);
+
 		spawnBaB();
 	}
 };
