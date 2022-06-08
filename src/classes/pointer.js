@@ -41,27 +41,27 @@ class Pointer {
 
 		/* Pointer particle colliding with bricks */
 		let particleEndPoint = endpoint;
+
 		const setParticleEndPoint = (axis, value) => {
 			if (axis === 'x') particleEndPoint = [value, gradient * value + YAxisIntercept];
 			if (axis === 'y') particleEndPoint = [(value - YAxisIntercept) / gradient, value];
 		};
 
 		state.bricks.forEach(brick => {
-			const [tl_x, tl_y] = brick.corner('top-left');
-			const [tr_x, tr_y] = brick.corner('top-right');
-			const [bl_x, bl_y] = brick.corner('bottom-left');
-			const [br_x, br_y] = brick.corner('bottom-right');
+			const [tl_x, tl_y] = brick.getCornerPoint('top-left');
+			const [tr_x, tr_y] = brick.getCornerPoint('top-right');
+			const [bl_x, bl_y] = brick.getCornerPoint('bottom-left');
+			const [br_x, br_y] = brick.getCornerPoint('bottom-right');
+
+			const [tl_X] = getLineProps(pointA, [tl_x - this.radius, tl_y]);
+			const [tr_X] = getLineProps(pointA, [tr_x + this.radius, tr_y]);
+			const [bl_X] = getLineProps(pointA, [bl_x - this.radius, bl_y]);
+			const [br_X] = getLineProps(pointA, [br_x + this.radius, br_y]);
 
 			// Left side
-			const [tl_X] = getLineProps(pointA, [tl_x - this.radius, tl_y]);
-			const [bl_X] = getLineProps(pointA, [bl_x - this.radius, bl_y]);
 			if (x >= tl_X && x < bl_X) setParticleEndPoint('x', tl_x - this.radius);
-
 			// Right side
-			const [tr_X] = getLineProps(pointA, [tr_x + this.radius, tr_y]);
-			const [br_X] = getLineProps(pointA, [br_x + this.radius, br_y]);
 			if (x <= tr_X && x > br_X) setParticleEndPoint('x', tr_x + this.radius);
-
 			// Bottom side
 			if (x > bl_X && x < br_X && brick.couldCollide.bottom)
 				setParticleEndPoint('y', brick.pos.y + SIZES.brick.height + this.radius);

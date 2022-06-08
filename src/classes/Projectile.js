@@ -20,7 +20,7 @@ export default class Projectile {
 		this.velocity = { x: 0, y: 0 };
 	}
 
-	side(side) {
+	getSidePoint(side) {
 		switch (side) {
 			case 'left':
 				return this.pos.x - SIZES.projectile.radius;

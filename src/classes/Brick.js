@@ -52,7 +52,7 @@ export default class Brick {
 		this.velocity = { x: SIZES.brick.width / 25, y: SIZES.brick.height / 25 };
 	}
 
-	corner(corner) {
+	getCornerPoint(corner) {
 		switch (corner) {
 			case 'top-left':
 				return [this.pos.x, this.pos.y];
