@@ -12,9 +12,11 @@ export default class Projectile {
 		this.id = getID('projectile');
 		this.mode = 'stable';
 
+		this.radius = SIZES.projectile.radius;
+
 		this.pos = {
 			x: state.getLS('projectile') || CANVAS.width / 2,
-			y: bottomBorder.pos.y - SIZES.projectile.radius,
+			y: bottomBorder.pos.y - this.radius,
 		};
 
 		this.velocity = { x: 0, y: 0 };
@@ -23,13 +25,13 @@ export default class Projectile {
 	getSidePoint(side) {
 		switch (side) {
 			case 'left':
-				return this.pos.x - SIZES.projectile.radius;
+				return this.pos.x - this.radius;
 			case 'top':
-				return this.pos.y - SIZES.projectile.radius;
+				return this.pos.y - this.radius;
 			case 'right':
-				return this.pos.x + SIZES.projectile.radius;
+				return this.pos.x + this.radius;
 			case 'bottom':
-				return this.pos.y + SIZES.projectile.radius;
+				return this.pos.y + this.radius;
 			default:
 				return;
 		}
@@ -51,7 +53,7 @@ export default class Projectile {
 
 		C.beginPath();
 		C.setLineDash([]);
-		C.arc(this.pos.x, this.pos.y, SIZES.projectile.radius, 0, 2 * Math.PI);
+		C.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
 		C.fillStyle = COLORS.projectile;
 		C.fill();
 	}
@@ -62,6 +64,8 @@ export default class Projectile {
 	}
 
 	rePoSize() {
+		this.radius = SIZES.projectile.radius;
+
 		this.pos = {
 			x: (this.pos.x * innerWidth) / state.innerWidth,
 			y: bottomBorder.pos.y - SIZES.projectile.radius,

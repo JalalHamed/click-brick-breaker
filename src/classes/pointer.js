@@ -15,10 +15,12 @@ class Pointer {
 	get getEndPoint() {
 		let endpoint = [];
 
-		const pointA = [state.projectile.pos.x, state.projectile.pos.y];
-		const pointB = [state.mouseCoords.x, state.mouseCoords.y];
+		const coords = {
+			projectile: [state.projectile.pos.x, state.projectile.pos.y],
+			mouse: [state.mouseCoords.x, state.mouseCoords.y],
+		};
 
-		const [x, gradient, YAxisIntercept] = getLineProps(pointA, pointB);
+		const [x, gradient, YAxisIntercept] = getLineProps(coords.projectile, coords.mouse);
 		const angle = getAngle(state.mouseCoords);
 
 		/* Pointer (general endpoint) colliding with borders */
@@ -47,35 +49,68 @@ class Pointer {
 			if (axis === 'y') particleEndPoint = [(value - YAxisIntercept) / gradient, value];
 		};
 
+		const leftYAxisIntercept =
+			this.radius * Math.sqrt(gradient ** 2 + 1) + YAxisIntercept;
+
+		const sideCoords = {
+			left: {
+				projectile: [
+					state.projectile.pos.x - this.radius,
+					(state.projectile.pos.x - this.radius) * gradient + leftYAxisIntercept,
+				],
+				pointerParticle: [
+					endpoint[0] - this.radius,
+					(endpoint[0] - this.radius) * gradient + leftYAxisIntercept,
+				],
+			},
+
+			right: {
+				projectile: [
+					state.projectile.pos.x - this.radius,
+					(state.projectile.pos.x - this.radius) * gradient + leftYAxisIntercept,
+				],
+				pointerParticle: [
+					endpoint[0] - this.radius,
+					(endpoint[0] - this.radius) * gradient + leftYAxisIntercept,
+				],
+			},
+		};
+
+		const [lx] = getLineProps(
+			sideCoords.left.projectile,
+			sideCoords.left.pointerParticle
+		);
+
 		state.bricks.forEach(brick => {
 			const [tl_x, tl_y] = brick.getCornerPoint('top-left');
 			const [tr_x, tr_y] = brick.getCornerPoint('top-right');
 			const [bl_x, bl_y] = brick.getCornerPoint('bottom-left');
 			const [br_x, br_y] = brick.getCornerPoint('bottom-right');
 
-			const [tl_X] = getLineProps(pointA, [tl_x - this.radius, tl_y]);
-			const [tr_X] = getLineProps(pointA, [tr_x + this.radius, tr_y]);
-			const [bl_X] = getLineProps(pointA, [bl_x - this.radius, bl_y]);
-			const [br_X] = getLineProps(pointA, [br_x + this.radius, br_y]);
+			const [tl_X] = getLineProps(coords.projectile, [tl_x - this.radius, tl_y]);
+			const [tr_X] = getLineProps(sideCoords.left.projectile, [tr_x, tr_y]);
+			const [bl_X] = getLineProps(coords.projectile, [bl_x - this.radius, bl_y]);
+			const [br_X] = getLineProps(coords.projectile, [br_x + this.radius, br_y]);
 
 			// Left side
-			if (x >= tl_X && x < bl_X) setParticleEndPoint('x', tl_x - this.radius);
+			if (x >= tl_X && x <= bl_X) setParticleEndPoint('x', tl_x - this.radius);
 			// Right side
-			if (x <= tr_X && x > br_X) setParticleEndPoint('x', tr_x + this.radius);
+			if (lx <= tr_X && lx >= br_X) setParticleEndPoint('x', tr_x + this.radius);
 			// Bottom side
-			if (x > bl_X && x < br_X && brick.couldCollide.bottom)
+			if (x >= bl_X && x <= br_X && brick.couldCollide.bottom)
 				setParticleEndPoint('y', brick.pos.y + SIZES.brick.height + this.radius);
 		});
 
 		return {
+			sideCoords,
 			particle: particleEndPoint,
 			dashedLine: [
 				endpoint[0] + Math.cos(angle) * this.radius * 2,
 				endpoint[1] + Math.sin(angle) * this.radius * 2,
 			],
 			arrow: [
-				pointA[0] - Math.cos(angle) * SIZES.pointer.arrow.length,
-				pointA[1] - Math.sin(angle) * SIZES.pointer.arrow.length,
+				coords.projectile[0] - Math.cos(angle) * SIZES.pointer.arrow.length,
+				coords.projectile[1] - Math.sin(angle) * SIZES.pointer.arrow.length,
 			],
 		};
 	}
@@ -90,6 +125,15 @@ class Pointer {
 		C.strokeStyle = COLORS.pointer.line;
 		C.lineWidth = this.radius / 2.5;
 		C.stroke();
+
+		// Right line
+		// C.beginPath();
+		// C.setLineDash([]);
+		// C.moveTo(...this.getEndPoint.sideCoords.left.projectile);
+		// C.lineTo(...this.getEndPoint.sideCoords.left.pointerParticle);
+		// C.strokeStyle = 'green';
+		// C.lineWidth = 2;
+		// C.stroke();
 
 		// Arrow
 		C.beginPath();
